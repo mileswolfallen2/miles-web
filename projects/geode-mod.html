@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FEDL Geode Mod | Miles Wolf Allen</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+
+  <div class="container">
+    <nav>
+      <a href="../index.html" class="nav-logo">miles.dev</a>
+      <div class="nav-links">
+        <a href="../index.html#about">About</a>
+        <a href="../index.html#skills">Skills</a>
+        <a href="../index.html#projects">Projects</a>
+        <a href="../index.html#contact">Contact</a>
+      </div>
+    </nav>
+
+    <section class="project-hero">
+      <div class="breadcrumb">
+        <a href="../index.html">Home</a>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+        <span>FEDL Geode Mod</span>
+      </div>
+
+      <h1>FEDL Geode Mod</h1>
+      <p class="tagline">Official FEDL mod for Geometry Dash using the Geode modding framework. View the ranked demon list, play roulette, and detect banned mods in-game.</p>
+
+      <div class="project-meta-bar">
+        <a href="https://github.com/mileswolfallen2/FEDL-Geode-mod" class="meta-chip primary" target="_blank">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+          View on GitHub
+        </a>
+        <span class="meta-chip" style="border-color: #f59e0b; color: #f59e0b;">WIP</span>
+        <span class="meta-chip">C++</span>
+        <span class="meta-chip">MIT License</span>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">Features</h2>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <h3>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+            Integrated Login
+          </h3>
+          <p>Login and signup with your FEDL account directly inside Geometry Dash.</p>
+        </div>
+        <div class="feature-card">
+          <h3>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            Demon List
+          </h3>
+          <p>View the complete ranked demon list with filtering, right inside the game.</p>
+        </div>
+        <div class="feature-card">
+          <h3>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+            Roulette
+          </h3>
+          <p>Play demon roulette to randomly select a level from the list to attempt.</p>
+        </div>
+        <div class="feature-card">
+          <h3>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Mod Ban Detection
+          </h3>
+          <p>Configurable list of banned mods that logs warnings when they are detected running.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">Settings</h2>
+      <div class="desc-text">
+        <p>Configure the mod in Geode mod settings:</p>
+      </div>
+      <div class="feature-grid" style="margin-top: 16px;">
+        <div class="feature-card">
+          <h3>FEDL API URL</h3>
+          <p>Base URL for FEDL API (default: <code>https://fedl.site</code>)</p>
+        </div>
+        <div class="feature-card">
+          <h3>Mod Ban List</h3>
+          <p>Comma-separated list of mod names to detect and warn about.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Auto Login</h3>
+          <p>Automatically log in using saved credentials on game launch.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">API Integration</h2>
+      <div class="desc-text">
+        <p>Connects to the FEDL server API at <code>fedl.site</code> with endpoints for login, signup, user state, and the demon list.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">Tech Stack</h2>
+      <div class="tech-stack">
+        <span class="tech-badge">C++ (98.2%)</span>
+        <span class="tech-badge">CMake (1.2%)</span>
+        <span class="tech-badge">Geode SDK</span>
+        <span class="tech-badge">Geometry Dash</span>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">Build</h2>
+      <div class="code-block">
+        <span class="comment"># Install Geode CLI if you haven't already</span><br>
+        <span class="cmd">geode install</span><br><br>
+        <span class="comment"># Build the mod</span><br>
+        <span class="cmd">geode build</span><br><br>
+        <span class="comment"># Output: bin/fedl.geode</span>
+      </div>
+    </section>
+
+    <footer>
+      <a href="../index.html" style="color: var(--accent); text-decoration: none;">Back to Home</a> &middot; Built by Miles &middot; 2026
+    </footer>
+  </div>
+</body>
+</html>
