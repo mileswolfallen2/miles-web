@@ -7,13 +7,16 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div class="mesh-bg"></div>
+  <div class="grid-overlay"></div>
+  <div class="noise"></div>
   <div class="bg-grid"></div>
   <div class="bg-glow bg-glow-1"></div>
   <div class="bg-glow bg-glow-2"></div>
 
   <div class="container">
     <nav>
-      <a href="../index.html" class="nav-logo">miles.dev</a>
+      <a href="../index.html" class="nav-logo"><span class="logo-dot"></span> miles.dev</a>
       <div class="nav-links">
         <a href="../index.html#about">About</a>
         <a href="../index.html#skills">Skills</a>
@@ -47,7 +50,8 @@
       </div>
     </section>
 
-    <section>
+    <section class="reveal">
+      <div class="section-divider"></div>
       <h2 class="section-title">Features</h2>
       <p class="section-subtitle">Your second brain, everywhere</p>
 
@@ -111,7 +115,8 @@
       </div>
     </section>
 
-    <section>
+    <section class="reveal">
+      <div class="section-divider"></div>
       <h2 class="section-title">AI Configuration</h2>
       <div class="feature-grid">
         <div class="feature-card">
@@ -133,7 +138,8 @@
       </div>
     </section>
 
-    <section>
+    <section class="reveal">
+      <div class="section-divider"></div>
       <h2 class="section-title">Tech Stack</h2>
       <div class="tech-stack">
         <span class="tech-badge">Dart (74.4%)</span>
@@ -148,7 +154,8 @@
       </div>
     </section>
 
-    <section>
+    <section class="reveal">
+      <div class="section-divider"></div>
       <h2 class="section-title">Quick Start</h2>
       <div class="code-block">
         <span class="comment"># Prerequisites: Flutter 3.44+</span><br><br>
@@ -162,5 +169,11 @@
       <a href="../index.html" style="color: var(--accent); text-decoration: none;">Back to Home</a> &middot; Built by Miles &middot; 2025
     </footer>
   </div>
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
 </body>
 </html>

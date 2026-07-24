@@ -7,13 +7,16 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div class="mesh-bg"></div>
+  <div class="grid-overlay"></div>
+  <div class="noise"></div>
   <div class="bg-grid"></div>
   <div class="bg-glow bg-glow-1"></div>
   <div class="bg-glow bg-glow-2"></div>
 
   <div class="container">
     <nav>
-      <a href="../index.html" class="nav-logo">miles.dev</a>
+      <a href="../index.html" class="nav-logo"><span class="logo-dot"></span> miles.dev</a>
       <div class="nav-links">
         <a href="../index.html#about">About</a>
         <a href="../index.html#skills">Skills</a>
@@ -42,7 +45,8 @@
       </div>
     </section>
 
-    <section>
+    <section class="reveal">
+      <div class="section-divider"></div>
       <h2 class="section-title">About</h2>
       <p class="section-subtitle">A passion project for browser-based gaming</p>
 
@@ -71,7 +75,8 @@
       </div>
     </section>
 
-    <section>
+    <section class="reveal">
+      <div class="section-divider"></div>
       <h2 class="section-title">Tech Stack</h2>
 
       <div class="tech-grid">
@@ -102,7 +107,8 @@
       </div>
     </section>
 
-    <section>
+    <section class="reveal">
+      <div class="section-divider"></div>
       <h2 class="section-title">Quick Start</h2>
       <div class="code-block">
         <div class="code-header">
@@ -123,5 +129,11 @@
       Back to Home
     </a>
   </div>
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
 </body>
 </html>

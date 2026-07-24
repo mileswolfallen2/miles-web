@@ -7,13 +7,16 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div class="mesh-bg"></div>
+  <div class="grid-overlay"></div>
+  <div class="noise"></div>
   <div class="bg-grid"></div>
   <div class="bg-glow bg-glow-1"></div>
   <div class="bg-glow bg-glow-2"></div>
 
   <div class="container">
     <nav>
-      <a href="../index.html" class="nav-logo">miles.dev</a>
+      <a href="../index.html" class="nav-logo"><span class="logo-dot"></span> miles.dev</a>
       <div class="nav-links">
         <a href="../index.html#about">About</a>
         <a href="../index.html#skills">Skills</a>
@@ -48,7 +51,8 @@
       </div>
     </section>
 
-    <section>
+    <section class="reveal">
+      <div class="section-divider"></div>
       <h2 class="section-title">Features</h2>
       <p class="section-subtitle">Everything you need to manage your game library</p>
 
@@ -112,7 +116,8 @@
       </div>
     </section>
 
-    <section>
+    <section class="reveal">
+      <div class="section-divider"></div>
       <h2 class="section-title">Supported Emulators</h2>
       <p class="section-subtitle">20+ emulators across Windows, macOS, and Linux</p>
 
@@ -146,7 +151,8 @@
       </div>
     </section>
 
-    <section>
+    <section class="reveal">
+      <div class="section-divider"></div>
       <h2 class="section-title">Tech Stack</h2>
       <div class="tech-stack">
         <span class="tech-badge">TypeScript (91.4%)</span>
@@ -160,7 +166,8 @@
       </div>
     </section>
 
-    <section>
+    <section class="reveal">
+      <div class="section-divider"></div>
       <h2 class="section-title">Quick Start</h2>
       <div class="desc-text">
         <p>Download the latest release for your platform, launch OmniEmu, install an emulator from the Library, set your ROMs directory, and start playing.</p>
@@ -180,5 +187,11 @@
       <a href="../index.html" style="color: var(--accent); text-decoration: none;">Back to Home</a> &middot; Built by Miles &middot; 2026
     </footer>
   </div>
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
 </body>
 </html>
