@@ -23,6 +23,59 @@
       --cyan: #06b6d4;
     }
 
+    [data-theme="lite"] {
+      --bg: #faf8f5;
+      --surface: #ffffff;
+      --surface-hover: #f3f0ec;
+      --border: #e8e4df;
+      --text: #1a1a1a;
+      --text-dim: #6b6560;
+      --accent: #7c6aef;
+      --accent-glow: rgba(124, 106, 239, 0.08);
+      --green: #2db87a;
+      --purple: #a06be8;
+      --cyan: #1ab0c4;
+    }
+
+    [data-theme="lite"] .bg-grid {
+      background-image:
+        linear-gradient(rgba(124, 106, 239, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(124, 106, 239, 0.03) 1px, transparent 1px);
+    }
+
+    [data-theme="lite"] .bg-glow { opacity: 0.04; filter: blur(160px); }
+
+    [data-theme="lite"] .hero h1 .gradient {
+      background: linear-gradient(135deg, #7c6aef, #a06be8, #1ab0c4);
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+
+    [data-theme="lite"] .project-card:hover {
+      box-shadow: 0 8px 32px rgba(124, 106, 239, 0.1);
+    }
+
+    [data-theme="lite"] .btn-primary:hover {
+      box-shadow: 0 0 30px rgba(124, 106, 239, 0.2);
+    }
+
+    [data-theme="lite"] .btn-secondary:hover {
+      border-color: #c8c3be;
+    }
+
+    [data-theme="lite"] .contact-card:hover {
+      box-shadow: 0 4px 20px rgba(124, 106, 239, 0.08);
+    }
+
+    [data-theme="lite"] .skill-tag:hover {
+      background: var(--accent-glow);
+      border-color: var(--accent);
+    }
+
+    [data-theme="lite"] .achievement {
+      background: var(--surface);
+    }
+
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       background: var(--bg);
@@ -91,6 +144,27 @@
 
     .nav-links a:hover { color: var(--text); }
 
+    .theme-toggle {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 6px;
+      cursor: pointer;
+      color: var(--text-dim);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .theme-toggle:hover { color: var(--text); border-color: var(--text-dim); }
+
+    .theme-toggle svg { width: 18px; height: 18px; }
+
+    .theme-toggle .icon-moon { display: none; }
+    [data-theme="lite"] .theme-toggle .icon-sun { display: none; }
+    [data-theme="lite"] .theme-toggle .icon-moon { display: block; }
+
     .hero {
       padding: 80px 0 60px;
     }
@@ -112,7 +186,7 @@
       width: 7px;
       height: 7px;
       border-radius: 50%;
-      background: #ef4444;
+      background: var(--green);
       animation: pulse 2s ease-in-out infinite;
     }
 
@@ -485,13 +559,17 @@
         <a href="#skills">Skills</a>
         <a href="#projects">Projects</a>
         <a href="#contact">Contact</a>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle lite mode">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+        </button>
       </div>
     </nav>
 
     <section class="hero">
       <div class="hero-badge">
         <span class="dot"></span>
-        taking time off 
+        Available to collaborate
       </div>
       <h1>Hi, I'm <span class="gradient">Miles</span></h1>
       <p>Developer and 3D artist interested in coding, games, and websites. Currently learning backend development with JavaScript.</p>
@@ -667,7 +745,7 @@
             <div class="project-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
             </div>
-            <span class="project-lang">HTML</span>
+            <span class="project-lang" style="border: 1px solid var(--cyan); color: var(--cyan); background: transparent;">Community Project</span>
           </div>
           <h3>FEDL</h3>
           <p>Geometry Dash demon list site with ranked levels, run submissions, admin moderation, and community features.</p>
@@ -680,7 +758,24 @@
             <span>Live</span>
           </div>
         </a>
+        <a href="projects/noto.html" class="project-card">
+          <div class="project-header">
+            <div class="project-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            </div>
+            <span class="project-lang" style="border: 1px solid var(--green); color: var(--green); background: transparent;">Active Development</span>
+          </div>
+          <h3>Noto</h3>
+          <p>AI-powered note-taking app built with Flutter and Dart. Features Cortex AI integration, Markdown support, and Pi compatibility.</p>
+          <div class="project-meta">
+            <span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              1
+            </span>
+            <span>MIT License</span>
 
+          </div>
+        </a>
         <a href="projects/nova.html" class="project-card">
           <div class="project-header">
             <div class="project-icon">
@@ -776,6 +871,25 @@
             <span>MIT License</span>
           </div>
         </a>
+
+        <a href="projects/moon-gaming.html" class="project-card">
+          <div class="project-header">
+            <div class="project-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><circle cx="17" cy="11" r="1"/><circle cx="15" cy="13" r="1"/></svg>
+            </div>
+            <span class="project-lang">HTML</span>
+          </div>
+          <h3>Moon Gaming</h3>
+          <p>Game hub showcasing original games with 1,542+ commits. Browse, play, and explore a growing library of browser games.</p>
+          <div class="project-meta">
+            <span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              1,542
+            </span>
+            <span>MIT License</span>
+          </div>
+        </a>
+
       </div>
     </section>
 
@@ -836,5 +950,16 @@
       Built by Miles &middot; 2026
     </footer>
   </div>
+  <script>
+    const toggle = document.getElementById('theme-toggle');
+    const html = document.documentElement;
+    const saved = localStorage.getItem('theme');
+    if (saved) html.setAttribute('data-theme', saved);
+    toggle.addEventListener('click', () => {
+      const next = html.getAttribute('data-theme') === 'lite' ? '' : 'lite';
+      if (next) { html.setAttribute('data-theme', next); localStorage.setItem('theme', next); }
+      else { html.removeAttribute('data-theme'); localStorage.removeItem('theme'); }
+    });
+  </script>
 </body>
 </html>
