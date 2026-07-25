@@ -5,12 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Miles Wolf Allen | Developer & 3D Artist</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700;9..144,800;9..144,900&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
-
-    
     :root {
       --bg: #05050a;
       --surface: rgba(15, 15, 25, 0.7);
@@ -19,22 +17,26 @@
       --border-bright: rgba(255, 255, 255, 0.12);
       --text: #f0f0f5;
       --text-dim: #6b6b80;
-      --accent: #7c5cff;
-      --accent-2: #00d4ff;
-      --accent-3: #ff5caa;
-      --green: #00ff88;
-      --purple: #a855f7;
-      --glow: rgba(124, 92, 255, 0.4);
-      --glow-2: rgba(0, 212, 255, 0.3);
+      --accent: #0ea5e9;
+      --accent-2: #34d399;
+      --accent-3: #f97316;
+      --green: #34d399;
+      --orange: #f97316;
+      --glow: rgba(14, 165, 233, 0.4);
+      --glow-2: rgba(52, 211, 153, 0.3);
     }
 
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
       background: var(--bg);
       color: var(--text);
       line-height: 1.6;
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, .hero h1, .section-header h2 {
+      font-family: 'Fraunces', serif;
     }
 
     /* ANIMATED MESH BACKGROUND */
@@ -52,7 +54,7 @@
       top: -25%;
       left: -25%;
       background:
-        radial-gradient(ellipse 600px 600px at 20% 20%, rgba(124, 92, 255, 0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 600px 600px at 20% 20%, rgba(14, 165, 233, 0.12) 0%, transparent 70%),
         radial-gradient(ellipse 500px 500px at 80% 30%, rgba(0, 212, 255, 0.08) 0%, transparent 70%),
         radial-gradient(ellipse 400px 400px at 50% 80%, rgba(255, 92, 170, 0.06) 0%, transparent 70%);
       animation: meshMove 20s ease-in-out infinite alternate;
@@ -123,7 +125,7 @@
     }
     @keyframes dotPulse {
       0%, 100% { box-shadow: 0 0 12px var(--glow); }
-      50% { box-shadow: 0 0 24px var(--glow), 0 0 48px rgba(124, 92, 255, 0.2); }
+      50% { box-shadow: 0 0 24px var(--glow), 0 0 48px rgba(14, 165, 233, 0.2); }
     }
     .nav-links { display: flex; gap: 8px; align-items: center; }
     .nav-links a {
@@ -157,7 +159,7 @@
     .nav-links .theme-btn:hover {
       border-color: var(--accent);
       color: var(--text);
-      box-shadow: 0 0 16px rgba(124, 92, 255, 0.15);
+      box-shadow: 0 0 16px rgba(14, 165, 233, 0.15);
     }
     .theme-btn svg { width: 16px; height: 16px; }
 
@@ -245,11 +247,11 @@
     .btn-glow {
       background: var(--accent);
       color: #fff;
-      box-shadow: 0 0 20px rgba(124, 92, 255, 0.3), 0 4px 16px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 0 20px rgba(14, 165, 233, 0.3), 0 4px 16px rgba(0, 0, 0, 0.3);
     }
     .btn-glow:hover {
       transform: translateY(-2px);
-      box-shadow: 0 0 40px rgba(124, 92, 255, 0.5), 0 8px 32px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 0 40px rgba(14, 165, 233, 0.5), 0 8px 32px rgba(0, 0, 0, 0.4);
     }
     .btn-glass {
       background: var(--surface);
@@ -345,13 +347,13 @@
       height: 100px;
       border-radius: 50%;
       border: 3px solid var(--accent);
-      box-shadow: 0 0 30px rgba(124, 92, 255, 0.2);
+      box-shadow: 0 0 30px rgba(14, 165, 233, 0.2);
       flex-shrink: 0;
       transition: transform 0.3s, box-shadow 0.3s;
     }
     .profile-avatar:hover {
       transform: scale(1.05);
-      box-shadow: 0 0 50px rgba(124, 92, 255, 0.35);
+      box-shadow: 0 0 50px rgba(14, 165, 233, 0.35);
     }
     .profile-info h2 {
       font-size: 1.6rem;
@@ -404,7 +406,7 @@
     .achievement:hover {
       border-color: var(--accent);
       transform: translateY(-2px);
-      box-shadow: 0 4px 20px rgba(124, 92, 255, 0.1);
+      box-shadow: 0 4px 20px rgba(14, 165, 233, 0.1);
     }
     .achievement svg { width: 18px; height: 18px; color: var(--accent); }
 
@@ -441,9 +443,9 @@
     }
     .skill:hover {
       border-color: var(--accent);
-      background: rgba(124, 92, 255, 0.08);
+      background: rgba(14, 165, 233, 0.08);
       transform: translateY(-3px);
-      box-shadow: 0 8px 30px rgba(124, 92, 255, 0.12);
+      box-shadow: 0 8px 30px rgba(14, 165, 233, 0.12);
     }
     .skill svg { width: 22px; height: 22px; color: var(--accent); }
 
@@ -485,7 +487,7 @@
     .project-card:hover::after { opacity: 1; }
     .project-card:hover {
       transform: translateY(-4px);
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3), 0 0 30px rgba(124, 92, 255, 0.08);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3), 0 0 30px rgba(14, 165, 233, 0.08);
     }
     .project-card .pc-top {
       display: flex;
@@ -497,8 +499,8 @@
       width: 40px;
       height: 40px;
       border-radius: 10px;
-      background: rgba(124, 92, 255, 0.1);
-      border: 1px solid rgba(124, 92, 255, 0.2);
+      background: rgba(14, 165, 233, 0.1);
+      border: 1px solid rgba(14, 165, 233, 0.2);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -734,14 +736,14 @@
     .contact-card:hover {
       border-color: var(--accent);
       transform: translateY(-3px);
-      box-shadow: 0 8px 30px rgba(124, 92, 255, 0.1);
+      box-shadow: 0 8px 30px rgba(14, 165, 233, 0.1);
     }
     .contact-card .cc-icon {
       width: 40px;
       height: 40px;
       border-radius: 10px;
-      background: rgba(124, 92, 255, 0.1);
-      border: 1px solid rgba(124, 92, 255, 0.15);
+      background: rgba(14, 165, 233, 0.1);
+      border: 1px solid rgba(14, 165, 233, 0.15);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -791,15 +793,17 @@
       --border-bright: rgba(0, 0, 0, 0.15);
       --text: #111;
       --text-dim: #777;
-      --accent: #6c47ff;
-      --accent-2: #00b4d8;
-      --accent-3: #e04080;
-      --green: #16a34a;
-      --glow: rgba(108, 71, 255, 0.25);
+      --accent: #0ea5e9;
+      --accent-2: #34d399;
+      --accent-3: #f97316;
+      --green: #34d399;
+      --orange: #f97316;
+      --glow: rgba(14, 165, 233, 0.25);
+      --glow-2: rgba(52, 211, 153, 0.2);
     }
     [data-theme="lite"] .mesh-bg::before {
       background:
-        radial-gradient(ellipse 600px 600px at 20% 20%, rgba(108, 71, 255, 0.06) 0%, transparent 70%),
+        radial-gradient(ellipse 600px 600px at 20% 20%, rgba(14, 165, 233, 0.06) 0%, transparent 70%),
         radial-gradient(ellipse 500px 500px at 80% 30%, rgba(0, 180, 216, 0.04) 0%, transparent 70%),
         radial-gradient(ellipse 400px 400px at 50% 80%, rgba(224, 64, 128, 0.03) 0%, transparent 70%);
     }
@@ -849,13 +853,13 @@
     <section class="hero">
       <div class="hero-chip">
         <span class="live-dot"></span>
-        Available to collaborate
+        usually online
       </div>
       <h1>
         <span class="line">Hi, I'm</span>
         <span class="line grad">Miles Wolf Allen</span>
       </h1>
-      <p class="hero-sub">Developer & 3D artist building games, tools, and websites. Currently obsessed with backend JavaScript and web-based emulators.</p>
+      <p class="hero-sub">I make games, tools, and websites. Right now I'm deep into backend JavaScript and building emulators that run in your browser. Send help.</p>
       <div class="hero-actions">
         <a href="https://github.com/mileswolfallen2" class="btn btn-glow" target="_blank">
           <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
@@ -869,19 +873,19 @@
     <div class="stats-bar reveal">
       <div class="stat-item">
         <div class="stat-num" id="s-repos">--</div>
-        <div class="stat-label">Repos</div>
+        <div class="stat-label">repos online</div>
       </div>
       <div class="stat-item">
         <div class="stat-num" id="s-stars">--</div>
-        <div class="stat-label">Stars</div>
+        <div class="stat-label">stars earned</div>
       </div>
       <div class="stat-item">
         <div class="stat-num" id="s-followers">--</div>
-        <div class="stat-label">Followers</div>
+        <div class="stat-label">people watching</div>
       </div>
       <div class="stat-item">
         <div class="stat-num" id="s-following">--</div>
-        <div class="stat-label">Following</div>
+        <div class="stat-label">people I watch</div>
       </div>
     </div>
 
@@ -892,7 +896,7 @@
         <div class="profile-info">
           <h2>Miles Wolf Allen</h2>
           <div class="handle">@mileswolfallen2</div>
-          <div class="bio">Building cool stuff on the web. Games, tools, and whatever catches my interest.</div>
+          <div class="bio">I build things on the internet. Some of them are games, some are tools, and some are just because I thought it would be fun.</div>
           <div class="profile-stats">
             <div class="ps"><b id="p-repos">142</b> repos</div>
             <div class="ps"><b id="p-stars">91</b> stars</div>
@@ -920,10 +924,10 @@
       <div class="section-divider"></div>
       <div class="section-header">
         <h2>Skills & Tech</h2>
-        <p>Technologies, tools, and things I work with</p>
+        <p>what I actually know how to use</p>
       </div>
 
-      <div class="skills-label">Proficient In</div>
+      <div class="skills-label">can build stuff with</div>
       <div class="skills-grid">
         <div class="skill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>JavaScript</div>
         <div class="skill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>HTML</div>
@@ -940,7 +944,7 @@
         <div class="skill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>GitHub</div>
       </div>
 
-      <div class="skills-label">Currently Learning</div>
+      <div class="skills-label">figuring out right now</div>
       <div class="skills-grid">
         <div class="skill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>PHP</div>
         <div class="skill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 10h-1.26A8 8 0 109 20h9a5 5 0 000-10z"/></svg>.NET</div>
@@ -954,7 +958,7 @@
       <div class="section-divider"></div>
       <div class="section-header">
         <h2>Projects</h2>
-        <p>Things I've built and forked</p>
+        <p>stuff I've made (and some I forked)</p>
       </div>
 
       <div class="projects-grid">
@@ -964,7 +968,7 @@
             <span class="pc-tag active">Active</span>
           </div>
           <h3>OmniEmu 2.0</h3>
-          <p>Cross-platform emulator manager and game launcher. Install 20+ emulators, scan ROMs, and launch games from a unified library.</p>
+          <p>All your emulators in one place. Install 20+ emulators, scan your ROMs, and launch games without opening 15 different apps.</p>
           <div class="pc-meta"><span>&#9733; 1</span><span>MIT</span><span>v0.3.2</span></div>
         </a>
 
@@ -974,7 +978,7 @@
             <span class="pc-tag community">Community</span>
           </div>
           <h3>FEDL</h3>
-          <p>Geometry Dash demon list site with ranked levels, run submissions, admin moderation, and community features.</p>
+          <p>The demon list for Geometry Dash. Ranked levels, run submissions, and a community of people way better at the game than me.</p>
           <div class="pc-meta"><span>&#9733; 2</span><span>196 commits</span><span>Live</span></div>
         </a>
 
@@ -984,7 +988,7 @@
             <span class="pc-tag active">Active</span>
           </div>
           <h3>Noto</h3>
-          <p>AI-powered note-taking app built with Flutter and Dart. Features Cortex AI integration and Markdown support.</p>
+          <p>Note-taking app with AI built in. Built with Flutter, powered by Cortex AI, and actually good at organizing my chaos.</p>
           <div class="pc-meta"><span>&#9733; 1</span><span>MIT</span></div>
         </a>
 
@@ -994,7 +998,7 @@
             <span class="pc-tag lang">Python</span>
           </div>
           <h3>Nova AI</h3>
-          <p>Voice/text AI assistant with desktop GUI, web interface, and CLI. Runs locally on Ollama with multiple model support.</p>
+          <p>AI assistant that runs on your machine. Desktop GUI, web interface, and CLI. No cloud, no subscriptions, just vibes.</p>
           <div class="pc-meta"><span>&#9733; 1</span><span>MIT</span></div>
         </a>
 
@@ -1004,7 +1008,7 @@
             <span class="pc-tag lang">JavaScript</span>
           </div>
           <h3>Music App</h3>
-          <p>Ad-free music player web app inspired by YouTube Music. Stream music without interruptions.</p>
+          <p>Music player that doesn't interrupt you with ads. Inspired by YouTube Music but without the annoying parts.</p>
           <div class="pc-meta"><span>&#9733; 1</span><span>Apache-2.0</span></div>
         </a>
 
@@ -1014,7 +1018,7 @@
             <span class="pc-tag lang">HTML</span>
           </div>
           <h3>Rhythm Game</h3>
-          <p>Rhythm-based game with song selection, real-time note rendering, and keyboard controls.</p>
+          <p>Hit keys to the beat. Song selection, real-time notes, and keyboard controls. My fingers hurt.</p>
           <div class="pc-meta"><span>&#9733; 1</span><span>MPL-2.0</span></div>
         </a>
 
@@ -1024,7 +1028,7 @@
             <span class="pc-tag wip">WIP</span>
           </div>
           <h3>FEDL Geode Mod</h3>
-          <p>Geometry Dash mod for viewing the ranked demon list, playing roulette, and checking for banned mods.</p>
+          <p>Geometry Dash mod that shows the demon list in-game. Roulette mode, banned mod detection, and more.</p>
           <div class="pc-meta"><span>MIT</span></div>
         </a>
 
@@ -1034,7 +1038,7 @@
             <span class="pc-tag lang">HTML</span>
           </div>
           <h3>Decompilations</h3>
-          <p>Showcase of native PC ports, decompilations, and recompilations with progress tracking.</p>
+          <p>Native PC ports and decompilations of games. Progress tracking for projects that probably shouldn't exist.</p>
           <div class="pc-meta"><span>MIT</span></div>
         </a>
 
@@ -1044,7 +1048,7 @@
             <span class="pc-tag lang">HTML</span>
           </div>
           <h3>Issue Tracker</h3>
-          <p>Custom issue tracker built from scratch with a Node.js backend.</p>
+          <p>Built my own issue tracker because why not. Node.js backend, no frameworks, just raw determination.</p>
           <div class="pc-meta"><span>MIT</span></div>
         </a>
 
@@ -1054,7 +1058,7 @@
             <span class="pc-tag lang">HTML</span>
           </div>
           <h3>Moon Gaming</h3>
-          <p>Game hub with 1,542+ commits. Browse, play, and explore a growing library of browser games.</p>
+          <p>Game hub with 1,500+ commits. Browse, play, and explore a growing library of browser games I made at 2am.</p>
           <div class="pc-meta"><span>&#9733; 1,542</span><span>MIT</span></div>
         </a>
       </div>
@@ -1155,7 +1159,7 @@
       <div class="section-divider"></div>
       <div class="section-header">
         <h2>Get In Touch</h2>
-        <p>Let's build something together</p>
+        <p>unless you're a bot, then please go away</p>
       </div>
 
       <div class="contact-grid">
@@ -1183,7 +1187,7 @@
     </section>
 
     <footer>
-      Built by Miles &middot; 2026 &middot; Powered by <a href="https://docs.github.com/en/rest" target="_blank">GitHub API</a>
+      Built by Miles &middot; 2026 &middot; Powered by <a href="https://docs.github.com/en/rest" target="_blank">GitHub API</a> and too much coffee
     </footer>
   </div>
 
