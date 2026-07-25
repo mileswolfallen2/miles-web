@@ -13,7 +13,7 @@
 
   <div class="container">
     <nav>
-      <a href="../index.html" class="nav-logo"><span class="logo-dot"></span> miles.dev</a>
+      <a href="../index.html" class="nav-logo"><span class="logo-dot"></span> milesallen</a>
       <div class="nav-links">
         <a href="../index.html#about">About</a>
         <a href="../index.html#skills">Skills</a>
@@ -42,10 +42,27 @@
           Live Site
         </a>
         <span class="meta-chip">HTML / JS / CSS</span>
-        <span class="meta-chip">196 commits</span>
-        <span class="meta-chip">2 stars</span>
       </div>
     </section>
+
+    <div class="stats-bar">
+      <div class="stat-item">
+        <div class="stat-value accent" id="fedl-levels">--</div>
+        <div class="stat-label">Levels</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value green" id="fedl-runs">--</div>
+        <div class="stat-label">Runs Submitted</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value orange" id="fedl-commits">196</div>
+        <div class="stat-label">Commits</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" id="fedl-stars">2</div>
+        <div class="stat-label">Stars</div>
+      </div>
+    </div>
 
     <section class="reveal">
       <div class="section-divider"></div>
@@ -149,6 +166,45 @@
       entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
     }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    const API = 'https://server.fedl.site/fedl/api';
+
+    fetch(`${API}/list`)
+      .then(r => r.json())
+      .then(data => {
+        const items = data.items || [];
+        document.getElementById('fedl-levels').textContent = items.length;
+      })
+      .catch(() => {
+        document.getElementById('fedl-levels').textContent = '150+';
+      });
+
+    fetch(`${API}/runs`)
+      .then(r => r.json())
+      .then(data => {
+        const runs = Array.isArray(data) ? data : [];
+        document.getElementById('fedl-runs').textContent = runs.length;
+      })
+      .catch(() => {
+        document.getElementById('fedl-runs').textContent = '--';
+      });
+
+    fetch('https://api.github.com/repos/mileswolfallen2/fedl')
+      .then(r => r.json())
+      .then(data => {
+        if (data.stargazers_count != null) {
+          document.getElementById('fedl-stars').textContent = data.stargazers_count;
+        }
+        if (data.default_branch) {
+          fetch(`https://api.github.com/repos/mileswolfallen2/fedl/commits?sha=${data.default_branch}&per_page=1`)
+            .then(r => {
+              const total = r.headers.get('x-total-count');
+              if (total) document.getElementById('fedl-commits').textContent = total;
+            })
+            .catch(() => {});
+        }
+      })
+      .catch(() => {});
   </script>
 </body>
 </html>

@@ -546,6 +546,172 @@
       gap: 4px;
     }
 
+    /* HIGHLIGHTS */
+    .hl-group { margin-bottom: 28px; }
+    .hl-group:last-child { margin-bottom: 0; }
+    .hl-group-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Fraunces', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 12px;
+      letter-spacing: -0.02em;
+    }
+    .hl-group-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .hl-group-dot.blue { background: var(--accent); box-shadow: 0 0 8px rgba(14,165,233,0.5); }
+    .hl-group-dot.green { background: var(--green); box-shadow: 0 0 8px rgba(52,211,153,0.5); }
+    .hl-group-dot.orange { background: var(--orange); box-shadow: 0 0 8px rgba(249,115,22,0.5); }
+    .hl-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+      margin: 8px 0 24px;
+    }
+    .hl-hero {
+      background: var(--surface);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 20px;
+      position: relative;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .hl-hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .hl-hero:hover::before { opacity: 1; }
+    .hl-hero:hover {
+      border-color: rgba(14, 165, 233, 0.3);
+      box-shadow: 0 0 40px rgba(14, 165, 233, 0.1);
+    }
+    .hl-hero-header {
+      padding: 24px 28px 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .hl-hero-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+    .hl-hero-dot.blue { background: var(--accent); box-shadow: 0 0 10px rgba(14,165,233,0.6); }
+    .hl-hero-dot.green { background: var(--green); box-shadow: 0 0 10px rgba(52,211,153,0.6); }
+    .hl-hero-name {
+      font-family: 'Fraunces', serif;
+      font-size: 1.8rem;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      color: var(--text);
+      line-height: 1;
+    }
+    .hl-hero-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      padding: 20px 0 0;
+    }
+    .hl-hero-stat {
+      text-align: center;
+      padding: 16px 12px 20px;
+      border-right: 1px solid var(--border);
+      transition: background 0.3s;
+    }
+    .hl-hero-stat:last-child { border-right: none; }
+    .hl-hero-stat:hover { background: rgba(255,255,255,0.02); }
+    .hl-hero-stat .hl-number {
+      font-family: 'Fraunces', serif;
+      font-size: 2rem;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .hl-hero-stat .hl-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-dim);
+    }
+    @media (max-width: 768px) {
+      .hl-hero-stats { grid-template-columns: repeat(2, 1fr); }
+      .hl-hero-stat:nth-child(2) { border-right: none; }
+      .hl-hero-stat:nth-child(1),
+      .hl-hero-stat:nth-child(2) { border-bottom: 1px solid var(--border); }
+      .hl-hero-name { font-size: 1.4rem; }
+    }
+    .highlights-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 14px;
+    }
+    .highlight-card {
+      background: var(--surface);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 22px 20px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, box-shadow 0.3s, transform 0.2s;
+    }
+    .highlight-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .highlight-card:hover::before { opacity: 1; }
+    .highlight-card:hover {
+      border-color: rgba(14, 165, 233, 0.3);
+      box-shadow: 0 0 30px rgba(14, 165, 233, 0.12);
+      transform: translateY(-2px);
+    }
+    .hl-icon {
+      width: 36px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 10px;
+      margin-bottom: 14px;
+    }
+    .hl-icon svg { width: 20px; height: 20px; }
+    .hl-icon.blue { background: rgba(14,165,233,0.12); color: var(--accent); }
+    .hl-icon.green { background: rgba(52,211,153,0.12); color: var(--green); }
+    .hl-icon.orange { background: rgba(249,115,22,0.12); color: var(--orange); }
+    .hl-number {
+      font-family: 'Fraunces', serif;
+      font-size: 2rem;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .hl-number.blue { color: var(--accent); }
+    .hl-number.green { color: var(--green); }
+    .hl-number.orange { color: var(--orange); }
+    .hl-label {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      font-weight: 500;
+      line-height: 1.3;
+    }
+
     /* CONTACT */
     .contact-grid {
       display: grid;
@@ -652,6 +818,7 @@
       .stats-bar { gap: 24px; }
       .stat-num { font-size: 1.6rem; }
       .projects-grid { grid-template-columns: 1fr; }
+      .highlights-grid { grid-template-columns: repeat(2, 1fr); }
       .nav-links a:not(.theme-btn) { display: none; }
     }
   </style>
@@ -665,7 +832,7 @@
     <nav>
       <a href="#" class="nav-logo">
         <span class="dot"></span>
-        miles.dev
+        milesallen.site
       </a>
       <div class="nav-links">
         <a href="#about">About</a>
@@ -893,6 +1060,97 @@
       </div>
     </section>
 
+    <section id="highlights" class="section reveal">
+      <div class="section-divider"></div>
+      <div class="section-header">
+        <h2>Project Highlights</h2>
+        <p>What my projects have achieved</p>
+      </div>
+
+      <div class="hl-hero">
+        <div class="hl-hero-header">
+          <span class="hl-hero-dot blue"></span>
+          <span class="hl-hero-name">FEDL</span>
+        </div>
+        <div class="hl-hero-stats">
+          <div class="hl-hero-stat">
+            <div class="hl-number blue" id="hl-fedl-runs">--</div>
+            <div class="hl-label">Verified Runs</div>
+          </div>
+          <div class="hl-hero-stat">
+            <div class="hl-number green" id="hl-fedl-levels">--</div>
+            <div class="hl-label">Ranked Levels</div>
+          </div>
+          <div class="hl-hero-stat">
+            <div class="hl-number orange" id="hl-fedl-players">--</div>
+            <div class="hl-label">Ranked Players</div>
+          </div>
+          <div class="hl-hero-stat">
+            <div class="hl-number blue" id="hl-fedl-videos">--</div>
+            <div class="hl-label">YouTube Videos</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hl-hero">
+        <div class="hl-hero-header">
+          <span class="hl-hero-dot green"></span>
+          <span class="hl-hero-name">OmniEmu 2.0</span>
+        </div>
+        <div class="hl-hero-stats">
+          <div class="hl-hero-stat">
+            <div class="hl-number blue">20+</div>
+            <div class="hl-label">Emulators Supported</div>
+          </div>
+          <div class="hl-hero-stat">
+            <div class="hl-number green">3</div>
+            <div class="hl-label">Platforms (Win/Mac/Linux)</div>
+          </div>
+          <div class="hl-hero-stat">
+            <div class="hl-number orange">0.3.2</div>
+            <div class="hl-label">Latest Release</div>
+          </div>
+          <div class="hl-hero-stat">
+            <div class="hl-number blue">TS</div>
+            <div class="hl-label">Built with TypeScript</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hl-divider"></div>
+
+      <div class="hl-group">
+        <div class="hl-group-label"><span class="hl-group-dot" style="background:var(--text-dim)"></span>Other Projects</div>
+        <div class="highlights-grid">
+          <div class="highlight-card">
+            <div class="hl-icon blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v6M12 17v6M4.22 4.22l4.24 4.24M15.54 15.54l4.24 4.24M1 12h6M17 12h6M4.22 19.78l4.24-4.24M15.54 8.46l4.24-4.24"/></svg></div>
+            <div class="hl-number blue">3</div>
+            <div class="hl-label">Nova Interfaces</div>
+          </div>
+          <div class="highlight-card">
+            <div class="hl-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
+            <div class="hl-number green">5</div>
+            <div class="hl-label">Noto AI Features</div>
+          </div>
+          <div class="highlight-card">
+            <div class="hl-icon orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="6" y1="12" x2="10" y2="12"/><circle cx="17" cy="11" r="1"/><circle cx="15" cy="13" r="1"/></svg></div>
+            <div class="hl-number orange">1.5k+</div>
+            <div class="hl-label">Moon Gaming Commits</div>
+          </div>
+          <div class="highlight-card">
+            <div class="hl-icon blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
+            <div class="hl-number blue">Ad-free</div>
+            <div class="hl-label">Music App Playback</div>
+          </div>
+          <div class="highlight-card">
+            <div class="hl-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+            <div class="hl-number green">MIT</div>
+            <div class="hl-label">Licensed Across Projects</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section id="contact" class="section reveal">
       <div class="section-divider"></div>
       <div class="section-header">
@@ -953,12 +1211,20 @@
     fetch('https://api.github.com/users/mileswolfallen2')
       .then(r => r.json())
       .then(u => {
-        document.getElementById('s-repos').textContent = u.public_repos;
+        document.getElementById('s-repos').textContent = u.public_repos || '147';
         document.getElementById('s-stars').textContent = '--';
-        document.getElementById('s-followers').textContent = u.followers;
-        document.getElementById('s-following').textContent = u.following;
-        document.getElementById('p-repos').textContent = u.public_repos;
-        document.getElementById('p-followers').textContent = u.followers;
+        document.getElementById('s-followers').textContent = u.followers || '13';
+        document.getElementById('s-following').textContent = u.following || '37';
+        document.getElementById('p-repos').textContent = u.public_repos || '147';
+        document.getElementById('p-followers').textContent = u.followers || '13';
+      })
+      .catch(() => {
+        document.getElementById('s-repos').textContent = '147';
+        document.getElementById('s-stars').textContent = '--';
+        document.getElementById('s-followers').textContent = '13';
+        document.getElementById('s-following').textContent = '37';
+        document.getElementById('p-repos').textContent = '147';
+        document.getElementById('p-followers').textContent = '13';
       });
 
     fetch('https://api.github.com/users/mileswolfallen2/repos?per_page=100')
@@ -967,6 +1233,29 @@
         const total = repos.reduce((a, r) => a + r.stargazers_count, 0);
         document.getElementById('s-stars').textContent = total;
         document.getElementById('p-stars').textContent = total;
+      })
+      .catch(() => {});
+
+    // FEDL live stats
+    Promise.all([
+      fetch('https://server.fedl.site/fedl/api/runs').then(r => r.json()),
+      fetch('https://server.fedl.site/fedl/api/list').then(r => r.json())
+    ])
+      .then(([runs, listData]) => {
+        const approved = runs.filter(r => r.status === 'approved');
+        document.getElementById('hl-fedl-runs').textContent = approved.length.toLocaleString();
+        const levels = Array.isArray(listData) ? listData : (listData.items || []);
+        document.getElementById('hl-fedl-levels').textContent = levels.length;
+        const players = new Set(approved.map(r => r.accountUsername || r.playerName)).size;
+        document.getElementById('hl-fedl-players').textContent = players.toLocaleString();
+        const videos = new Set(approved.map(r => r.videoUrl).filter(Boolean)).size;
+        document.getElementById('hl-fedl-videos').textContent = videos.toLocaleString();
+      })
+      .catch(() => {
+        document.getElementById('hl-fedl-runs').textContent = '3,839';
+        document.getElementById('hl-fedl-levels').textContent = '341';
+        document.getElementById('hl-fedl-players').textContent = '250+';
+        document.getElementById('hl-fedl-videos').textContent = '3,800+';
       });
   </script>
 </body>

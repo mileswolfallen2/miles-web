@@ -47,6 +47,24 @@
         <span class="meta-chip">JavaScript</span>
         <span class="meta-chip">Apache-2.0</span>
       </div>
+      <div class="stats-bar">
+        <div class="stat-item">
+          <div class="stat-value accent" id="gh-stars">--</div>
+          <div class="stat-label">Stars</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value green" id="gh-forks">--</div>
+          <div class="stat-label">Forks</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value orange" id="gh-issues">--</div>
+          <div class="stat-label">Issues</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value" id="gh-lang">--</div>
+          <div class="stat-label">Language</div>
+        </div>
+      </div>
     </section>
 
     <section class="reveal">
@@ -124,6 +142,15 @@
     </footer>
   </div>
 <script>
+    fetch('https://api.github.com/repos/mileswolfallen2/music-app')
+      .then(r => r.json())
+      .then(d => {
+        if (d.stargazers_count != null) document.getElementById('gh-stars').textContent = d.stargazers_count;
+        if (d.forks_count != null) document.getElementById('gh-forks').textContent = d.forks_count;
+        if (d.open_issues_count != null) document.getElementById('gh-issues').textContent = d.open_issues_count;
+        if (d.language) document.getElementById('gh-lang').textContent = d.language;
+      })
+      .catch(() => {});
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
   }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });

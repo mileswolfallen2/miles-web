@@ -199,12 +199,76 @@ nav {
   background: var(--accent);
   border-color: var(--accent);
   color: #fff;
-  box-shadow: 0 0 20px rgba(124, 92, 255, 0.3);
+  box-shadow: 0 0 20px rgba(14, 165, 233, 0.3);
 }
 .meta-chip.primary:hover {
-  background: #6a4ae8;
-  box-shadow: 0 0 30px rgba(124, 92, 255, 0.5);
+  background: #0284c7;
+  box-shadow: 0 0 30px rgba(14, 165, 233, 0.5);
   transform: translateY(-1px);
+}
+
+/* STATS BAR */
+.stats-bar {
+  display: flex;
+  gap: 0;
+  margin-top: 32px;
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--surface);
+  backdrop-filter: blur(12px);
+  position: relative;
+  z-index: 1;
+}
+.stats-bar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  padding: 1px;
+  background: linear-gradient(
+    var(--rainbow-angle, 90deg),
+    #ff0000, #ff8800, #ffff00, #00ff00, #0088ff, #8800ff, #ff00ff, #ff0000
+  );
+  background-size: 300% 300%;
+  animation: rainbowShift 6s linear infinite;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 1;
+}
+@keyframes rainbowShift {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 300% 50%; }
+}
+.stat-item {
+  flex: 1;
+  padding: 20px 24px;
+  text-align: center;
+  border-right: 1px solid var(--border);
+  transition: background 0.3s;
+}
+.stat-item:last-child { border-right: none; }
+.stat-item:hover { background: rgba(255, 255, 255, 0.02); }
+.stat-value {
+  font-family: 'Fraunces', serif;
+  font-size: 1.8rem;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.stat-value.accent { color: var(--accent); }
+.stat-value.green { color: var(--green); }
+.stat-value.orange { color: var(--orange); }
+.stat-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
 }
 
 section { padding: 48px 0; }
@@ -390,4 +454,7 @@ footer a { color: var(--accent); text-decoration: none; }
   .project-hero h1 { font-size: 2rem; }
   .nav-links { display: none; }
   .feature-grid { grid-template-columns: 1fr; }
+  .stats-bar { flex-direction: column; }
+  .stat-item { border-right: none; border-bottom: 1px solid var(--border); }
+  .stat-item:last-child { border-bottom: none; }
 }
