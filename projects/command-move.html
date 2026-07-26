@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Music App | Miles Wolf Allen</title>
+  <title>CommandMove | Miles Wolf Allen</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
-<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -17,8 +17,8 @@
   <nav class="mobile-nav">
     <a href="../index.html">Home</a>
     <a href="fedl.html">FEDL</a>
-    <a href="music-app.html" class="active">Music App</a>
-    <a href="command-move.html">CommandMove</a>
+    <a href="omniemu.html">OmniEmu</a>
+    <a href="command-move.html" class="active">CommandMove</a>
     <a href="https://github.com/mileswolfallen2" target="_blank">GitHub</a>
   </nav>
 
@@ -37,23 +37,24 @@
       <div class="breadcrumb">
         <a href="../index.html">Home</a>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
-        <span>Music App</span>
+        <span>CommandMove</span>
       </div>
 
-      <h1>Music App</h1>
-      <p class="tagline">A sleek, lightweight, and ad-free music player web app inspired by YouTube Music. Built for speed, simplicity, and control.</p>
+      <h1>CommandMove</h1>
+      <p class="tagline">True cut-and-paste for Finder on macOS. Select files, press Cmd+X, navigate, Cmd+V. Done.</p>
 
       <div class="project-meta-bar">
-        <a href="https://github.com/mileswolfallen2/music-app" class="meta-chip primary" target="_blank">
+        <a href="https://github.com/mileswolfallen2/command-move" class="meta-chip primary" target="_blank">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
           View on GitHub
         </a>
-        <a href="https://mileswolfallen2.github.io/music-app/" class="meta-chip" target="_blank">
+        <a href="https://command.milesallen.site" class="meta-chip" target="_blank">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
-          Live Demo
+          Website
         </a>
-        <span class="meta-chip">JavaScript</span>
-        <span class="meta-chip">Apache-2.0</span>
+        <span class="meta-chip">Swift</span>
+        <span class="meta-chip">MIT License</span>
+        <span class="meta-chip">macOS</span>
       </div>
       <div class="stats-bar">
         <div class="stat-item">
@@ -78,57 +79,53 @@
     <section class="reveal">
       <div class="section-divider"></div>
       <h2 class="section-title">Features</h2>
+      <p class="section-subtitle">What macOS should have had from the start</p>
+
       <div class="feature-grid">
         <div class="feature-card">
           <h3>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14"/><path d="M15.54 8.46a5 5 0 010 7.07"/></svg>
-            Ad-Free Playback
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h4m4 0h4"/></svg>
+            Global Cmd+X / Cmd+V
           </h3>
-          <p>Enjoy music from YouTube with little to no interruptions. Focused on uninterrupted listening.</p>
+          <p>Press Cmd+X on selected files in Finder to cut them. Navigate to any folder, press Cmd+V to move them. Just like Windows.</p>
         </div>
         <div class="feature-card">
           <h3>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
-            Web-First
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M3 9h18"/></svg>
+            Menu Bar Controls
           </h3>
-          <p>100% web-based. No downloads, no installs. Fast loading with minimal dependencies.</p>
+          <p>Cut, paste, clear clipboard, toggle login launch, and open Accessibility settings — all from the menu bar icon.</p>
         </div>
         <div class="feature-card">
           <h3>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-            Developer-Friendly
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"/></svg>
+            Right-Click Cut
           </h3>
-          <p>Clean, modular code. No frameworks -- just plain HTML, CSS, and JavaScript.</p>
+          <p>Built-in Quick Action adds a "Cut Files" option to the Finder right-click menu. Enable it from the menu bar.</p>
         </div>
         <div class="feature-card">
           <h3>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-            Playlist Tools
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 10h-1.26A8 8 0 109 20h9a5 5 0 000-10z"/></svg>
+            Auto-Launch at Login
           </h3>
-          <p>Includes tools to convert YouTube playlists to static HTML and generate JavaScript playlist files.</p>
+          <p>Toggle Open at Login from the menu bar so CommandMove is always running when you need it.</p>
+        </div>
+        <div class="feature-card">
+          <h3>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Conflict Handling
+          </h3>
+          <p>If a file with the same name exists at the destination, a numbered copy is created automatically. Existing files are never overwritten.</p>
         </div>
       </div>
     </section>
 
     <section class="reveal">
       <div class="section-divider"></div>
-      <h2 class="section-title">Project Files</h2>
-      <div class="table-wrapper">
-        <table>
-          <thead>
-            <tr><th>File</th><th>Description</th></tr>
-          </thead>
-          <tbody>
-            <tr><td><code>index.html</code></td><td>Main music app interface</td></tr>
-            <tr><td><code>script.js</code></td><td>Main app logic -- playback and UI behavior</td></tr>
-            <tr><td><code>songs.js</code></td><td>Song data and playlist definitions</td></tr>
-            <tr><td><code>style.css</code></td><td>Core styling for all pages</td></tr>
-            <tr><td><code>playlist2static.html</code></td><td>Tool to convert YouTube playlists to static HTML</td></tr>
-            <tr><td><code>playlist2static.js</code></td><td>JavaScript logic behind playlist conversion</td></tr>
-            <tr><td><code>static-list-generator.html</code></td><td>GUI for creating static playlist files</td></tr>
-            <tr><td><code>static-to-js.html</code></td><td>Converts HTML playlist elements into JavaScript format</td></tr>
-          </tbody>
-        </table>
+      <h2 class="section-title">How It Works</h2>
+      <p class="section-subtitle">Under the hood</p>
+      <div class="desc-text">
+        <p>A global event tap intercepts Cmd+X and Cmd+V while Finder is frontmost. AppleScript queries Finder for the selected items and current folder. The app uses FileManager.moveItem to perform the actual move operation. No third-party dependencies — just Swift, AppleScript, and macOS APIs.</p>
       </div>
     </section>
 
@@ -136,12 +133,27 @@
       <div class="section-divider"></div>
       <h2 class="section-title">Tech Stack</h2>
       <div class="tech-stack">
-        <span class="tech-badge">JavaScript (89.7%)</span>
-        <span class="tech-badge">CSS (5.7%)</span>
-        <span class="tech-badge">HTML (4.6%)</span>
-        <span class="tech-badge">YouTube API</span>
-        <span class="tech-badge">GitHub Pages</span>
-        <span class="tech-badge">Cloudflare Pages</span>
+        <span class="tech-badge">Swift</span>
+        <span class="tech-badge">AppleScript</span>
+        <span class="tech-badge">macOS APIs</span>
+        <span class="tech-badge">Global Event Tap</span>
+        <span class="tech-badge">FileManager</span>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <div class="section-divider"></div>
+      <h2 class="section-title">Quick Start</h2>
+      <div class="desc-text">
+        <p>Download the DMG, drag to Applications, launch, and grant Accessibility access when prompted. Cmd+X in Finder to cut, Cmd+V to move.</p>
+      </div>
+      <div class="code-block">
+        <span class="comment"># Build from source</span><br>
+        <span class="cmd">./build.sh</span><br>
+        <span class="cmd">open build/CommandMove.dmg</span><br><br>
+        <span class="comment"># Requirements</span><br>
+        macOS 13.0 or later<br>
+        Accessibility permissions
       </div>
     </section>
 
@@ -150,7 +162,7 @@
     </footer>
   </div>
 <script>
-    fetch('https://api.github.com/repos/mileswolfallen2/music-app')
+    fetch('https://api.github.com/repos/mileswolfallen2/command-move')
       .then(r => r.json())
       .then(d => {
         if (d.stargazers_count != null) document.getElementById('gh-stars').textContent = d.stargazers_count;
@@ -169,7 +181,6 @@
   <script>
     gsap.registerPlugin(ScrollTrigger);
 
-    // Hero entrance
     const heroTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
     heroTl
       .from('.breadcrumb', { x: -30, opacity: 0, duration: 0.6 })
@@ -179,10 +190,8 @@
       .from('.stats-bar', { y: 30, opacity: 0, duration: 0.6 }, '-=0.2')
       .from('.stat-item', { y: 20, opacity: 0, scale: 0.9, duration: 0.4, stagger: 0.08, ease: 'back.out(1.5)' }, '-=0.3');
 
-    // Nav entrance
     gsap.from('nav', { y: -20, opacity: 0, duration: 0.6, ease: 'power2.out' });
 
-    // Section titles
     document.querySelectorAll('.section-title').forEach(title => {
       gsap.from(title, {
         scrollTrigger: { trigger: title, start: 'top 85%' },
@@ -190,7 +199,6 @@
       });
     });
 
-    // Section dividers
     document.querySelectorAll('.section-divider').forEach(div => {
       gsap.from(div, {
         scrollTrigger: { trigger: div, start: 'top 90%' },
@@ -198,7 +206,6 @@
       });
     });
 
-    // Feature cards stagger
     document.querySelectorAll('.feature-grid').forEach(grid => {
       gsap.from(grid.querySelectorAll('.feature-card'), {
         scrollTrigger: { trigger: grid, start: 'top 85%' },
@@ -206,7 +213,6 @@
       });
     });
 
-    // Tech badges
     document.querySelectorAll('.tech-stack').forEach(stack => {
       gsap.from(stack.querySelectorAll('.tech-badge'), {
         scrollTrigger: { trigger: stack, start: 'top 88%' },
@@ -214,15 +220,6 @@
       });
     });
 
-    // Tables
-    document.querySelectorAll('.table-wrapper').forEach(wrapper => {
-      gsap.from(wrapper, {
-        scrollTrigger: { trigger: wrapper, start: 'top 85%' },
-        y: 40, opacity: 0, duration: 0.7, ease: 'power3.out'
-      });
-    });
-
-    // Code blocks
     document.querySelectorAll('code-block').forEach(block => {
       gsap.from(block, {
         scrollTrigger: { trigger: block, start: 'top 88%' },
@@ -230,7 +227,6 @@
       });
     });
 
-    // Footer
     gsap.from('footer', {
       scrollTrigger: { trigger: 'footer', start: 'top 95%' },
       opacity: 0, duration: 0.8
