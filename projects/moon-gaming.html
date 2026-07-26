@@ -9,18 +9,14 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="blob-field">
-    <div class="blob b1"></div>
-    <div class="blob b2"></div>
-    <div class="blob b3"></div>
-  </div>
-  <div class="noise"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
   <div class="flash" id="flash"></div>
   <div class="toast-stack" id="toastStack"></div>
   <nav class="mobile-nav">
     <a href="../index.html">Home</a>
     <a href="fedl.html">FEDL</a>
-    <a href="omniemu.html">OmniEmu</a>
+    <a href="moon-gaming.html" class="active">Moon Gaming</a>
     <a href="https://github.com/mileswolfallen2" target="_blank">GitHub</a>
   </nav>
 
@@ -138,18 +134,14 @@
     <section class="reveal">
       <div class="section-divider"></div>
       <h2 class="section-title">Quick Start</h2>
-      <div class="code-block">
-        <div class="code-header">
-          <span>Terminal</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-        </div>
-        <pre><code><span class="code-comment"># Clone the repository</span>
-<span class="code-prompt">$</span> git clone https://github.com/mileswolfallen2/moon-gaming.git
-<span class="code-prompt">$</span> cd moon-gaming
+      <code-block>
+        <span class="comment"># Clone the repository</span>
+        <span class="cmd">$</span> git clone https://github.com/mileswolfallen2/moon-gaming.git
+        <span class="cmd">$</span> cd moon-gaming
 
-<span class="code-comment"># Open in browser</span>
-<span class="code-prompt">$</span> open index.html</code></pre>
-      </div>
+        <span class="comment"># Open in browser</span>
+        <span class="cmd">$</span> open index.html
+      </code-block>
     </section>
 
     <footer>
@@ -271,5 +263,23 @@
     }
   })();
   </script>
+<script>
+(function(){
+  var dot=document.getElementById('cursorDot');
+  var ring=document.getElementById('cursorRing');
+  if(!dot||!ring)return;
+  var mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
+  (function loop(){
+    rx+=(mx-rx)*0.15;ry+=(my-ry)*0.15;
+    ring.style.left=rx+'px';ring.style.top=ry+'px';
+    requestAnimationFrame(loop);
+  })();
+  document.querySelectorAll('a,button,.meta-chip,.tech-badge,.feature-card').forEach(function(el){
+    el.addEventListener('mouseenter',function(){dot.classList.add('hover');ring.classList.add('hover');});
+    el.addEventListener('mouseleave',function(){dot.classList.remove('hover');ring.classList.remove('hover');});
+  });
+})();
+</script>
 </body>
 </html>
