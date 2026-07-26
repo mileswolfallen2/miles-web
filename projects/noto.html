@@ -5,16 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Noto | Miles Wolf Allen</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700;9..144,800;9..144,900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="mesh-bg"></div>
-  <div class="grid-overlay"></div>
+  <div class="blob-field">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+  </div>
   <div class="noise"></div>
-  <div class="bg-grid"></div>
-  <div class="bg-glow bg-glow-1"></div>
-  <div class="bg-glow bg-glow-2"></div>
+  <div class="flash" id="flash"></div>
+  <div class="toast-stack" id="toastStack"></div>
 
   <div class="container">
     <nav>
@@ -186,7 +188,7 @@
     </section>
 
     <footer>
-      Built by Miles · 2026 · Powered by <a href="https://docs.github.com/en/rest" target="_blank">GitHub API</a> and too much coffee
+      Built by Miles · 2026 · Powered by too much coffee and the Konami code
     </footer>
   </div>
 <script>
@@ -204,5 +206,105 @@
   }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap@3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap@3.12.5/ScrollTrigger.min.js"></script>
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Hero entrance
+    const heroTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+    heroTl
+      .from('.breadcrumb', { x: -30, opacity: 0, duration: 0.6 })
+      .from('.project-hero h1', { y: 50, opacity: 0, duration: 0.8 }, '-=0.3')
+      .from('.tagline', { y: 30, opacity: 0, duration: 0.7 }, '-=0.4')
+      .from('.meta-chip', { y: 20, opacity: 0, scale: 0.8, duration: 0.4, stagger: 0.06 }, '-=0.3')
+      .from('.stats-bar', { y: 30, opacity: 0, duration: 0.6 }, '-=0.2')
+      .from('.stat-item', { y: 20, opacity: 0, scale: 0.9, duration: 0.4, stagger: 0.08, ease: 'back.out(1.5)' }, '-=0.3');
+
+    // Nav entrance
+    gsap.from('nav', { y: -20, opacity: 0, duration: 0.6, ease: 'power2.out' });
+
+    // Section titles
+    document.querySelectorAll('.section-title').forEach(title => {
+      gsap.from(title, {
+        scrollTrigger: { trigger: title, start: 'top 85%' },
+        y: 30, opacity: 0, duration: 0.7, ease: 'power3.out'
+      });
+    });
+
+    // Section dividers
+    document.querySelectorAll('.section-divider').forEach(div => {
+      gsap.from(div, {
+        scrollTrigger: { trigger: div, start: 'top 90%' },
+        width: 0, duration: 0.6, ease: 'power2.out'
+      });
+    });
+
+    // Feature cards stagger
+    document.querySelectorAll('.feature-grid').forEach(grid => {
+      gsap.from(grid.querySelectorAll('.feature-card'), {
+        scrollTrigger: { trigger: grid, start: 'top 85%' },
+        y: 50, opacity: 0, scale: 0.9, duration: 0.6, stagger: 0.1, ease: 'power3.out'
+      });
+    });
+
+    // Tech badges
+    document.querySelectorAll('.tech-stack').forEach(stack => {
+      gsap.from(stack.querySelectorAll('.tech-badge'), {
+        scrollTrigger: { trigger: stack, start: 'top 88%' },
+        y: 20, opacity: 0, scale: 0.8, duration: 0.4, stagger: 0.05, ease: 'back.out(1.5)'
+      });
+    });
+
+    // Tables
+    document.querySelectorAll('.table-wrapper').forEach(wrapper => {
+      gsap.from(wrapper, {
+        scrollTrigger: { trigger: wrapper, start: 'top 85%' },
+        y: 40, opacity: 0, duration: 0.7, ease: 'power3.out'
+      });
+    });
+
+    // Code blocks
+    document.querySelectorAll('code-block').forEach(block => {
+      gsap.from(block, {
+        scrollTrigger: { trigger: block, start: 'top 88%' },
+        y: 30, opacity: 0, duration: 0.6, ease: 'power3.out'
+      });
+    });
+
+    // Footer
+    gsap.from('footer', {
+      scrollTrigger: { trigger: 'footer', start: 'top 95%' },
+      opacity: 0, duration: 0.8
+    });
+
+    window.addEventListener('load', () => ScrollTrigger.refresh());
+  </script>
+  <script>
+  var toastQueue=document.getElementById('toastStack');var shownToasts={};
+  function showToast(id,title,body,icon){
+    if(shownToasts[id])return;shownToasts[id]=true;
+    var t=document.createElement('div');t.className='toast';
+    t.innerHTML='<span class="icon">'+(icon||'!')+'</span><span><span class="title">'+title+'</span>'+body+'</span>';
+    toastQueue.appendChild(t);
+    gsap.to(t,{x:0,duration:.6,ease:'power3.out'});
+    setTimeout(function(){gsap.to(t,{x:'-150%',opacity:0,duration:.4,ease:'power2.in',onComplete:function(){t.remove();}});},3000);
+  }
+  (function(){
+    var seq=['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+    var pos=0;
+    window.addEventListener('keydown',function(e){
+      var key=e.key.length===1?e.key.toLowerCase():e.key;
+      if(key===seq[pos]){pos++;if(pos===seq.length){pos=0;triggerKonami();}}
+      else{pos=(key===seq[0])?1:0;}
+    });
+    function triggerKonami(){
+      showToast('konami','SECRET FOUND','Konami Code Activated','*');
+      var flash=document.getElementById('flash');
+      gsap.fromTo(flash,{opacity:.5},{opacity:0,duration:.5});
+      gsap.to('body',{x:'random(-5,5)',y:'random(-5,5)',duration:.05,repeat:10,ease:'sine.inOut',onComplete:function(){gsap.set('body',{x:0,y:0});}});
+    }
+  })();
+  </script>
 </body>
 </html>
