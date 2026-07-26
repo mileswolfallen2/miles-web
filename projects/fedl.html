@@ -314,6 +314,10 @@
       var flash=document.getElementById('flash');
       gsap.fromTo(flash,{opacity:.5},{opacity:0,duration:.5});
       gsap.to('body',{x:'random(-5,5)',y:'random(-5,5)',duration:.05,repeat:10,ease:'sine.inOut',onComplete:function(){gsap.set('body',{x:0,y:0});}});
+      document.body.style.cursor='auto';
+      var style=document.createElement('style');style.id='konami-cursor';
+      style.textContent='*{cursor:auto !important;}';
+      document.head.appendChild(style);
     }
   })();
   </script>
