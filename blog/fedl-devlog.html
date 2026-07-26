@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Running the FEDL | Miles Wolf Allen</title>
+  <meta name="description" content="The story behind FEDL — running the Geometry Dash demon list, 3,800+ verified runs, and how a Discord conversation turned into a community.">
+  <link rel="canonical" href="https://milesallen.site/blog/fedl-devlog.html">
+  <meta property="og:title" content="Running the FEDL | Miles Wolf Allen">
+  <meta property="og:description" content="The story behind FEDL — running the Geometry Dash demon list, 3,800+ verified runs, and how a Discord conversation turned into a community.">
+  <meta property="og:image" content="https://milesallen.site/og.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="stylesheet" href="../projects/style.css">
+  <style>
+.article-header{padding:100px 0 40px;}
+.article-eyebrow{font-family:var(--font-pixel);font-size:10px;color:var(--tape);margin-bottom:12px;text-transform:uppercase;letter-spacing:.1em;}
+.article-date{font-family:var(--font-mono);font-size:12px;color:var(--muted);margin-bottom:8px;}
+.article-header h1{font-family:var(--font-pixel);font-size:clamp(24px,5vw,44px);line-height:1.2;margin-bottom:16px;transform:rotate(-1deg);transform-origin:left center;text-shadow:3px 3px 0 var(--accent),-2px -2px 0 var(--tape);animation:glitch 5s ease-in-out infinite;}
+@keyframes glitch{0%,90%,100%{text-shadow:3px 3px 0 var(--accent),-2px -2px 0 var(--tape);}92%{text-shadow:3px 3px 0 var(--red),-2px -2px 0 var(--accent);transform:rotate(-1deg) translateX(2px);}94%{text-shadow:3px 3px 0 var(--accent),-2px -2px 0 var(--red);transform:rotate(-1deg) translateX(-2px);}}
+.article-tagline{font-size:16px;color:var(--muted);max-width:600px;line-height:1.7;font-family:var(--font-mono);margin-bottom:24px;}
+.article-tags{display:flex;gap:8px;flex-wrap:wrap;}
+.article-tag{font-family:var(--font-pixel);font-size:8px;padding:6px 12px;background:var(--accent);color:#000;text-transform:uppercase;}
+.article-body{max-width:720px;}
+.article-body h2{font-family:var(--font-pixel);font-size:16px;color:var(--accent);margin:40px 0 16px;text-transform:uppercase;}
+.article-body h3{font-family:var(--font-mono);font-weight:700;font-size:16px;margin:32px 0 12px;color:var(--text);}
+.article-body p{font-size:14px;color:#ccc;line-height:1.9;font-family:var(--font-mono);margin-bottom:16px;}
+.article-body code{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);padding:2px 6px;font-size:12px;font-family:var(--font-mono);}
+.article-body blockquote{border-left:3px solid var(--accent);padding:12px 20px;margin:24px 0;background:rgba(255,255,255,0.02);font-style:italic;color:var(--muted);font-family:var(--font-mono);font-size:13px;}
+.article-body ul{margin:12px 0 16px 20px;font-family:var(--font-mono);font-size:13px;color:#ccc;line-height:1.8;}
+.article-body ul li{margin-bottom:6px;}
+.article-body ul li::marker{color:var(--accent);}
+.back-link{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:12px;color:var(--muted);margin-top:40px;text-decoration:none;transition:color .2s;}
+.back-link:hover{color:var(--accent);}
+  </style>
+</head>
+<body>
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+  <div class="progress-bar" id="progressBar"></div>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme"></button>
+  <div class="shortcut-modal" id="shortcutModal">
+    <div class="shortcut-card">
+      <h3>Keyboard Shortcuts</h3>
+      <div class="shortcut-row"><span>Go Home</span><kbd>H</kbd></div>
+      <div class="shortcut-row"><span>Go to GitHub</span><kbd>G</kbd></div>
+      <div class="shortcut-row"><span>Toggle theme</span><kbd>T</kbd></div>
+      <div class="shortcut-row"><span>Show shortcuts</span><kbd>?</kbd></div>
+      <div class="close-hint">Press Esc or ? to close</div>
+    </div>
+  </div>
+  <div class="flash" id="flash"></div>
+  <div class="toast-stack" id="toastStack"></div>
+  <nav class="mobile-nav">
+    <a href="../index.html">Home</a>
+    <a href="fedl.html">FEDL</a>
+    <a href="omniemu.html">OmniEmu</a>
+    <a href="command-move.html">CommandMove</a>
+    <a href="https://github.com/mileswolfallen2" target="_blank">GitHub</a>
+  </nav>
+
+  <div class="container">
+    <nav>
+      <a href="../index.html" class="nav-logo"><span class="logo-dot"></span> milesallen</a>
+      <div class="nav-links">
+        <a href="../index.html#about">About</a>
+        <a href="../index.html#skills">Skills</a>
+        <a href="../index.html#projects">Projects</a>
+        <a href="../index.html#contact">Contact</a>
+      </div>
+    </nav>
+
+    <section class="article-header">
+  <div class="breadcrumb">
+    <a href="../index.html">Home</a>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+    <a href="../index.html#blog">Devlog</a>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+    <span>Running the FEDL</span>
+  </div>
+  <div class="article-eyebrow">// DEVLOG 002</div>
+  <div class="article-date">2025</div>
+  <h1>Running the FEDL</h1>
+  <p class="article-tagline">3,800+ verified runs, ranked levels, and a community that never sleeps. Here's how a Discord conversation turned into a full-time project.</p>
+  <div class="article-tags">
+    <span class="article-tag">Node.js</span>
+    <span class="article-tag">Community</span>
+  </div>
+</section>
+
+<section class="reveal">
+  <div class="article-body">
+    <h2>How It Started</h2>
+    <p>The FEDL didn't start with a plan. It started with a complaint.</p>
+    <p>I was in a Discord server with a bunch of Geometry Dash players, and we were talking about the demon list — the community's ranking of the hardest levels in the game. The conversation kept circling back to one thing: there was a visible bias towards the top players. When the best players in the world verified a level, it shot up the rankings. When a lesser-known player struggled through the same level for months, it barely moved.</p>
+    <blockquote>Someone said "we should just make our own list" and I thought "yeah, we should."</blockquote>
+    <p>So I did. I spent a weekend building the first version of the FEDL — a simple list site with ranked levels and a submission form. I thought maybe 20 people would use it. I was very wrong.</p>
+
+    <h2>The Time Sink</h2>
+    <p>Let me be honest: maintaining the FEDL is a massive time sink. We've had 3,839 verified runs submitted and approved. That's 3,839 individual submissions that needed to be reviewed, verified against video evidence, and either approved or rejected with feedback.</p>
+    <p>There are 341 ranked levels, each with their own difficulty rating, creator credits, and verification history. The leaderboard tracks unique players, their best runs, and their progression over time. Behind all of that is a Node.js backend that processes submissions, a database that stores everything, and a frontend that needs to stay fast and accurate.</p>
+    <p>Some weeks I spend 20+ hours on FEDL. Reviewing runs, updating rankings, fixing bugs, responding to community feedback. There were nights I'd be awake at 3am debugging a submission pipeline because someone in Australia submitted a run at a weird time and the system broke.</p>
+
+    <h2>Why It's Worth It</h2>
+    <p>Here's the thing about building something for a community: you get back way more than you put in.</p>
+    <p>The FEDL has over 3,800 YouTube videos made about it. Players screenshot their rankings and share them. People write guides about how to progress through the list. There are Discord bots that pull FEDL data. Speedrunners use it as a benchmark. It became part of the Geometry Dash ecosystem in a way I never expected.</p>
+    <p>When someone messages me saying "I just beat my first FEDL level and it feels amazing," that's why I do it. The code is just code. The community is what matters.</p>
+
+    <h2>The Bias Fix</h2>
+    <p>Going back to that original Discord conversation about bias — I think we actually fixed it. The FEDL levels are ranked by difficulty, not by who verified them. A level by an unknown player sits right next to a level by a top player if they're equally hard. The submission process is blind — I review the video evidence without knowing who submitted it (when possible).</p>
+    <p>It's not perfect. Nothing ever is. But it's a fairer system than what existed before, and that matters.</p>
+
+    <h2>Technical Deep Dive</h2>
+    <ul>
+      <li>Backend: Node.js with Express, PostgreSQL database</li>
+      <li>Frontend: Vanilla JS with GSAP animations</li>
+      <li>API: RESTful endpoints for run submissions, level data, and leaderboard queries</li>
+      <li>Video verification: Automated checks + manual review pipeline</li>
+      <li>Stats: Real-time FEDL API tracking runs, levels, and unique players</li>
+    </ul>
+
+    <h2>What's Next</h2>
+    <p>The FEDL keeps growing. More players, more levels, more submissions. I'm working on better mobile support, a proper stats dashboard, and maybe even a mobile app someday. The community drives the project forward, and I'm just the person keeping the lights on.</p>
+
+    <blockquote>The best projects aren't the ones you plan. They're the ones you can't stop working on.</blockquote>
+
+    <a href="../index.html#blog" class="back-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to Devlog
+    </a>
+  </div>
+</section>
+
+    <footer>
+      Built by Miles · 2026 · Powered by too much coffee and the Konami code
+    </footer>
+  </div>
+<script>
+    fetch('https://api.github.com/repos/mileswolfallen2/')
+      .then(r => r.json())
+      .then(d => {})
+      .catch(() => {});
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap@3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap@3.12.5/ScrollTrigger.min.js"></script>
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+    const heroTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+    heroTl
+      .from('.breadcrumb', { x: -30, opacity: 0, duration: 0.6 })
+      .from('.article-header h1', { y: 50, opacity: 0, duration: 0.8 }, '-=0.3')
+      .from('.article-tagline', { y: 30, opacity: 0, duration: 0.7 }, '-=0.4')
+      .from('.article-tag', { y: 20, opacity: 0, scale: 0.8, duration: 0.4, stagger: 0.06 }, '-=0.3');
+    gsap.from('nav', { y: -20, opacity: 0, duration: 0.6, ease: 'power2.out' });
+    document.querySelectorAll('.article-body h2').forEach(title => {
+      gsap.from(title, { scrollTrigger: { trigger: title, start: 'top 85%' }, y: 30, opacity: 0, duration: 0.7, ease: 'power3.out' });
+    });
+    document.querySelectorAll('.article-body p, .article-body ul, .article-body blockquote').forEach(el => {
+      gsap.from(el, { scrollTrigger: { trigger: el, start: 'top 88%' }, y: 20, opacity: 0, duration: 0.6, ease: 'power3.out' });
+    });
+    gsap.from('footer', { scrollTrigger: { trigger: 'footer', start: 'top 95%' }, opacity: 0, duration: 0.8 });
+    window.addEventListener('load', () => ScrollTrigger.refresh());
+  </script>
+  <script>
+  var toastQueue=document.getElementById('toastStack');var shownToasts={};
+  function showToast(id,title,body,icon){
+    if(shownToasts[id])return;shownToasts[id]=true;
+    var t=document.createElement('div');t.className='toast';
+    t.innerHTML='<span class="icon">'+(icon||'!')+'</span><span><span class="title">'+title+'</span>'+body+'</span>';
+    toastQueue.appendChild(t);
+    gsap.to(t,{x:0,duration:.6,ease:'power3.out'});
+    setTimeout(function(){gsap.to(t,{x:'-150%',opacity:0,duration:.4,ease:'power2.in',onComplete:function(){t.remove();}});},3000);
+  }
+  (function(){
+    var seq=['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+    var pos=0;
+    window.addEventListener('keydown',function(e){
+      var key=e.key.length===1?e.key.toLowerCase():e.key;
+      if(key===seq[pos]){pos++;if(pos===seq.length){pos=0;triggerKonami();}}
+      else{pos=(key===seq[0])?1:0;}
+    });
+    function triggerKonami(){
+      showToast('konami','SECRET FOUND','Konami Code Activated','*');
+      var flash=document.getElementById('flash');
+      gsap.fromTo(flash,{opacity:.5},{opacity:0,duration:.5});
+      gsap.to('body',{x:'random(-5,5)',y:'random(-5,5)',duration:.05,repeat:10,ease:'sine.inOut',onComplete:function(){gsap.set('body',{x:0,y:0});}});
+      document.body.style.cursor='auto';
+      var style=document.createElement('style');style.id='konami-cursor';
+      style.textContent='*{cursor:auto !important;}';
+      document.head.appendChild(style);
+    }
+  })();
+  </script>
+<script>
+(function(){
+  var dot=document.getElementById('cursorDot');
+  var ring=document.getElementById('cursorRing');
+  if(!dot||!ring)return;
+  var mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
+  (function loop(){
+    rx+=(mx-rx)*0.15;ry+=(my-ry)*0.15;
+    ring.style.left=rx+'px';ring.style.top=ry+'px';
+    requestAnimationFrame(loop);
+  })();
+  document.querySelectorAll('a,button,.meta-chip,.tech-badge,.feature-card').forEach(function(el){
+    el.addEventListener('mouseenter',function(){dot.classList.add('hover');ring.classList.add('hover');});
+    el.addEventListener('mouseleave',function(){dot.classList.remove('hover');ring.classList.remove('hover');});
+  });
+})();
+</script>
+<script>
+(function(){
+  var bar=document.getElementById('progressBar');
+  window.addEventListener('scroll',function(){
+    var pct=window.scrollY/(document.body.scrollHeight-window.innerHeight)*100;
+    bar.style.width=pct+'%';
+  },{passive:true});
+})();
+(function(){
+  var btn=document.getElementById('themeToggle');
+  var saved=localStorage.getItem('theme');
+  if(saved==='light')document.body.classList.add('light');
+  function updateIcon(){btn.textContent=document.body.classList.contains('light')?'\u263E':'\u2600';}
+  updateIcon();
+  btn.addEventListener('click',function(){
+    document.body.classList.toggle('light');
+    localStorage.setItem('theme',document.body.classList.contains('light')?'light':'dark');
+    updateIcon();
+  });
+})();
+(function(){
+  var modal=document.getElementById('shortcutModal');
+  function toggleModal(){modal.classList.toggle('open');}
+  window.addEventListener('keydown',function(e){
+    if(e.key==='?'){e.preventDefault();toggleModal();}
+    if(e.key==='Escape')modal.classList.remove('open');
+    if(e.key==='t'||e.key==='T'){
+      if(document.activeElement&&document.activeElement.tagName==='INPUT')return;
+      document.body.classList.toggle('light');
+      localStorage.setItem('theme',document.body.classList.contains('light')?'light':'dark');
+      var btn=document.getElementById('themeToggle');
+      btn.textContent=document.body.classList.contains('light')?'\u263E':'\u2600';
+    }
+    if(e.key==='h'||e.key==='H')window.location.href='../index.html';
+    if(e.key==='g'||e.key==='G')window.location.href='https://github.com/mileswolfallen2';
+  });
+  modal.addEventListener('click',function(e){if(e.target===modal)modal.classList.remove('open');});
+})();
+</script>
+</body>
+</html>

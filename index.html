@@ -4,6 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Miles Wolf Allen | Developer &amp; 3D Artist</title>
+<meta name="description" content="Portfolio of Miles Wolf Allen — developer, 3D artist, and builder of emulators, games, and tools. Check out my projects on GitHub.">
+<meta name="keywords" content="Miles Wolf Allen, developer, portfolio, emulator, Geometry Dash, FEDL, OmniEmu, Swift, TypeScript">
+<meta name="author" content="Miles Wolf Allen">
+<link rel="canonical" href="https://milesallen.site/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Miles Wolf Allen | Developer & 3D Artist">
+<meta property="og:description" content="Portfolio of Miles Wolf Allen — developer, 3D artist, and builder of emulators, games, and tools.">
+<meta property="og:url" content="https://milesallen.site/">
+<meta property="og:image" content="https://milesallen.site/og.png">
+<meta property="og:site_name" content="Miles Wolf Allen">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Miles Wolf Allen | Developer & 3D Artist">
+<meta name="twitter:description" content="Portfolio of Miles Wolf Allen — developer, 3D artist, and builder of emulators, games, and tools.">
+<meta name="twitter:image" content="https://milesallen.site/og.png">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
@@ -306,6 +320,111 @@
 
   .reveal{opacity:0;transform:translateY(24px);}
 
+  .progress-bar{position:fixed;top:0;left:0;height:3px;background:var(--accent);z-index:10001;width:0;transition:width .1s linear;box-shadow:0 0 8px var(--accent);}
+
+  body.light{
+    --bg:#f5f5f0;--text:#111;--muted:#888;
+  }
+  body.light .scattered-nav a{color:#888;}
+  body.light .scattered-nav a:hover{color:#111;border-color:var(--accent);background:rgba(255,61,154,0.1);}
+  body.light .proj-card{background:rgba(0,0,0,0.03);border-color:rgba(0,0,0,0.15);}
+  body.light .proj-desc{color:#555;}
+  body.light .stat-strip .cell{background:rgba(0,0,0,0.03);border-color:rgba(0,0,0,0.15);}
+  body.light .about-card{background:rgba(0,0,0,0.03);border-color:rgba(0,0,0,0.15);}
+  body.light .about-card p{color:#444;}
+  body.light .contact-card{background:rgba(0,0,0,0.03);border-color:rgba(0,0,0,0.15);}
+  body.light .contact-row span.k{color:#999;}
+  body.light .hl-cell{background:rgba(0,0,0,0.03);border-color:rgba(0,0,0,0.15);}
+  body.light .hl-label{color:#888;}
+  body.light .chip{border-color:rgba(0,0,0,0.15);}
+  body.light .chip.learning{color:#aaa;}
+  body.light .section-sub{color:#888;}
+  body.light .marquee{background:var(--tape);}
+  body.light .marquee span{color:#000;}
+  body.light .toast{background:#eee;border-color:#333;}
+  body.light .toast .title{color:#333;}
+  body.light .toast{color:#333;}
+
+  .theme-toggle{
+    position:fixed;top:20px;right:20px;z-index:600;
+    background:none;border:2px solid rgba(255,255,255,0.15);
+    width:40px;height:40px;display:flex;align-items:center;justify-content:center;
+    font-size:16px;cursor:none;transition:all .3s;color:var(--text);
+  }
+  .theme-toggle:hover{border-color:var(--accent);background:rgba(255,61,154,0.1);}
+  @media(max-width:720px){.theme-toggle{display:none;}}
+
+  .shortcut-modal{
+    position:fixed;inset:0;z-index:10002;background:rgba(0,0,0,0.85);
+    display:none;align-items:center;justify-content:center;backdrop-filter:blur(6px);
+  }
+  .shortcut-modal.open{display:flex;}
+  .shortcut-card{
+    background:#111;border:2px solid var(--accent);padding:32px;max-width:400px;width:90%;
+    font-family:var(--font-mono);font-size:12px;
+  }
+  .shortcut-card h3{font-family:var(--font-pixel);font-size:11px;color:var(--accent);margin-bottom:20px;text-transform:uppercase;}
+  .shortcut-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.08);color:var(--muted);}
+  .shortcut-row kbd{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);padding:2px 8px;font-family:var(--font-mono);font-size:11px;color:var(--text);}
+  .shortcut-card .close-hint{margin-top:16px;font-size:10px;color:var(--muted);text-align:center;}
+
+  .bg-gradient{
+    position:fixed;inset:0;pointer-events:none;z-index:-1;
+    background:radial-gradient(ellipse at 20% 50%,rgba(255,61,154,0.06) 0%,transparent 50%),
+               radial-gradient(ellipse at 80% 20%,rgba(255,201,60,0.04) 0%,transparent 50%),
+               radial-gradient(ellipse at 50% 80%,rgba(255,61,154,0.03) 0%,transparent 50%);
+    transition:filter 2s ease;
+  }
+
+  .proj-title{position:relative;}
+  .proj-card:hover .proj-title{
+    animation:titleGlitch .3s steps(2) infinite;
+  }
+  @keyframes titleGlitch{
+    0%{text-shadow:2px 0 var(--accent),-2px 0 var(--tape);}
+    25%{text-shadow:-2px 0 var(--red),2px 0 var(--accent);}
+    50%{text-shadow:2px 0 var(--tape),-2px 0 var(--red);}
+    75%{text-shadow:-2px 0 var(--accent),2px 0 var(--tape);}
+    100%{text-shadow:2px 0 var(--red),-2px 0 var(--accent);}
+  }
+
+  .section-title .corrupt{opacity:0;position:absolute;left:0;top:0;}
+  .section-title{position:relative;}
+
+  .blog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;}
+  .blog-card{
+    background:rgba(255,255,255,0.02);border:2px solid rgba(255,255,255,0.12);
+    padding:24px;transition:all .3s;text-decoration:none;color:inherit;display:block;
+  }
+  .blog-card:nth-child(odd){transform:rotate(-1deg) translateY(4px);}
+  .blog-card:nth-child(even){transform:rotate(0.8deg) translateY(-6px);}
+  .blog-card:hover{transform:rotate(0deg) translateY(-5px);border-color:var(--accent);box-shadow:0 0 25px rgba(255,61,154,0.15);}
+  .blog-date{font-family:var(--font-pixel);font-size:8px;color:var(--tape);margin-bottom:10px;text-transform:uppercase;}
+  .blog-title{font-family:var(--font-mono);font-weight:700;font-size:16px;margin-bottom:8px;text-transform:uppercase;}
+  .blog-excerpt{font-size:13px;color:#999;line-height:1.7;font-family:var(--font-mono);margin-bottom:14px;}
+  .blog-tags{display:flex;gap:6px;flex-wrap:wrap;}
+  .blog-tag{font-family:var(--font-pixel);font-size:7px;padding:4px 8px;background:var(--accent);color:#000;text-transform:uppercase;}
+
+  @media(max-width:720px){
+    .blog-grid{grid-template-columns:1fr;}
+    .blog-card{transform:none!important;padding:20px;}
+  }
+
+  .parallax-card{will-change:transform;}
+
+  .easter-toast{
+    position:fixed;inset:0;z-index:10003;background:rgba(0,0,0,0.9);
+    display:flex;align-items:center;justify-content:center;pointer-events:none;
+  }
+  .easter-text{
+    font-family:var(--font-pixel);font-size:clamp(14px,3vw,24px);color:var(--accent);
+    text-align:center;max-width:600px;padding:20px;
+  }
+  .easter-text .typed-char{opacity:0;display:inline-block;animation:typeIn .05s forwards;}
+  @keyframes typeIn{to{opacity:1;}}
+  .easter-text .cursor-blink{display:inline-block;width:3px;height:1em;background:var(--accent);margin-left:2px;animation:blink .6s step-end infinite;vertical-align:middle;}
+  @keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
+
   .mobile-nav{
     display:none;position:fixed;bottom:0;left:0;right:0;z-index:500;
     background:rgba(0,0,0,0.92);border-top:2px solid rgba(255,255,255,0.12);
@@ -392,6 +511,24 @@
 
 <div class="cursor-dot" id="cursorDot"></div>
 <div class="cursor-ring" id="cursorRing"></div>
+<div class="progress-bar" id="progressBar"></div>
+<div class="bg-gradient" id="bgGradient"></div>
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle theme"></button>
+<div class="shortcut-modal" id="shortcutModal">
+  <div class="shortcut-card">
+    <h3>Keyboard Shortcuts</h3>
+    <div class="shortcut-row"><span>Go to About</span><kbd>1</kbd></div>
+    <div class="shortcut-row"><span>Go to Skills</span><kbd>2</kbd></div>
+    <div class="shortcut-row"><span>Go to Projects</span><kbd>3</kbd></div>
+    <div class="shortcut-row"><span>Go to Highlights</span><kbd>4</kbd></div>
+    <div class="shortcut-row"><span>Go to Devlog</span><kbd>5</kbd></div>
+    <div class="shortcut-row"><span>Go to Contact</span><kbd>6</kbd></div>
+    <div class="shortcut-row"><span>Toggle theme</span><kbd>T</kbd></div>
+    <div class="shortcut-row"><span>Show shortcuts</span><kbd>?</kbd></div>
+    <div class="shortcut-row"><span>Konami code</span><kbd>↑↑↓↓←→←→BA</kbd></div>
+    <div class="close-hint">Press Esc or ? to close</div>
+  </div>
+</div>
 <div class="vignette"></div>
 <div class="flash" id="flash"></div>
 <div class="signal" id="signal"></div>
@@ -605,6 +742,38 @@
   </div>
 </section>
 
+<section id="blog">
+  <div class="eyebrow">LEVEL 06 // DEVLOG</div>
+  <h2 class="section-title reveal">Devlog</h2>
+  <p class="section-sub reveal">things I've learned, broken, and fixed</p>
+  <div class="blog-grid">
+    <a class="blog-card reveal" href="blog/omniemu-devlog.html">
+      <div class="blog-date">2026</div>
+      <div class="blog-title">Why I Built OmniEmu</div>
+      <div class="blog-excerpt">I got tired of opening 15 different emulator apps. So I built one that manages them all. Here's how it started.</div>
+      <div class="blog-tags"><span class="blog-tag">TypeScript</span><span class="blog-tag">Electron</span></div>
+    </a>
+    <a class="blog-card reveal" href="blog/command-move-devlog.html">
+      <div class="blog-date">2026</div>
+      <div class="blog-title">CommandMove: Cut &amp; Paste on Mac</div>
+      <div class="blog-excerpt">macOS doesn't have Cmd+X for files. I fixed that. Global event taps, AppleScript, and a lot of Accessibility permissions.</div>
+      <div class="blog-tags"><span class="blog-tag">Swift</span><span class="blog-tag">macOS</span></div>
+    </a>
+    <a class="blog-card reveal" href="blog/fedl-devlog.html">
+      <div class="blog-date">2025</div>
+      <div class="blog-title">Running the FEDL</div>
+      <div class="blog-excerpt">What it takes to maintain a Geometry Dash demon list. 3,800+ verified runs, ranked levels, and a community that never sleeps.</div>
+      <div class="blog-tags"><span class="blog-tag">Node.js</span><span class="blog-tag">Community</span></div>
+    </a>
+    <a class="blog-card reveal" href="blog/nova-devlog.html">
+      <div class="blog-date">2025</div>
+      <div class="blog-title">Building Nova AI</div>
+      <div class="blog-excerpt">Local AI that doesn't phone home. Desktop GUI, web interface, CLI — no subscriptions, no cloud, no nonsense.</div>
+      <div class="blog-tags"><span class="blog-tag">Python</span><span class="blog-tag">AI</span></div>
+    </a>
+  </div>
+</section>
+
 <section id="contact">
   <div class="eyebrow">LEVEL 05 // REACH OUT</div>
   <h2 class="section-title reveal">Get In Touch</h2>
@@ -743,6 +912,155 @@ function setActive(id){
     var style=document.createElement('style');style.id='konami-cursor';
     style.textContent='*{cursor:auto !important;}';
     document.head.appendChild(style);
+  }
+})();
+
+(function(){
+  var bar=document.getElementById('progressBar');
+  window.addEventListener('scroll',function(){
+    var pct=window.scrollY/(document.body.scrollHeight-window.innerHeight)*100;
+    bar.style.width=pct+'%';
+  },{passive:true});
+})();
+
+(function(){
+  var btn=document.getElementById('themeToggle');
+  var saved=localStorage.getItem('theme');
+  if(saved==='light')document.body.classList.add('light');
+  function updateIcon(){btn.textContent=document.body.classList.contains('light')?'\u263E':'\u2600';}
+  updateIcon();
+  btn.addEventListener('click',function(){
+    document.body.classList.toggle('light');
+    localStorage.setItem('theme',document.body.classList.contains('light')?'light':'dark');
+    updateIcon();
+  });
+})();
+
+(function(){
+  var modal=document.getElementById('shortcutModal');
+  function toggleModal(){modal.classList.toggle('open');}
+  window.addEventListener('keydown',function(e){
+    if(e.key==='?'){e.preventDefault();toggleModal();}
+    if(e.key==='Escape')modal.classList.remove('open');
+    if(e.key==='t'||e.key==='T'){
+      if(document.activeElement&&document.activeElement.tagName==='INPUT')return;
+      document.body.classList.toggle('light');
+      localStorage.setItem('theme',document.body.classList.contains('light')?'light':'dark');
+      var btn=document.getElementById('themeToggle');
+      btn.textContent=document.body.classList.contains('light')?'\u263E':'\u2600';
+    }
+    if(e.key==='1')document.getElementById('about').scrollIntoView({behavior:'smooth'});
+    if(e.key==='2')document.getElementById('skills').scrollIntoView({behavior:'smooth'});
+    if(e.key==='3')document.getElementById('projects').scrollIntoView({behavior:'smooth'});
+    if(e.key==='4')document.getElementById('highlights').scrollIntoView({behavior:'smooth'});
+    if(e.key==='5')document.getElementById('blog').scrollIntoView({behavior:'smooth'});
+    if(e.key==='6')document.getElementById('contact').scrollIntoView({behavior:'smooth'});
+  });
+  modal.addEventListener('click',function(e){if(e.target===modal)modal.classList.remove('open');});
+})();
+
+(function(){
+  var grad=document.getElementById('bgGradient');
+  window.addEventListener('scroll',function(){
+    var pct=window.scrollY/(document.body.scrollHeight-window.innerHeight);
+    var hue=pct*30;
+    grad.style.filter='hue-rotate('+hue+'deg)';
+  },{passive:true});
+})();
+
+(function(){
+  var titles=document.querySelectorAll('h2.section-title');
+  var glitchChars='!@#$%^&*()_+{}|:<>?/~`';
+  titles.forEach(function(title){
+    var original=title.textContent;
+    setInterval(function(){
+      if(Math.random()>0.92){
+        var arr=original.split('');
+        var i=Math.floor(Math.random()*arr.length);
+        arr[i]=glitchChars[Math.floor(Math.random()*glitchChars.length)];
+        title.textContent=arr.join('');
+        setTimeout(function(){title.textContent=original;},100);
+      }
+    },200);
+  });
+})();
+
+(function(){
+  var cards=document.querySelectorAll('.proj-card');
+  if('IntersectionObserver' in window){
+    var obs=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){e.target.style.opacity='1';e.target.style.transform='';obs.unobserve(e.target);}
+      });
+    },{threshold:0.1});
+    cards.forEach(function(c){c.style.opacity='0';obs.observe(c);});
+  }
+})();
+
+gsap.utils.toArray('.proj-card, .blog-card, .hl-cell').forEach(function(card){
+  card.classList.add('parallax-card');
+  gsap.to(card,{
+    y:'random(-12,12)',x:'random(-5,5)',rotation:'random(-1.5,1.5)',
+    ease:'none',
+    scrollTrigger:{trigger:card,start:'top bottom',end:'bottom top',scrub:1}
+  });
+});
+
+(function(){
+  var logo=document.querySelector('.sn-logo');
+  var clickCount=0;
+  var resetTimer;
+  var messages=[
+    'You found the secret.',
+    '147 repos. 91 stars. Infinite bugs.',
+    'Built at 2am. Still awake.',
+    'Coffee count: unknown. Productivity: questionable.',
+    'This website has more features than most of my projects.',
+    'Congratulations. You have too much free time.',
+    'The matrix has you.',
+    'Reality is broken. Have a nice day.'
+  ];
+  var msgIndex=0;
+  if(!logo)return;
+  logo.addEventListener('click',function(e){
+    e.preventDefault();
+    clickCount++;
+    clearTimeout(resetTimer);
+    resetTimer=setTimeout(function(){clickCount=0;},2000);
+    if(clickCount>=10){
+      clickCount=0;
+      showEasterEgg();
+    }
+  });
+  function showEasterEgg(){
+    var overlay=document.createElement('div');
+    overlay.className='easter-toast';
+    var textDiv=document.createElement('div');
+    textDiv.className='easter-text';
+    overlay.appendChild(textDiv);
+    document.body.appendChild(overlay);
+    var msg=messages[msgIndex%messages.length];
+    msgIndex++;
+    var cursor=document.createElement('span');
+    cursor.className='cursor-blink';
+    textDiv.appendChild(cursor);
+    var i=0;
+    function typeChar(){
+      if(i<msg.length){
+        var span=document.createElement('span');
+        span.className='typed-char';
+        span.style.animationDelay=(i*0.04)+'s';
+        span.textContent=msg[i];
+        textDiv.insertBefore(span,cursor);
+        i++;
+        setTimeout(typeChar,40);
+      }else{
+        setTimeout(function(){
+          gsap.to(overlay,{opacity:0,duration:0.8,onComplete:function(){overlay.remove();}});
+        },2500);
+      }
+    }
+    typeChar();
   }
 })();
 </script>

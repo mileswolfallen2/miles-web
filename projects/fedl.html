@@ -4,6 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FEDL | Miles Wolf Allen</title>
+  <meta name="description" content="FEDL — the demon list for Geometry Dash. Ranked levels, run submissions, and community leaderboards.">
+  <link rel="canonical" href="https://milesallen.site/projects/fedl.html">
+  <meta property="og:title" content="FEDL | Miles Wolf Allen">
+  <meta property="og:description" content="The demon list for Geometry Dash. Ranked levels, run submissions, and community leaderboards.">
+  <meta property="og:image" content="https://milesallen.site/og.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
@@ -12,6 +17,18 @@
 <body>
   <div class="cursor-dot" id="cursorDot"></div>
   <div class="cursor-ring" id="cursorRing"></div>
+  <div class="progress-bar" id="progressBar"></div>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme"></button>
+  <div class="shortcut-modal" id="shortcutModal">
+    <div class="shortcut-card">
+      <h3>Keyboard Shortcuts</h3>
+      <div class="shortcut-row"><span>Go Home</span><kbd>H</kbd></div>
+      <div class="shortcut-row"><span>Go to GitHub</span><kbd>G</kbd></div>
+      <div class="shortcut-row"><span>Toggle theme</span><kbd>T</kbd></div>
+      <div class="shortcut-row"><span>Show shortcuts</span><kbd>?</kbd></div>
+      <div class="close-hint">Press Esc or ? to close</div>
+    </div>
+  </div>
   <div class="flash" id="flash"></div>
   <div class="toast-stack" id="toastStack"></div>
   <nav class="mobile-nav">
@@ -74,6 +91,15 @@
         <div class="stat-label">Stars</div>
       </div>
     </div>
+
+    <section class="reveal">
+      <div class="section-divider"></div>
+      <h2 class="section-title">Live Demo</h2>
+      <p class="section-subtitle">Browse the list right now</p>
+      <div style="position:relative;width:calc(100% + 10vw);margin:0 -5vw;padding-bottom:56.25%;border:2px solid rgba(255,255,255,0.12);overflow:hidden;">
+        <iframe src="https://fedl.site" style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;" loading="lazy" allowfullscreen></iframe>
+      </div>
+    </section>
 
     <section class="reveal">
       <div class="section-divider"></div>
@@ -337,6 +363,45 @@
     el.addEventListener('mouseenter',function(){dot.classList.add('hover');ring.classList.add('hover');});
     el.addEventListener('mouseleave',function(){dot.classList.remove('hover');ring.classList.remove('hover');});
   });
+})();
+</script>
+<script>
+(function(){
+  var bar=document.getElementById('progressBar');
+  window.addEventListener('scroll',function(){
+    var pct=window.scrollY/(document.body.scrollHeight-window.innerHeight)*100;
+    bar.style.width=pct+'%';
+  },{passive:true});
+})();
+(function(){
+  var btn=document.getElementById('themeToggle');
+  var saved=localStorage.getItem('theme');
+  if(saved==='light')document.body.classList.add('light');
+  function updateIcon(){btn.textContent=document.body.classList.contains('light')?'\u263E':'\u2600';}
+  updateIcon();
+  btn.addEventListener('click',function(){
+    document.body.classList.toggle('light');
+    localStorage.setItem('theme',document.body.classList.contains('light')?'light':'dark');
+    updateIcon();
+  });
+})();
+(function(){
+  var modal=document.getElementById('shortcutModal');
+  function toggleModal(){modal.classList.toggle('open');}
+  window.addEventListener('keydown',function(e){
+    if(e.key==='?'){e.preventDefault();toggleModal();}
+    if(e.key==='Escape')modal.classList.remove('open');
+    if(e.key==='t'||e.key==='T'){
+      if(document.activeElement&&document.activeElement.tagName==='INPUT')return;
+      document.body.classList.toggle('light');
+      localStorage.setItem('theme',document.body.classList.contains('light')?'light':'dark');
+      var btn=document.getElementById('themeToggle');
+      btn.textContent=document.body.classList.contains('light')?'\u263E':'\u2600';
+    }
+    if(e.key==='h'||e.key==='H')window.location.href='../index.html';
+    if(e.key==='g'||e.key==='G')window.location.href='https://github.com/mileswolfallen2';
+  });
+  modal.addEventListener('click',function(e){if(e.target===modal)modal.classList.remove('open');});
 })();
 </script>
 </body>
