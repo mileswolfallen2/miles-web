@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Why I Built OmniEmu | Miles Wolf Allen</title>
-  <meta name="description" content="The story behind OmniEmu 2.0 — why I built a cross-platform emulator manager because I was tired of opening 15 different apps.">
-  <link rel="canonical" href="https://milesallen.site/blog/omniemu-devlog.html">
-  <meta property="og:title" content="Why I Built OmniEmu | Miles Wolf Allen">
-  <meta property="og:description" content="The story behind OmniEmu 2.0 — why I built a cross-platform emulator manager because I was tired of opening 15 different apps.">
+  <title>About Me | Miles Wolf Allen</title>
+  <meta name="description" content="The person behind the code — family, faith, and the journey from hello world to building real projects.">
+  <link rel="canonical" href="https://milesallen.site/about-me.html">
+  <meta property="og:title" content="About Me | Miles Wolf Allen">
+  <meta property="og:description" content="The person behind the code — family, faith, and the journey from hello world to building real projects.">
   <meta property="og:image" content="https://milesallen.site/og.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
-  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
-  <link rel="stylesheet" href="../projects/style.css">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="projects/style.css">
   <style>
 .article-header{padding:100px 0 40px;}
 .article-eyebrow{font-family:var(--font-pixel);font-size:10px;color:var(--tape);margin-bottom:12px;text-transform:uppercase;letter-spacing:.1em;}
@@ -44,7 +44,7 @@
     <div class="shortcut-card">
       <h3>Keyboard Shortcuts</h3>
       <div class="shortcut-row"><span>Go Home</span><kbd>H</kbd></div>
-      <div class="shortcut-row"><span>Go to GitHub</span><kbd>G</kbd></div>
+      <div class="shortcut-row"><span>Go to Blog</span><kbd>B</kbd></div>
       <div class="shortcut-row"><span>Toggle theme</span><kbd>T</kbd></div>
       <div class="shortcut-row"><span>Show shortcuts</span><kbd>?</kbd></div>
       <div class="close-hint">Press Esc or ? to close</div>
@@ -53,74 +53,83 @@
   <div class="flash" id="flash"></div>
   <div class="toast-stack" id="toastStack"></div>
   <nav class="mobile-nav">
-    <a href="../index.html">Home</a>
-    <a href="fedl.html">FEDL</a>
-    <a href="omniemu.html">OmniEmu</a>
-    <a href="command-move.html">CommandMove</a>
+    <a href="index.html">Home</a>
+    <a href="projects/fedl.html">FEDL</a>
+    <a href="projects/omniemu.html">OmniEmu</a>
+    <a href="projects/command-move.html">CommandMove</a>
     <a href="https://github.com/mileswolfallen2" target="_blank">GitHub</a>
   </nav>
 
   <div class="container">
     <nav>
-      <a href="../index.html" class="nav-logo"><span class="logo-dot"></span> milesallen</a>
+      <a href="index.html" class="nav-logo"><span class="logo-dot"></span> milesallen</a>
       <div class="nav-links">
-        <a href="../index.html#about">About</a>
-        <a href="../index.html#skills">Skills</a>
-        <a href="../index.html#projects">Projects</a>
-        <a href="../index.html#contact">Contact</a>
+        <a href="index.html#about">About</a>
+        <a href="index.html#skills">Skills</a>
+        <a href="index.html#projects">Projects</a>
+        <a href="index.html#contact">Contact</a>
       </div>
     </nav>
 
     <section class="article-header">
   <div class="breadcrumb">
-    <a href="../index.html">Home</a>
+    <a href="index.html">Home</a>
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
-    <a href="../index.html#blog">Devlog</a>
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
-    <span>Why I Built OmniEmu</span>
+    <span>About Me</span>
   </div>
-  <div class="article-eyebrow">// DEVLOG 001</div>
+  <div class="article-eyebrow">// PLAYER BIO — EXTENDED</div>
   <div class="article-date">2026</div>
-  <h1>Why I Built OmniEmu</h1>
-  <p class="article-tagline">I got tired of opening 15 different emulator apps. So I built one that manages them all.</p>
-  <div class="article-tags">
-    <span class="article-tag">TypeScript</span>
-    <span class="article-tag">Electron</span>
-  </div>
+  <h1>About Me</h1>
+  <p class="article-tagline">The person behind the code. Family, faith, and how a kid who liked breaking things ended up building them instead.</p>
 </section>
 
 <section class="reveal">
   <div class="article-body">
-    <h2>The Problem</h2>
-    <p>I play a lot of retro games. Like, a lot. And over the years I've collected a ridiculous number of emulators — Dolphin for GameCube, PCSX2 for PS2, PPSSPP for PSP, melonDS for DS, RetroArch for everything else. The problem wasn't that these emulators were bad. Most of them are incredible. The problem was that I had 15+ apps installed, each with their own UI, their own update cycle, and their own way of handling things.</p>
-    <p>Every time I wanted to play a game, I had to remember which emulator handled which system, open that specific app, navigate its interface, find my ROM, and then launch it. On a Tuesday night when I just wanted to play something, this was exhausting.</p>
 
-    <h2>The Idea</h2>
-    <p>The idea was simple: one app to rule them all. A single place where I could see all my emulators, all my ROMs, and launch anything with one click. No more guessing which emulator handles PS2. No more opening RetroArch just to find out it doesn't have the right core installed.</p>
-    <p>But it went further than just launching. I wanted the app to <strong>install</strong> emulators for me. On Mac especially, setting up emulators is a pain. You download a DMG, drag it to Applications, figure out which core to install, configure paths... it's a whole thing. I wanted one-click install. Download, configure, done.</p>
+    <h2>The Basics</h2>
+    <img src="photos/me.jpeg" alt="Miles" style="float:left;width:240px;height:240px;border:2px solid var(--accent);object-fit:cover;margin:0 24px 16px 0;shape-outside:circle(50%);clip-path:circle(50%);">
+    <p>I'm Miles Wolf Allen. I build things on the internet — tools, games, apps, websites. Some of them are useful. Some of them are just fun. Most of them started because I got annoyed at something and decided I could do it better.</p>
+    <p>I'm a Christian. Baptist. My faith is a big part of who I am and how I see the world. It shapes the way I build things — I care about doing good work, being honest, and building stuff that actually helps people instead of just looking cool.</p>
 
-    <h2>The Mac Problem</h2>
-    <p>This is where OmniEmu really shines. On Windows, you can just download an exe and run it. On Mac? It's a nightmare. Half the emulators don't have native Mac builds. The ones that do require Homebrew or manual compilation. RPCS3 doesn't even work on Mac. And don't get me started on trying to get Wii U emulators running.</p>
-    <p>I built OmniEmu specifically because there was nothing out there that handled this gracefully. EmuDeck is great for Steam Deck. LaunchBox is Windows-only and costs money. RetroArch is... RetroArch. Nobody was solving the "I just want to click install and play" problem on Mac.</p>
+    <div style="clear:both;"></div>
 
-    <h2>What It Became</h2>
-    <p>What started as "I'll just make a quick launcher" turned into a full Electron app with TypeScript, a custom ROM library scanner, game art scraping from SteamGridDB, RetroAchievements integration, controller navigation, cloud save sync via Syncthing, and support for 20+ emulators across three platforms.</p>
-    <p>Sometimes the best projects come from the most selfish reasons. I just wanted to play my games without opening 15 apps. Now everyone can.</p>
+    <h2>My Family</h2>
+    <img src="photos/mom:dad.jpeg" alt="Mom and Dad" style="float:right;width:240px;height:240px;border:2px solid var(--tape);object-fit:cover;margin:0 0 16px 24px;shape-outside:circle(50%);clip-path:circle(50%);">
+    <p>My dad is Mark Allen. He's the founding lead pastor of <strong>Pursuit Community Church</strong> in Mounds View, Minnesota. He planted the church in November 2018 after spending over 15 years in youth ministry. Pursuit is a Converge-affiliated church that launched with over 300 people and has been growing ever since. Dad is passionate about reaching people who are far from God and building a church where everyone is known and knows others.</p>
+    <p>When he's not preaching or meeting with people, you'll find him playing golf, softball, or vintage video games.</p>
+    <p>My mom is a loving mother and fun person. I have a sister named Macy. Macy is a big fan of Forest Frank — if you know, you know.</p>
 
-    <h2>Lessons Learned</h2>
-    <ul>
-      <li>Electron gets a lot of hate, but it genuinely works for cross-platform desktop apps</li>
-      <li>AppleScript is both powerful and infuriating at the same time</li>
-      <li>Building for Mac means dealing with Accessibility permissions, code signing, and notarization</li>
-      <li>The hardest part isn't the code — it's keeping up with emulator updates across 20+ projects</li>
-      <li>User feedback is worth more than any design document</li>
-    </ul>
+    <div style="clear:both;"></div>
 
-    <blockquote>The best tool is the one you build because nothing else does what you need.</blockquote>
+    <h2>Faith</h2>
+    <p>I'm Baptist. I grew up in church, and my relationship with God is something I take seriously. It's not just a Sunday thing — it's how I try to live every day. I believe in being generous, treating people with kindness, and using whatever gifts you've been given to make the world a little better than you found it.</p>
+    <p>For me, coding is a way to do that. Building tools that save people time, solving problems that frustrate people, creating things that bring people joy — that's ministry too, even if it doesn't look like it.</p>
 
-    <a href="../index.html#blog" class="back-link">
+    <h2>How I Got Into Coding</h2>
+    <p>It started with Scratch. You know, the block-based coding thing from MIT? I was making little games and animations, dragging colorful blocks around, and thinking I was a genius. I had no idea what I was actually learning — I just knew I loved making things move on a screen.</p>
+    <p>Then one day at school, I met a kid who was building websites. He showed me his stuff and I thought he was the coolest person alive. So I started following website tutorials on the side — basic HTML, then CSS, then a little JavaScript. Nothing serious, just learning by doing.</p>
+    <p>Eventually I took web design in school, and that's when things clicked. I went from copy-pasting code to actually understanding how it worked. From there I just kept going — Python, game dev, app building, and everything else.</p>
+    <p>My first real projects were rough. Like, really rough. But every project taught me something new. Every bug I fixed made me a little better. Every feature I shipped gave me confidence to build the next one.</p>
+
+    <h2>The Journey</h2>
+    <p>Looking back at my GitHub history is like looking at a time capsule. The early repos are simple — basic HTML pages, Python scripts, copy-pasted CSS. But they're proof that I showed up and tried.</p>
+    <p>Over time, the projects got bigger. I went from simple websites to full-stack apps. From basic scripts to emulator managers. From "hello world" to running a Geometry Dash demon list with 3,800+ verified runs. Each project pushed me into unfamiliar territory, and that's where the real learning happens.</p>
+    <p>The biggest shift was when I stopped just learning syntax and started solving real problems. The FEDL wasn't a homework assignment — it was something the community needed. OmniEmu wasn't a tutorial project — it was because I was tired of opening 15 different apps. CommandMove wasn't a coding exercise — it was because macOS was missing a basic feature.</p>
+
+    <h2>What I've Learned</h2>
+    <p>The biggest lesson? You don't have to know everything to build something. You just have to be willing to figure it out. Stack Overflow, documentation, trial and error, asking for help — that's how real development works. Nobody has it all memorized.</p>
+    <p>Another big one: ship it. Don't wait until it's perfect. Don't wait until you know every framework. Don't wait until you've read one more tutorial. Build the thing, put it out there, and iterate. A finished project that's 80% perfect teaches you more than a project that's stuck at 95% in your head.</p>
+    <p>And community matters. The FEDL taught me that. Building tools for other people — listening to what they need, fixing what's broken, making things better — that's what makes development rewarding. Code is just code. The people who use it are what matter.</p>
+
+    <h2>Where I'm Headed</h2>
+    <p>I'm still learning. Still building. Still figuring it out as I go. But that's the point, right? The journey doesn't end — it just changes shape.</p>
+    <p>I want to keep building things that matter. Tools that solve real problems. Projects that bring people together. Software that respects its users. And maybe, along the way, get a little better at what I do.</p>
+
+    <blockquote>The best developers aren't the ones who know the most. They're the ones who never stop being curious.</blockquote>
+
+    <a href="index.html#about" class="back-link">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="15 18 9 12 15 6"/></svg>
-      Back to Devlog
+      Back to Portfolio
     </a>
   </div>
 </section>
@@ -147,8 +156,7 @@
     heroTl
       .from('.breadcrumb', { x: -30, opacity: 0, duration: 0.6 })
       .from('.article-header h1', { y: 50, opacity: 0, duration: 0.8 }, '-=0.3')
-      .from('.article-tagline', { y: 30, opacity: 0, duration: 0.7 }, '-=0.4')
-      .from('.article-tag', { y: 20, opacity: 0, scale: 0.8, duration: 0.4, stagger: 0.06 }, '-=0.3');
+      .from('.article-tagline', { y: 30, opacity: 0, duration: 0.7 }, '-=0.4');
     gsap.from('nav', { y: -20, opacity: 0, duration: 0.6, ease: 'power2.out' });
     document.querySelectorAll('.article-body h2').forEach(title => {
       gsap.from(title, { scrollTrigger: { trigger: title, start: 'top 85%' }, y: 30, opacity: 0, duration: 0.7, ease: 'power3.out' });
@@ -240,8 +248,8 @@
       var btn=document.getElementById('themeToggle');
       btn.textContent=document.body.classList.contains('light')?'\u263E':'\u2600';
     }
-    if(e.key==='h'||e.key==='H')window.location.href='../index.html';
-    if(e.key==='g'||e.key==='G')window.location.href='https://github.com/mileswolfallen2';
+    if(e.key==='h'||e.key==='H')window.location.href='index.html';
+    if(e.key==='b'||e.key==='B')window.location.href='index.html#blog';
   });
   modal.addEventListener('click',function(e){if(e.target===modal)modal.classList.remove('open');});
 })();
