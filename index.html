@@ -18,9 +18,25 @@
 <meta name="twitter:title" content="Miles Wolf Allen | Developer & 3D Artist">
 <meta name="twitter:description" content="Portfolio of Miles Wolf Allen — developer, 3D artist, and builder of emulators, games, and tools.">
 <meta name="twitter:image" content="https://milesallen.site/og.png">
-<link rel="icon" type="image/svg+xml" href="favicon.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Miles Wolf Allen",
+  "url": "https://milesallen.site/",
+  "image": "https://avatars.githubusercontent.com/u/115095719?v=4",
+  "sameAs": [
+    "https://github.com/mileswolfallen2",
+    "https://replit.com/@mileswolfallen2"
+  ],
+  "jobTitle": "Developer",
+  "knowsAbout": ["Software Development", "Game Development", "Emulator Development"]
+}
+</script>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="projects/style.css">
 <style>
   :root{
     --bg:#000;
@@ -48,38 +64,16 @@
   }
 
   .vignette{position:fixed;inset:0;pointer-events:none;z-index:9997;background:radial-gradient(ellipse at center,transparent 30%,rgba(0,0,0,0.7) 100%);}
-  .flash{position:fixed;inset:0;pointer-events:none;z-index:10000;background:#fff;opacity:0;}
   .spark{position:fixed;z-index:9996;pointer-events:none;width:5px;height:5px;border-radius:50%;background:#fff;}
 
-  *{cursor:none !important;}
-  .cursor-dot,.cursor-ring{position:fixed;top:0;left:0;pointer-events:none;z-index:99999;border-radius:50%;}
-  .cursor-dot{
-    width:6px;height:6px;background:var(--accent);
-    transform:translate(-50%,-50%);transition:width .2s,height .2s,background .2s;
-  }
-  .cursor-ring{
-    width:36px;height:36px;border:2px solid var(--accent);
-    transform:translate(-50%,-50%);transition:width .3s,height .3s,border-color .3s,opacity .3s;
-    opacity:.5;
-  }
-  .cursor-dot.hover{width:10px;height:10px;background:var(--tape);}
-  .cursor-ring.hover{width:50px;height:50px;border-color:var(--tape);opacity:.8;}
-  @media(max-width:720px){.cursor-dot,.cursor-ring{display:none;}}
-  @media(hover:none){.cursor-dot,.cursor-ring{display:none;}}
+
 
   .signal{position:fixed;right:16px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column-reverse;gap:5px;z-index:500;}
   .signal .bar{width:8px;height:12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);transition:all .3s;}
   .signal .bar.on{background:var(--accent);box-shadow:0 0 10px var(--accent);border-color:transparent;}
   @media(max-width:720px){.signal{display:none;}}
 
-  .toast-stack{position:fixed;bottom:20px;left:20px;z-index:9995;display:flex;flex-direction:column;gap:8px;}
-  .toast{
-    background:#111;border:2px solid var(--tape);
-    padding:12px 18px;font-family:var(--font-mono);font-size:11px;
-    display:flex;align-items:center;gap:10px;transform:translateX(-150%);max-width:260px;
-  }
-  .toast .icon{font-size:16px;}
-  .toast .title{color:var(--tape);font-family:var(--font-pixel);font-size:8px;display:block;margin-bottom:3px;text-transform:uppercase;}
+
 
   .scattered-nav{
     position:fixed;top:0;left:0;right:0;z-index:400;
@@ -220,6 +214,7 @@
   .avatar-frame:hover{transform:rotate(0deg) scale(1.02);}
   .avatar-frame img{width:200px;display:block;filter:contrast(1.2) grayscale(.3);}
   .avatar-tag{font-family:var(--font-pixel);font-size:8px;color:var(--accent);margin-top:12px;text-transform:uppercase;}
+.page-links a:hover{color:var(--accent)!important;transform:scale(1.05);}
   .about-card{
     background:rgba(255,255,255,0.02);border:2px solid rgba(255,255,255,0.12);
     padding:30px 32px;transform:rotate(1.5deg);transition:transform .3s;flex:1;min-width:280px;
@@ -318,9 +313,8 @@
 
   footer{text-align:center;padding:40px 24px 60px;font-family:var(--font-mono);font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;}
 
-  .reveal{opacity:0;transform:translateY(24px);}
 
-  .progress-bar{position:fixed;top:0;left:0;height:3px;background:var(--accent);z-index:10001;width:0;transition:width .1s linear;box-shadow:0 0 8px var(--accent);}
+
 
   body.light{
     --bg:#f5f5f0;--text:#111;--muted:#888;
@@ -341,32 +335,11 @@
   body.light .section-sub{color:#888;}
   body.light .marquee{background:var(--tape);}
   body.light .marquee span{color:#000;}
-  body.light .toast{background:#eee;border-color:#333;}
-  body.light .toast .title{color:#333;}
-  body.light .toast{color:#333;}
 
-  .theme-toggle{
-    position:fixed;top:20px;right:20px;z-index:600;
-    background:none;border:2px solid rgba(255,255,255,0.15);
-    width:40px;height:40px;display:flex;align-items:center;justify-content:center;
-    font-size:16px;cursor:none;transition:all .3s;color:var(--text);
-  }
-  .theme-toggle:hover{border-color:var(--accent);background:rgba(255,61,154,0.1);}
-  @media(max-width:720px){.theme-toggle{display:none;}}
 
-  .shortcut-modal{
-    position:fixed;inset:0;z-index:10002;background:rgba(0,0,0,0.85);
-    display:none;align-items:center;justify-content:center;backdrop-filter:blur(6px);
-  }
-  .shortcut-modal.open{display:flex;}
-  .shortcut-card{
-    background:#111;border:2px solid var(--accent);padding:32px;max-width:400px;width:90%;
-    font-family:var(--font-mono);font-size:12px;
-  }
-  .shortcut-card h3{font-family:var(--font-pixel);font-size:11px;color:var(--accent);margin-bottom:20px;text-transform:uppercase;}
-  .shortcut-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.08);color:var(--muted);}
-  .shortcut-row kbd{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);padding:2px 8px;font-family:var(--font-mono);font-size:11px;color:var(--text);}
-  .shortcut-card .close-hint{margin-top:16px;font-size:10px;color:var(--muted);text-align:center;}
+
+
+
 
   .bg-gradient{
     position:fixed;inset:0;pointer-events:none;z-index:-1;
@@ -425,24 +398,9 @@
   .easter-text .cursor-blink{display:inline-block;width:3px;height:1em;background:var(--accent);margin-left:2px;animation:blink .6s step-end infinite;vertical-align:middle;}
   @keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
 
-  .mobile-nav{
-    display:none;position:fixed;bottom:0;left:0;right:0;z-index:500;
-    background:rgba(0,0,0,0.92);border-top:2px solid rgba(255,255,255,0.12);
-    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-    padding:8px 0 env(safe-area-inset-bottom,8px);
-  }
-  .mobile-nav a{
-    display:inline-flex;flex:1;justify-content:center;align-items:center;
-    font-family:var(--font-pixel);font-size:7px;color:var(--muted);
-    padding:10px 6px;text-transform:uppercase;letter-spacing:.04em;
-    text-decoration:none;transition:all .2s;border:none;background:none;
-    -webkit-tap-highlight-color:transparent;
-  }
-  .mobile-nav a:active,.mobile-nav a.active{color:var(--accent);}
+
 
   @media(max-width:720px){
-    .mobile-nav{display:flex;gap:4px;}
-
     section{padding:60px 5vw 50px;}
 
     .hero-giant{
@@ -497,9 +455,6 @@
 
     h2.section-title{font-size:clamp(28px,8vw,48px);transform:rotate(-0.5deg);}
     .eyebrow{font-size:8px;}
-
-    .toast-stack{bottom:70px;left:12px;}
-    .toast{max-width:220px;padding:10px 14px;font-size:10px;}
 
     .scattered-nav a:not(.sn-logo){display:none!important;}
   }
@@ -594,7 +549,7 @@
   <div class="about-grid reveal">
     <div>
       <div class="avatar-frame">
-        <img src="https://avatars.githubusercontent.com/u/115095719?v=4" alt="Miles Wolf Allen">
+        <img src="https://avatars.githubusercontent.com/u/115095719?v=4" alt="Miles Wolf Allen" loading="lazy" width="200" height="200">
       </div>
       <div class="avatar-tag">@mileswolfallen2</div>
     </div>
@@ -607,6 +562,11 @@
         <span class="badge">Quickdraw</span>
       </div>
       <a href="about-me.html" style="display:inline-block;margin-top:20px;font-family:var(--font-pixel);font-size:10px;color:var(--accent);border:1px solid var(--accent);padding:10px 20px;text-transform:uppercase;letter-spacing:.05em;transition:all .2s;">More About Me →</a>
+      <div class="page-links" style="margin-top:20px;display:flex;gap:16px;flex-wrap:wrap;border-top:2px solid rgba(255,255,255,0.1);padding-top:16px;">
+        <a href="uses.html" style="font-family:var(--font-pixel);font-size:9px;color:var(--tape);text-transform:uppercase;letter-spacing:.08em;transition:color .2s;">Uses</a>
+        <a href="now.html" style="font-family:var(--font-pixel);font-size:9px;color:var(--tape);text-transform:uppercase;letter-spacing:.08em;transition:color .2s;">Now</a>
+        <a href="colophon.html" style="font-family:var(--font-pixel);font-size:9px;color:var(--tape);text-transform:uppercase;letter-spacing:.08em;transition:color .2s;">Colophon</a>
+      </div>
     </div>
   </div>
 </section>
@@ -802,29 +762,22 @@
   </div>
 </section>
 
-<footer>Built by Miles * 2026 * Powered by too much coffee and the Konami code (try it)</footer>
+<footer>
+  <div class="footer-links" style="margin-bottom: 12px;">
+    <a href="uses.html" style="color:var(--muted);text-decoration:none;">Uses</a>
+    <span style="color:var(--muted);margin:0 8px;">·</span>
+    <a href="now.html" style="color:var(--muted);text-decoration:none;">Now</a>
+    <span style="color:var(--muted);margin:0 8px;">·</span>
+    <a href="colophon.html" style="color:var(--muted);text-decoration:none;">Colophon</a>
+  </div>
+  Built by Miles · 2026 · Powered by too much coffee and the Konami code
+</footer>
 
+<script src="projects/script.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script>
 gsap.registerPlugin(ScrollTrigger);
-
-(function(){
-  var dot=document.getElementById('cursorDot');
-  var ring=document.getElementById('cursorRing');
-  if(!dot||!ring)return;
-  var mx=0,my=0,rx=0,ry=0;
-  document.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
-  (function loop(){
-    rx+=(mx-rx)*0.15;ry+=(my-ry)*0.15;
-    ring.style.left=rx+'px';ring.style.top=ry+'px';
-    requestAnimationFrame(loop);
-  })();
-  document.querySelectorAll('a,button,.proj-card,.term-btn,.chip,.hl-cell').forEach(function(el){
-    el.addEventListener('mouseenter',function(){dot.classList.add('hover');ring.classList.add('hover');});
-    el.addEventListener('mouseleave',function(){dot.classList.remove('hover');ring.classList.remove('hover');});
-  });
-})();
 
 (function(){
   var colors=['#fff','#FF3D9A','#FFC93C'];
@@ -847,16 +800,6 @@ gsap.registerPlugin(ScrollTrigger);
     var on=Math.round(pct*n);bars.forEach(function(bar,i){bar.classList.toggle('on',i<on);});
   },{passive:true});
 })();
-
-var toastQueue=document.getElementById('toastStack');var shownToasts={};
-function showToast(id,title,body,icon){
-  if(shownToasts[id])return;shownToasts[id]=true;
-  var t=document.createElement('div');t.className='toast';
-  t.innerHTML='<span class="icon">'+(icon||'!')+'</span><span><span class="title">'+title+'</span>'+body+'</span>';
-  toastQueue.appendChild(t);
-  gsap.to(t,{x:0,duration:.6,ease:'power3.out'});
-  setTimeout(function(){gsap.to(t,{x:'-150%',opacity:0,duration:.4,ease:'power2.in',onComplete:function(){t.remove();}});},3000);
-}
 
 document.querySelectorAll('[data-count]').forEach(function(el){
   var target=parseInt(el.getAttribute('data-count'),10);var suffix=el.getAttribute('data-suffix')||'';
@@ -905,70 +848,6 @@ function setActive(id){
       l.style.transform='translate('+jX+'px,'+jY+'px) rotate('+(baseRots[i]+jR)+'deg)';
     });
   },{passive:true});
-})();
-
-(function(){
-  var seq=['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
-  var pos=0;
-  window.addEventListener('keydown',function(e){
-    var key=e.key.length===1?e.key.toLowerCase():e.key;
-    if(key===seq[pos]){pos++;if(pos===seq.length){pos=0;triggerKonami();}}
-    else{pos=(key===seq[0])?1:0;}
-  });
-  function triggerKonami(){
-    showToast('konami','SECRET FOUND','Konami Code Activated','*');
-    var flash=document.getElementById('flash');
-    gsap.fromTo(flash,{opacity:.5},{opacity:0,duration:.5});
-    gsap.to('body',{x:'random(-5,5)',y:'random(-5,5)',duration:.05,repeat:10,ease:'sine.inOut',onComplete:function(){gsap.set('body',{x:0,y:0});}});
-    document.body.style.cursor='auto';
-    var style=document.createElement('style');style.id='konami-cursor';
-    style.textContent='*{cursor:auto !important;}';
-    document.head.appendChild(style);
-  }
-})();
-
-(function(){
-  var bar=document.getElementById('progressBar');
-  window.addEventListener('scroll',function(){
-    var pct=window.scrollY/(document.body.scrollHeight-window.innerHeight)*100;
-    bar.style.width=pct+'%';
-  },{passive:true});
-})();
-
-(function(){
-  var btn=document.getElementById('themeToggle');
-  var saved=localStorage.getItem('theme');
-  if(saved==='light')document.body.classList.add('light');
-  function updateIcon(){btn.textContent=document.body.classList.contains('light')?'\u263E':'\u2600';}
-  updateIcon();
-  btn.addEventListener('click',function(){
-    document.body.classList.toggle('light');
-    localStorage.setItem('theme',document.body.classList.contains('light')?'light':'dark');
-    updateIcon();
-  });
-})();
-
-(function(){
-  var modal=document.getElementById('shortcutModal');
-  function toggleModal(){modal.classList.toggle('open');}
-  window.addEventListener('keydown',function(e){
-    if(e.key==='?'){e.preventDefault();toggleModal();}
-    if(e.key==='Escape')modal.classList.remove('open');
-    if(e.key==='t'||e.key==='T'){
-      if(document.activeElement&&document.activeElement.tagName==='INPUT')return;
-      document.body.classList.toggle('light');
-      localStorage.setItem('theme',document.body.classList.contains('light')?'light':'dark');
-      var btn=document.getElementById('themeToggle');
-      btn.textContent=document.body.classList.contains('light')?'\u263E':'\u2600';
-    }
-    if(e.key==='1')document.getElementById('about').scrollIntoView({behavior:'smooth'});
-    if(e.key==='2')document.getElementById('skills').scrollIntoView({behavior:'smooth'});
-    if(e.key==='3')document.getElementById('projects').scrollIntoView({behavior:'smooth'});
-    if(e.key==='4')document.getElementById('highlights').scrollIntoView({behavior:'smooth'});
-    if(e.key==='5')document.getElementById('blog').scrollIntoView({behavior:'smooth'});
-    if(e.key==='6')document.getElementById('contact').scrollIntoView({behavior:'smooth'});
-  });
-  modal.addEventListener('click',function(e){if(e.target===modal)modal.classList.remove('open');});
 })();
 
 (function(){

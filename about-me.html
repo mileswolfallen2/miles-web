@@ -11,8 +11,18 @@
   <meta property="og:image" content="https://milesallen.site/og.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
-  <link rel="icon" type="image/svg+xml" href="favicon.png">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="stylesheet" href="projects/style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://milesallen.site/" },
+      { "@type": "ListItem", "position": 2, "name": "About Me", "item": "https://milesallen.site/about-me.html" }
+    ]
+  }
+  </script>
   <style>
 .article-header{padding:100px 0 40px;}
 .article-eyebrow{font-family:var(--font-pixel);font-size:10px;color:var(--tape);margin-bottom:12px;text-transform:uppercase;letter-spacing:.1em;}
@@ -87,14 +97,14 @@
   <div class="article-body">
 
     <h2>The Basics</h2>
-    <img src="photos/me.jpeg" alt="Miles" style="float:left;width:240px;height:240px;border:2px solid var(--accent);object-fit:cover;margin:0 24px 16px 0;shape-outside:circle(50%);clip-path:circle(50%);">
+    <img src="photos/me.jpeg" alt="Miles" loading="lazy" style="float:left;width:240px;height:240px;border:2px solid var(--accent);object-fit:cover;margin:0 24px 16px 0;shape-outside:circle(50%);clip-path:circle(50%);">
     <p>I'm Miles Wolf Allen. I build things on the internet — tools, games, apps, websites. Some of them are useful. Some of them are just fun. Most of them started because I got annoyed at something and decided I could do it better.</p>
     <p>I'm a Christian. Baptist. My faith is a big part of who I am and how I see the world. It shapes the way I build things — I care about doing good work, being honest, and building stuff that actually helps people instead of just looking cool.</p>
 
     <div style="clear:both;"></div>
 
     <h2>My Family</h2>
-    <img src="photos/mom:dad.jpeg" alt="Mom and Dad" style="float:right;width:240px;height:240px;border:2px solid var(--tape);object-fit:cover;margin:0 0 16px 24px;shape-outside:circle(50%);clip-path:circle(50%);">
+    <img src="photos/mom-dad.jpeg" alt="Mom and Dad" loading="lazy" style="float:right;width:240px;height:240px;border:2px solid var(--tape);object-fit:cover;margin:0 0 16px 24px;shape-outside:circle(50%);clip-path:circle(50%);">
     <p>My dad is Mark Allen. He's the founding lead pastor of <strong>Pursuit Community Church</strong> in Mounds View, Minnesota. He planted the church in November 2018 after spending over 15 years in youth ministry. Pursuit is a Converge-affiliated church that launched with over 300 people and has been growing ever since. Dad is passionate about reaching people who are far from God and building a church where everyone is known and knows others.</p>
     <p>When he's not preaching or meeting with people, you'll find him playing golf, softball, or vintage video games.</p>
     <p>My mom is a loving mother and fun person. I have a sister named Macy. Macy is a big fan of Forest Frank — if you know, you know.</p>
@@ -109,7 +119,7 @@
     <p>My dad and I are both libertarian. We believe in personal freedom, limited government, and the idea that people should be left alone to live their lives as they see fit. We don't fit neatly into either political box, and honestly, we're fine with that.</p>
 
     <h2>Pets</h2>
-    <img src="photos/dog.jpeg" alt="Meeko" style="float:right;width:240px;height:240px;border:2px solid var(--accent);object-fit:cover;margin:0 0 16px 24px;shape-outside:circle(50%);clip-path:circle(50%);">
+    <img src="photos/dog.jpeg" alt="Meeko" loading="lazy" style="float:right;width:240px;height:240px;border:2px solid var(--accent);object-fit:cover;margin:0 0 16px 24px;shape-outside:circle(50%);clip-path:circle(50%);">
     <p>This is Meeko. He's a mutt and a rescue, and he's the best dog I could ask for. He was named after Meeko from <em>Pocahontas</em> — if you've seen the movie, you know he's a little rascal who's always getting into trouble. Our Meeko lives up to the name.</p>
     <p>There's something about rescuing a dog that hits different. He needed a home, we had one, and now he's part of the family. He's proof that the best things in life aren't purebred or expensive — they just need someone to give them a chance.</p>
 
@@ -145,6 +155,13 @@
 </section>
 
     <footer>
+      <div class="footer-links" style="margin-bottom: 12px;">
+        <a href="uses.html" style="color:var(--muted);text-decoration:none;">Uses</a>
+        <span style="color:var(--muted);margin:0 8px;">·</span>
+        <a href="now.html" style="color:var(--muted);text-decoration:none;">Now</a>
+        <span style="color:var(--muted);margin:0 8px;">·</span>
+        <a href="colophon.html" style="color:var(--muted);text-decoration:none;">Colophon</a>
+      </div>
       Built by Miles · 2026 · Powered by too much coffee and the Konami code
     </footer>
   </div>
@@ -177,92 +194,6 @@
     gsap.from('footer', { scrollTrigger: { trigger: 'footer', start: 'top 95%' }, opacity: 0, duration: 0.8 });
     window.addEventListener('load', () => ScrollTrigger.refresh());
   </script>
-  <script>
-  var toastQueue=document.getElementById('toastStack');var shownToasts={};
-  function showToast(id,title,body,icon){
-    if(shownToasts[id])return;shownToasts[id]=true;
-    var t=document.createElement('div');t.className='toast';
-    t.innerHTML='<span class="icon">'+(icon||'!')+'</span><span><span class="title">'+title+'</span>'+body+'</span>';
-    toastQueue.appendChild(t);
-    gsap.to(t,{x:0,duration:.6,ease:'power3.out'});
-    setTimeout(function(){gsap.to(t,{x:'-150%',opacity:0,duration:.4,ease:'power2.in',onComplete:function(){t.remove();}});},3000);
-  }
-  (function(){
-    var seq=['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
-    var pos=0;
-    window.addEventListener('keydown',function(e){
-      var key=e.key.length===1?e.key.toLowerCase():e.key;
-      if(key===seq[pos]){pos++;if(pos===seq.length){pos=0;triggerKonami();}}
-      else{pos=(key===seq[0])?1:0;}
-    });
-    function triggerKonami(){
-      showToast('konami','SECRET FOUND','Konami Code Activated','*');
-      var flash=document.getElementById('flash');
-      gsap.fromTo(flash,{opacity:.5},{opacity:0,duration:.5});
-      gsap.to('body',{x:'random(-5,5)',y:'random(-5,5)',duration:.05,repeat:10,ease:'sine.inOut',onComplete:function(){gsap.set('body',{x:0,y:0});}});
-      document.body.style.cursor='auto';
-      var style=document.createElement('style');style.id='konami-cursor';
-      style.textContent='*{cursor:auto !important;}';
-      document.head.appendChild(style);
-    }
-  })();
-  </script>
-<script>
-(function(){
-  var dot=document.getElementById('cursorDot');
-  var ring=document.getElementById('cursorRing');
-  if(!dot||!ring)return;
-  var mx=0,my=0,rx=0,ry=0;
-  document.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
-  (function loop(){
-    rx+=(mx-rx)*0.15;ry+=(my-ry)*0.15;
-    ring.style.left=rx+'px';ring.style.top=ry+'px';
-    requestAnimationFrame(loop);
-  })();
-  document.querySelectorAll('a,button,.meta-chip,.tech-badge,.feature-card').forEach(function(el){
-    el.addEventListener('mouseenter',function(){dot.classList.add('hover');ring.classList.add('hover');});
-    el.addEventListener('mouseleave',function(){dot.classList.remove('hover');ring.classList.remove('hover');});
-  });
-})();
-</script>
-<script>
-(function(){
-  var bar=document.getElementById('progressBar');
-  window.addEventListener('scroll',function(){
-    var pct=window.scrollY/(document.body.scrollHeight-window.innerHeight)*100;
-    bar.style.width=pct+'%';
-  },{passive:true});
-})();
-(function(){
-  var btn=document.getElementById('themeToggle');
-  var saved=localStorage.getItem('theme');
-  if(saved==='light')document.body.classList.add('light');
-  function updateIcon(){btn.textContent=document.body.classList.contains('light')?'\u263E':'\u2600';}
-  updateIcon();
-  btn.addEventListener('click',function(){
-    document.body.classList.toggle('light');
-    localStorage.setItem('theme',document.body.classList.contains('light')?'light':'dark');
-    updateIcon();
-  });
-})();
-(function(){
-  var modal=document.getElementById('shortcutModal');
-  function toggleModal(){modal.classList.toggle('open');}
-  window.addEventListener('keydown',function(e){
-    if(e.key==='?'){e.preventDefault();toggleModal();}
-    if(e.key==='Escape')modal.classList.remove('open');
-    if(e.key==='t'||e.key==='T'){
-      if(document.activeElement&&document.activeElement.tagName==='INPUT')return;
-      document.body.classList.toggle('light');
-      localStorage.setItem('theme',document.body.classList.contains('light')?'light':'dark');
-      var btn=document.getElementById('themeToggle');
-      btn.textContent=document.body.classList.contains('light')?'\u263E':'\u2600';
-    }
-    if(e.key==='h'||e.key==='H')window.location.href='index.html';
-    if(e.key==='b'||e.key==='B')window.location.href='index.html#blog';
-  });
-  modal.addEventListener('click',function(e){if(e.target===modal)modal.classList.remove('open');});
-})();
-</script>
+<script src="projects/script.js"></script>
 </body>
 </html>

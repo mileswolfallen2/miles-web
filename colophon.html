@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Colophon | Miles Wolf Allen</title>
+  <meta name="description" content="Behind the scenes of milesallen.site — the tech stack, fonts, design choices, and philosophy behind this portfolio.">
+  <link rel="canonical" href="https://milesallen.site/colophon.html">
+  <meta property="og:title" content="Colophon | Miles Wolf Allen">
+  <meta property="og:description" content="Behind the scenes of milesallen.site — the tech stack, fonts, design choices, and philosophy behind this portfolio.">
+  <meta property="og:image" content="https://milesallen.site/og.png">
+  <meta property="og:url" content="https://milesallen.site/colophon.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="projects/style.css">
+  <style>
+.article-header{padding:100px 0 40px;}
+.article-eyebrow{font-family:var(--font-pixel);font-size:10px;color:var(--tape);margin-bottom:12px;text-transform:uppercase;letter-spacing:.1em;}
+.article-date{font-family:var(--font-mono);font-size:12px;color:var(--muted);margin-bottom:8px;}
+.article-header h1{font-family:var(--font-pixel);font-size:clamp(24px,5vw,44px);line-height:1.2;margin-bottom:16px;transform:rotate(-1deg);transform-origin:left center;text-shadow:3px 3px 0 var(--accent),-2px -2px 0 var(--tape);animation:glitch 5s ease-in-out infinite;}
+@keyframes glitch{0%,90%,100%{text-shadow:3px 3px 0 var(--accent),-2px -2px 0 var(--tape);}92%{text-shadow:3px 3px 0 var(--red),-2px -2px 0 var(--accent);transform:rotate(-1deg) translateX(2px);}94%{text-shadow:3px 3px 0 var(--accent),-2px -2px 0 var(--red);transform:rotate(-1deg) translateX(-2px);}}
+.article-tagline{font-size:16px;color:var(--muted);max-width:600px;line-height:1.7;font-family:var(--font-mono);margin-bottom:24px;}
+.article-body{max-width:720px;}
+.article-body h2{font-family:var(--font-pixel);font-size:16px;color:var(--accent);margin:40px 0 16px;text-transform:uppercase;}
+.article-body h3{font-family:var(--font-mono);font-weight:700;font-size:16px;margin:32px 0 12px;color:var(--text);}
+.article-body p{font-size:14px;color:#ccc;line-height:1.9;font-family:var(--font-mono);margin-bottom:16px;}
+.article-body code{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);padding:2px 6px;font-size:12px;font-family:var(--font-mono);}
+.article-body blockquote{border-left:3px solid var(--accent);padding:12px 20px;margin:24px 0;background:rgba(255,255,255,0.02);font-style:italic;color:var(--muted);font-family:var(--font-mono);font-size:13px;}
+.article-body ul{margin:12px 0 16px 20px;font-family:var(--font-mono);font-size:13px;color:#ccc;line-height:1.8;}
+.article-body ul li{margin-bottom:6px;}
+.article-body ul li::marker{color:var(--accent);}
+.article-body ul li strong{color:var(--text);}
+.back-link{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:12px;color:var(--muted);margin-top:40px;text-decoration:none;transition:color .2s;}
+.back-link:hover{color:var(--accent);}
+  </style>
+</head>
+<body>
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+  <div class="progress-bar" id="progressBar"></div>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme"></button>
+  <div class="shortcut-modal" id="shortcutModal">
+    <div class="shortcut-card">
+      <h3>Keyboard Shortcuts</h3>
+      <div class="shortcut-row"><span>Go Home</span><kbd>H</kbd></div>
+      <div class="shortcut-row"><span>Go to GitHub</span><kbd>G</kbd></div>
+      <div class="shortcut-row"><span>Toggle theme</span><kbd>T</kbd></div>
+      <div class="shortcut-row"><span>Show shortcuts</span><kbd>?</kbd></div>
+      <div class="close-hint">Press Esc or ? to close</div>
+    </div>
+  </div>
+  <div class="flash" id="flash"></div>
+  <div class="toast-stack" id="toastStack"></div>
+  <nav class="mobile-nav">
+    <a href="index.html">Home</a>
+    <a href="projects/fedl.html">FEDL</a>
+    <a href="projects/omniemu.html">OmniEmu</a>
+    <a href="projects/command-move.html">CommandMove</a>
+    <a href="https://github.com/mileswolfallen2" target="_blank">GitHub</a>
+  </nav>
+
+  <div class="container">
+    <nav>
+      <a href="index.html" class="nav-logo"><span class="logo-dot"></span> milesallen</a>
+      <div class="nav-links">
+        <a href="index.html#about">About</a>
+        <a href="index.html#skills">Skills</a>
+        <a href="index.html#projects">Projects</a>
+        <a href="index.html#contact">Contact</a>
+      </div>
+    </nav>
+
+    <section class="article-header">
+      <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+        <span>Colophon</span>
+      </div>
+      <div class="article-eyebrow">// BUILD NOTES</div>
+      <div class="article-date">2026</div>
+      <h1>Colophon</h1>
+      <p class="article-tagline">Behind the scenes of milesallen.site — how it's built, what it runs on, and why it looks the way it does.</p>
+    </section>
+
+    <section class="reveal">
+      <div class="article-body">
+        <h2>Tech Stack</h2>
+        <ul>
+          <li><strong>Vanilla HTML/CSS/JS</strong> — no frameworks, no build tools, no dependencies. Every page is hand-written. I wanted the site to be fast and simple.</li>
+          <li><strong>GSAP</strong> — For scroll-triggered animations, parallax effects, and entrance sequences. I use ScrollTrigger for most of the scroll-based animations.</li>
+          <li><strong>GitHub API</strong> — Live fetching of repository stats (stars, forks, language) on project pages.</li>
+          <li><strong>FEDL API</strong> — Live stats from the FEDL server on the FEDL project page.</li>
+          <li><strong>Netlify</strong> — Hosting and deployment. Push to main, it goes live. Simple.</li>
+        </ul>
+
+        <h2>Fonts</h2>
+        <ul>
+          <li><strong>Press Start 2P</strong> — Pixel font for headings, section titles, and tags. Gives the site its retro arcade feel.</li>
+          <li><strong>Space Mono</strong> — Monospace font for body text, code, and technical content. Readable at small sizes, distinctive at large.</li>
+          <li><strong>Inter</strong> — Sans-serif for readable paragraphs and descriptions. Balances out the chaos of the other two fonts.</li>
+        </ul>
+
+        <h2>Design Philosophy</h2>
+        <p>The site is inspired by <strong>overrides.com</strong> and the early web — a time when websites weren't afraid to be ugly, weird, and full of personality. The tilted cards, the scan line overlay, the glitch effects, the chaotic navigation — they're intentional.</p>
+        <p>I wanted the site to feel alive. The custom cursor, the progress bar, the hue-shifting background, the scroll-triggered animations — they're small touches that make the page feel responsive and present.</p>
+        <p>The color palette is minimal: black background, white text, hot pink accents, and yellow tape strips. No gradients, no complex color schemes. Just high contrast and aggressive accent colors.</p>
+
+        <h2>Accessibility</h2>
+        <p>The custom cursor hides the default cursor site-wide, but the Konami code (↑ ↑ ↓ ↓ ← → ← → B A) reveals it. The site supports keyboard navigation via the <code>?</code> shortcut modal. Light mode reduces eye strain in bright environments.</p>
+
+        <h2>Performance</h2>
+        <p>No frameworks, no build step, no unnecessary dependencies. The site is static HTML with minimal JavaScript. Fonts are loaded with preconnect hints. GSAP is loaded from CDN with browser caching. Each page is under 50KB of HTML.</p>
+
+        <blockquote>Build for the web like it's 1999, but with today's tools.</blockquote>
+
+        <div style="margin-top:40px;padding-top:20px;border-top:2px solid rgba(255,255,255,0.12);font-family:var(--font-mono);font-size:12px;color:var(--muted);display:flex;gap:16px;flex-wrap:wrap;">
+          <a href="uses.html" style="color:var(--accent);text-decoration:none;">→ What I use</a>
+          <a href="now.html" style="color:var(--accent);text-decoration:none;">→ What I'm doing now</a>
+        </div>
+
+        <a href="index.html" class="back-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="15 18 9 12 15 6"/></svg>
+          Back to Home
+        </a>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-links" style="margin-bottom: 12px;">
+        <a href="uses.html" style="color:var(--muted);text-decoration:none;">Uses</a>
+        <span style="color:var(--muted);margin:0 8px;">·</span>
+        <a href="now.html" style="color:var(--muted);text-decoration:none;">Now</a>
+        <span style="color:var(--muted);margin:0 8px;">·</span>
+        <a href="colophon.html" style="color:var(--muted);text-decoration:none;">Colophon</a>
+      </div>
+      Built by Miles · 2026 · Powered by too much coffee and the Konami code
+    </footer>
+  </div>
+<script src="projects/script.js"></script>
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap@3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap@3.12.5/ScrollTrigger.min.js"></script>
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+    const heroTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+    heroTl
+      .from('.breadcrumb', { x: -30, opacity: 0, duration: 0.6 })
+      .from('.article-header h1', { y: 50, opacity: 0, duration: 0.8 }, '-=0.3')
+      .from('.article-tagline', { y: 30, opacity: 0, duration: 0.7 }, '-=0.4');
+    gsap.from('nav', { y: -20, opacity: 0, duration: 0.6, ease: 'power2.out' });
+    document.querySelectorAll('.article-body h2').forEach(title => {
+      gsap.from(title, { scrollTrigger: { trigger: title, start: 'top 85%' }, y: 30, opacity: 0, duration: 0.7, ease: 'power3.out' });
+    });
+    document.querySelectorAll('.article-body p, .article-body ul, .article-body blockquote').forEach(el => {
+      gsap.from(el, { scrollTrigger: { trigger: el, start: 'top 88%' }, y: 20, opacity: 0, duration: 0.6, ease: 'power3.out' });
+    });
+    gsap.from('footer', { scrollTrigger: { trigger: 'footer', start: 'top 95%' }, opacity: 0, duration: 0.8 });
+    window.addEventListener('load', () => ScrollTrigger.refresh());
+  </script>
+<script>
+window.addEventListener('keydown',function(e){
+  if(e.key==='h'||e.key==='H')window.location.href='index.html';
+  if(e.key==='g'||e.key==='G')window.location.href='https://github.com/mileswolfallen2';
+});
+</script>
+</body>
+</html>

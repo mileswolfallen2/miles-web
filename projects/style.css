@@ -332,6 +332,10 @@ body.light .breadcrumb{color:#888;}
   .toast{max-width:220px;padding:10px 14px;font-size:10px;}
 }
 
+.footer-links{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;}
+.footer-links a{font-family:var(--font-pixel);font-size:8px;color:var(--tape);letter-spacing:.08em;text-transform:uppercase;transition:color .2s;}
+.footer-links a:hover{color:var(--accent);}
+
 @media(prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important;}
 }
