@@ -12,7 +12,7 @@
   <meta property="og:url" content="https://milesallen.site/now.html">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
-  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="icon" type="image/png" href="favicon.png">
   <link rel="stylesheet" href="projects/style.css">
   <style>
 .article-header{padding:100px 0 40px;}
@@ -84,12 +84,16 @@
 
     <section class="reveal">
       <div class="article-body">
+        <h2>Building Noto</h2>
+        <p>I'm working on <strong><a href="https://noto.fedl.site" target="_blank" style="color:var(--accent);">Noto</a></strong> — a note-taking app with AI built in. Cross-platform (iOS, Android, macOS, Windows, Linux), built with Flutter, powered by Cortex AI.</p>
+        <p>The AI isn't a gimmick — it's actually useful. Summarize a page of notes in one tap. Transcribe voice memos automatically. Quiz yourself on what you wrote. Chat with your notes like they're a second brain. Cloud (OpenAI) or local (Ollama), your choice. No subscription nonsense.</p>
+
         <h2>Building Gelectron</h2>
-        <p>My main project right now is <strong>Gelectron</strong> — a Firefox-engine alternative to Electron, powered by Servo. It's early, experimental, and a lot of fun. I'm building a drop-in replacement for Electron that uses less memory and produces smaller binaries. Drop-in replacement — just run <code>gelectron .</code> instead of <code>electron .</code>.</p>
-        <p>Right now I'm focused on filling out the Electron API compatibility layer (BrowserWindow, IPC, Menu, Tray) and getting the Servo rendering pipeline working properly. It's a Rust + Node.js project and it's teaching me a ton about browser engines, FFI, and systems programming.</p>
+        <p>My side project is <strong><a href="https://gelectron.milesallen.site/" target="_blank" style="color:var(--accent);">Gelectron</a></strong> — a Firefox-engine alternative to Electron, powered by Servo. I'm focused on keeping file size and RAM usage really, really low. Electron apps are bloated — a basic Electron app can be 150MB+ and eat 300MB of RAM just to show a window. I want Gelectron to ship at a fraction of that.</p>
+        <p>Drop-in replacement — just run <code>gelectron .</code> instead of <code>electron .</code>. Right now I'm filling out the Electron API compatibility layer (BrowserWindow, IPC, Menu, Tray) and getting the Servo rendering pipeline working. It's a Rust + Node.js project and it's teaching me a ton about browser engines, FFI, and systems programming. Every byte and allocation matters.</p>
 
         <h2>Maintaining the FEDL</h2>
-        <p>The Geometry Dash demon list is still going strong. Nearly 4,000 verified runs, 340+ ranked levels, and a community that keeps me busy. I'm working on better moderation tools and a cleaner submission pipeline.</p>
+        <p>The <strong><a href="https://fedl.site" target="_blank" style="color:var(--accent);">Geometry Dash demon list</a></strong> is still going strong. Nearly 4,000 verified runs, 340+ ranked levels, and a community that keeps me busy. I'm working on better moderation tools and a cleaner submission pipeline.</p>
 
         <h2>This Site</h2>
         <p>I've been putting a lot of time into milesallen.site — the portfolio you're on right now. I keep adding features, fixing things, and rewriting parts of it. It's my digital home and I want it to be good.</p>
