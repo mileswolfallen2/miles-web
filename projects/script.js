@@ -113,13 +113,13 @@
     const btn = document.getElementById('themeToggle');
     if (!btn) return;
     const saved = localStorage.getItem('theme');
-    if (saved === 'light') document.body.classList.add('light');
+    if (saved === 'clean') document.body.classList.add('clean');
     function updateIcon(){
-      btn.textContent = document.body.classList.contains('light') ? '\u263E' : '\u2600';
+      btn.textContent = document.body.classList.contains('clean') ? '\u2600' : '\u2728';
     }
     function toggleTheme(){
-      document.body.classList.toggle('light');
-      localStorage.setItem('theme', document.body.classList.contains('light') ? 'light' : 'dark');
+      document.body.classList.toggle('clean');
+      localStorage.setItem('theme', document.body.classList.contains('clean') ? 'clean' : 'dark');
       updateIcon();
     }
     updateIcon();

@@ -37,6 +37,22 @@
 .q-footer{text-align:center;padding:40px 5vw;border-top:1px solid rgba(255,255,255,0.04);}
 .q-footer .ft{font-family:var(--font-mono);font-size:10px;color:var(--muted);line-height:1.8;}
 .q-footer a{color:var(--accent);text-decoration:none;}
+
+body.clean{--bg:#18181e;--text:#e4e0eb;--muted:#7b7890;--accent:#b8a9ff;}
+body.clean::before,body.clean::after{display:none!important;}
+body.clean .q-hero{min-height:auto;padding:80px 24px;}
+body.clean .q-hero h1{font-family:'Inter',sans-serif;font-weight:700;font-size:clamp(28px,5vw,42px);color:var(--text);text-shadow:none!important;animation:none;}
+body.clean .q-hero .sub{font-family:'Inter',sans-serif;font-size:14px;color:var(--muted);}
+body.clean .q-grid{max-width:600px;padding:20px 24px 60px;gap:12px;}
+body.clean .q-card{padding:20px;border:1px solid #333045;background:#22202a;border-radius:10px;transform:none!important;}
+body.clean .q-card:nth-child(n){margin-top:0;transform:none!important;}
+body.clean .q-card:hover{border-color:var(--accent);background:#22202a;}
+body.clean .q-card .qt{font-family:'Inter',sans-serif;font-size:14px;color:var(--text);line-height:1.6;}
+body.clean .q-card .qt::before{content:none;}
+body.clean .q-card .att{font-family:'Inter',sans-serif;font-size:11px;font-weight:500;color:var(--muted);margin-top:8px;letter-spacing:0;text-transform:none;}
+body.clean .q-card .att::before{content:'\2014 ';color:var(--accent);}
+body.clean .q-footer{border-color:#333045;padding:24px;}
+body.clean .q-footer .ft{font-family:'Inter',sans-serif;font-size:11px;color:var(--muted);}
   </style>
 </head>
 <body>

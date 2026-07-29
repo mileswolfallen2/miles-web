@@ -58,6 +58,31 @@ footer .ft{font-family:var(--font-mono);font-size:10px;color:var(--muted);line-h
 .vinyl:nth-child(1){top:-40px;right:-40px;width:280px;height:280px;}
 .vinyl:nth-child(2){bottom:-60px;left:-60px;width:240px;height:240px;animation-duration:12s;}
 @keyframes spinVinyl{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
+
+body.clean{--bg:#18181e;--text:#e4e0eb;--muted:#7b7890;--accent:#b8a9ff;}
+body.clean::before,body.clean::after{display:none!important;}
+body.clean nav{background:rgba(34,32,42,0.9);backdrop-filter:blur(8px);border-color:#333045;}
+body.clean .nav-logo{font-size:13px;font-weight:600;font-family:'Inter',sans-serif;}
+body.clean .nav-links a{font-family:'Inter',sans-serif;font-size:13px;font-weight:500;text-transform:none;letter-spacing:0;color:var(--muted);}
+body.clean .nav-links a:hover{color:var(--text);}
+body.clean .scroll-content{padding-top:56px;}
+body.clean .hero{min-height:auto;padding:80px 24px;}
+body.clean .hero h1{font-family:'Inter',sans-serif;font-weight:700;font-size:clamp(28px,5vw,42px);color:var(--text);text-shadow:none;}
+body.clean .hero .sub{font-family:'Inter',sans-serif;font-size:14px;color:var(--muted);}
+body.clean .band{min-height:auto;padding:60px 24px;border-color:#333045;}
+body.clean .band-header .tag{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:0.04em;color:var(--accent);}
+body.clean .band-header h2{font-family:'Inter',sans-serif;font-weight:600;font-size:clamp(20px,3.5vw,30px);color:var(--text);text-transform:none;}
+body.clean .band-header p{font-family:'Inter',sans-serif;color:var(--muted);}
+body.clean .band-card .art{background:var(--bg);border-color:#333045;}
+body.clean .band-card .info h3{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:var(--muted);text-transform:none;}
+body.clean .band-card .info .album{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;color:var(--accent);text-transform:none;}
+body.clean .band-card .info .song{font-family:'Inter',sans-serif;font-size:13px;color:var(--muted);border-color:#333045;font-weight:500;}
+body.clean .section-title{font-family:'Inter',sans-serif;font-size:13px;font-weight:600;letter-spacing:0.03em;color:var(--text);text-transform:none;}
+body.clean .qoute{font-family:'Inter',sans-serif;color:var(--muted);font-weight:600;padding:24px;font-size:clamp(14px,2.5vw,22px);}
+body.clean footer{border-color:#333045;padding:24px;}
+body.clean footer .ft{font-family:'Inter',sans-serif;font-size:11px;color:var(--muted);}
+body.clean .vinyl{display:none;}
+body.clean .spotify-wrap iframe{border-radius:8px;}
   </style>
 </head>
 <body>

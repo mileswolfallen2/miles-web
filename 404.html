@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
 <link rel="icon" type="image/png" href="favicon.png">
+<link rel="stylesheet" href="projects/style.css">
 <style>
   :root{
     --bg:#000;--text:#fff;--muted:#666;--accent:#FF3D9A;--tape:#FFC93C;--red:#FF0000;
@@ -71,6 +72,22 @@
     .btn{text-align:center;}
   }
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}}
+
+  body.clean{--bg:#18181e;--text:#e4e0eb;--muted:#7b7890;--accent:#b8a9ff;}
+  body.clean::after{display:none!important;}
+  body.clean .cursor-dot,body.clean .cursor-ring{display:none!important;}
+  body.clean *{cursor:auto!important;}
+  body.clean .code{font-family:'Inter',sans-serif;font-weight:700;font-size:clamp(48px,15vw,120px);color:var(--text);text-shadow:none!important;animation:none!important;transform:none!important;margin-bottom:12px;}
+  body.clean .msg{font-family:'Inter',sans-serif;font-size:14px;color:var(--muted);transform:none!important;margin-bottom:28px;line-height:1.6;}
+  body.clean .actions{transform:none!important;gap:8px;}
+  body.clean .btn{font-family:'Inter',sans-serif;font-weight:500;font-size:13px;padding:10px 24px;border-radius:8px;text-transform:none;letter-spacing:0;border:1px solid #333045;}
+  body.clean .btn-home{background:var(--text);color:var(--bg);border-color:var(--text);}
+  body.clean .btn-back{background:#22202a;color:var(--text);border-color:#333045;}
+  body.clean .btn:hover{transform:none!important;filter:none!important;opacity:.85;}
+  body.clean .tape{display:none!important;}
+  body.clean footer{font-family:'Inter',sans-serif!important;font-size:12px!important;color:var(--muted)!important;text-transform:none!important;letter-spacing:0!important;position:static!important;}
+  body.clean footer .footer-links a{color:var(--muted)!important;font-size:12px!important;}
+  body.clean footer .footer-links a:hover{color:var(--accent)!important;}
 </style>
 <script type="application/ld+json">
 {
@@ -86,6 +103,7 @@
 <body>
   <div class="cursor-dot" id="cursorDot"></div>
   <div class="cursor-ring" id="cursorRing"></div>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme"></button>
 
   <div class="tape">PAGE NOT FOUND * PAGE NOT FOUND * PAGE NOT FOUND * PAGE NOT FOUND * PAGE NOT FOUND *</div>
   <div class="tape">404 * 404 * 404 * 404 * 404 * 404 * 404 * 404 *</div>
