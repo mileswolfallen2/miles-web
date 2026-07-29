@@ -4,10 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Now | Miles Wolf Allen</title>
-  <meta name="description" content="What I'm currently focused on — building Gelectron, maintaining the FEDL, and more.">
+  <meta name="description" content="What I'm currently focused on — building Gelectron, maintaining the FEDL, working on Noto, and more.">
   <link rel="canonical" href="https://milesallen.site/now.html">
   <meta property="og:title" content="Now | Miles Wolf Allen">
-  <meta property="og:description" content="What I'm currently focused on — building Gelectron, maintaining the FEDL, and more.">
+  <meta property="og:description" content="What I'm currently focused on — building Gelectron, maintaining the FEDL, working on Noto, and more.">
   <meta property="og:image" content="https://milesallen.site/og.png">
   <meta property="og:url" content="https://milesallen.site/now.html">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -89,8 +89,8 @@
         <p>The AI isn't a gimmick — it's actually useful. Summarize a page of notes in one tap. Transcribe voice memos automatically. Quiz yourself on what you wrote. Chat with your notes like they're a second brain. Cloud (OpenAI) or local (Ollama), your choice. No subscription nonsense.</p>
 
         <h2>Building Gelectron</h2>
-        <p>My side project is <strong><a href="https://gelectron.milesallen.site/" target="_blank" style="color:var(--accent);">Gelectron</a></strong> — a Firefox-engine alternative to Electron, powered by Servo. I'm focused on keeping file size and RAM usage really, really low. Electron apps are bloated — a basic Electron app can be 150MB+ and eat 300MB of RAM just to show a window. I want Gelectron to ship at a fraction of that.</p>
-        <p>Drop-in replacement — just run <code>gelectron .</code> instead of <code>electron .</code>. Right now I'm filling out the Electron API compatibility layer (BrowserWindow, IPC, Menu, Tray) and getting the Servo rendering pipeline working. It's a Rust + Node.js project and it's teaching me a ton about browser engines, FFI, and systems programming. Every byte and allocation matters.</p>
+        <p>My side project is <strong><a href="https://gelectron.milesallen.site/" target="_blank" style="color:var(--accent);">Gelectron</a></strong> — a drop-in replacement for Electron that uses native web views (WKWebView / WebView2 / WebKitGTK) instead of bundling Chromium. No 150MB+ binaries. No 300MB of RAM just to show a window. Just your app, running on the OS-native renderer.</p>
+        <p>Drop-in replacement — just run <code>gelectron .</code> instead of <code>electron .</code>. Right now I'm filling out the Electron API compatibility layer (BrowserWindow, IPC, Menu, Tray). It's a Rust + Node.js project and every byte and allocation matters.</p>
 
         <h2>Maintaining the FEDL</h2>
         <p>The <strong><a href="https://fedl.site" target="_blank" style="color:var(--accent);">Geometry Dash demon list</a></strong> is still going strong. Nearly 4,000 verified runs, 340+ ranked levels, and a community that keeps me busy. I'm working on better moderation tools and a cleaner submission pipeline.</p>

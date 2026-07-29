@@ -4,10 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gelectron | Miles Wolf Allen</title>
-  <meta name="description" content="Gelectron — a Firefox-engine alternative to Electron, powered by Servo. Drop-in replacement for Electron apps, just run gelectron . instead of electron.">
+  <meta name="description" content="Gelectron — drop-in replacement for Electron using native web views (WKWebView / WebView2 / WebKitGTK) instead of bundling Chromium. Just run gelectron . instead of electron .">
   <link rel="canonical" href="https://milesallen.site/projects/gelectron.html">
   <meta property="og:title" content="Gelectron | Miles Wolf Allen">
-  <meta property="og:description" content="Gelectron — a Firefox-engine alternative to Electron, powered by Servo. Drop-in replacement for Electron apps.">
+  <meta property="og:description" content="Gelectron — drop-in replacement for Electron using native web views (WKWebView / WebView2 / WebKitGTK) instead of bundling Chromium.">
   <meta property="og:image" content="https://milesallen.site/og.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
@@ -59,7 +59,7 @@
       </div>
 
       <h1>Gelectron</h1>
-      <p class="tagline">Electron, but lighter. A Firefox-engine alternative powered by Servo. Drop-in replacement — just run gelectron . instead of electron .</p>
+      <p class="tagline">Drop-in replacement for Electron using native web views (WKWebView / WebView2 / WebKitGTK) instead of bundling Chromium. Just run gelectron . instead of electron .</p>
 
       <div class="project-meta-bar">
         <a href="https://github.com/mileswolfallen2/gelectron" class="meta-chip primary" target="_blank">
@@ -110,9 +110,9 @@
         <div class="feature-card">
           <h3>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 10h-1.26A8 8 0 109 20h9a5 5 0 000-10z"/></svg>
-            Servo Engine
+            Native Web Views
           </h3>
-          <p>Powered by Servo, Mozilla's next-gen browser engine. Uses Gecko's CSS engine (Stylo) and GPU compositor (WebRender) instead of bundling Chromium.</p>
+          <p>Uses the OS-native renderer on every platform — WKWebView on macOS/iOS, WebView2 on Windows, WebKitGTK on Linux. No bundled browser engine.</p>
         </div>
         <div class="feature-card">
           <h3>
@@ -126,14 +126,14 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.66 0 3-4.03 3-9s-1.34-9-3-9m0 18c-1.66 0-3-4.03-3-9s1.34-9 3-9"/></svg>
             Smaller Binaries
           </h3>
-          <p>Rust static linking means smaller output than Electron's Chromium bundle. No more 150MB+ binaries for simple apps.</p>
+          <p>No Chromium bundle means binaries are a fraction of Electron's size. Rust static linking keeps them lean. No more 150MB+ apps.</p>
         </div>
         <div class="feature-card">
           <h3>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
             Lower Memory
           </h3>
-          <p>Servo's architecture is designed for embedding and uses less memory than Chromium. Your users will notice the difference.</p>
+          <p>Native web views don't need a separate Chromium process per window. Less overhead, less RAM, snappier feel. Your users will notice.</p>
         </div>
         <div class="feature-card">
           <h3>
@@ -165,7 +165,7 @@
       <div class="section-divider"></div>
       <h2 class="section-title">Status</h2>
       <div class="desc-text">
-        <p>Gelectron is in very early development. This is an experiment — a proof of concept that Electron apps can run on a non-Chromium engine. Many Electron APIs are currently stubs or incomplete. Some things will break. Some things don't exist yet.</p>
+        <p>Gelectron is in very early development. This is an experiment — a proof of concept that Electron apps can run using native web views instead of bundling Chromium. Many Electron APIs are currently stubs or incomplete. Some things will break. Some things don't exist yet.</p>
         <p>The goal right now isn't to replace Electron for production apps. It's to explore whether this is possible, learn how Electron's internals work, and build a foundation that could grow into something real.</p>
         <p>If you're curious, try it out with a simple Electron app. If you find bugs, open an issue. If you want to contribute, even better.</p>
       </div>
