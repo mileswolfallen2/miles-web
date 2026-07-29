@@ -1,0 +1,1480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Internet History | From ARPANET to AI</title>
+  <meta name="description" content="A cinematic visual timeline of the Internet's story, from the first packet-switched network to today's AI-powered web.">
+  <link rel="canonical" href="https://milesallen.site/experiments.html">
+  <meta property="og:title" content="Internet History | From ARPANET to AI">
+  <meta property="og:description" content="A cinematic visual timeline of the Internet's story, from the first packet-switched network to today's AI-powered web.">
+  <meta property="og:image" content="https://milesallen.site/og.png">
+  <meta property="og:url" content="https://milesallen.site/experiments.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="stylesheet" href="projects/style.css">
+  <style>
+:root{--exp-bg:#0a0a0f;}
+body{background:var(--exp-bg);color:#f4f4f8;font-size:15px;min-height:100vh;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,10,15,0.92);backdrop-filter:blur(18px);padding:14px 24px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,0.08);}
+.nav-logo{font-family:var(--font-pixel);font-size:10px;color:var(--text);text-decoration:none;display:flex;align-items:center;gap:8px;}
+.nav-logo .logo-dot{width:10px;height:10px;background:var(--accent);display:inline-block;}
+.nav-links{display:flex;gap:18px;}
+.nav-links a{font-family:var(--font-mono);font-size:11px;color:var(--muted);text-decoration:none;text-transform:uppercase;letter-spacing:.04em;}
+.nav-links a:hover{color:var(--accent);}
+.scroll-content{position:relative;z-index:1;padding-top:60px;}
+.hist-hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;perspective:1200px;text-align:center;padding:60px 5vw 80px;}
+.globe-wrap{width:260px;height:260px;position:relative;margin-bottom:32px;animation:globeFloat 6s ease-in-out infinite;transform-style:preserve-3d;}
+.hist-hero{background:radial-gradient(circle at top center, rgba(255,61,154,0.12), transparent 40%);}
+.hist-hero h1{max-width:780px;line-height:1.1;}
+.hist-hero .sub{font-family:var(--font-mono);font-size:14px;color:var(--muted);margin-top:24px;z-index:2;max-width:680px;line-height:1.8;}
+@keyframes globeFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-15px);}}
+.globe-ring{position:absolute;width:100%;height:100%;border:2px solid rgba(255,61,154,0.2);border-radius:50%;left:0;top:0;transform-style:preserve-3d;}
+.globe-ring:nth-child(1){transform:rotateY(0deg);border-color:rgba(255,61,154,0.3);}
+.globe-ring:nth-child(2){transform:rotateY(30deg);border-color:rgba(255,61,154,0.2);}
+.globe-ring:nth-child(3){transform:rotateY(60deg);border-color:rgba(255,61,154,0.15);}
+.globe-ring:nth-child(4){transform:rotateY(90deg);border-color:rgba(255,61,154,0.2);}
+.globe-ring:nth-child(5){transform:rotateY(120deg);border-color:rgba(255,61,154,0.15);}
+.globe-ring:nth-child(6){transform:rotateX(60deg);border-color:rgba(255,61,154,0.12);}
+.globe-ring:nth-child(7){transform:rotateX(-60deg);border-color:rgba(255,61,154,0.12);}
+.hist-hero h1{font-family:var(--font-pixel);font-size:clamp(20px,5vw,42px);color:var(--text);text-shadow:4px 4px 0 var(--accent);z-index:2;line-height:1.3;}
+.hist-hero .sub{font-family:var(--font-mono);font-size:12px;color:var(--muted);margin-top:16px;z-index:2;max-width:500px;}
+.hist-progress{position:fixed;left:18px;top:50%;transform:translateY(-50%);z-index:50;display:flex;flex-direction:column;gap:6px;}
+.hist-progress a{width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,0.12);transition:all .3s;display:flex;align-items:center;justify-content:center;text-decoration:none;position:relative;}
+.hist-progress a .dot-label{position:absolute;left:22px;font-family:var(--font-mono);font-size:9px;color:var(--muted);white-space:nowrap;opacity:0;transition:opacity .25s;pointer-events:none;background:rgba(10,10,15,0.94);padding:6px 10px;border:1px solid rgba(255,255,255,0.08);border-radius:999px;}
+.hist-progress a:hover .dot-label,.hist-progress a.active .dot-label{opacity:1;}
+.hist-progress a.active{background:var(--accent);transform:scale(1.35);box-shadow:0 0 18px rgba(255,61,154,0.35);}
+.hist-progress a:hover{background:rgba(255,61,154,0.5);transform:scale(1.15);}
+.hist-progress a .dot-dot{width:8px;height:8px;border-radius:50%;background:inherit;flex-shrink:0;}
+.era-indicator{position:fixed;right:24px;top:50%;transform:translateY(-50%);z-index:50;text-align:right;pointer-events:none;transition:opacity .5s;}
+.era-indicator .ei-year{font-family:var(--font-pixel);font-size:9px;color:var(--accent);letter-spacing:.12em;}
+.era-indicator .ei-name{font-family:var(--font-mono);font-size:11px;color:var(--text);margin-top:2px;}
+.era-indicator .ei-bar{width:2px;height:30px;background:var(--accent);margin-left:auto;margin-top:6px;border-radius:1px;}
+.era{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:80px 5vw;position:relative;overflow:hidden;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.08);border-radius:28px;box-shadow:0 30px 100px rgba(0,0,0,0.18);margin:0 auto 40px;max-width:1180px;}
+.era-header{text-align:center;margin-bottom:34px;z-index:2;width:100%;}
+.era-header .year{font-family:var(--font-pixel);font-size:11px;color:var(--accent);letter-spacing:.2em;text-transform:uppercase;}
+.era-header h2{font-family:var(--font-pixel);font-size:clamp(24px,4vw,42px);color:var(--text);margin-top:12px;text-transform:uppercase;letter-spacing:.08em;}
+.era-header p{font-family:var(--font-mono);font-size:14px;color:#c4c4d1;max-width:700px;margin:14px auto 0;line-height:1.85;}
+.era-content{position:relative;z-index:2;width:100%;max-width:920px;padding-top:18px;}
+
+.era-50s .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;}
+.era-50s .node-card{border:2px solid rgba(0,255,65,0.15);background:rgba(0,255,65,0.03);padding:24px;text-align:center;position:relative;font-family:var(--font-mono);font-size:12px;color:#aaa;}
+.era-50s .node-card .pulse{position:absolute;width:100%;height:100%;top:0;left:0;border:2px solid rgba(0,255,65,0.1);animation:nodePulse 2s ease-out infinite;pointer-events:none;}
+.era-50s .node-card:nth-child(2) .pulse{animation-delay:.5s;}
+.era-50s .node-card:nth-child(3) .pulse{animation-delay:1s;}
+.era-50s .node-card:nth-child(4) .pulse{animation-delay:1.5s;}
+@keyframes nodePulse{0%{transform:scale(1);opacity:1;}100%{transform:scale(1.15);opacity:0;}}
+.era-50s .node-card .label{color:var(--green, #39FF14);font-size:10px;font-family:var(--font-pixel);text-transform:uppercase;margin-bottom:8px;display:block;}
+.era-50s .network-lines{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;}
+
+.era-69 .terminal-box{background:#0d0d0d;border:2px solid #33ff33;padding:28px;font-family:var(--font-mono);font-size:14px;color:#33ff33;max-width:600px;margin:0 auto;position:relative;box-shadow:0 0 30px rgba(51,255,51,0.05);}
+.era-69 .terminal-box .prompt{color:#888;}
+.era-69 .terminal-box .cursor{animation:blink 1s step-end infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
+.era-69 .terminal-box .crash-text{color:#ff3333;font-weight:700;}
+.era-69 .scanlines{position:absolute;top:0;left:0;width:100%;height:100%;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,255,0,0.03) 2px,rgba(0,255,0,0.03) 4px);pointer-events:none;}
+
+.era-70s .net-canvas{width:100%;height:400px;border:2px solid rgba(255,61,154,0.1);background:rgba(255,61,154,0.02);position:relative;overflow:hidden;}
+.era-70s .net-label{font-family:var(--font-pixel);font-size:8px;color:var(--muted);text-align:center;margin-top:8px;text-transform:uppercase;}
+
+.era-83 .countdown{text-align:center;}
+.era-83 .big-date{font-family:var(--font-pixel);font-size:clamp(32px,8vw,72px);color:var(--accent);text-shadow:0 0 40px rgba(255,61,154,0.3);}
+.era-83 .big-date .hl{color:var(--tape);}
+.era-83 .bday-particles{position:relative;height:200px;overflow:hidden;}
+.era-83 .confetti{position:absolute;width:8px;height:8px;animation:confettiFall linear infinite;}
+@keyframes confettiFall{0%{transform:translateY(-20px) rotate(0deg);opacity:1;}100%{transform:translateY(200px) rotate(720deg);opacity:0;}}
+
+.era-80s .crt-box{background:#0a0a0a;border:4px solid #333;border-radius:8px;padding:32px;max-width:600px;margin:0 auto;box-shadow:0 0 60px rgba(0,0,0,0.5),inset 0 0 60px rgba(0,255,0,0.02);position:relative;}
+.era-80s .crt-box::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,255,0,0.04) 2px,rgba(0,255,0,0.04) 4px);pointer-events:none;border-radius:4px;}
+.era-80s .crt-text{font-family:var(--font-mono);font-size:13px;color:#33ff33;line-height:1.9;}
+.era-80s .crt-text .prompt{color:#888;}
+.era-80s .crt-text .blink-cursor{animation:blink2 1s step-end infinite;background:#33ff33;display:inline-block;width:8px;height:14px;vertical-align:text-bottom;}
+@keyframes blink2{0%,100%{opacity:1;}50%{opacity:0;}}
+
+.era-dns .dns-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;}
+.era-dns .dns-card{background:rgba(255,255,255,0.03);border:2px solid rgba(255,255,255,0.1);padding:24px 16px;text-align:center;font-family:var(--font-pixel);font-size:9px;text-transform:uppercase;transition:all .3s;}
+.era-dns .dns-card:hover{border-color:var(--accent);background:rgba(255,61,154,0.06);transform:translateY(-4px);}
+.era-dns .dns-card .domain{color:var(--text);font-size:12px;font-family:var(--font-mono);font-weight:700;text-transform:none;}
+.era-dns .dns-card .tld{color:var(--accent);font-size:18px;display:block;margin-bottom:6px;}
+.era-dns .dns-card .desc{margin-top:8px;color:var(--muted);font-family:var(--font-mono);font-size:10px;text-transform:none;}
+
+.era-www .first-page{background:#fff;color:#000;padding:40px;max-width:600px;margin:0 auto;font-family:'Times New Roman',serif;}
+.era-www .first-page h1{font-size:24px;font-weight:700;margin-bottom:16px;}
+.era-www .first-page p{font-size:16px;line-height:1.5;margin-bottom:12px;}
+.era-www .first-page a{color:#00e;text-decoration:underline;}
+.era-www .first-page hr{border:none;border-top:1px solid #000;margin:16px 0;}
+.era-www .first-page address{font-style:italic;font-size:14px;margin-top:16px;}
+.era-www .badge{font-family:var(--font-pixel);font-size:8px;color:var(--muted);text-align:center;margin-top:12px;}
+
+.era-90s .retro-box{background:#fff;padding:40px;max-width:600px;margin:0 auto;border:2px solid #ccc;}
+.era-90s .retro-box h1{font-family:'Times New Roman',serif;font-size:28px;color:#000;margin-bottom:16px;}
+.era-90s .retro-box p{font-family:'Times New Roman',serif;font-size:16px;color:#000;line-height:1.5;margin-bottom:12px;}
+.era-90s .retro-box a{color:#00e;text-decoration:underline;}
+.era-90s .retro-box hr{border:none;border-top:2px solid #ccc;margin:16px 0;}
+.era-90s .retro-box .tag{background:#ccc;color:#000;padding:2px 6px;font-family:var(--font-mono);font-size:10px;display:inline-block;margin:2px;}
+
+.era-browsers .browser-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;}
+.era-browsers .browser-card{background:rgba(255,255,255,0.02);border:2px solid rgba(255,255,255,0.1);padding:24px;position:relative;transition:border-color .3s;}
+.era-browsers .browser-card:hover{border-color:var(--accent);}
+.era-browsers .browser-card .logo{font-size:32px;display:block;margin-bottom:12px;}
+.era-browsers .browser-card h3{font-family:var(--font-pixel);font-size:9px;color:var(--text);text-transform:uppercase;margin-bottom:8px;}
+.era-browsers .browser-card p{font-family:var(--font-mono);font-size:11px;color:#999;line-height:1.6;}
+.era-browsers .browser-window{background:#c0c0c0;border:2px solid #000;padding:4px;max-width:450px;margin:20px auto;}
+.era-browsers .browser-window .title-bar{background:#000080;color:#fff;padding:4px 8px;font-family:var(--font-mono);font-size:11px;display:flex;justify-content:space-between;}
+.era-browsers .browser-window .body{background:#fff;color:#000;padding:16px;min-height:100px;font-family:'Times New Roman',serif;font-size:14px;}
+
+.era-dotcom .boom-text{text-align:center;font-family:var(--font-pixel);font-size:clamp(32px,8vw,80px);color:var(--green, #39FF14);text-shadow:0 0 60px rgba(57,255,20,0.2);position:relative;}
+.era-dotcom .boom-text .dot{color:var(--accent);}
+.era-dotcom .sub-text{font-family:var(--font-mono);font-size:11px;color:var(--muted);text-align:center;margin-top:12px;}
+.era-dotcom .money-rain{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:hidden;}
+.era-dotcom .money-rain span{position:absolute;font-family:var(--font-pixel);font-size:14px;color:var(--green);animation:moneyFall 3s linear infinite;opacity:.3;}
+@keyframes moneyFall{0%{transform:translateY(-20px) rotate(0deg);opacity:0.3;}100%{transform:translateY(100vh) rotate(360deg);opacity:0;}}
+
+.era-search .search-stack{max-width:500px;margin:0 auto;display:flex;flex-direction:column;gap:8px;}
+.era-search .search-bar{display:flex;align-items:center;gap:10px;padding:12px 16px;border:2px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.02);transition:all .3s;}
+.era-search .search-bar:hover{border-color:var(--accent);}
+.era-search .search-bar .name{font-family:var(--font-pixel);font-size:8px;color:var(--accent);min-width:70px;text-transform:uppercase;}
+.era-search .search-bar .bar{flex:1;height:20px;background:rgba(255,255,255,0.05);position:relative;overflow:hidden;}
+.era-search .search-bar .bar .fill{height:100%;background:var(--accent);animation:searchFill 2s ease-in-out infinite;width:60%;}
+@keyframes searchFill{0%{width:20%;}50%{width:80%;}100%{width:20%;}}
+.era-search .search-bar .bar .fill.g{background:var(--green, #39FF14);}
+.era-search .search-bar .bar .fill.y{background:var(--tape);}
+
+.era-js .js-box{text-align:center;padding:40px;border:2px solid rgba(255,255,255,0.1);max-width:450px;margin:0 auto;}
+.era-js .js-box .counter{font-family:var(--font-mono);font-size:clamp(48px,10vw,96px);font-weight:700;color:var(--accent);}
+.era-js .js-box .js-buttons{display:flex;gap:12px;justify-content:center;margin-top:16px;flex-wrap:wrap;}
+.era-js .js-box .js-btn{padding:10px 20px;background:transparent;border:2px solid var(--accent);color:var(--accent);font-family:var(--font-pixel);font-size:8px;text-transform:uppercase;letter-spacing:.06em;}
+.era-js .js-box .js-btn:hover{background:var(--accent);color:var(--exp-bg);}
+.era-js .js-box .timestamp{font-family:var(--font-mono);font-size:11px;color:var(--muted);margin-top:16px;}
+
+.era-crash .crash-visual{position:relative;text-align:center;}
+.era-crash .crash-num{font-family:var(--font-pixel);font-size:clamp(40px,10vw,100px);color:#ff0000;animation:crashShake .15s infinite;display:inline-block;}
+@keyframes crashShake{0%{transform:translate(0,0) rotate(0deg);}25%{transform:translate(2px,-1px) rotate(1deg);}50%{transform:translate(-1px,2px) rotate(-1deg);}75%{transform:translate(2px,1px) rotate(0deg);}100%{transform:translate(-2px,-1px) rotate(1deg);}}
+.era-crash .crash-sub{font-family:var(--font-mono);font-size:12px;color:#ff0000;margin-top:12px;opacity:.6;}
+.era-crash .crash-bars{display:flex;gap:4px;justify-content:center;margin-top:24px;height:80px;align-items:flex-end;}
+.era-crash .crash-bars .bar{width:20px;background:#ff0000;animation:barDrop 3s ease-in-out infinite;opacity:.3;}
+.era-crash .crash-bars .bar:nth-child(1){height:80px;animation-delay:0s;}
+.era-crash .crash-bars .bar:nth-child(2){height:50px;animation-delay:.2s;}
+.era-crash .crash-bars .bar:nth-child(3){height:20px;animation-delay:.4s;}
+.era-crash .crash-bars .bar:nth-child(4){height:10px;animation-delay:.6s;}
+.era-crash .crash-bars .bar:nth-child(5){height:5px;animation-delay:.8s;}
+.era-crash .crash-bars .bar:nth-child(6){height:3px;animation-delay:1s;}
+.era-crash .crash-bars .bar:nth-child(7){height:2px;animation-delay:1.2s;}
+@keyframes barDrop{0%,100%{opacity:0.3;}50%{opacity:1;}}
+
+.era-broadband .speed-meter{width:300px;height:300px;border-radius:50%;border:4px solid rgba(255,255,255,0.1);position:relative;margin:0 auto;}
+.era-broadband .speed-meter .needle{position:absolute;bottom:50%;left:50%;width:4px;height:45%;background:var(--accent);transform-origin:bottom center;transform:translateX(-50%) rotate(-90deg);animation:needleSweep 4s ease-in-out infinite;border-radius:2px;}
+@keyframes needleSweep{0%{transform:translateX(-50%) rotate(-80deg);}50%{transform:translateX(-50%) rotate(80deg);}100%{transform:translateX(-50%) rotate(-80deg);}}
+.era-broadband .speed-meter .label{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:var(--font-pixel);font-size:12px;color:var(--text);text-align:center;}
+.era-broadband .speed-meter .label .val{display:block;font-size:24px;color:var(--accent);margin-bottom:4px;}
+.era-broadband .speed-steps{display:flex;gap:12px;justify-content:center;margin-top:24px;flex-wrap:wrap;}
+.era-broadband .speed-step{padding:10px 18px;border:1px solid rgba(255,255,255,0.08);font-family:var(--font-mono);font-size:11px;color:var(--muted);}
+.era-broadband .speed-step .hl{color:var(--text);font-weight:700;}
+
+.era-web2 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;}
+.era-web2 .w2-card{border:1px solid rgba(255,255,255,0.08);padding:20px;background:rgba(255,255,255,0.02);text-align:center;transition:border-color .3s,transform .3s;}
+.era-web2 .w2-card:hover{border-color:var(--accent);transform:translateY(-3px);}
+.era-web2 .w2-card .emoji{font-size:28px;margin-bottom:8px;display:block;}
+.era-web2 .w2-card h3{font-family:var(--font-pixel);font-size:8px;color:var(--text);text-transform:uppercase;margin-bottom:6px;}
+.era-web2 .w2-card p{font-family:var(--font-mono);font-size:11px;color:#888;line-height:1.5;}
+
+.era-social .platform-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px;}
+.era-social .platform-card{padding:24px 16px;border:2px solid rgba(255,255,255,0.08);text-align:center;transition:all .3s;position:relative;overflow:hidden;}
+.era-social .platform-card:hover{border-color:var(--accent);transform:scale(1.03);}
+.era-social .platform-card .icon{font-size:32px;margin-bottom:10px;display:block;}
+.era-social .platform-card .name{font-family:var(--font-pixel);font-size:8px;text-transform:uppercase;color:var(--text);}
+.era-social .platform-card .year{font-family:var(--font-mono);font-size:10px;color:var(--muted);margin-top:4px;}
+.era-social .platform-card .glow{position:absolute;width:100%;height:2px;bottom:0;left:0;animation:glowPulse 2s ease-in-out infinite;}
+@keyframes glowPulse{0%,100%{opacity:.3;}50%{opacity:1;}}
+
+.era-phone .phone-frame{width:220px;height:440px;border:4px solid #333;border-radius:36px;margin:0 auto;padding:12px;position:relative;background:#000;box-shadow:0 0 60px rgba(255,61,154,0.1);}
+.era-phone .phone-frame .notch{position:absolute;top:12px;left:50%;transform:translateX(-50%);width:80px;height:20px;background:#111;border-radius:0 0 12px 12px;}
+.era-phone .phone-frame .screen{width:100%;height:100%;background:var(--exp-bg);border-radius:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;padding:16px;text-align:center;}
+.era-phone .phone-frame .screen .app-icon{width:40px;height:40px;background:var(--accent);margin:4px;display:inline-flex;align-items:center;justify-content:center;font-size:18px;border-radius:10px;}
+.era-phone .phone-frame .screen .app-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;width:100%;margin-bottom:12px;}
+.era-phone .phone-frame .screen .status-bar{font-family:var(--font-mono);font-size:7px;color:var(--muted);width:100%;display:flex;justify-content:space-between;margin-bottom:8px;}
+
+.era-cloud .cloud-canvas{width:100%;height:350px;border:2px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.01);position:relative;overflow:hidden;}
+.era-cloud .cloud-node{position:absolute;border:2px solid rgba(255,255,255,0.1);padding:8px 16px;font-family:var(--font-pixel);font-size:7px;color:var(--muted);text-transform:uppercase;background:rgba(10,10,15,0.9);}
+.era-cloud .cloud-node .hl{color:var(--accent);}
+.era-cloud .cloud-shape{position:absolute;width:120px;height:60px;background:rgba(255,61,154,0.04);border:2px solid rgba(255,61,154,0.1);border-radius:60px;animation:cloudDrift 8s ease-in-out infinite;}
+@keyframes cloudDrift{0%,100%{transform:translateX(0);}50%{transform:translateX(20px);}}
+
+.era-streaming .player-box{max-width:450px;margin:0 auto;background:#111;border:2px solid rgba(255,255,255,0.1);padding:24px;}
+.era-streaming .player-box .track{display:flex;align-items:center;gap:16px;margin-bottom:16px;}
+.era-streaming .player-box .track .art{width:48px;height:48px;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:20px;}
+.era-streaming .player-box .track .info .name{font-family:var(--font-mono);font-size:13px;color:var(--text);}
+.era-streaming .player-box .track .info .artist{font-family:var(--font-mono);font-size:10px;color:var(--muted);}
+.era-streaming .player-box .waveform{display:flex;gap:3px;height:40px;align-items:center;justify-content:center;}
+.era-streaming .player-box .waveform .bar{width:4px;background:var(--accent);animation:waveAnim .6s ease-in-out infinite;border-radius:2px;}
+.era-streaming .player-box .waveform .bar:nth-child(1){height:20px;animation-delay:0s;}
+.era-streaming .player-box .waveform .bar:nth-child(2){height:30px;animation-delay:.1s;}
+.era-streaming .player-box .waveform .bar:nth-child(3){height:40px;animation-delay:.2s;}
+.era-streaming .player-box .waveform .bar:nth-child(4){height:25px;animation-delay:.3s;}
+.era-streaming .player-box .waveform .bar:nth-child(5){height:35px;animation-delay:.4s;}
+.era-streaming .player-box .waveform .bar:nth-child(6){height:15px;animation-delay:.15s;}
+.era-streaming .player-box .waveform .bar:nth-child(7){height:30px;animation-delay:.35s;}
+.era-streaming .player-box .waveform .bar:nth-child(8){height:22px;animation-delay:.05s;}
+.era-streaming .player-box .controls{display:flex;gap:20px;justify-content:center;margin-top:16px;}
+.era-streaming .player-box .controls .ctrl{font-size:24px;cursor:default;transition:color .2s;}
+.era-streaming .player-box .controls .ctrl:hover{color:var(--accent);}
+
+.era-modern .app-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;max-width:600px;margin:0 auto;}
+.era-modern .app-item{padding:16px;border:1px solid rgba(255,255,255,0.06);text-align:center;transition:all .2s;background:rgba(255,255,255,0.02);}
+.era-modern .app-item:hover{border-color:var(--accent);transform:translateY(-3px);}
+.era-modern .app-item .emoji{font-size:22px;display:block;margin-bottom:4px;}
+.era-modern .app-item .name{font-family:var(--font-mono);font-size:9px;color:var(--text);}
+.era-modern .app-item .cat{font-family:var(--font-pixel);font-size:6px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:2px;}
+
+.era-2010s .timeline{position:relative;padding-left:30px;max-width:600px;margin:0 auto;}
+.era-2010s .timeline::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:2px;background:rgba(255,61,154,0.2);}
+.era-2010s .tl-item{position:relative;margin-bottom:24px;padding-left:20px;font-family:var(--font-mono);font-size:12px;color:#999;line-height:1.6;}
+.era-2010s .tl-item::before{content:'';position:absolute;left:-26px;top:4px;width:10px;height:10px;border-radius:50%;background:var(--accent);border:2px solid var(--exp-bg);}
+.era-2010s .tl-item .yr{font-family:var(--font-pixel);font-size:9px;color:var(--accent);display:block;margin-bottom:2px;}
+.era-2010s .tl-item .hl{color:var(--text);}
+
+.era-2020s .ai-visual{position:relative;height:300px;display:flex;align-items:center;justify-content:center;}
+.era-2020s .ai-node{position:absolute;width:12px;height:12px;border-radius:50%;background:var(--accent);animation:aiPulse 2s ease-in-out infinite;}
+.era-2020s .ai-node:nth-child(1){top:20%;left:30%;animation-delay:0s;}
+.era-2020s .ai-node:nth-child(2){top:60%;left:20%;animation-delay:.3s;}
+.era-2020s .ai-node:nth-child(3){top:30%;left:60%;animation-delay:.6s;}
+.era-2020s .ai-node:nth-child(4){top:70%;left:70%;animation-delay:.9s;}
+.era-2020s .ai-node:nth-child(5){top:10%;left:80%;animation-delay:1.2s;}
+.era-2020s .ai-node:nth-child(6){top:80%;left:40%;animation-delay:1.5s;}
+.era-2020s .ai-node:nth-child(7){top:50%;left:50%;width:20px;height:20px;background:var(--tape);animation-delay:.5s;}
+@keyframes aiPulse{0%,100%{transform:scale(1);opacity:.4;box-shadow:0 0 0 0 rgba(255,61,154,0.4);}50%{transform:scale(1.3);opacity:1;box-shadow:0 0 20px 10px rgba(255,61,154,0.1);}}
+.era-2020s .ai-text{text-align:center;font-family:var(--font-mono);font-size:12px;color:#999;margin-top:16px;max-width:500px;margin-left:auto;margin-right:auto;line-height:1.7;}
+
+.era-flow .flow-diagram{display:flex;flex-direction:column;align-items:center;gap:4px;max-width:500px;margin:0 auto;}
+.era-flow .flow-diagram .flow-row{display:flex;align-items:center;gap:8px;justify-content:center;flex-wrap:wrap;}
+.era-flow .flow-diagram .flow-box{padding:8px 16px;border:2px solid rgba(255,255,255,0.1);font-family:var(--font-mono);font-size:10px;color:#aaa;text-align:center;background:rgba(255,255,255,0.02);}
+.era-flow .flow-diagram .flow-box.hl{border-color:var(--accent);color:var(--accent);}
+.era-flow .flow-diagram .flow-box.tl{border-color:var(--tape);color:var(--tape);}
+.era-flow .flow-diagram .flow-arrow{color:var(--muted);font-size:14px;opacity:.5;}
+.era-flow .flow-note{font-family:var(--font-mono);font-size:10px;color:var(--muted);background:rgba(255,255,255,0.03);padding:16px;max-width:500px;margin:16px auto 0;line-height:1.8;}
+
+.era-inventions .inv-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;}
+.era-inventions .inv-item{padding:12px;border:1px solid rgba(255,255,255,0.06);font-family:var(--font-mono);font-size:10px;color:#999;text-align:center;transition:all .2s;}
+.era-inventions .inv-item:hover{border-color:var(--accent);color:var(--text);background:rgba(255,61,154,0.04);}
+
+footer{text-align:center;padding:40px 5vw;border-top:1px solid rgba(255,255,255,0.04);margin-top:0;}
+footer .footer-text{font-family:var(--font-mono);font-size:10px;color:var(--muted);line-height:1.8;}
+
+/* 50s packet traveling dots */
+.era-50s .packet-dot{position:absolute;width:7px;height:7px;border-radius:50%;background:var(--green, #39FF14);opacity:0;pointer-events:none;z-index:1;box-shadow:0 0 8px var(--green, #39FF14);}
+.era-50s .packet-trail{position:absolute;height:2px;background:linear-gradient(90deg,var(--green, #39FF14),transparent);opacity:0;pointer-events:none;z-index:1;}
+/* DNS cycling highlight */
+.dns-card.active{border-color:var(--accent) !important;background:rgba(255,61,154,0.12) !important;transform:translateY(-6px) !important;}
+.dns-card.popping{animation:cardPop .6s cubic-bezier(.68,-.55,.27,1.55);}
+@keyframes cardPop{0%{transform:scale(1);}50%{transform:scale(1.1);box-shadow:0 0 30px rgba(255,61,154,0.3);}100%{transform:scale(1);}}
+.dns-resolver{margin-top:20px;padding:16px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.02);text-align:center;min-height:60px;font-family:var(--font-mono);font-size:13px;line-height:1.8;}
+.dns-resolver .query{color:var(--tape);}
+.dns-resolver .arrow{color:var(--muted);margin:0 8px;}
+.dns-resolver .result{color:var(--green, #39FF14);}
+/* WWW scan line */
+.www-scan-wrap{position:absolute;left:0;right:0;top:0;bottom:0;pointer-events:none;z-index:2;overflow:hidden;}
+.www-scan-line{position:absolute;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:.5;}
+/* 90s blink */
+.tag-blink{animation:tagBlink 1.2s ease-in-out infinite;}
+@keyframes tagBlink{0%,100%{opacity:1;}50%{opacity:0.3;}}
+/* Browser loading */
+.loading-bar-track{width:100%;height:6px;background:rgba(0,0,0,0.1);margin-top:12px;overflow:hidden;}
+.loading-bar-fill{height:100%;background:#000080;width:0%;}
+/* Web 2.0 bounce */
+.w2-bounce{animation:w2Bounce 2.5s ease-in-out infinite;}
+@keyframes w2Bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+/* Phone screen breathe */
+.phone-breathe{animation:phoneBreathe 3s ease-in-out infinite;}
+@keyframes phoneBreathe{0%,100%{box-shadow:0 0 60px rgba(255,61,154,0.08);}50%{box-shadow:0 0 90px rgba(255,61,154,0.2);}}
+/* App grid float */
+.app-item.float-app{animation:appFloat 4s ease-in-out infinite;}
+.app-item.float-app:nth-child(2n){animation-delay:.5s;}
+.app-item.float-app:nth-child(3n){animation-delay:1s;}
+.app-item.float-app:nth-child(4n){animation-delay:1.5s;}
+@keyframes appFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);}}
+/* Timeline grow */
+.tl-dot-pop{animation:tlPop .4s cubic-bezier(.68,-.55,.27,1.55) forwards;}
+@keyframes tlPop{0%{transform:scale(0);}100%{transform:scale(1);}}
+.tl-line-draw{animation:tlDraw 1.5s ease-out forwards;}
+@keyframes tlDraw{from{height:0;}to{height:100%;}}
+/* Flow sequential pulse */
+.flow-glow{animation:flowGlow 2.5s ease-in-out infinite;}
+@keyframes flowGlow{0%,100%{border-color:rgba(255,255,255,0.1);background:rgba(255,255,255,0.02);}50%{border-color:var(--accent);background:rgba(255,61,154,0.1);color:var(--accent);}}
+/* Inventions spark */
+.inv-spark{animation:invSpark 1.5s ease-in-out;}
+@keyframes invSpark{0%,100%{background:transparent;border-color:rgba(255,255,255,0.06);}50%{background:rgba(255,61,154,0.1);border-color:var(--accent);color:var(--accent);}}
+/* Search typing */
+.search-query-box{font-family:var(--font-mono);font-size:13px;color:var(--text);text-align:center;margin-top:16px;min-height:50px;line-height:1.8;}
+.search-query-box .c-bar{animation:sc 1s step-end infinite;display:inline-block;width:2px;height:15px;background:var(--accent);vertical-align:text-bottom;}
+@keyframes sc{0%,100%{opacity:1;}50%{opacity:0;}}
+.searched{color:var(--tape);}
+.search-res{font-family:var(--font-mono);font-size:11px;color:#999;text-align:left;max-width:400px;margin:12px auto 0;padding:14px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.02);min-height:50px;display:none;}
+.search-res .sr-t{color:var(--text);font-size:13px;}
+.search-res .sr-u{color:var(--green, #39FF14);font-size:10px;margin:2px 0;}
+.search-res .sr-s{color:#888;font-size:10px;line-height:1.5;}
+/* Social canvas */
+.social-lines-canvas{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;}
+.platform-card.spark-card{animation:cardSpark .8s ease-in-out;}
+@keyframes cardSpark{0%{transform:scale(1);}30%{transform:scale(1.06);box-shadow:0 0 25px rgba(255,61,154,0.15);}100%{transform:scale(1);}}
+/* App ecosystem */
+.app-item.strong-f{animation:strongF 1.8s ease-in-out infinite;}
+@keyframes strongF{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}}
+
+@media(max-width:720px){
+  .nav-links{display:none;}
+  .hist-progress{left:8px;}
+  .hist-progress a{width:8px;height:8px;}
+  .era-indicator,.hist-progress{display:none;}
+  .globe-wrap{width:180px;height:180px;}
+  .era{padding:60px 4vw;min-height:auto;max-width:none;border-radius:0;border:none;box-shadow:none;margin-bottom:24px;}
+  .era-header h2{font-size:clamp(22px,6vw,32px);}
+  .era-header p{font-size:14px;}
+  .era-phone .phone-frame{width:180px;height:360px;}
+  .era-broadband .speed-meter{width:200px;height:200px;}
+}
+  </style>
+</head>
+<body>
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+  <div class="progress-bar" id="progressBar"></div>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme"></button>
+  <div class="shortcut-modal" id="shortcutModal">
+    <div class="shortcut-card">
+      <h3>Keyboard Shortcuts</h3>
+      <div class="shortcut-row"><span>Go Home</span><kbd>H</kbd></div>
+      <div class="shortcut-row"><span>Go to GitHub</span><kbd>G</kbd></div>
+      <div class="shortcut-row"><span>Toggle theme</span><kbd>T</kbd></div>
+      <div class="shortcut-row"><span>Show shortcuts</span><kbd>?</kbd></div>
+      <div class="close-hint">Press Esc or ? to close</div>
+    </div>
+  </div>
+  <div class="flash" id="flash"></div>
+  <div class="toast-stack" id="toastStack"></div>
+  <nav class="mobile-nav">
+    <a href="index.html">Home</a>
+    <a href="projects/fedl.html">FEDL</a>
+    <a href="projects/omniemu.html">OmniEmu</a>
+    <a href="projects/command-move.html">CommandMove</a>
+    <a href="https://github.com/mileswolfallen2" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </nav>
+
+  <nav>
+    <a href="index.html" class="nav-logo"><span class="logo-dot"></span> milesallen</a>
+    <div class="nav-links">
+      <a href="index.html#about">About</a>
+      <a href="index.html#skills">Skills</a>
+      <a href="index.html#projects">Projects</a>
+      <a href="index.html#contact">Contact</a>
+      <a href="https://github.com/mileswolfallen2" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </div>
+  </nav>
+
+  <div class="hist-progress" id="histProgress"></div>
+  <div class="era-indicator" id="eraIndicator">
+    <div class="ei-year" id="eiYear"></div>
+    <div class="ei-name" id="eiName"></div>
+    <div class="ei-bar"></div>
+  </div>
+
+  <div class="scroll-content">
+
+    <!-- HERO -->
+    <section class="hist-hero" id="era-hero">
+      <div class="globe-wrap" id="globe">
+        <div class="globe-ring"></div>
+        <div class="globe-ring"></div>
+        <div class="globe-ring"></div>
+        <div class="globe-ring"></div>
+        <div class="globe-ring"></div>
+        <div class="globe-ring"></div>
+        <div class="globe-ring"></div>
+      </div>
+      <h1>THE HISTORY<br>OF THE INTERNET</h1>
+      <p class="sub">From four computers to billions of devices — a cinematic timeline of the network that changed how we live, work, and think.</p>
+      <div style="position:absolute;bottom:40px;left:50%;transform:translateX(-50%);animation:scrollBob 2s ease-in-out infinite;text-align:center;">
+        <div style="font-family:var(--font-mono);font-size:9px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px;">Scroll to explore</div>
+        <div style="width:1px;height:30px;background:var(--accent);margin:0 auto;opacity:.5;"></div>
+      </div>
+      <style>
+      @keyframes scrollBob{0%,100%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(6px);}}
+      </style>
+    </section>
+
+    <!-- 1950s-60s -->
+    <section class="era era-50s" id="era-50s">
+      <div class="network-lines" id="networkLines"></div>
+      <div class="era-header">
+        <div class="year">1950s &mdash; 1960s</div>
+        <h2>The Idea</h2>
+        <p>The Cold War drove the need for networks that could survive nuclear attack. J.C.R. Licklider imagined an "Intergalactic Computer Network." Packet switching was born &mdash; splitting data into small packets that find their own route.</p>
+      </div>
+      <div class="era-content">
+        <div class="grid">
+          <div class="node-card">
+            <div class="pulse"></div>
+            <span class="label">Licklider</span>
+            Intergalactic Computer Network
+          </div>
+          <div class="node-card">
+            <div class="pulse"></div>
+            <span class="label">Packet Switching</span>
+            Split data &rarr; find routes &rarr; reassemble
+          </div>
+          <div class="node-card">
+            <div class="pulse"></div>
+            <span class="label">Cold War</span>
+            Survivable military networks
+          </div>
+          <div class="node-card">
+            <div class="pulse"></div>
+            <span class="label">Baran &amp; Davies</span>
+            Independently invented packet switching
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 1969 ARPANET -->
+    <section class="era era-69" id="era-69">
+      <div class="era-header">
+        <div class="year">1969</div>
+        <h2>ARPANET</h2>
+        <p>ARPANET became the first real packet-switched network. Four computers linked UCLA, Stanford, UCSB, and Utah. The first message ever sent was supposed to be "LOGIN" &mdash; but the system crashed after "LO."</p>
+      </div>
+      <div class="era-content">
+        <div class="terminal-box" id="arpanetTerminal">
+          <div class="scanlines"></div>
+          <div style="margin-bottom:12px;font-size:10px;opacity:.5;">ARPANET INITIALIZATION v1.0</div>
+          <div>> CONNECTING TO UCLA...</div>
+          <div>> CONNECTING TO SRI...</div>
+          <div>> CONNECTING TO UCSB...</div>
+          <div>> CONNECTING TO UTAH...</div>
+          <div style="margin:12px 0 8px;">> SENDING: <span style="color:#fff;">LOG</span><span class="cursor">_</span></div>
+          <div class="crash-text">! SYSTEM CRASH - SEGMENTATION FAULT</div>
+          <div style="margin-top:12px;font-size:11px;opacity:.6;">First message ever: <span style="color:#fff;">"LO"</span></div>
+          <div class="prompt" style="margin-top:16px;">_</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 1970s -->
+    <section class="era era-70s" id="era-70s">
+      <div class="era-header">
+        <div class="year">1970s</div>
+        <h2>Building the Foundation</h2>
+        <p>Email, file transfer, and remote login made networks useful beyond research. Vint Cerf and Bob Kahn then defined TCP/IP, the language that lets different networks speak to each other. The "internetwork" was born.</p>
+      </div>
+      <div class="era-content">
+        <div class="net-canvas" id="netCanvas">
+          <canvas id="tcpCanvas" style="width:100%;height:100%;"></canvas>
+        </div>
+        <div class="net-label">TCP/IP &mdash; connecting networks across the globe</div>
+      </div>
+    </section>
+
+    <!-- 1983 -->
+    <section class="era era-83" id="era-83">
+      <div class="era-header">
+        <div class="year">January 1, 1983</div>
+        <h2>The Birthday of the Internet</h2>
+        <p>ARPANET officially switched to TCP/IP. Every modern internet connection still uses descendants of this protocol today. This is the day the Internet truly became the Internet.</p>
+      </div>
+      <div class="era-content">
+        <div class="countdown">
+          <div class="big-date"><span class="hl">01</span>.<span class="hl">01</span>.83</div>
+          <div style="font-family:var(--font-mono);font-size:13px;color:#999;margin-top:12px;">ARPANET &rarr; TCP/IP &rarr; The Internet</div>
+          <div class="bday-particles" id="bdayParticles"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 1980s -->
+    <section class="era era-80s" id="era-80s">
+      <div class="era-header">
+        <div class="year">The 1980s</div>
+        <h2>Command Line Days</h2>
+        <p>The early Internet lived in universities and labs. There were no websites yet &mdash; only email, FTP, bulletin boards, and command-line interfaces. Users typed commands into glowing green terminal screens.</p>
+      </div>
+      <div class="era-content">
+        <div class="crt-box">
+          <div class="crt-text" id="crtText">
+            <span class="prompt">[user@localhost ~]$ </span><span id="crtLine"></span><span class="blink-cursor"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Domain Names -->
+    <section class="era era-dns" id="era-dns">
+      <div class="era-header">
+        <div class="year">1980s</div>
+        <h2>Domain Names</h2>
+        <p>Instead of memorizing IP numbers like 192.168.1.45, people could type easy names like <strong>example.com</strong>. The Domain Name System (DNS) became the web's directory service, translating names into addresses. .com, .org, .edu, and .gov became familiar online neighborhoods.</p>
+      </div>
+      <div class="era-content">
+        <div class="dns-grid">
+          <div class="dns-card"><span class="tld">.com</span><span class="domain">commercial</span><div class="desc">For businesses</div></div>
+          <div class="dns-card"><span class="tld">.org</span><span class="domain">organization</span><div class="desc">Non-profits</div></div>
+          <div class="dns-card"><span class="tld">.edu</span><span class="domain">education</span><div class="desc">Universities</div></div>
+          <div class="dns-card"><span class="tld">.gov</span><span class="domain">government</span><div class="desc">U.S. agencies</div></div>
+          <div class="dns-card"><span class="tld">.net</span><span class="domain">network</span><div class="desc">Providers</div></div>
+          <div class="dns-card"><span class="tld">.mil</span><span class="domain">military</span><div class="desc">U.S. defense</div></div>
+        </div>
+        <div class="dns-resolver" id="dnsResolver">
+          <span class="query" id="dnsQuery">example.com</span>
+          <span class="arrow">&rarr;</span>
+          <span class="result" id="dnsResult">93.184.216.34</span>
+        </div>
+      </div>
+    </section>
+    <section class="era era-www" id="era-www">
+      <div class="era-header">
+        <div class="year">1989 &mdash; 1991</div>
+        <h2>The World Wide Web</h2>
+        <p>Tim Berners-Lee invented HTML, HTTP, URLs, and the first browser. The Web is a service on top of the Internet, but its launch made linked documents easy to read and share. Everything changed.</p>
+      </div>
+      <div class="era-content">
+        <div class="first-page" style="position:relative;overflow:hidden;">
+          <div class="www-scan-wrap"><div class="www-scan-line" id="wwwScan"></div></div>
+          <h1>World Wide Web</h1>
+          <p>The WorldWideWeb (W3) is a wide-area <a href="https://info.cern.ch" target="_blank" rel="noopener noreferrer">hypermedia</a> information retrieval initiative aiming to give universal access to a large universe of documents.</p>
+          <hr>
+          <p>Everything there is online about W3 is linked directly or indirectly to this document.</p>
+          <p>This is the <strong>first website ever</strong> &mdash; recreated here as it appeared in 1991.</p>
+          <address>Tim Berners-Lee, CERN</address>
+        </div>
+        <div class="badge">Recreation of info.cern.ch &mdash; the first web page in history</div>
+      </div>
+    </section>
+
+    <!-- Early 1990s -->
+    <section class="era era-90s" id="era-90s">
+      <div class="era-header">
+        <div class="year">Early 1990s</div>
+        <h2>The First Websites</h2>
+        <p>Black text, blue links, white background. No images, no CSS, no JavaScript — just HTML. Simple and raw, these first homepages proved that anyone could publish on the Web.</p>
+      </div>
+      <div class="era-content">
+        <div class="retro-box">
+          <h1>Welcome to My Website!</h1>
+          <p>This is a <strong>very cool</strong> early 90s style page. Check out my links:</p>
+          <p><a href="#">&rarr; About Me</a><br><a href="#">&rarr; My Favorite Links</a><br><a href="#">&rarr; Guestbook (sign it!)</a></p>
+          <hr>
+          <p>This site was made with HTML 1.0.<br>Best viewed in Netscape Navigator at 640&times;480.</p>
+          <p style="color:#999;font-size:12px;margin-top:8px;">
+            <span class="tag tag-blink">HTML</span>
+            <span class="tag tag-blink" style="animation-delay:.3s;">NO CSS</span>
+            <span class="tag tag-blink" style="animation-delay:.6s;">NO JS</span>
+            <span class="tag tag-blink" style="animation-delay:.9s;">NO IMAGES</span>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Browsers -->
+    <section class="era era-browsers" id="era-browsers">
+      <div class="era-header">
+        <div class="year">1990s</div>
+        <h2>Browsers Arrive</h2>
+        <p>Mosaic made the Web visual. Netscape Navigator turned browsing into an everyday activity. Suddenly anyone could explore the Web &mdash; not just researchers with command lines.</p>
+      </div>
+      <div class="era-content">
+        <div class="browser-grid">
+          <div class="browser-card">
+            <span class="logo">🌐</span>
+            <h3>Mosaic (1993)</h3>
+            <p>The first popular graphical browser. Made images appear inline with text instead of in a separate window. Changed everything.</p>
+          </div>
+          <div class="browser-card">
+            <span class="logo">🦊</span>
+            <h3>Netscape Navigator (1994)</h3>
+            <p>The dominant browser of the 90s. 90% market share at its peak. Spawned JavaScript and SSL. Legendary.</p>
+          </div>
+        </div>
+        <div class="browser-window" style="max-width:500px;">
+          <div class="title-bar">
+            <span>Netscape Navigator</span>
+            <span>— □ ×</span>
+          </div>
+          <div class="body" style="text-align:center;font-size:22px;font-weight:700;color:#000080;">
+            Netscape
+            <div class="loading-bar-track"><div class="loading-bar-fill" id="loadBar"></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dot-com Boom -->
+    <section class="era era-dotcom" id="era-dotcom">
+      <div class="era-header">
+        <div class="year">Mid 1990s</div>
+        <h2>The Dot-com Boom</h2>
+        <p>Businesses realized the Internet could make money. Amazon, Yahoo, eBay launched. .com was the hottest thing you could put after a name. Money flowed like water.</p>
+      </div>
+      <div class="era-content" style="position:relative;">
+        <div class="money-rain" id="moneyRain"></div>
+        <div class="boom-text">.<span class="dot">com</span></div>
+        <div class="sub-text">Amazon (1994) · Yahoo (1994) · eBay (1995)</div>
+      </div>
+    </section>
+
+    <!-- Search Engines -->
+    <section class="era era-search" id="era-search">
+      <div class="era-header">
+        <div class="year">1990s</div>
+        <h2>Search Engines</h2>
+        <p>As the Web exploded, finding useful pages became the hardest part. AltaVista, Lycos, and Ask Jeeves helped users search, but Google arrived in 1998 with smarter ranking and a cleaner experience. Search became the Web's front door.</p>
+      </div>
+      <div class="era-content">
+        <div class="search-stack">
+          <div class="search-bar"><span class="name">AltaVista</span><div class="bar"><div class="fill"></div></div></div>
+          <div class="search-bar"><span class="name">Lycos</span><div class="bar"><div class="fill y"></div></div></div>
+          <div class="search-bar"><span class="name">Ask Jeeves</span><div class="bar"><div class="fill"></div></div></div>
+          <div class="search-bar" style="border-color:var(--green);"><span class="name" style="color:var(--green);">Google</span><div class="bar"><div class="fill g"></div></div></div>
+        </div>
+        <div class="search-query-box" id="searchQuery"><span id="searchText"></span><span class="c-bar"></span></div>
+        <div class="search-res" id="searchResult"></div>
+      </div>
+    </section>
+    <section class="era era-js" id="era-js">
+      <div class="era-header">
+        <div class="year">Late 1990s</div>
+        <h2>JavaScript</h2>
+        <p>Web pages stopped being passive. JavaScript turned browsers into platforms for forms, games, animation, and interactive apps. The Web came alive.</p>
+      </div>
+      <div class="era-content">
+        <div class="js-box">
+          <div class="counter" id="jsCounter">0</div>
+          <div style="font-family:var(--font-pixel);font-size:8px;color:var(--muted);text-transform:uppercase;margin-bottom:16px;">Interactive Counter</div>
+          <div class="js-buttons">
+            <button class="js-btn" id="jsDec">-1</button>
+            <button class="js-btn" id="jsReset">0</button>
+            <button class="js-btn" id="jsInc">+1</button>
+          </div>
+          <div class="timestamp" id="jsTimestamp">Last click: never</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2000 Crash -->
+    <section class="era era-crash" id="era-crash">
+      <div class="era-header">
+        <div class="year">2000</div>
+        <h2>Dot-com Crash</h2>
+        <p>The bubble burst. Thousands of companies failed. Billions of dollars evaporated. Amazon, eBay, and Google survived to become giants. The survivors learned to build real businesses.</p>
+      </div>
+      <div class="era-content">
+        <div class="crash-visual">
+          <div class="crash-num">-78%</div>
+          <div class="crash-sub">NASDAQ Composite · 2000 &mdash; 2002</div>
+          <div class="crash-bars">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Broadband -->
+    <section class="era era-broadband" id="era-broadband">
+      <div class="era-header">
+        <div class="year">Early 2000s</div>
+        <h2>Always Connected</h2>
+        <p>Broadband replaced dial-up. 56 kbps became DSL and cable internet. No more tying up the phone line. The Internet was always on, always fast &mdash; a permanent part of daily life.</p>
+      </div>
+      <div class="era-content">
+        <div class="speed-meter">
+          <div class="needle"></div>
+          <div class="label"><span class="val">56k</span>Dial-up</div>
+        </div>
+        <div class="speed-steps">
+          <div class="speed-step">56 kbps <span class="hl">Dial-up</span></div>
+          <div class="speed-step">1.5 Mbps <span class="hl">DSL</span></div>
+          <div class="speed-step">10 Mbps <span class="hl">Cable</span></div>
+          <div class="speed-step">100+ Mbps <span class="hl">Fiber</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Web 2.0 -->
+    <section class="era era-web2" id="era-web2">
+      <div class="era-header">
+        <div class="year">2000s</div>
+        <h2>Web 2.0</h2>
+        <p>The web stopped being read-only. Blogs, wikis, forums, and comments turned everyone into a creator. The Internet began to listen as well as speak.</p>
+      </div>
+      <div class="era-content">
+        <div class="grid">
+          <div class="w2-card"><span class="emoji w2-bounce" style="animation-delay:0s;">📝</span><h3>Blogs</h3><p>Anyone could publish their thoughts to the world. Self-expression exploded.</p></div>
+          <div class="w2-card"><span class="emoji w2-bounce" style="animation-delay:.6s;">📚</span><h3>Wikis</h3><p>Collaborative knowledge. Wikipedia proved a million editors could build something incredible.</p></div>
+          <div class="w2-card"><span class="emoji w2-bounce" style="animation-delay:1.2s;">💬</span><h3>Forums</h3><p>Communities formed around every topic imaginable. The original social networks.</p></div>
+          <div class="w2-card"><span class="emoji w2-bounce" style="animation-delay:1.8s;">⭐</span><h3>Comments</h3><p>Every article, video, and photo had a place for your voice.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Social Media -->
+    <section class="era era-social" id="era-social">
+      <div class="era-header">
+        <div class="year">2000s</div>
+        <h2>Social Media</h2>
+        <p>LinkedIn, Facebook, YouTube, and Twitter turned the web into a social space. The Internet became personal, shared, and always connected.</p>
+      </div>
+      <div class="era-content" style="position:relative;">
+        <div class="social-lines-canvas" id="socialLinesCanvas"><canvas id="socialCanvas"></canvas></div>
+        <div class="platform-grid">
+          <div class="platform-card"><span class="icon">💼</span><span class="name">LinkedIn</span><span class="year">2003</span><div class="glow" style="background:#0a66c2;"></div></div>
+          <div class="platform-card"><span class="icon">👤</span><span class="name">Facebook</span><span class="year">2004</span><div class="glow" style="background:#1877f2;"></div></div>
+          <div class="platform-card"><span class="icon">▶️</span><span class="name">YouTube</span><span class="year">2005</span><div class="glow" style="background:#ff0000;"></div></div>
+          <div class="platform-card"><span class="icon">🐦</span><span class="name">X (Twitter)</span><span class="year">2006</span><div class="glow" style="background:#1da1f2;"></div></div>
+          <div class="platform-card"><span class="icon">📷</span><span class="name">Instagram</span><span class="year">2010</span><div class="glow" style="background:#e4405f;"></div></div>
+          <div class="platform-card"><span class="icon">💬</span><span class="name">Discord</span><span class="year">2015</span><div class="glow" style="background:#5865f2;"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Smartphones -->
+    <section class="era era-phone" id="era-phone">
+      <div class="era-header">
+        <div class="year">2007</div>
+        <h2>The Internet in Your Pocket</h2>
+        <p>The iPhone made the Internet personal, portable, and always available. Apps exploded, and mobile browsing moved from desktop to pocket almost overnight.</p>
+      </div>
+      <div class="era-content">
+        <div class="phone-frame phone-breathe" id="phoneFrame">
+          <div class="notch"></div>
+          <div class="screen">
+            <div class="status-bar"><span>9:41</span><span>📶 🔋</span></div>
+            <div class="app-grid">
+              <span class="app-icon">🌐</span>
+              <span class="app-icon">📧</span>
+              <span class="app-icon">📞</span>
+              <span class="app-icon">🎵</span>
+              <span class="app-icon">📸</span>
+              <span class="app-icon">🗺️</span>
+              <span class="app-icon">📺</span>
+              <span class="app-icon">📱</span>
+              <span class="app-icon">⚙️</span>
+            </div>
+            <div style="font-family:var(--font-pixel);font-size:7px;color:var(--muted);text-transform:uppercase;">iPhone · 2007</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cloud Computing -->
+    <section class="era era-cloud" id="era-cloud">
+      <div class="era-header">
+        <div class="year">2000s</div>
+        <h2>Cloud Computing</h2>
+        <p>Infrastructure became a service you could rent by the hour. AWS, Azure, and Google Cloud let startups launch without buying servers, and made massive computing power available to everyone.</p>
+      </div>
+      <div class="era-content">
+        <div class="cloud-canvas" id="cloudCanvas">
+          <div class="cloud-shape" style="top:15%;left:10%;width:100px;height:50px;"></div>
+          <div class="cloud-shape" style="top:55%;right:15%;width:140px;height:60px;animation-delay:2s;"></div>
+          <div class="cloud-shape" style="bottom:20%;left:40%;width:120px;height:55px;animation-delay:4s;"></div>
+          <div class="cloud-node" style="top:22%;left:35%;"><span class="hl">AWS</span> EC2 · S3</div>
+          <div class="cloud-node" style="top:60%;left:25%;"><span class="hl">Azure</span> Compute</div>
+          <div class="cloud-node" style="top:45%;right:25%;"><span class="hl">GCP</span> Cloud Run</div>
+          <div class="cloud-node" style="bottom:35%;left:55%;"><span class="hl">Vercel</span> Edge</div>
+          <div class="cloud-node" style="top:15%;right:30%;"><span class="hl">Cloudflare</span> Workers</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Streaming -->
+    <section class="era era-streaming" id="era-streaming">
+      <div class="era-header">
+        <div class="year">2000s &mdash; 2010s</div>
+        <h2>The Streaming Revolution</h2>
+        <p>Downloads gave way to streaming. Netflix rewrote television, Spotify remade music, and the Internet became the place where movies, shows, and songs played instantly.</p>
+      </div>
+      <div class="era-content">
+        <div class="player-box">
+          <div class="track">
+            <div class="art">🎵</div>
+            <div class="info">
+              <div class="name">Streaming Changed Everything</div>
+              <div class="artist">The Internet</div>
+            </div>
+          </div>
+          <div class="waveform">
+            <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+            <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+            <div class="bar"></div><div class="bar"></div>
+          </div>
+          <div class="controls">
+            <span class="ctrl">⏮️</span>
+            <span class="ctrl">▶️</span>
+            <span class="ctrl">⏭️</span>
+          </div>
+          <div style="text-align:center;margin-top:12px;font-family:var(--font-mono);font-size:9px;color:var(--muted);">Netflix · Spotify · Hulu · HBO</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Modern Web -->
+    <section class="era era-modern" id="era-modern">
+      <div class="era-header">
+        <div class="year">2010s</div>
+        <h2>The Web Became Apps</h2>
+        <p>Modern websites began to feel like desktop software. Gmail, Discord, Figma, and Google Docs ran in the browser but behaved like full applications. The browser became a powerful workspace.</p>
+      </div>
+      <div class="era-content">
+        <div class="app-grid">
+          <div class="app-item strong-f" style="animation-delay:0s;"><span class="emoji">📧</span><span class="name">Gmail</span><span class="cat">Email</span></div>
+          <div class="app-item strong-f" style="animation-delay:.2s;"><span class="emoji">💬</span><span class="name">Discord</span><span class="cat">Chat</span></div>
+          <div class="app-item strong-f" style="animation-delay:.4s;"><span class="emoji">🎨</span><span class="name">Figma</span><span class="cat">Design</span></div>
+          <div class="app-item strong-f" style="animation-delay:.6s;"><span class="emoji">📄</span><span class="name">Google Docs</span><span class="cat">Office</span></div>
+          <div class="app-item strong-f" style="animation-delay:.8s;"><span class="emoji">📹</span><span class="name">Zoom</span><span class="cat">Video</span></div>
+          <div class="app-item strong-f" style="animation-delay:1s;"><span class="emoji">📝</span><span class="name">Notion</span><span class="cat">Notes</span></div>
+          <div class="app-item strong-f" style="animation-delay:1.2s;"><span class="emoji">💻</span><span class="name">VS Code</span><span class="cat">Code</span></div>
+          <div class="app-item strong-f" style="animation-delay:1.4s;"><span class="emoji">🎮</span><span class="name">GeForce Now</span><span class="cat">Gaming</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2010s Trends -->
+    <section class="era era-2010s" id="era-2010s">
+      <div class="era-header">
+        <div class="year">2010s</div>
+        <h2>Decade of Acceleration</h2>
+        <p>HTTPS became standard. Cloud services went mainstream. AI moved from research into products. Smartphones, 4G, and IoT made the Internet part of everyday life.</p>
+      </div>
+      <div class="era-content">
+        <div class="timeline">
+          <div class="tl-item"><span class="yr">2010</span><span class="hl">iPad</span> launches. The tablet era begins.</div>
+          <div class="tl-item"><span class="yr">2012</span>Internet users reach <span class="hl">2.5 billion</span>.</div>
+          <div class="tl-item"><span class="yr">2014</span><span class="hl">HTTPS</span> becomes the standard for all websites.</div>
+          <div class="tl-item"><span class="yr">2016</span>Mobile traffic surpasses <span class="hl">desktop</span> worldwide.</div>
+          <div class="tl-item"><span class="yr">2018</span><span class="hl">GDPR</span> reshapes privacy rules globally.</div>
+          <div class="tl-item"><span class="yr">2020</span>Pandemic drives everything <span class="hl">online</span>.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2020s -->
+    <section class="era era-2020s" id="era-2020s">
+      <div class="era-header">
+        <div class="year">2020s</div>
+        <h2>The AI Era</h2>
+        <p>AI became the defining story of the decade. Generative models, assistants, code generation, and image creation made the Internet more creative, more responsive, and more intelligent than ever.</p>
+      </div>
+      <div class="era-content">
+        <div class="ai-visual">
+          <div class="ai-node"></div>
+          <div class="ai-node"></div>
+          <div class="ai-node"></div>
+          <div class="ai-node"></div>
+          <div class="ai-node"></div>
+          <div class="ai-node"></div>
+          <div class="ai-node"></div>
+        </div>
+        <div class="ai-text">
+          Generative AI · LLMs · WebAssembly · Edge Computing<br>
+          Privacy · Cybersecurity · Remote Work · Cloud Gaming
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="era era-flow" id="era-flow">
+      <div class="era-header">
+        <div class="year">Under the Hood</div>
+        <h2>How the Internet Actually Works</h2>
+        <p>You type a URL and the page appears almost instantly. Here's the journey that happens behind the scenes.</p>
+      </div>
+      <div class="era-content">
+        <div class="flow-diagram" id="flowDiagram">
+          <div class="flow-row"><div class="flow-box hl">YOU</div><span class="flow-arrow">↓</span><div class="flow-box">Wi-Fi</div><span class="flow-arrow">↓</span><div class="flow-box">Router</div></div>
+          <span class="flow-arrow" style="display:block;text-align:center;">↓</span>
+          <div class="flow-row"><div class="flow-box">ISP</div><span class="flow-arrow">↓</span><div class="flow-box hl">DNS Lookup</div><span class="flow-arrow">↓</span><div class="flow-box">Fiber</div></div>
+          <span class="flow-arrow" style="display:block;text-align:center;">↓</span>
+          <div class="flow-row"><div class="flow-box tl">CDN</div><span class="flow-arrow">↓</span><div class="flow-box">Data Center</div><span class="flow-arrow">↓</span><div class="flow-box hl">Server</div></div>
+          <span class="flow-arrow" style="display:block;text-align:center;">↓</span>
+          <div class="flow-row"><div class="flow-box tl">HTML · CSS · JS</div><span class="flow-arrow">→ <span style="font-size:18px;">🖥️</span></span></div>
+        </div>
+        <div class="flow-note">
+          <strong>1.</strong> DNS translates the URL to an IP address &nbsp;·&nbsp;
+          <strong>2.</strong> TCP/IP establishes a connection &nbsp;·&nbsp;
+          <strong>3.</strong> TLS/HTTPS encrypts everything &nbsp;·&nbsp;
+          <strong>4.</strong> HTTP request fetches the page &nbsp;·&nbsp;
+          <strong>5.</strong> The browser renders HTML, CSS, JS into pixels.<br>
+          All of this happens in <strong style="color:var(--accent);">under a second</strong>.
+        </div>
+      </div>
+    </section>
+
+    <!-- Inventions -->
+    <section class="era era-inventions" id="era-inventions">
+      <div class="era-header">
+        <div class="year">The Building Blocks</div>
+        <h2>Biggest Inventions</h2>
+        <p>The technologies that made the Internet what it is today.</p>
+      </div>
+      <div class="era-content">
+        <div class="inv-grid">
+          <div class="inv-item">Packet Switching</div>
+          <div class="inv-item">TCP/IP</div>
+          <div class="inv-item">DNS</div>
+          <div class="inv-item">Ethernet</div>
+          <div class="inv-item">Fiber Optics</div>
+          <div class="inv-item">HTTP</div>
+          <div class="inv-item">HTML</div>
+          <div class="inv-item">URLs</div>
+          <div class="inv-item">Web Browsers</div>
+          <div class="inv-item">JavaScript</div>
+          <div class="inv-item">Search Engines</div>
+          <div class="inv-item">Wi-Fi</div>
+          <div class="inv-item">Smartphones</div>
+          <div class="inv-item">Cloud Computing</div>
+          <div class="inv-item">CDNs</div>
+          <div class="inv-item">HTTPS/TLS</div>
+          <div class="inv-item">WebAssembly</div>
+          <div class="inv-item">AI / LLMs</div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-links" style="margin-bottom:12px;">
+        <a href="uses.html" style="color:var(--tape);text-decoration:none;">Uses</a>
+        <span style="color:var(--muted);margin:0 8px;">·</span>
+        <a href="now.html" style="color:var(--tape);text-decoration:none;">Now</a>
+        <span style="color:var(--muted);margin:0 8px;">·</span>
+        <a href="colophon.html" style="color:var(--tape);text-decoration:none;">Colophon</a>
+        <span style="color:var(--muted);margin:0 8px;">·</span>
+        <a href="experiments.html" style="color:var(--accent);text-decoration:none;">Internet History</a>
+      </div>
+      <div class="footer-text">
+        From ARPANET to AI &mdash; the story of the network that connected the world.<br>
+        Built by Miles · 2026
+      </div>
+    </footer>
+  </div>
+
+<script src="projects/script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+const eraMeta = [
+  { year:'1950s–60s',name:'The Idea' },
+  { year:'1969',name:'ARPANET' },
+  { year:'1970s',name:'TCP/IP' },
+  { year:'1983',name:'Birthday' },
+  { year:'1980s',name:'Command Line' },
+  { year:'1980s',name:'Domain Names' },
+  { year:'1989–91',name:'World Wide Web' },
+  { year:'Early 90s',name:'First Websites' },
+  { year:'1990s',name:'Browsers' },
+  { year:'Mid 90s',name:'Dot-com Boom' },
+  { year:'1990s',name:'Search Engines' },
+  { year:'Late 90s',name:'JavaScript' },
+  { year:'2000',name:'Crash' },
+  { year:'Early 00s',name:'Broadband' },
+  { year:'2000s',name:'Web 2.0' },
+  { year:'2000s',name:'Social Media' },
+  { year:'2007',name:'iPhone' },
+  { year:'2000s',name:'Cloud' },
+  { year:'2000s–10s',name:'Streaming' },
+  { year:'2010s',name:'Web Apps' },
+  { year:'2010s',name:'Acceleration' },
+  { year:'2020s',name:'AI Era' },
+  { year:'Today',name:'How It Works' },
+  { year:'Legacy',name:'Inventions' }
+];
+
+const eras = document.querySelectorAll('.era');
+const progress = document.getElementById('histProgress');
+const eiYear = document.getElementById('eiYear');
+const eiName = document.getElementById('eiName');
+
+eras.forEach((e, i) => {
+  const dot = document.createElement('a');
+  dot.href = '#' + e.id;
+  dot.dataset.index = i;
+  dot.innerHTML = `<span class="dot-dot"></span><span class="dot-label">${eraMeta[i].year} ${eraMeta[i].name}</span>`;
+  progress.appendChild(dot);
+});
+
+ScrollTrigger.create({
+  trigger: '.scroll-content',
+  start: 'top top',
+  end: 'bottom bottom',
+  onUpdate: self => {
+    const dots = progress.querySelectorAll('a');
+    const idx = Math.round(self.progress * (dots.length - 1));
+    dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+    if(eraMeta[idx]){
+      eiYear.textContent = eraMeta[idx].year;
+      eiName.textContent = eraMeta[idx].name;
+    }
+  }
+});
+
+const crtLines = [
+  'ls -la',
+  'mail user@mit.edu',
+  'ftp://ftp.cs.berkeley.edu',
+  'cat README.txt',
+  'grep -r "internet" /docs',
+  'finger @stanford.edu',
+  'whois example.com',
+  'telnet bbs.example.com',
+  'pine',
+  'emacs -nw',
+  'man tcp',
+  'ping -c 4 192.168.1.1'
+];
+
+let lineIdx = 0;
+let charIdx = 0;
+let isDeleting = false;
+
+function typeCRT(){
+  const el = document.getElementById('crtLine');
+  const current = crtLines[lineIdx];
+  if(!isDeleting){
+    if(charIdx <= current.length){
+      el.textContent = current.substring(0, charIdx);
+      charIdx++;
+      setTimeout(typeCRT, 60);
+    } else {
+      isDeleting = true;
+      setTimeout(typeCRT, 1500);
+    }
+  } else {
+    if(charIdx >= 0){
+      el.textContent = current.substring(0, charIdx);
+      charIdx--;
+      setTimeout(typeCRT, 25);
+    } else {
+      isDeleting = false;
+      charIdx = 0;
+      lineIdx = (lineIdx + 1) % crtLines.length;
+      setTimeout(typeCRT, 500);
+    }
+  }
+}
+typeCRT();
+
+const confettiColors = ['#FF3D9A', '#FFC93C', '#39FF14', '#fff', '#FF0000', '#666'];
+for(let i = 0; i < 60; i++){
+  const c = document.createElement('div');
+  c.className = 'confetti';
+  c.style.left = Math.random() * 100 + '%';
+  c.style.background = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+  c.style.width = (Math.random() * 6 + 4) + 'px';
+  c.style.height = (Math.random() * 6 + 4) + 'px';
+  c.style.animationDuration = (Math.random() * 2 + 2) + 's';
+  c.style.animationDelay = (Math.random() * 3) + 's';
+  document.getElementById('bdayParticles').appendChild(c);
+}
+
+const rain = document.getElementById('moneyRain');
+for(let i = 0; i < 15; i++){
+  const s = document.createElement('span');
+  s.textContent = '$';
+  s.style.left = Math.random() * 100 + '%';
+  s.style.animationDuration = (Math.random() * 2 + 2) + 's';
+  s.style.animationDelay = (Math.random() * 4) + 's';
+  s.style.fontSize = (Math.random() * 10 + 10) + 'px';
+  rain.appendChild(s);
+}
+
+let counter = 0;
+document.getElementById('jsInc').addEventListener('click', () => {
+  counter++;
+  document.getElementById('jsCounter').textContent = counter;
+  document.getElementById('jsTimestamp').textContent = 'Last click: +1';
+});
+document.getElementById('jsDec').addEventListener('click', () => {
+  counter--;
+  document.getElementById('jsCounter').textContent = counter;
+  document.getElementById('jsTimestamp').textContent = 'Last click: -1';
+});
+document.getElementById('jsReset').addEventListener('click', () => {
+  counter = 0;
+  document.getElementById('jsCounter').textContent = counter;
+  document.getElementById('jsTimestamp').textContent = 'Last click: reset';
+});
+
+const tcpCanvas = document.getElementById('tcpCanvas');
+const tcpCtx = tcpCanvas.getContext('2d');
+let tcpW, tcpH;
+
+function resizeTCP(){
+  const rect = document.getElementById('netCanvas').getBoundingClientRect();
+  tcpCanvas.width = rect.width * window.devicePixelRatio;
+  tcpCanvas.height = rect.height * window.devicePixelRatio;
+  tcpCanvas.style.width = rect.width + 'px';
+  tcpCanvas.style.height = rect.height + 'px';
+  tcpW = rect.width;
+  tcpH = rect.height;
+}
+
+class NetNode {
+  constructor(){
+    this.reset();
+  }
+  reset(){
+    this.x = Math.random() * tcpW;
+    this.y = Math.random() * tcpH;
+    this.vx = (Math.random() - 0.5) * 0.3;
+    this.vy = (Math.random() - 0.5) * 0.3;
+    this.r = Math.random() * 3 + 2;
+  }
+  update(){
+    this.x += this.vx;
+    this.y += this.vy;
+    if(this.x < 0 || this.x > tcpW || this.y < 0 || this.y > tcpH){
+      this.vx *= -1;
+      this.vy *= -1;
+    }
+  }
+  draw(){
+    tcpCtx.beginPath();
+    tcpCtx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+    tcpCtx.fillStyle = 'rgba(255, 61, 154, 0.6)';
+    tcpCtx.fill();
+  }
+}
+
+let netNodes = [];
+let netAnim;
+
+function initNet(){
+  netNodes = [];
+  const count = Math.floor((tcpW * tcpH) / 12000);
+  for(let i = 0; i < Math.max(count, 30); i++) netNodes.push(new NetNode());
+  drawNet();
+}
+
+function drawNet(){
+  if(!tcpCtx) return;
+  tcpCtx.setTransform(window.devicePixelRatio, 0, 0, window.devicePixelRatio, 0, 0);
+  tcpCtx.clearRect(0, 0, tcpW, tcpH);
+  netNodes.forEach(n => { n.update(); n.draw(); });
+  for(let i = 0; i < netNodes.length; i++){
+    for(let j = i + 1; j < netNodes.length; j++){
+      const dx = netNodes[i].x - netNodes[j].x;
+      const dy = netNodes[i].y - netNodes[j].y;
+      const d = Math.sqrt(dx*dx + dy*dy);
+      if(d < 120){
+        tcpCtx.beginPath();
+        tcpCtx.moveTo(netNodes[i].x, netNodes[i].y);
+        tcpCtx.lineTo(netNodes[j].x, netNodes[j].y);
+        tcpCtx.strokeStyle = `rgba(255,61,154,${0.08 * (1 - d/120)})`;
+        tcpCtx.lineWidth = 1;
+        tcpCtx.stroke();
+      }
+    }
+  }
+  netAnim = requestAnimationFrame(drawNet);
+}
+
+const ro = new ResizeObserver(() => { resizeTCP(); initNet(); });
+ro.observe(document.getElementById('netCanvas'));
+resizeTCP();
+initNet();
+
+eras.forEach(era => {
+  const h2 = era.querySelector('h2');
+  const cards = era.querySelectorAll('.node-card, .dns-card, .w2-card, .platform-card, .app-item, .inv-item, .browser-card, .speed-step, .tl-item, .search-bar, .flow-box, .flow-row');
+  if(h2) gsap.from(h2, { scrollTrigger: { trigger: era, start: 'top 80%' }, y: 30, opacity: 0, duration: 0.8, ease: 'power3.out' });
+  if(cards.length) gsap.from(cards, { scrollTrigger: { trigger: era, start: 'top 80%' }, y: 25, opacity: 0, duration: 0.5, stagger: 0.05, ease: 'power3.out' });
+});
+
+gsap.from('.globe-wrap', { scale: 0, rotation: 180, duration: 1.8, ease: 'power4.out' });
+gsap.from('.hist-hero h1', { y: 40, opacity: 0, duration: 1, delay: 0.5, ease: 'power3.out' });
+gsap.from('.hist-hero .sub', { y: 20, opacity: 0, duration: 0.8, delay: 0.8, ease: 'power3.out' });
+gsap.from('.hist-hero .sub:last-of-type', { opacity: 0, duration: 1, delay: 1.5, ease: 'power2.out' });
+gsap.from('nav', { y: -20, opacity: 0, duration: 0.6, ease: 'power2.out' });
+gsap.from('.hist-progress a', { scale: 0, duration: 0.3, stagger: 0.03, delay: 1.2, ease: 'back.out' });
+gsap.from('.era-indicator', { x: 20, opacity: 0, duration: 0.8, delay: 1.5, ease: 'power3.out' });
+
+// Section transition effects: opacity crossfade between eras
+eras.forEach(era => {
+  gsap.to(era, {
+    scrollTrigger: { trigger: era, start: 'top bottom', end: 'top top', scrub: 1.2 },
+    opacity: 0.5, scale: 0.97, ease: 'power1.out'
+  });
+  gsap.to(era, {
+    scrollTrigger: { trigger: era, start: 'bottom bottom', end: 'bottom top', scrub: 1.2 },
+    opacity: 0.5, scale: 0.97, ease: 'power1.out'
+  });
+  // parallax the era header
+  const hdr = era.querySelector('.era-header');
+  if(hdr) gsap.to(hdr, {
+    scrollTrigger: { trigger: era, start: 'top bottom', end: 'bottom top', scrub: 1.5 },
+    y: 30, ease: 'none'
+  });
+});
+
+// 50s network: traveling packet dots between node cards
+const fiftySection = document.getElementById('era-50s');
+const netCanvas50 = document.createElement('canvas');
+netCanvas50.id = 'netCanvas50';
+netCanvas50.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;';
+fiftySection.querySelector('.network-lines').appendChild(netCanvas50);
+
+function resize50(){
+  const r = fiftySection.getBoundingClientRect();
+  netCanvas50.width = r.width * window.devicePixelRatio;
+  netCanvas50.height = r.height * window.devicePixelRatio;
+  netCanvas50.style.width = r.width + 'px';
+  netCanvas50.style.height = r.height + 'px';
+}
+resize50();
+window.addEventListener('resize', resize50);
+
+const nodes50 = fiftySection.querySelectorAll('.node-card');
+const ctx50 = netCanvas50.getContext('2d');
+let packetDots = [];
+
+function getNodeCenter(n){
+  const r = n.getBoundingClientRect();
+  const sr = fiftySection.getBoundingClientRect();
+  return { x: r.left - sr.left + r.width / 2, y: r.top - sr.top + r.height / 2 };
+}
+
+function createPacket(){
+  if(nodes50.length < 2) return;
+  const from = Math.floor(Math.random() * nodes50.length);
+  let to = Math.floor(Math.random() * nodes50.length);
+  if(to === from) to = (to + 1) % nodes50.length;
+  const a = getNodeCenter(nodes50[from]);
+  const b = getNodeCenter(nodes50[to]);
+  packetDots.push({ x: a.x, y: a.y, sx: a.x, sy: a.y, ex: b.x, ey: b.y, t: 0, speed: 0.008 + Math.random() * 0.008 });
+}
+
+function draw50(){
+  ctx50.setTransform(window.devicePixelRatio,0,0,window.devicePixelRatio,0,0);
+  ctx50.clearRect(0,0,netCanvas50.width / window.devicePixelRatio,netCanvas50.height / window.devicePixelRatio);
+  for(let i = packetDots.length - 1; i >= 0; i--){
+    const d = packetDots[i];
+    d.t += d.speed;
+    if(d.t >= 1){ packetDots.splice(i,1); continue; }
+    d.x = d.sx + (d.ex - d.sx) * d.t;
+    d.y = d.sy + (d.ey - d.sy) * d.t;
+    const ease = d.t < 0.5 ? 2 * d.t * d.t : 1 - Math.pow(-2 * d.t + 2, 2) / 2;
+    ctx50.beginPath();
+    ctx50.arc(d.x, d.y, 3, 0, Math.PI * 2);
+    ctx50.fillStyle = `rgba(57,255,20,${0.3 + 0.7 * ease})`;
+    ctx50.shadowColor = '#39FF14';
+    ctx50.shadowBlur = 10;
+    ctx50.fill();
+    ctx50.shadowBlur = 0;
+  }
+  requestAnimationFrame(draw50);
+}
+setInterval(createPacket, 800);
+draw50();
+
+// DNS cycling highlight with pop + resolver
+const dnsCards = document.querySelectorAll('.dns-card');
+let dnsIdx = 0;
+const dnsLookups = [
+  { q:'example.com', r:'93.184.216.34' },
+  { q:'google.com', r:'142.250.80.14' },
+  { q:'wikipedia.org', r:'208.80.154.224' },
+  { q:'github.com', r:'140.82.121.3' },
+  { q:'reddit.com', r:'151.101.1.140' },
+  { q:'stackoverflow.com', r:'151.101.1.69' }
+];
+const dnsQueryEl = document.getElementById('dnsQuery');
+const dnsResultEl = document.getElementById('dnsResult');
+let dnsLookupIdx = 0;
+setInterval(() => {
+  dnsCards.forEach(c => c.classList.remove('active', 'popping'));
+  dnsCards[dnsIdx].classList.add('active', 'popping');
+  dnsIdx = (dnsIdx + 1) % dnsCards.length;
+  dnsQueryEl.textContent = dnsLookups[dnsLookupIdx].q;
+  dnsResultEl.textContent = dnsLookups[dnsLookupIdx].r;
+  dnsLookupIdx = (dnsLookupIdx + 1) % dnsLookups.length;
+}, 2000);
+
+// Search typing effect
+const searchQueries = [
+  'what is the world wide web',
+  'how does the internet work',
+  'history of arpanet',
+  'who invented tcp ip',
+  'first website ever made',
+  'google search algorithm 1998'
+];
+const searchResults = [
+  { t:'World Wide Web - Wikipedia', u:'https://en.wikipedia.org/wiki/World_Wide_Web', s:'The World Wide Web (WWW), commonly known as the Web, is an information system where documents and other web resources are identified by URLs.' },
+  { t:'How the Internet Works in 2026', u:'https://www.cloudflare.com/learning/network-layer/how-does-the-internet-work/', s:'The Internet is a network of networks. It works by using a packet routing system that moves data across different networks.' },
+  { t:'ARPANET - Defense Advanced Research Projects Agency', u:'https://www.darpa.mil/about-us/timeline/arpanet', s:'The Advanced Research Projects Agency Network was the first wide-area packet-switched network and the precursor to the modern Internet.' },
+  { t:'TCP/IP - Internet Protocol Suite', u:'https://www.techtarget.com/searchnetworking/definition/TCP-IP', s:'TCP/IP is the suite of protocols that enables communication between different networks. Developed by Vint Cerf and Bob Kahn.' },
+  { t:'The First Website - CERN', u:'https://info.cern.ch/hypertext/WWW/TheProject.html', s:'The first website was created by Tim Berners-Lee at CERN. It went live on August 6, 1991 and explained what the World Wide Web was.' },
+  { t:'Google Search - How It Started', u:'https://www.google.com/about/history/', s:'Google was founded in 1998 by Larry Page and Sergey Brin while they were PhD students at Stanford University.' }
+];
+let sqIdx = 0, scIdx = 0;
+const searchTextEl = document.getElementById('searchText');
+const searchResultEl = document.getElementById('searchResult');
+function typeSearch(){
+  const current = searchQueries[sqIdx];
+  if(scIdx <= current.length){
+    searchTextEl.textContent = current.substring(0, scIdx);
+    scIdx++;
+    setTimeout(typeSearch, 50);
+  } else {
+    const r = searchResults[sqIdx];
+    searchResultEl.style.display = 'block';
+    searchResultEl.innerHTML = `<div class="sr-t">${r.t}</div><div class="sr-u">${r.u}</div><div class="sr-s">${r.s}</div>`;
+    setTimeout(() => {
+      scIdx = 0;
+      sqIdx = (sqIdx + 1) % searchQueries.length;
+      searchResultEl.style.display = 'none';
+      searchTextEl.textContent = '';
+      setTimeout(typeSearch, 300);
+    }, 2500);
+  }
+}
+typeSearch();
+
+// Social media connection canvas
+const socialSection = document.getElementById('era-social');
+const socialCanvas = document.createElement('canvas');
+socialCanvas.id = 'socialCanvas';
+socialCanvas.style.cssText = 'width:100%;height:100%;';
+document.getElementById('socialLinesCanvas').appendChild(socialCanvas);
+function resizeSocial(){
+  const r = socialSection.getBoundingClientRect();
+  socialCanvas.width = r.width * window.devicePixelRatio;
+  socialCanvas.height = r.height * window.devicePixelRatio;
+  socialCanvas.style.width = r.width + 'px';
+  socialCanvas.style.height = r.height + 'px';
+}
+resizeSocial();
+
+const socialCtx = socialCanvas.getContext('2d');
+const socialCards = socialSection.querySelectorAll('.platform-card');
+let socialPulse = 0;
+
+function drawSocialLines(){
+  socialCtx.setTransform(window.devicePixelRatio,0,0,window.devicePixelRatio,0,0);
+  socialCtx.clearRect(0,0,socialCanvas.width/window.devicePixelRatio,socialCanvas.height/window.devicePixelRatio);
+  const sr = socialSection.getBoundingClientRect();
+  const positions = [];
+  socialCards.forEach(c => {
+    const cr = c.getBoundingClientRect();
+    positions.push({ x: cr.left - sr.left + cr.width/2, y: cr.top - sr.top + cr.height/2 });
+  });
+  socialPulse = (socialPulse + 0.02) % (Math.PI * 2);
+  for(let i = 0; i < positions.length; i++){
+    for(let j = i + 1; j < positions.length; j++){
+      const dx = positions[i].x - positions[j].x;
+      const dy = positions[i].y - positions[j].y;
+      const d = Math.sqrt(dx*dx + dy*dy);
+      if(d < 500){
+        const pulse = 0.3 + 0.7 * Math.abs(Math.sin(socialPulse + i + j));
+        socialCtx.beginPath();
+        socialCtx.moveTo(positions[i].x, positions[i].y);
+        socialCtx.lineTo(positions[j].x, positions[j].y);
+        socialCtx.strokeStyle = `rgba(255,61,154,${0.04 * pulse})`;
+        socialCtx.lineWidth = 1;
+        socialCtx.stroke();
+      }
+    }
+  }
+  // Spark random card
+  if(Math.random() > 0.97){
+    const idx = Math.floor(Math.random() * socialCards.length);
+    socialCards[idx].classList.add('spark-card');
+    setTimeout(() => socialCards[idx].classList.remove('spark-card'), 800);
+  }
+  requestAnimationFrame(drawSocialLines);
+}
+drawSocialLines();
+window.addEventListener('resize', resizeSocial);
+
+// WWW scan line
+const wwwScan = document.getElementById('wwwScan');
+let scanPos = 0;
+function animateScan(){
+  scanPos += 1.2;
+  if(scanPos > 400) scanPos = -10;
+  wwwScan.style.top = scanPos + 'px';
+  wwwScan.style.opacity = Math.abs(scanPos - 200) < 50 ? '0.8' : '0.3';
+  requestAnimationFrame(animateScan);
+}
+animateScan();
+
+// Browser loading bar
+const loadBar = document.getElementById('loadBar');
+let loadP = 0;
+function animateLoad(){
+  loadP += 0.5 + Math.random() * 1.5;
+  if(loadP > 100){ loadP = 0; }
+  loadBar.style.width = loadP + '%';
+  setTimeout(animateLoad, 200 + Math.random() * 300);
+}
+animateLoad();
+
+// Timeline appear animation
+const tlItems = document.querySelectorAll('.tl-item');
+const tlObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      e.target.style.opacity = '1';
+      e.target.style.transform = 'translateX(0)';
+    }
+  });
+}, { threshold: 0.3 });
+tlItems.forEach((item, i) => {
+  item.style.cssText = `opacity:0;transform:translateX(-20px);transition:all .5s ease ${i * 0.2}s;`;
+  tlObs.observe(item);
+});
+
+// Flow diagram sequential pulsing
+const allFlowBoxes = document.querySelectorAll('.flow-diagram .flow-box');
+let flowIdx = 0;
+setInterval(() => {
+  allFlowBoxes.forEach(b => b.classList.remove('flow-glow'));
+  allFlowBoxes[flowIdx].classList.add('flow-glow');
+  flowIdx = (flowIdx + 1) % allFlowBoxes.length;
+}, 800);
+
+// Inventions random sparkle
+const invItems = document.querySelectorAll('.inv-item');
+setInterval(() => {
+  const idx = Math.floor(Math.random() * invItems.length);
+  invItems[idx].classList.add('inv-spark');
+  setTimeout(() => invItems[idx].classList.remove('inv-spark'), 1500);
+}, 600);
+
+// Phone time in status bar
+function updatePhoneTime(){
+  const now = new Date();
+  const h = String(now.getHours()).padStart(2,'0');
+  const m = String(now.getMinutes()).padStart(2,'0');
+  const status = document.querySelector('.phone-frame .status-bar span:first-child');
+  if(status) status.textContent = h + ':' + m;
+}
+updatePhoneTime();
+setInterval(updatePhoneTime, 10000);
+
+window.addEventListener('load', () => { resizeTCP(); resize50(); resizeSocial(); ScrollTrigger.refresh(); });
+window.addEventListener('resize', () => { resizeTCP(); resize50(); resizeSocial(); });
+
+// keyboard shortcuts
+window.addEventListener('keydown', function(e){
+  if(e.key === 'h' || e.key === 'H') window.location.href = 'index.html';
+  if(e.key === 'g' || e.key === 'G') window.location.href = 'https://github.com/mileswolfallen2';
+});
+</script>
+</body>
+</html>

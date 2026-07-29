@@ -58,6 +58,7 @@
     const dot = document.getElementById('cursorDot');
     const ring = document.getElementById('cursorRing');
     if (!dot || !ring) return;
+    document.body.classList.add('custom-cursor-enabled');
     let mx = 0, my = 0, rx = 0, ry = 0;
     document.addEventListener('mousemove', function(e){
       mx = e.clientX;
@@ -97,12 +98,14 @@
     function updateIcon(){
       btn.textContent = document.body.classList.contains('light') ? '\u263E' : '\u2600';
     }
-    updateIcon();
-    btn.addEventListener('click', function(){
+    function toggleTheme(){
       document.body.classList.toggle('light');
       localStorage.setItem('theme', document.body.classList.contains('light') ? 'light' : 'dark');
       updateIcon();
-    });
+    }
+    updateIcon();
+    btn.addEventListener('click', toggleTheme);
+    window.toggleTheme = toggleTheme;
   })();
 
   /* KEYBOARD SHORTCUTS (shared) */
@@ -114,6 +117,10 @@
     window.addEventListener('keydown', function(e){
       if (e.key === '?') { e.preventDefault(); toggleModal(); }
       if (e.key === 'Escape') modal.classList.remove('open');
+      if (e.key === 't' || e.key === 'T') {
+        e.preventDefault();
+        if (window.toggleTheme) window.toggleTheme();
+      }
     });
   })();
 })();
