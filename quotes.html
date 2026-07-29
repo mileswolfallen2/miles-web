@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quotes | Miles Wolf Allen</title>
+  <meta name="description" content="A collection of fun, absurd, and questionable quotes. Internet culture, programming jokes, and general nonsense.">
+  <link rel="canonical" href="https://milesallen.site/quotes.html">
+  <meta property="og:title" content="Quotes | Miles Wolf Allen">
+  <meta property="og:description" content="A collection of fun, absurd, and questionable quotes.">
+  <meta property="og:image" content="https://milesallen.site/og.png">
+  <meta property="og:url" content="https://milesallen.site/quotes.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="stylesheet" href="projects/style.css">
+  <style>
+.q-hero{min-height:60vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 5vw;position:relative;overflow:hidden;}
+.q-hero h1{font-family:var(--font-pixel);font-size:clamp(32px,7vw,64px);color:var(--text);text-shadow:4px 4px 0 var(--accent),-2px -2px 0 var(--tape);line-height:1.2;animation:glitch 6s ease-in-out infinite;}
+.q-hero .sub{font-family:var(--font-mono);font-size:12px;color:var(--muted);margin-top:12px;max-width:400px;}
+@keyframes glitch{0%,90%,100%{text-shadow:4px 4px 0 var(--accent),-2px -2px 0 var(--tape);}92%{text-shadow:4px 4px 0 var(--red),-2px -2px 0 var(--accent);transform:translateX(2px);}94%{text-shadow:4px 4px 0 var(--accent),-2px -2px 0 var(--red);transform:translateX(-2px);}}
+
+.q-grid{max-width:900px;margin:0 auto;padding:20px 5vw 80px;display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+@media(max-width:700px){.q-grid{grid-template-columns:1fr;}}
+
+.q-card{padding:24px;border:2px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.02);position:relative;transition:border-color .3s,background .3s;}
+.q-card:hover{border-color:var(--accent);background:rgba(255,61,154,0.04);}
+.q-card:nth-child(odd){transform:rotate(-.5deg);}
+.q-card:nth-child(even){transform:rotate(.5deg);margin-top:14px;}
+.q-card:nth-child(3n){transform:rotate(1deg);}
+.q-card:nth-child(4n){transform:rotate(-1.2deg);margin-top:-6px;}
+.q-card .qt{font-family:var(--font-mono);font-size:14px;color:#ddd;line-height:1.7;font-style:italic;}
+.q-card .qt::before{content:'\201C';color:var(--accent);font-size:24px;font-family:serif;position:absolute;top:8px;left:14px;opacity:.4;}
+.q-card .att{font-family:var(--font-pixel);font-size:8px;color:var(--muted);margin-top:12px;letter-spacing:.08em;text-transform:uppercase;}
+.q-card .att::before{content:'\2014 ';color:var(--tape);}
+
+.q-footer{text-align:center;padding:40px 5vw;border-top:1px solid rgba(255,255,255,0.04);}
+.q-footer .ft{font-family:var(--font-mono);font-size:10px;color:var(--muted);line-height:1.8;}
+.q-footer a{color:var(--accent);text-decoration:none;}
+  </style>
+</head>
+<body>
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+  <div class="progress-bar" id="progressBar"></div>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme"></button>
+  <div class="shortcut-modal" id="shortcutModal">
+    <div class="shortcut-card">
+      <h3>Keyboard Shortcuts</h3>
+      <div class="shortcut-row"><span>Go Home</span><kbd>H</kbd></div>
+      <div class="shortcut-row"><span>Go to GitHub</span><kbd>G</kbd></div>
+      <div class="shortcut-row"><span>Toggle theme</span><kbd>T</kbd></div>
+      <div class="shortcut-row"><span>Show shortcuts</span><kbd>?</kbd></div>
+      <div class="close-hint">Press Esc or ? to close</div>
+    </div>
+  </div>
+  <div class="flash" id="flash"></div>
+  <div class="toast-stack" id="toastStack"></div>
+  <nav class="mobile-nav">
+    <a href="index.html">Home</a>
+    <a href="projects/fedl.html">FEDL</a>
+    <a href="projects/omniemu.html">OmniEmu</a>
+    <a href="projects/command-move.html">CommandMove</a>
+    <a href="https://github.com/mileswolfallen2" target="_blank">GitHub</a>
+  </nav>
+
+  <nav>
+    <a href="index.html" class="nav-logo"><span class="logo-dot"></span> milesallen</a>
+    <div class="nav-links">
+      <a href="index.html#about">About</a>
+      <a href="index.html#skills">Skills</a>
+      <a href="index.html#projects">Projects</a>
+      <a href="index.html#contact">Contact</a>
+    </div>
+  </nav>
+
+  <div class="scroll-content">
+    <section class="q-hero">
+      <h1>QUOTES</h1>
+      <p class="sub">Things I find funny, accurate, or both</p>
+      <div style="margin-top:30px;font-size:40px;opacity:.15;">❝❞</div>
+    </section>
+
+    <div class="q-grid">
+      <div class="q-card"><div class="qt">I'm not arguing, I'm just explaining why I'm right.</div><div class="att">Unknown</div></div>
+      <div class="q-card"><div class="qt">My music taste is a chaotic neutral and I wouldn't have it any other way.</div><div class="att">Miles, probably</div></div>
+      <div class="q-card"><div class="qt">Most good programmers do programming not because they expect to get paid or get adulation by the public, but because it is fun to program.</div><div class="att">Linus Torvalds</div></div>
+      <div class="q-card"><div class="qt">It's not a bug, it's an undocumented feature.</div><div class="att">Every developer ever</div></div>
+      <div class="q-card"><div class="qt">There are only 10 types of people in the world: those who understand binary and those who don't.</div><div class="att">Classic</div></div>
+      <div class="q-card"><div class="qt">I put the 'pro' in procrastination.</div><div class="att">Unknown</div></div>
+      <div class="q-card"><div class="qt">The light at the end of the tunnel is probably a train.</div><div class="att">Optimistic realist</div></div>
+      <div class="q-card"><div class="qt">I have 99 problems and 92 of them are in this one file.</div><div class="att">A developer's prayer</div></div>
+      <div class="q-card"><div class="qt">Talk is cheap. Show me the code.</div><div class="att">Linus Torvalds</div></div>
+      <div class="q-card"><div class="qt">I'm not lazy, I'm on energy-saving mode.</div><div class="att">Mood</div></div>
+      <div class="q-card"><div class="qt">I'm not a complete idiot, some parts are missing.</div><div class="att">Unknown</div></div>
+      <div class="q-card"><div class="qt">Intelligence is the ability to avoid doing work, yet getting the work done.</div><div class="att">Linus Torvalds</div></div>
+      <div class="q-card"><div class="qt">If at first you don't succeed, call it version 1.0.</div><div class="att">Software wisdom</div></div>
+      <div class="q-card"><div class="qt">My brain has too many tabs open.</div><div class="att">Modern life</div></div>
+      <div class="q-card"><div class="qt">I don't always test my code, but when I do, I do it in production.</div><div class="att">The most interesting developer</div></div>
+      <div class="q-card"><div class="qt">The fact that there's a highway to hell but only a stairway to heaven says a lot about anticipated traffic volume.</div><div class="att">Linus Torvalds</div></div>
+      <div class="q-card"><div class="qt">I'm not saying I'm Batman, but have you ever seen me and Batman in the same room?</div><div class="att">Totally Batman</div></div>
+      <div class="q-card"><div class="qt">I'm sorry for what I said when it was Monday.</div><div class="att">Every week</div></div>
+      <div class="q-card"><div class="qt">There are two types of people: those who can extrapolate from incomplete data.</div><div class="att">Unknown</div></div>
+      <div class="q-card"><div class="qt">Vocaloid is just digital ventriloquism and I'm here for it.</div><div class="att">Me, to myself</div></div>
+      <div class="q-card"><div class="qt">I go from Rage Against the Machine to Hatsune Miku in 0.3 seconds and I'm not sorry.</div><div class="att">Music taste explained</div></div>
+      <div class="q-card"><div class="qt">My life feels like a test I didn't study for.</div><div class="att">Relatable content</div></div>
+      <div class="q-card"><div class="qt">I have a degree in 'I don't know what I'm doing'.</div><div class="att">Impostor syndrome</div></div>
+      <div class="q-card"><div class="qt">I'm not weird, I'm limited edition.</div><div class="att">Unique branding</div></div>
+      <div class="q-card"><div class="qt">The difference between stupidity and genius is that genius has its limits.</div><div class="att">Albert Einstein</div></div>
+      <div class="q-card"><div class="qt">I'm not saying you're the dumbest person in the world, but you better hope the dumbest person in the world doesn't die.</div><div class="att">Sen. John Kennedy</div></div>
+      <div class="q-card"><div class="qt">I will be a unity candidate and pledge to build at least one affordable house.</div><div class="att">Count Binface</div></div>
+      <div class="q-card"><div class="qt">Software is like sex: it's better when it's free.</div><div class="att">Linus Torvalds</div></div>
+    </div>
+
+    <footer class="q-footer">
+      <div class="ft">More nonsense added periodically · <a href="music.html">♪</a> · <a href="index.html">home</a></div>
+    </footer>
+  </div>
+
+<script src="projects/script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+gsap.from('.q-hero h1', { y: 40, opacity: 0, duration: 1, ease: 'power3.out' });
+gsap.from('.q-hero .sub', { y: 20, opacity: 0, duration: 0.8, delay: 0.3, ease: 'power3.out' });
+gsap.from('nav', { y: -20, opacity: 0, duration: 0.6, ease: 'power2.out' });
+
+gsap.from('.q-card', {
+  scrollTrigger: { trigger: '.q-grid', start: 'top 85%' },
+  y: 30, opacity: 0, duration: 0.5, stagger: 0.08, ease: 'power3.out'
+});
+
+gsap.from('.q-footer', { scrollTrigger: { trigger: '.q-footer', start: 'top 95%' }, opacity: 0, duration: 0.8 });
+
+window.addEventListener('keydown', function(e){
+  if(e.key === 'h' || e.key === 'H') window.location.href = 'index.html';
+  if(e.key === 'g' || e.key === 'G') window.location.href = 'https://github.com/mileswolfallen2';
+});
+</script>
+</body>
+</html>

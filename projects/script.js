@@ -53,6 +53,24 @@
     }
   })();
 
+  /* MUSIC PAGE EASTER EGG: A, B, ←, →, ←, →, ↓, ↓, ↑, ↑ */
+  (function(){
+    const seq = ['a','b','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','ArrowDown','ArrowDown','ArrowUp','ArrowUp'];
+    let pos = 0;
+    window.addEventListener('keydown', function(e){
+      const key = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+      if (key === seq[pos]) {
+        pos++;
+        if (pos === seq.length) {
+          pos = 0;
+          window.location.href = '/music.html';
+        }
+      } else {
+        pos = (key === seq[0]) ? 1 : 0;
+      }
+    });
+  })();
+
   /* CURSOR */
   (function(){
     const dot = document.getElementById('cursorDot');
@@ -73,9 +91,10 @@
       ring.style.top = ry + 'px';
       requestAnimationFrame(loop);
     })();
-    document.querySelectorAll('a, button, .meta-chip, .tech-badge, .feature-card, .proj-card, .blog-card, .hl-cell, .term-btn, .chip').forEach(function(el){
-      el.addEventListener('mouseenter', function(){ dot.classList.add('hover'); ring.classList.add('hover'); });
-      el.addEventListener('mouseleave', function(){ dot.classList.remove('hover'); ring.classList.remove('hover'); });
+    document.addEventListener('mouseover', function(e){
+      const t = e.target.closest('a, button, input, textarea, select, [role="button"], .meta-chip, .tech-badge, .feature-card, .proj-card, .blog-card, .hl-cell, .term-btn, .chip');
+      dot.classList.toggle('hover', !!t);
+      ring.classList.toggle('hover', !!t);
     });
   })();
 
@@ -106,6 +125,22 @@
     updateIcon();
     btn.addEventListener('click', toggleTheme);
     window.toggleTheme = toggleTheme;
+  })();
+
+  /* SECRET HINT: inject into shortcut modal */
+  (function(){
+    const modal = document.getElementById('shortcutModal');
+    if (!modal) return;
+    const card = modal.querySelector('.shortcut-card');
+    if (card && !card.querySelector('.secret-hint')) {
+      const hint = document.createElement('div');
+      hint.className = 'secret-hint';
+      hint.style.cssText = 'font-family:var(--font-mono);font-size:9px;color:#666;text-align:center;padding:8px 0 4px;border-top:1px solid rgba(255,255,255,0.06);margin-top:6px;letter-spacing:.06em;';
+      hint.textContent = '· · · AB \u2190 \u2192 \u2190 \u2192 \u2193 \u2193 \u2191 \u2191';
+      const close = card.querySelector('.close-hint');
+      if (close) card.insertBefore(hint, close);
+      else card.appendChild(hint);
+    }
   })();
 
   /* KEYBOARD SHORTCUTS (shared) */
