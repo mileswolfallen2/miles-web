@@ -50,6 +50,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,10,15,0.9
 .section-title{font-family:var(--font-pixel);font-size:14px;color:var(--accent);text-align:center;margin:60px 0 24px;text-transform:uppercase;letter-spacing:.1em;}
 
 .qoute{font-family:var(--font-mono);font-size:clamp(18px,4vw,36px);color:rgba(255,255,255,0.06);text-align:center;padding:40px;font-weight:700;letter-spacing:-.02em;}
+.nonsense-wrap{text-align:center;margin:0 0 40px;}
+.nonsense-link{display:inline-block;font-family:var(--font-mono);font-size:10px;color:var(--muted);text-decoration:none;padding:8px 14px;border:1px solid rgba(255,255,255,0.12);transition:all .3s;text-transform:uppercase;letter-spacing:.08em;}
+.nonsense-link:hover{color:var(--accent);border-color:var(--accent);background:rgba(255,61,154,0.06);transform:translateY(-2px);}
 
 footer{text-align:center;padding:40px 5vw;border-top:1px solid rgba(255,255,255,0.04);}
 footer .ft{font-family:var(--font-mono);font-size:10px;color:var(--muted);line-height:1.8;}
@@ -83,6 +86,100 @@ body.clean footer{border-color:#333045;padding:24px;}
 body.clean footer .ft{font-family:'Inter',sans-serif;font-size:11px;color:var(--muted);}
 body.clean .vinyl{display:none;}
 body.clean .spotify-wrap iframe{border-radius:8px;}
+body.clean .nonsense-link{font-family:'Inter',sans-serif;font-size:13px;font-weight:500;text-transform:none;letter-spacing:0;color:var(--muted);padding:6px 12px;border:1px solid #333045;border-radius:8px;}
+body.clean .nonsense-link:hover{color:var(--text);border-color:var(--accent);background:rgba(184,169,255,0.08);transform:none;}
+  /* ============ MAXIMALIST (music-specific) ============ */
+  body.maximalist nav{background:var(--bg);backdrop-filter:none;border-bottom:6px solid var(--black);padding:14px 24px;}
+  body.maximalist .scroll-content{padding-top:56px;}
+  body.maximalist .hero{min-height:auto;padding:90px 24px 60px;background:var(--tape)!important;}
+  body.maximalist .hero h1{font-family:var(--shout);font-size:clamp(30px,6vw,64px);color:var(--black);text-shadow:none;text-transform:uppercase;line-height:.95;}
+  body.maximalist .hero h1::after{content:'';display:block;width:140px;height:16px;background:var(--pink);margin:14px auto 0;transform:rotate(-2deg);}
+  body.maximalist .hero .sub{font-family:var(--font-mono);font-weight:700;font-size:14px;color:var(--black);margin-top:16px;}
+  body.maximalist .band{min-height:auto;padding:70px 5vw;border:none;}
+  body.maximalist .band:nth-child(odd){background:var(--bg);}
+  body.maximalist .band:nth-child(even){background:var(--black);}
+  body.maximalist .band-header .tag{font-family:var(--font-pixel);font-size:13px;color:var(--tape);letter-spacing:2px;}
+  body.maximalist .band-header h2{font-family:var(--shout);font-size:clamp(24px,5vw,48px);color:var(--white);text-transform:uppercase;text-shadow:none;letter-spacing:0;}
+  body.maximalist .band-header h2::after{content:'';display:block;width:90px;height:12px;background:var(--pink);margin:12px auto 0;transform:rotate(-2deg);}
+  body.maximalist .band-header p{font-family:var(--font-mono);font-size:14px;color:var(--muted);line-height:1.7;}
+  body.maximalist .band-card .art{border:5px solid var(--black);border-radius:0;background:var(--white);box-shadow:10px 10px 0 var(--pink);}
+  body.maximalist #ratm .band-card .art{box-shadow:10px 10px 0 var(--red);}
+  body.maximalist .band-card .art::after{content:'ON REPEAT';font-family:var(--font-pixel);font-size:11px;color:var(--black);background:var(--tape);padding:4px 10px;border:2px solid var(--black);transform:rotate(-3deg);}
+  body.maximalist .band-card .info h3{font-family:var(--font-pixel);font-size:12px;color:var(--tape);text-transform:uppercase;letter-spacing:2px;}
+  body.maximalist .band-card .info .album{font-family:var(--font-pixel);font-size:10px;color:var(--pink);text-transform:uppercase;letter-spacing:2px;}
+  body.maximalist #ratm .band-card .info .album{color:var(--red);}
+  body.maximalist .band-card .info .song{font-family:var(--font-mono);font-weight:700;font-size:13px;color:var(--white);line-height:1.8;border-color:rgba(255,255,255,0.15);}
+  body.maximalist .section-title{font-family:var(--shout);font-size:16px;letter-spacing:3px;color:var(--tape);text-transform:uppercase;}
+  body.maximalist .qoute{font-family:var(--shout);font-size:clamp(22px,5vw,44px);color:var(--white);text-transform:uppercase;letter-spacing:0;padding:50px 24px;}
+  body.maximalist footer{border-color:var(--white);padding:40px 24px;}
+  body.maximalist footer .ft{font-family:var(--font-pixel);font-size:12px;color:var(--muted);letter-spacing:1px;}
+  body.maximalist .vinyl{display:none;}
+  body.maximalist .spotify-wrap iframe{border-radius:0;border:5px solid var(--white);box-shadow:8px 8px 0 var(--blue);}
+  body.maximalist .nonsense-link{font-family:var(--font-pixel);font-size:16px;letter-spacing:1px;text-transform:uppercase;color:var(--black);background:var(--tape);border:4px solid var(--black);border-radius:0;padding:12px 22px;box-shadow:6px 6px 0 var(--black);transform:rotate(-1deg);}
+  body.maximalist .nonsense-link:hover{transform:translate(-3px,-3px) rotate(0)!important;box-shadow:10px 10px 0 var(--pink);background:var(--blue);color:var(--black);}
+
+  /* ============ SYNTHWAVE (music-specific) ============ */
+  body.synthwave .hero h1{font-family:var(--shout);font-size:clamp(30px,5vw,56px);text-shadow:0 0 20px rgba(255,46,151,0.5),0 0 60px rgba(0,229,255,0.2);animation:none;line-height:1.1;}
+  body.synthwave .hero .sub{color:var(--muted);}
+  body.synthwave .band-header .tag{color:var(--blue);}
+  body.synthwave .band-header h2{font-family:var(--shout);font-size:clamp(22px,4vw,40px);text-shadow:0 0 18px rgba(255,46,151,0.4);}
+  body.synthwave .band-header p{color:var(--muted);}
+  body.synthwave .band-card .art{border-color:var(--accent);background:rgba(255,46,151,0.05);}
+  body.synthwave .band-card .info h3{color:var(--accent);}
+  body.synthwave .band-card .info .album{color:var(--blue);}
+  body.synthwave .band-card .info .song{color:var(--muted);border-color:rgba(0,229,255,0.15);}
+  body.synthwave .section-title{color:var(--blue);text-shadow:0 0 12px rgba(0,229,255,0.4);}
+  body.synthwave .qoute{color:var(--muted);opacity:.4;}
+  body.synthwave .vinyl{border-color:rgba(255,46,151,0.15);background:rgba(255,46,151,0.04);}
+  body.synthwave .nonsense-link{border-color:var(--accent);color:var(--muted);}
+  body.synthwave .nonsense-link:hover{background:rgba(255,46,151,0.12);box-shadow:0 0 18px rgba(255,46,151,0.3);color:var(--text);}
+  body.synthwave .spotify-wrap iframe{border-radius:8px;box-shadow:0 0 30px rgba(0,229,255,0.12);}
+  body.synthwave footer .ft{color:var(--muted);}
+
+  /* ============ PHOSPHOR (music-specific) ============ */
+  body.phosphor .hero h1{font-family:var(--shout);font-size:clamp(28px,5vw,52px);text-shadow:0 0 8px var(--text);animation:none;line-height:1.1;}
+  body.phosphor .band-header h2{font-family:var(--shout);font-size:clamp(20px,4vw,36px);text-shadow:0 0 6px var(--text);}
+  body.phosphor .band-card .art{border-color:rgba(57,255,108,0.35);}
+  body.phosphor .band-card .info .song{color:var(--muted);border-color:rgba(57,255,108,0.15);}
+  body.phosphor .vinyl{display:none;}
+  body.phosphor .qoute{color:var(--muted);opacity:.5;}
+  body.phosphor .nonsense-link{border-color:var(--accent);color:var(--accent);}
+  body.phosphor .nonsense-link:hover{background:rgba(57,255,108,0.1);color:var(--text);}
+  body.phosphor .spotify-wrap iframe{box-shadow:0 0 20px rgba(57,255,108,0.15);}
+  body.phosphor footer .ft{color:var(--muted);}
+
+  /* ============ CHROME (music-specific) ============ */
+  body.chrome .hero h1{font-family:var(--shout);font-size:clamp(32px,6vw,60px);text-shadow:8px 8px 0 rgba(255,255,255,0.15);animation:none;line-height:1.1;}
+  body.chrome .band-header h2{font-family:var(--shout);font-size:clamp(24px,4vw,44px);text-shadow:4px 4px 0 rgba(255,255,255,0.15);}
+  body.chrome .band-header p{color:var(--muted);}
+  body.chrome .band-card .art{border-color:var(--text);background:var(--bg);}
+  body.chrome .band-card .info h3{color:var(--text);}
+  body.chrome .band-card .info .album{color:var(--muted);}
+  body.chrome .band-card .info .song{color:var(--muted);border-color:rgba(255,255,255,0.12);}
+  body.chrome .vinyl{display:none;}
+  body.chrome .qoute{color:var(--muted);opacity:.4;}
+  body.chrome .nonsense-link{border-color:var(--text);color:var(--text);}
+  body.chrome .nonsense-link:hover{background:var(--text);color:var(--bg);transform:translateY(-2px);}
+  body.chrome .spotify-wrap iframe{border-radius:0;border:2px solid var(--text);}
+  body.chrome footer .ft{color:var(--muted);}
+
+  /* ============ PAPER (music-specific) ============ */
+  body.paper .hero h1{font-family:var(--shout);font-size:clamp(30px,5vw,54px);color:var(--text);text-shadow:none;animation:none;line-height:1.1;}
+  body.paper .hero .sub{color:var(--muted);}
+  body.paper .band-header .tag{color:var(--accent);}
+  body.paper .band-header h2{font-family:var(--shout);font-size:clamp(24px,4vw,40px);color:var(--text);text-shadow:none;}
+  body.paper .band-header p{color:var(--muted);}
+  body.paper .band-card .art{border:1px solid #d9d2c2;background:#fff;border-radius:14px 10px 16px 11px/11px 16px 10px 14px;box-shadow:2px 3px 0 rgba(43,38,32,0.06),5px 8px 18px rgba(43,38,32,0.07);transform:rotate(-.5deg);}
+  body.paper .band-card .info h3{color:var(--muted);}
+  body.paper .band-card .info .album{color:var(--accent);}
+  body.paper .band-card .info .song{color:var(--muted);border-color:#e8e2d3;}
+  body.paper .section-title{color:var(--text);}
+  body.paper .qoute{color:var(--muted);opacity:.7;}
+  body.paper .vinyl{display:none;}
+  body.paper .nonsense-link{border:1px solid #d9d2c2;color:var(--muted);border-radius:8px 5px 9px 6px/6px 9px 5px 8px;box-shadow:2px 2px 0 rgba(43,38,32,0.05);}
+  body.paper .nonsense-link:hover{border-color:var(--accent);color:var(--accent);background:#fff;transform:translateY(-2px) rotate(-1deg);}
+  body.paper .spotify-wrap iframe{border:1px solid #d9d2c2;border-radius:12px 8px 14px 9px/9px 14px 8px 12px;box-shadow:2px 3px 0 rgba(43,38,32,0.06);}
+  body.paper footer{border-color:#d9d2c2;}
   </style>
 </head>
 <body>
@@ -240,7 +337,7 @@ body.clean .spotify-wrap iframe{border-radius:8px;}
     </div>
 
     <div class="qoute">"I go from Rage Against the Machine to Hatsune Miku in 0.3 seconds"</div>
-    <div style="text-align:center;margin:-20px 0 40px;font-family:var(--font-mono);font-size:9px;color:var(--muted);"><a href="quotes.html" style="color:var(--muted);text-decoration:none;transition:color .3s;" onmouseover="this.style.color='#FF3D9A'" onmouseout="this.style.color='inherit'">more nonsense →</a></div>
+    <div class="nonsense-wrap"><a href="quotes.html" class="nonsense-link">more nonsense →</a></div>
 
     <footer>
       <div class="ft">Turn it up · Miles · 2026</div>

@@ -33,7 +33,7 @@ A developer portfolio website for Miles Wolf Allen, showcasing projects, skills,
 - GitHub: https://github.com/mileswolfallen2
 - Replit: https://replit.com/@MilesAllen1
 - CodePen: https://codepen.io/mileswolfallen2-the-typescripter
-- Personal site: https://me.fedl.site
+- Personal site: https://milesallen.site
 
 ## Notes
 
