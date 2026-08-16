@@ -534,6 +534,135 @@ html.js .hero-name.in .word span { transform: translateY(0); }
   .contact-heading .line span { transform: none !important; }
   .loader { display: none; }
 }
+
+/* ══════════════════════════════════════
+   DEV ACRONYM — PINNED SCROLL SECTION
+══════════════════════════════════════ */
+.dev-outer {
+  position: relative; z-index: 2;
+  border-top: 1px solid var(--rule);
+}
+
+.dev-sticky {
+  position: sticky; top: 0;
+  height: 100vh; overflow: hidden;
+  display: flex; align-items: stretch;
+}
+
+/* left: big letter */
+.dev-letter-col {
+  position: relative; flex: 0 0 clamp(100px, 20vw, 280px);
+  border-right: 1px solid var(--rule);
+  display: flex; align-items: flex-end;
+  padding: 0 0 clamp(28px,4vw,52px) clamp(20px,3vw,40px);
+  overflow: hidden;
+  background: var(--cream);
+}
+.dev-active-letter {
+  font-family: var(--serif);
+  font-size: clamp(130px, 22vw, 300px);
+  line-height: 1; font-weight: 900; letter-spacing: -.04em;
+  position: relative; z-index: 2;
+  color: var(--ink);
+  font-style: italic;
+  transition: opacity .2s;
+}
+
+/* step dots */
+.dev-dots {
+  position: absolute; top: 50%; right: -17px; transform: translateY(-50%);
+  display: flex; flex-direction: column; gap: 8px; z-index: 10;
+}
+.dev-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  border: 1px solid var(--rule); background: var(--paper);
+  transition: background .3s, transform .25s, border-color .3s;
+}
+.dev-dot.active {
+  background: var(--ink); border-color: var(--ink);
+  transform: scale(1.35);
+}
+
+/* right: content */
+.dev-content-col {
+  flex: 1; position: relative; overflow: hidden;
+  background: var(--paper);
+}
+
+/* panels */
+.dev-panel {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: clamp(28px,4vw,52px) clamp(24px,4.5vw,60px);
+  clip-path: inset(0 0 100% 0);
+}
+.dev-panel[data-letter="D"] { background: var(--paper); }
+.dev-panel[data-letter="E"] { background: var(--cream); }
+.dev-panel[data-letter="V"] { background: var(--paper); }
+
+/* eyebrow */
+.dev-eyebrow {
+  font-family: var(--mono); font-size: 10px;
+  text-transform: uppercase; letter-spacing: .1em; color: var(--muted);
+  display: flex; align-items: center; gap: 10px; margin-bottom: 20px;
+}
+.dev-eyebrow::before { content: attr(data-n); opacity: .5; }
+.dev-eyebrow::after  { content: ''; flex: 0 0 24px; height: 1px; background: var(--warm); }
+
+/* expanded word */
+.dev-word {
+  font-family: var(--serif);
+  font-size: clamp(36px, 7vw, 96px);
+  line-height: .88; letter-spacing: -.03em; text-transform: uppercase;
+  overflow: hidden; margin-bottom: 32px; color: var(--ink);
+}
+.dev-word-inner {
+  display: block; transform: translateY(105%);
+  font-style: italic; font-weight: 700;
+}
+.dev-panel[data-letter="E"] .dev-word-inner { font-style: normal; font-weight: 900; }
+
+/* body copy */
+.dev-body {
+  font-family: var(--sans); font-size: clamp(13px,1.1vw,16px);
+  color: var(--muted); line-height: 1.85; max-width: 54ch;
+  margin-bottom: 28px; opacity: 0;
+}
+.dev-body b { color: var(--ink); font-weight: 500; }
+
+/* tags */
+.dev-tags { display: flex; gap: 8px; flex-wrap: wrap; opacity: 0; }
+.dev-tag {
+  font-family: var(--mono); font-size: 10px; text-transform: uppercase;
+  letter-spacing: .06em; padding: 8px 14px;
+  border: 1px solid var(--rule); color: var(--muted);
+  transition: border-color .2s, color .2s;
+}
+.dev-tag:hover { border-color: var(--ink); color: var(--ink); }
+
+/* decorative panel number */
+.dev-side-num {
+  position: absolute; top: clamp(20px,3vw,40px); right: clamp(20px,3vw,44px);
+  font-family: var(--serif); font-size: clamp(80px,13vw,170px); font-weight: 900;
+  font-style: italic; color: transparent;
+  -webkit-text-stroke: 1px rgba(13,13,11,.07);
+  pointer-events: none; user-select: none; line-height: 1;
+}
+
+/* thin ink progress line at bottom */
+.dev-progress-bar {
+  position: absolute; bottom: 0; left: 0; height: 2px;
+  background: var(--ink); width: 0; z-index: 20;
+  transition: width .05s linear;
+}
+
+/* scroll track */
+.dev-scroll-track { /* height set by JS */ }
+
+@media (max-width: 640px) {
+  .dev-letter-col { display: none; }
+  .dev-word { font-size: clamp(30px,9vw,56px); }
+}
 </style>
 </head>
 <body>
@@ -655,6 +784,87 @@ html.js .hero-name.in .word span { transform: translateY(0); }
     <span class="stat-l">Moon Gaming commits</span>
   </div>
 </div>
+
+<!-- ══════════════ DEV ACRONYM ══════════════ -->
+<div class="dev-outer" id="devSection">
+  <div class="dev-scroll-track" id="devTrack">
+    <div class="dev-sticky" id="devSticky">
+
+      <!-- left: active letter -->
+      <div class="dev-letter-col">
+        <div class="dev-active-letter" id="devActiveLetter">D</div>
+        <div class="dev-dots" id="devDots">
+          <div class="dev-dot active" data-i="0"></div>
+          <div class="dev-dot"        data-i="1"></div>
+          <div class="dev-dot"        data-i="2"></div>
+        </div>
+      </div>
+
+      <!-- right: panels -->
+      <div class="dev-content-col" id="devContentCol">
+        <div class="dev-progress-bar" id="devProgressBar"></div>
+
+        <!-- ─ D ─ -->
+        <div class="dev-panel" data-letter="D" id="devPanelD">
+          <div class="dev-side-num" aria-hidden="true">01</div>
+          <div class="dev-eyebrow" data-n="01 — ">Dedicated</div>
+          <div class="dev-word"><span class="dev-word-inner">Dedicated</span></div>
+          <p class="dev-body">
+            Since age 10 I've been building things online — not because anyone asked,
+            but because I couldn't stop. <b>160 GitHub repos</b>, a GD demon list with
+            <b>3,800+ verified runs</b>, a music app, a rhythm game, and a co-founded studio —
+            all before finishing high school. Dedication isn't a trait, it's a default setting.
+          </p>
+          <div class="dev-tags">
+            <span class="dev-tag">160 repos</span>
+            <span class="dev-tag">Est. 2008</span>
+            <span class="dev-tag">Pull Shark ×2</span>
+          </div>
+        </div>
+
+        <!-- ─ E ─ -->
+        <div class="dev-panel" data-letter="E" id="devPanelE">
+          <div class="dev-side-num" aria-hidden="true">02</div>
+          <div class="dev-eyebrow" data-n="02 — ">Experimental</div>
+          <div class="dev-word"><span class="dev-word-inner">Experimental</span></div>
+          <p class="dev-body">
+            I don't ship the first idea — I ship the <b>weird</b> one. Gelectron exists because
+            I thought "what if Electron but without bundling an entire browser?" Nova AI exists
+            because I wanted local AI that doesn't phone home. OmniEmu exists because I got
+            tired of juggling 15 emulator windows. Every project starts with
+            <b>"that's a dumb idea, let's try it."</b>
+          </p>
+          <div class="dev-tags">
+            <span class="dev-tag">Gelectron</span>
+            <span class="dev-tag">Nova AI</span>
+            <span class="dev-tag">OmniEmu</span>
+          </div>
+        </div>
+
+        <!-- ─ V ─ -->
+        <div class="dev-panel" data-letter="V" id="devPanelV">
+          <div class="dev-side-num" aria-hidden="true">03</div>
+          <div class="dev-eyebrow" data-n="03 — ">Versatile</div>
+          <div class="dev-word"><span class="dev-word-inner">Versatile</span></div>
+          <p class="dev-body">
+            One day I'm writing <b>Rust</b> for a native web-view renderer. The next I'm
+            rigging a 3D model in <b>Blender</b>, scripting a GD demon list backend in
+            <b>Node.js</b>, or building a macOS app in <b>Swift</b>. I work across the
+            full stack, both dimensions, and every timezone my screen stays lit in.
+            Jack of all trades — master of shipping.
+          </p>
+          <div class="dev-tags">
+            <span class="dev-tag">Rust</span>
+            <span class="dev-tag">Swift</span>
+            <span class="dev-tag">Blender</span>
+            <span class="dev-tag">Full-stack</span>
+          </div>
+        </div>
+
+      </div><!-- /dev-content-col -->
+    </div><!-- /dev-sticky -->
+  </div><!-- /dev-scroll-track -->
+</div><!-- /dev-outer -->
 
 <!-- ══════════════ WORK ══════════════ -->
 <section id="work">
@@ -1142,6 +1352,135 @@ html.js .hero-name.in .word span { transform: translateY(0); }
       scrollY = window.scrollY;
     }, { passive: true });
   }
+
+})();
+</script>
+
+<script>
+/* ══════════════════════════════════════
+   DEV ACRONYM — SCROLL CHOREOGRAPHY
+══════════════════════════════════════ */
+(function () {
+  'use strict';
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var panels    = ['D','E','V'];
+  var trackEl   = document.getElementById('devTrack');
+  var stickyEl  = document.getElementById('devSticky');
+  var activeLtr = document.getElementById('devActiveLetter');
+  var progressEl= document.getElementById('devProgressBar');
+  var dots      = document.querySelectorAll('.dev-dot');
+
+  if (!trackEl || !stickyEl) return;
+
+  trackEl.style.height = (panels.length * 100) + 'vh';
+
+  /* fallback for reduced motion or no GSAP */
+  function simpleFallback() {
+    panels.forEach(function (l) {
+      var p    = document.getElementById('devPanel' + l);
+      var body = p && p.querySelector('.dev-body');
+      var tags = p && p.querySelector('.dev-tags');
+      var word = p && p.querySelector('.dev-word-inner');
+      if (p)    p.style.clipPath = 'inset(0 0 0% 0)';
+      if (body) body.style.opacity = '1';
+      if (tags) tags.style.opacity = '1';
+      if (word) word.style.transform = 'translateY(0)';
+    });
+  }
+
+  if (reduce || !window.gsap || !window.ScrollTrigger) {
+    simpleFallback(); return;
+  }
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  /* animate a panel IN */
+  function animateIn(letter) {
+    var p    = document.getElementById('devPanel' + letter);
+    if (!p) return;
+    var word = p.querySelector('.dev-word-inner');
+    var body = p.querySelector('.dev-body');
+    var tags = p.querySelector('.dev-tags');
+
+    gsap.to(p, { clipPath: 'inset(0 0 0% 0)', duration: .68, ease: 'power3.inOut' });
+    if (word) gsap.to(word, { y: '0%',  duration: .65, ease: 'power3.out',  delay: .18 });
+    if (body) gsap.to(body, { opacity: 1, y: 0, duration: .55, ease: 'power2.out', delay: .30 });
+    if (tags) gsap.to(tags, { opacity: 1, duration: .4,  ease: 'power2.out', delay: .44 });
+
+    /* swap the big left letter */
+    if (activeLtr) {
+      gsap.to(activeLtr, { y: -10, opacity: 0, duration: .18, ease: 'power2.in',
+        onComplete: function () {
+          activeLtr.textContent = letter;
+          gsap.fromTo(activeLtr,
+            { y: 20, opacity: 0 },
+            { y: 0,  opacity: 1, duration: .38, ease: 'back.out(1.6)' }
+          );
+        }
+      });
+    }
+
+    dots.forEach(function (d, i) {
+      d.classList.toggle('active', i === panels.indexOf(letter));
+    });
+  }
+
+  /* animate a panel OUT */
+  function animateOut(letter) {
+    var p    = document.getElementById('devPanel' + letter);
+    if (!p) return;
+    var body = p.querySelector('.dev-body');
+    var tags = p.querySelector('.dev-tags');
+    var word = p.querySelector('.dev-word-inner');
+    gsap.to(p,    { clipPath: 'inset(0 0 100% 0)', duration: .52, ease: 'power3.in' });
+    if (body) gsap.to(body, { opacity: 0, duration: .22, ease: 'power2.in' });
+    if (tags) gsap.to(tags, { opacity: 0, duration: .18, ease: 'power2.in' });
+    if (word) gsap.to(word, { y: '-28%',  duration: .32, ease: 'power2.in' });
+  }
+
+  /* initial state */
+  panels.forEach(function (l, i) {
+    var p    = document.getElementById('devPanel' + l);
+    var body = p && p.querySelector('.dev-body');
+    var tags = p && p.querySelector('.dev-tags');
+    var word = p && p.querySelector('.dev-word-inner');
+    if (p)    gsap.set(p,    { clipPath: 'inset(0 0 100% 0)', zIndex: i + 1 });
+    if (body) gsap.set(body, { opacity: 0, y: 10 });
+    if (tags) gsap.set(tags, { opacity: 0 });
+    if (word) gsap.set(word, { y: '105%' });
+  });
+
+  var currentPanel = -1;
+
+  ScrollTrigger.create({
+    trigger: trackEl,
+    start: 'top top',
+    end: 'bottom bottom',
+    pin: stickyEl,
+    pinSpacing: false,
+    onUpdate: function (self) {
+      if (progressEl) progressEl.style.width = (self.progress * 100) + '%';
+      var idx = Math.min(panels.length - 1, Math.floor(self.progress * panels.length));
+      if (idx !== currentPanel) {
+        if (currentPanel >= 0) animateOut(panels[currentPanel]);
+        currentPanel = idx;
+        animateIn(panels[currentPanel]);
+      }
+    },
+    onEnter: function () {
+      if (currentPanel < 0) { currentPanel = 0; animateIn(panels[0]); }
+    },
+    onLeaveBack: function () {
+      if (currentPanel >= 0) animateOut(panels[currentPanel]);
+      currentPanel = -1;
+      if (activeLtr) activeLtr.textContent = 'D';
+      dots.forEach(function (d, i) { d.classList.toggle('active', i === 0); });
+      if (progressEl) progressEl.style.width = '0%';
+    }
+  });
+
+  ScrollTrigger.refresh();
 
 })();
 </script>
