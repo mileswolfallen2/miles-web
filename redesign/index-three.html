@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#083D2A">
+<title>Miles Wolf Allen — Developer &amp; Interactive Builder</title>
+<meta name="description" content="Miles Wolf Allen — Developer & 3D artist. I make software feel good to use — games, tools, websites, and a world without bundled Chromium.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23083D2A'/%3E%3Ctext x='50' y='74' font-size='60' font-family='Anton' font-weight='900' text-anchor='middle' fill='%23F6E016'%3EM%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<script>document.documentElement.className='js';</script>
+<style>
+  :root{
+    --green:#083D2A; --beige:#EED6C8; --paper:#F7F7F7; --ink:#022016;
+    --yellow:#F6E016; --dot:#008841; --rule:rgba(0,0,0,.1);
+    --t:'Anton','Archivo Black',sans-serif; --b:'Space Grotesk','Neue Haas Grotesk',sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{font-size:clamp(12px,.9722222222vw,28px);scroll-behavior:smooth;}
+  @media(min-width:1920px){html{font-size:1vw;}}
+  body{background:var(--paper);color:var(--ink);font-family:var(--b);line-height:1.5;overflow-x:hidden;-webkit-font-smoothing:antialiased;text-size-adjust:none;}
+  body,html{scrollbar-width:none;}
+  body::-webkit-scrollbar{display:none;}
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:var(--yellow);color:var(--ink);}
+  img{max-width:100%;display:block;}
+  .grid{width:100%;max-width:2560px;margin:0 auto;display:grid;grid-template-columns:repeat(12,1fr);grid-column-gap:clamp(8px,1.39vw,40px);padding:0 clamp(16px,2.857vw,80px);}
+  .meta{font-family:var(--b);font-size:.9722222222vw;font-size:clamp(10px,.972vw,16px);text-transform:uppercase;letter-spacing:.04em;}
+  .star{font-size:2.36vw;font-size:clamp(18px,2.36vw,40px);line-height:.6;color:inherit;}
+
+  /* ---------- custom cursor ---------- */
+  .cursor{position:fixed;z-index:2000;left:0;top:0;pointer-events:none;display:flex;align-items:center;justify-content:center;width:4.2rem;height:4.2rem;border-radius:3.57rem;background:var(--yellow);color:var(--ink);font-family:var(--b);font-size:.76vw;font-size:clamp(9px,.76vw,14px);text-transform:uppercase;letter-spacing:.04em;transform:translate(-50%,-50%) scale(0);transition:transform .35s cubic-bezier(.16,1,.1,1),width .35s cubic-bezier(.16,1,.1,1),height .35s cubic-bezier(.16,1,.1,1);will-change:transform;}
+  .cursor.show{transform:translate(-50%,-50%) scale(1);}
+  .cursor.big{width:7rem;height:7rem;}
+  @media(pointer:coarse){.cursor{display:none;}}
+
+  /* ---------- navbar ---------- */
+  .nav{position:fixed;top:0;left:0;width:100%;z-index:4;margin-top:2.85rem;padding:0 clamp(16px,2.857vw,80px);display:flex;align-items:center;justify-content:space-between;color:var(--beige);opacity:0;animation:fadeNav 1s .5s ease forwards;transition:color .4s ease;}
+  @keyframes fadeNav{to{opacity:1;}}
+  body.nav-ink .nav{color:var(--ink);}
+  body.nav-ink .nav-link::before,body.nav-ink .foot-socials a::before{background:currentColor;}
+  .nav-logo{font-family:var(--t);font-size:1.1rem;letter-spacing:.03em;text-transform:uppercase;}
+  .nav-links{display:flex;gap:1.5rem;align-items:center;}
+  .nav-link{position:relative;padding-bottom:.25rem;text-transform:uppercase;font-size:.72rem;letter-spacing:.06em;}
+  .nav-link::before{content:'';position:absolute;left:0;bottom:0;width:100%;height:1px;background:currentColor;transform:scaleX(0);transform-origin:right;transition:transform .75s cubic-bezier(.16,1,.1,1);}
+  .nav-link:hover::before{transform:scaleX(1);transform-origin:left;}
+  .nav-pill{display:inline-flex;align-items:center;gap:.45rem;background:var(--yellow);color:var(--ink);border-radius:7.14rem;padding:.45rem .9rem;font-size:.68rem;text-transform:uppercase;letter-spacing:.04em;}
+  .nav-pill i{width:.55rem;height:.55rem;border-radius:50%;background:var(--dot);}
+
+  /* ---------- hero ---------- */
+  .hero{position:relative;min-height:100dvh;background:var(--green);color:var(--beige);display:flex;flex-direction:column;justify-content:center;overflow:hidden;}
+  .hero::after{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 78% 30%,rgba(238,214,200,.05),transparent 55%);}
+  .hero-meta{position:absolute;top:6.8rem;left:0;right:0;display:flex;justify-content:space-between;align-items:center;color:var(--beige);opacity:.75;}
+  .hero-meta .meta:nth-child(2){text-align:center;}
+  .hero-grid{position:relative;z-index:1;padding-top:4rem;padding-bottom:6rem;}
+  .hero-title{grid-column:1 / -1;font-family:var(--t);font-weight:400;text-transform:uppercase;line-height:.9;letter-spacing:.005em;}
+  .hero-title .line{overflow:hidden;}
+  .hero-title .line>span{display:block;font-size:11.25vw;font-size:clamp(52px,11.25vw,320px);transform:translateY(112%);transition:transform 1.2s cubic-bezier(.16,1,.1,1);}
+  html.js .in .hero-title .line>span{transform:translateY(0);}
+  html.js .hero-title .line:nth-child(2)>span{transition-delay:.12s;}
+  .hero-title .l2{color:var(--yellow);}
+  .hero-sub{grid-column:1 / 9;margin-top:2.2rem;font-size:clamp(15px,1.25vw,34px);line-height:1.3;opacity:.9;}
+  .hero-cta{grid-column:1 / 13;display:flex;justify-content:space-between;align-items:flex-end;margin-top:2.8rem;}
+  .hero-cta .meta{opacity:.7;}
+  .scroll-cue{display:inline-flex;align-items:center;gap:.6rem;font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;opacity:.8;}
+  .scroll-cue .bar{width:1px;height:3.4rem;background:var(--beige);opacity:.5;animation:cue 2.2s cubic-bezier(.16,1,.1,1) infinite;}
+  @keyframes cue{0%{transform:scaleY(0);transform-origin:top;}45%{transform:scaleY(1);transform-origin:top;}55%{transform:scaleY(1);transform-origin:bottom;}100%{transform:scaleY(0);transform-origin:bottom;}}
+
+  /* ---------- statement (sticky) ---------- */
+  .statement{height:220dvh;background:var(--paper);color:var(--ink);}
+  .statement-in{position:sticky;top:0;height:100dvh;display:flex;align-items:center;justify-content:center;text-align:center;}
+  .statement p{max-width:34.7vw;font-size:clamp(20px,1.66vw,48px);line-height:1.25;}
+  .statement .star{display:block;margin:0 auto 1.4rem;}
+  @media(max-width:900px){.statement p{max-width:80vw;}}
+
+  /* ---------- about ---------- */
+  .about{background:var(--green);color:var(--beige);padding-top:11.8vw;padding-bottom:11.8vw;}
+  .about-title{grid-column:1 / -1;font-family:var(--t);font-size:clamp(40px,6vw,160px);text-transform:uppercase;line-height:.9;}
+  .about-col{grid-column:2 / 7;margin-top:6rem;font-size:clamp(15px,1.25vw,34px);line-height:1.45;}
+  .about-col p+p{margin-top:1.4rem;}
+  .about-body{grid-column:8 / 13;margin-top:6rem;}
+  .about-body .meta{opacity:.75;margin-bottom:1.2rem;}
+  .about-line{padding:1.1rem 0;border-top:1px solid rgba(238,214,200,.18);display:flex;justify-content:space-between;gap:2rem;font-size:clamp(14px,1vw,28px);}
+  .about-line span:last-child{opacity:.55;text-align:right;}
+  .about-badge{margin-top:2.6rem;}
+  @media(max-width:900px){.about-col{grid-column:1 / -1;margin-top:3rem;} .about-body{grid-column:1 / -1;margin-top:3rem;} .about{padding-top:6rem;padding-bottom:6rem;}}
+
+  /* ---------- work archive ---------- */
+  .work{background:var(--paper);color:var(--ink);padding-top:11.8vw;padding-bottom:8vw;}
+  .work-head{grid-column:1 / -1;display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2rem;}
+  .work-head h2{font-family:var(--t);font-size:clamp(30px,3.6vw,104px);text-transform:uppercase;line-height:.9;}
+  .work-head .meta{opacity:.5;}
+  .prow{grid-column:1 / -1;border-top:1px solid var(--rule);}
+  .prow:last-child{border-bottom:1px solid var(--rule);}
+  .prow-head{display:grid;grid-template-columns:1fr 7fr 2fr 2fr .5fr;align-items:center;gap:1rem;padding:1.1rem 0;cursor:pointer;position:relative;}
+  .prow-num{font-size:clamp(12px,.83vw,22px);opacity:.4;}
+  .prow-name{font-family:var(--t);font-size:clamp(20px,2.63vw,76px);text-transform:uppercase;line-height:1;letter-spacing:.005em;}
+  .prow-type{font-size:clamp(11px,.83vw,20px);opacity:.3;}
+  .prow-year{font-size:clamp(11px,.83vw,20px);opacity:.5;}
+  .prow-arrow{width:.75rem;height:.75rem;position:relative;transition:transform .6s cubic-bezier(.16,1,.1,1);}
+  .prow-arrow::before,.prow-arrow::after{content:'';position:absolute;inset:0;background:var(--ink);transition:transform .6s cubic-bezier(.16,1,.1,1);}
+  .prow-arrow::before{-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Crect width='12' height='2' y='5'/%3E%3Crect width='2' height='12' x='5'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Crect width='12' height='2' y='5'/%3E%3Crect width='2' height='12' x='5'/%3E%3C/svg%3E") center/contain no-repeat;background:var(--ink);}
+  .prow-arrow::after{background:var(--yellow);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Crect width='12' height='2' y='5'/%3E%3Crect width='2' height='12' x='5'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Crect width='12' height='2' y='5'/%3E%3Crect width='2' height='12' x='5'/%3E%3C/svg%3E") center/contain no-repeat;transform:translate(-100%,100%);}
+  .prow:hover .prow-arrow::before{transform:translate(100%,-100%);}
+  .prow:hover .prow-arrow::after{transform:translate(0,0);}
+  .prow-body{max-height:0;overflow:hidden;transition:max-height 1s cubic-bezier(.16,1,.1,1);}
+  .prow-body-in{display:flex;flex-wrap:wrap;align-items:baseline;gap:1.2rem 2.5rem;padding:0 0 1.6rem;opacity:.75;}
+  .prow.open .prow-body{max-height:14rem;}
+  .prow-desc{font-size:clamp(13px,.97vw,26px);line-height:1.4;}
+  .prow-visit{font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;position:relative;padding-bottom:.2rem;}
+  .prow-visit::before{content:'';position:absolute;left:0;bottom:0;width:100%;height:1px;background:currentColor;transform:scaleX(0);transform-origin:right;transition:transform .75s cubic-bezier(.16,1,.1,1);}
+  .prow-visit:hover::before{transform:scaleX(1);transform-origin:left;}
+  @media(max-width:768px){.prow-head{grid-template-columns:1fr 4fr 1.2fr;}.prow-type{display:none;} .prow-year{display:none;}}
+  .work-foot{grid-column:1 / -1;margin-top:3rem;display:flex;justify-content:space-between;align-items:baseline;opacity:.6;}
+  .work-foot .meta{opacity:.7;}
+
+  /* ---------- stats ---------- */
+  .stats{background:var(--paper);color:var(--ink);padding-bottom:8vw;}
+  .stats .grid{border-top:1px solid var(--rule);}
+  .stat{padding:2.4rem 0;grid-column:span 3;border-right:1px solid var(--rule);text-align:center;}
+  .stat:first-child{border-left:1px solid var(--rule);}
+  .stat b{display:block;font-family:var(--t);font-weight:400;font-size:clamp(34px,3.6vw,104px);line-height:1;}
+  .stat span{display:block;margin-top:.6rem;text-transform:uppercase;font-size:.72rem;letter-spacing:.06em;opacity:.5;}
+  @media(max-width:768px){.stat{grid-column:span 6;margin-top:-1px;} .stat:nth-child(3){border-left:1px solid var(--rule);} .stat:nth-child(odd){border-right:1px solid var(--rule);}}
+  @media(max-width:480px){.stat{grid-column:span 12;}}
+
+  /* ---------- marquee ---------- */
+  .mq{background:var(--green);color:var(--beige);overflow:hidden;padding:4rem 0;border-top:1px solid rgba(238,214,200,.18);border-bottom:1px solid rgba(238,214,200,.18);}
+  .mq-track{display:flex;width:max-content;animation:mq 28s linear infinite;white-space:nowrap;font-family:var(--t);text-transform:uppercase;font-size:clamp(28px,5.2vw,150px);line-height:1;}
+  .mq-track span{display:inline-flex;align-items:center;gap:2rem;padding-right:2rem;}
+  .mq-track .star{color:var(--yellow);}
+  @keyframes mq{to{transform:translateX(-50%);}}
+
+  /* ---------- footer ---------- */
+  footer{background:var(--yellow);color:var(--ink);min-height:100dvh;display:flex;flex-direction:column;justify-content:flex-end;padding:11.8vw clamp(16px,2.857vw,80px) 2.85rem;overflow:hidden;}
+  .foot-title{font-family:var(--t);text-transform:uppercase;line-height:.85;font-size:clamp(42px,8.19vw,236px);}
+  .foot-title .line{overflow:hidden;}
+  .foot-title .line>span{display:block;transform:translateY(112%);transition:transform 1.2s cubic-bezier(.16,1,.1,1);}
+  html.js .in .foot-title .line>span{transform:translateY(0);}
+  .foot-mail{display:inline-block;margin-top:3rem;font-family:var(--t);text-transform:uppercase;font-size:clamp(20px,2.63vw,76px);line-height:1;}
+  .foot-mail{position:relative;padding-bottom:.15em;}
+  .foot-mail::before{content:'';position:absolute;left:0;bottom:0;width:100%;height:2px;background:currentColor;transform:scaleX(0);transform-origin:right;transition:transform .9s cubic-bezier(.16,1,.1,1);}
+  .foot-mail:hover::before{transform:scaleX(1);transform-origin:left;}
+  .foot-meta{display:flex;justify-content:space-between;align-items:baseline;margin-top:4rem;border-top:1px solid rgba(2,32,22,.25);padding-top:1.4rem;gap:2rem;flex-wrap:wrap;}
+  .foot-socials{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;}
+  .foot-socials a{text-transform:uppercase;font-size:.72rem;letter-spacing:.06em;position:relative;padding-bottom:.2rem;}
+  .foot-socials a::before{content:'';position:absolute;left:0;bottom:0;width:100%;height:1px;background:currentColor;transform:scaleX(0);transform-origin:right;transition:transform .75s cubic-bezier(.16,1,.1,1);}
+  .foot-socials a:hover::before{transform:scaleX(1);transform-origin:left;}
+  .foot-socials i{width:.32rem;height:.32rem;border-radius:50%;background:currentColor;}
+
+  @media(max-width:768px){
+    .hero-meta .meta:nth-child(2){display:none;}
+    .hero-sub{grid-column:1 / -1;}
+    .nav-links .nav-link{display:none;}
+    .work-head{flex-direction:column;align-items:flex-start;gap:1rem;}
+  }
+  @media(prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto;}
+    *,*::before,*::after{animation-duration:.001s !important;transition-duration:.001s !important;}
+    html.js .hero-title .line>span,html.js .foot-title .line>span{transform:none;}
+    .cursor{display:none;}
+    .statement{height:auto;} .statement-in{position:static;height:auto;padding:8rem 0;}
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor" aria-hidden="true"><span>scroll</span></div>
+
+<nav class="nav" aria-label="Main">
+  <a class="nav-logo" href="#top" data-cursor="home">miles<span style="opacity:.55">.site</span></a>
+  <div class="nav-links">
+    <a class="nav-link" href="#work" data-cursor="work">Work</a>
+    <a class="nav-link" href="#about" data-cursor="about">About</a>
+    <a class="nav-pill" href="mailto:mileswa1q2@gmail.com" data-cursor="hello"><i></i>Open to work</a>
+  </div>
+</nav>
+
+<header class="hero rv" id="top">
+  <div class="grid hero-meta">
+    <span class="meta">Miles Wolf Allen — Developer &amp; 3D Artist</span>
+    <span class="meta">Games · Tools · Websites</span>
+    <span class="meta">Est. 2008</span>
+  </div>
+  <div class="grid hero-grid">
+    <h1 class="hero-title">
+      <span class="line"><span>Miles</span></span>
+      <span class="line"><span class="l2">Wolf Allen</span></span>
+    </h1>
+    <p class="hero-sub">I make software feel good to use — games, tools and websites built with craft and a little chaos. Co-founder of Diskette Labs.</p>
+    <div class="hero-cta">
+      <span class="meta">✦ 160 repos &amp; counting</span>
+      <span class="scroll-cue">Scroll<span class="bar"></span></span>
+    </div>
+  </div>
+</header>
+
+<section class="statement rv">
+  <div class="statement-in">
+    <p><span class="star">✦</span>I explore how to make software feel good to use — a full Electron replacement, emulators, rhythm games, and way too many other repos.</p>
+  </div>
+</section>
+
+<section class="about rv" id="about">
+  <div class="grid">
+    <h2 class="about-title">About</h2>
+    <div class="about-col">
+      <p>I'm <b>Miles Wolf Allen</b>, a developer &amp; 3D artist still in school — and currently co-founder of <a class="prow-visit" href="https://diskettelabs.com/" target="_blank" rel="noopener">Diskette Labs</a>.</p>
+      <p>Right now I'm building <b>Gelectron</b>, a drop-in Electron replacement that uses native web views instead of bundling an entire Chromium. I've also built FEDL, OmniEmu, CommandMove, and 160+ other repos.</p>
+      <p>I believe pancakes are better than waffles, cereal is soup, and software should feel good to use.</p>
+    </div>
+    <div class="about-body">
+      <div class="meta">Currently</div>
+      <div class="about-line"><span>Building</span><span>Gelectron — native web views, no bundled Chromium</span></div>
+      <div class="about-line"><span>Co-founder</span><span>Diskette Labs</span></div>
+      <div class="about-line"><span>Habit</span><span>Geometry Dash addict · Pull shark ×2</span></div>
+      <div class="about-line"><span>Mode</span><span>Full maximalism, still debugging</span></div>
+      <a class="nav-pill about-badge" href="https://github.com/mileswolfallen2" target="_blank" rel="noopener" data-cursor="gh"><i></i>github.com/mileswolfallen2</a>
+    </div>
+  </div>
+</section>
+
+<section class="work rv" id="work">
+  <div class="grid">
+    <div class="work-head">
+      <h2>Selected work</h2>
+      <span class="meta">✦ 2022 — 2026 · tap to expand</span>
+    </div>
+
+    <div class="prow" data-cursor="open">
+      <div class="prow-head">
+        <span class="prow-num">01</span><span class="prow-name">OmniEmu 2.0</span><span class="prow-type">App</span><span class="prow-year">2024—2026</span><span class="prow-arrow"></span>
+      </div>
+      <div class="prow-body"><div class="prow-body-in"><span class="prow-desc">A multi-system emulator wrapping several cores in one clean desktop shell. Active.</span><a class="prow-visit" href="https://milesallen.site/projects/omniemu.html">visit →</a></div></div>
+    </div>
+    <div class="prow" data-cursor="open">
+      <div class="prow-head">
+        <span class="prow-num">02</span><span class="prow-name">Gelectron</span><span class="prow-type">App</span><span class="prow-year">2025—2026</span><span class="prow-arrow"></span>
+      </div>
+      <div class="prow-body"><div class="prow-body-in"><span class="prow-desc">A drop-in Electron replacement using native web views instead of bundled Chromium. Early days.</span><a class="prow-visit" href="https://milesallen.site/projects/gelectron.html">visit →</a></div></div>
+    </div>
+    <div class="prow" data-cursor="open">
+      <div class="prow-head">
+        <span class="prow-num">03</span><span class="prow-name">Vanilla</span><span class="prow-type">Framework</span><span class="prow-year">2025</span><span class="prow-arrow"></span>
+      </div>
+      <div class="prow-body"><div class="prow-body-in"><span class="prow-desc">A clean, modern framework with Diskette Labs. Unreleased — building quietly.</span><a class="prow-visit" href="https://vanilla.milesallen.site/" target="_blank" rel="noopener">visit →</a></div></div>
+    </div>
+    <div class="prow" data-cursor="open">
+      <div class="prow-head">
+        <span class="prow-num">04</span><span class="prow-name">FEDL</span><span class="prow-type">Ecosystem</span><span class="prow-year">2024—2026</span><span class="prow-arrow"></span>
+      </div>
+      <div class="prow-body"><div class="prow-body-in"><span class="prow-desc">A fast, lightweight package manager and dev tool ecosystem. Live.</span><a class="prow-visit" href="https://me.fedl.site/" target="_blank" rel="noopener">visit →</a></div></div>
+    </div>
+    <div class="prow" data-cursor="open">
+      <div class="prow-head">
+        <span class="prow-num">05</span><span class="prow-name">CommandMove</span><span class="prow-type">Tool</span><span class="prow-year">2023</span><span class="prow-arrow"></span>
+      </div>
+      <div class="prow-body"><div class="prow-body-in"><span class="prow-desc">A tool for moving commands and workflows around your terminal.</span><a class="prow-visit" href="https://milesallen.site/projects/command-move.html">visit →</a></div></div>
+    </div>
+    <div class="prow" data-cursor="open">
+      <div class="prow-head">
+        <span class="prow-num">06</span><span class="prow-name">Noto</span><span class="prow-type">AI</span><span class="prow-year">2025—2026</span><span class="prow-arrow"></span>
+      </div>
+      <div class="prow-body"><div class="prow-body-in"><span class="prow-desc">AI note-taking that actually understands what you meant.</span><a class="prow-visit" href="https://milesallen.site/projects/noto.html">visit →</a></div></div>
+    </div>
+    <div class="prow" data-cursor="open">
+      <div class="prow-head">
+        <span class="prow-num">07</span><span class="prow-name">Nova AI</span><span class="prow-type">Local AI</span><span class="prow-year">2024—2025</span><span class="prow-arrow"></span>
+      </div>
+      <div class="prow-body"><div class="prow-body-in"><span class="prow-desc">A local-first AI assistant that runs entirely on your machine.</span><a class="prow-visit" href="https://milesallen.site/projects/nova.html">visit →</a></div></div>
+    </div>
+    <div class="prow" data-cursor="open">
+      <div class="prow-head">
+        <span class="prow-num">08</span><span class="prow-name">Music App</span><span class="prow-type">Web</span><span class="prow-year">2023—2024</span><span class="prow-arrow"></span>
+      </div>
+      <div class="prow-body"><div class="prow-body-in"><span class="prow-desc">A web music player that makes listening feel like the whole point.</span><a class="prow-visit" href="https://milesallen.site/projects/music-app.html">visit →</a></div></div>
+    </div>
+    <div class="prow" data-cursor="open">
+      <div class="prow-head">
+        <span class="prow-num">09</span><span class="prow-name">Rhythm Game</span><span class="prow-type">Game</span><span class="prow-year">2022—2023</span><span class="prow-arrow"></span>
+      </div>
+      <div class="prow-body"><div class="prow-body-in"><span class="prow-desc">A rhythm game experiment in timing, feedback and juice.</span><a class="prow-visit" href="https://milesallen.site/projects/rhythm-game.html">visit →</a></div></div>
+    </div>
+    <div class="prow" data-cursor="open">
+      <div class="prow-head">
+        <span class="prow-num">10</span><span class="prow-name">FEDL Geode Mod</span><span class="prow-type">Mod</span><span class="prow-year">2025—2026</span><span class="prow-arrow"></span>
+      </div>
+      <div class="prow-body"><div class="prow-body-in"><span class="prow-desc">The FEDL mod for Geometry Dash's Geode — extensions for the modding scene.</span><a class="prow-visit" href="https://milesallen.site/projects/geode-mod.html">visit →</a></div></div>
+    </div>
+    <div class="prow" data-cursor="open">
+      <div class="prow-head">
+        <span class="prow-num">11</span><span class="prow-name">Decompilations</span><span class="prow-type">Tool</span><span class="prow-year">2023—2024</span><span class="prow-arrow"></span>
+      </div>
+      <div class="prow-body"><div class="prow-body-in"><span class="prow-desc">A tool for exploring and documenting decompiled game code.</span><a class="prow-visit" href="https://milesallen.site/projects/decompilations.html">visit →</a></div></div>
+    </div>
+    <div class="prow" data-cursor="open">
+      <div class="prow-head">
+        <span class="prow-num">12</span><span class="prow-name">Issue Tracker</span><span class="prow-type">Tool</span><span class="prow-year">2024</span><span class="prow-arrow"></span>
+      </div>
+      <div class="prow-body"><div class="prow-body-in"><span class="prow-desc">A no-nonsense issue tracker that gets out of your way.</span><a class="prow-visit" href="https://milesallen.site/projects/issue-tracker.html">visit →</a></div></div>
+    </div>
+    <div class="prow" data-cursor="open">
+      <div class="prow-head">
+        <span class="prow-num">13</span><span class="prow-name">Moon Gaming</span><span class="prow-type">Game</span><span class="prow-year">2022—2026</span><span class="prow-arrow"></span>
+      </div>
+      <div class="prow-body"><div class="prow-body-in"><span class="prow-desc">A long-running gaming project — mods, tools and experiments since 2022.</span><a class="prow-visit" href="https://milesallen.site/projects/moon-gaming.html">visit →</a></div></div>
+    </div>
+
+    <div class="work-foot"><span class="meta">and 160+ more on GitHub</span><span class="meta">Miles Wolf Allen © 2026</span></div>
+  </div>
+</section>
+
+<section class="stats rv">
+  <div class="grid">
+    <div class="stat"><b data-count="160">0</b><span>Repos online</span></div>
+    <div class="stat"><b data-count="91">0</b><span>Stars earned</span></div>
+    <div class="stat"><b data-count="13">0</b><span>Watching me</span></div>
+    <div class="stat"><b data-count="37">0</b><span>I watch</span></div>
+  </div>
+</section>
+
+<div class="mq" aria-hidden="true">
+  <div class="mq-track">
+    <span>✦ Geometry Dash addict</span><span>✦ Cereal is soup</span><span>✦ Send help</span><span>✦ Full maximalism</span><span>✦ Usually online</span><span>✦ Pancakes &gt; waffles</span>
+    <span>✦ Geometry Dash addict</span><span>✦ Cereal is soup</span><span>✦ Send help</span><span>✦ Full maximalism</span><span>✦ Usually online</span><span>✦ Pancakes &gt; waffles</span>
+  </div>
+</div>
+
+<footer class="rv" id="contact">
+  <div class="foot-title">
+    <span class="line"><span>Let's</span></span>
+    <span class="line"><span>Make</span></span>
+    <span class="line"><span>Something</span></span>
+    <span class="line"><span>Great</span></span>
+  </div>
+  <a class="foot-mail" href="mailto:mileswa1q2@gmail.com" data-cursor="mail">mileswa1q2@gmail.com</a>
+  <div class="foot-meta">
+    <span class="meta">© 2026 Miles Wolf Allen — built by hand</span>
+    <div class="foot-socials">
+      <a href="https://github.com/mileswolfallen2" target="_blank" rel="noopener" data-cursor="gh">GitHub</a><i></i>
+      <a href="https://replit.com/@MilesAllen1" target="_blank" rel="noopener" data-cursor="go">Replit</a><i></i>
+      <a href="https://codepen.io/mileswolfallen2-the-typescripter" target="_blank" rel="noopener" data-cursor="go">CodePen</a><i></i>
+      <a href="https://me.fedl.site" target="_blank" rel="noopener" data-cursor="go">Website</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var io=('IntersectionObserver' in window)?new IntersectionObserver(function(es){
+    es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:.12}):null;
+  var reveal=document.querySelectorAll('.rv');
+  for(var i=0;i<reveal.length;i++){if(io)io.observe(reveal[i]);else reveal[i].classList.add('in');}
+
+  var rows=document.querySelectorAll('.prow');
+  for(var r=0;r<rows.length;r++){(function(row){
+    var head=row.querySelector('.prow-head');
+    head.addEventListener('click',function(){
+      var was=row.classList.contains('open');
+      for(var x=0;x<rows.length;x++)rows[x].classList.remove('open');
+      if(!was)row.classList.add('open');
+    });
+  })(rows[r]);}
+
+  var counts=document.querySelectorAll('[data-count]');
+  if(counts.length&&io&&!reduce){
+    var cio=new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(e.isIntersecting){
+          var el=e.target,target=parseInt(el.getAttribute('data-count'),10),t0=null;
+          var run=function(ts){
+            if(!t0)t0=ts;
+            var p=Math.min((ts-t0)/1300,1);
+            var eased=1-Math.pow(1-p,3);
+            el.textContent=Math.round(target*eased);
+            if(p<1)requestAnimationFrame(run);
+          };
+          requestAnimationFrame(run);
+          cio.unobserve(el);
+        }
+      });
+    },{threshold:.5});
+    for(var c=0;c<counts.length;c++)cio.observe(counts[c]);
+  }else{
+    for(var c2=0;c2<counts.length;c2++)counts[c2].textContent=counts[c2].getAttribute('data-count');
+  }
+
+  if(window.matchMedia&&window.matchMedia('(pointer:fine)').matches&&!reduce){
+    var cursor=document.getElementById('cursor');
+    var label=cursor.querySelector('span');
+    var px=0,py=0,cx=0,cy=0,shown=false,raf=null;
+    document.addEventListener('mousemove',function(ev){
+      px=ev.clientX;py=ev.clientY;
+      if(!shown){cursor.classList.add('show');shown=true;}
+      var t=ev.target;
+      while(t&&t!==document){
+        if(t.hasAttribute&&t.hasAttribute('data-cursor'))break;
+        t=t.parentNode;
+      }
+      if(t&&t!==document){
+        label.textContent=t.getAttribute('data-cursor');
+        cursor.classList.add('big');
+      }else{
+        label.textContent='scroll';
+        cursor.classList.remove('big');
+      }
+      if(!raf){
+        raf=requestAnimationFrame(function(){
+          cx+=(px-cx)*.22;cy+=(py-cy)*.22;
+          cursor.style.left=cx+'px';
+          cursor.style.top=cy+'px';
+          raf=null;
+        });
+      }
+    });
+    document.addEventListener('mouseleave',function(){cursor.classList.remove('show');shown=false;});
+  }
+
+  var nav=document.querySelector('.nav');
+  if(nav){
+    var secs=[['.hero',0],['.statement',1],['.about',0],['.work',1],['.stats',1],['.mq',0],['footer',1]];
+    var cache=secs.map(function(s){return {el:document.querySelector(s[0]),ink:s[1]};}).filter(function(s){return s.el;});
+    var paint=function(){
+      var y=window.scrollY+1,found=0;
+      for(var i=0;i<cache.length;i++){
+        if(cache[i].el.offsetTop<=y)found=cache[i].ink;
+      }
+      document.body.classList.toggle('nav-ink',!!found);
+    };
+    var tick=null;
+    window.addEventListener('scroll',function(){
+      if(tick)return;
+      tick=requestAnimationFrame(function(){paint();tick=null;});
+    },{passive:true});
+    paint();
+  }
+})();
+</script>
+</body>
+</html>

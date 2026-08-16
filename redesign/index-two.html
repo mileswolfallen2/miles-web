@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MILES WOLF ALLEN © 2026</title>
+<meta name="description" content="Miles Wolf Allen — developer & 3D artist. Games, tools, websites, and a world without bundled Chromium.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23F7FF00'/%3E%3Ctext x='50' y='72' font-size='60' font-family='Arial Black' font-weight='900' text-anchor='middle' fill='%23000'%3EM%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script>document.documentElement.className='js';</script>
+<style>
+  :root{
+    --bg:#0b0b0e; --bg2:#121217; --fg:#f2f2f5; --mut:#8f8f98; --ln:#26262e;
+    --acc:#F7FF00; --sig:#F7FF00; --hov:#FF2EA6;
+    --d:'Archivo',sans-serif; --m:'Space Mono',monospace;
+  }
+  [data-theme="light"]{
+    --bg:#f4f4f1; --bg2:#e9e9e5; --fg:#131316; --mut:#6d6d75; --ln:#d3d3d9;
+    --acc:#131316; --sig:#131316; --hov:#cf005c;
+  }
+  [data-theme="max"]{
+    --bg:#0d0b12; --bg2:#171023; --fg:#ffffff; --mut:#b9a7c8; --ln:#3a2f4a;
+    --acc:#F7FF00; --sig:#F7FF00; --hov:#FF2EA6;
+    --pink:#FF2EA6; --yellow:#F7FF00; --cyan:#00F4FF; --orange:#FF5C00; --purple:#8A2BFF; --green:#00FF85;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--fg);font-family:var(--d);font-size:15px;line-height:1.55;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+  ::selection{background:var(--acc);color:var(--bg);}
+  a{color:inherit;text-decoration:none;}
+  ::-webkit-scrollbar{width:10px;}
+  ::-webkit-scrollbar-track{background:var(--bg);}
+  ::-webkit-scrollbar-thumb{background:var(--mut);border:2px solid var(--bg);}
+
+  .dsp{font-family:var(--d);font-stretch:125%;font-variation-settings:'wdth' 125;font-weight:750;text-transform:uppercase;line-height:.96;letter-spacing:.005em;}
+  .mono{font-family:var(--m);font-size:11px;letter-spacing:.06em;text-transform:uppercase;}
+
+  /* ---------- fixed layers ---------- */
+  .prog{position:fixed;top:0;left:50%;transform:translateX(-50%);width:150px;height:4px;z-index:70;background:var(--ln);}
+  .prog-i{height:100%;width:0;background:var(--sig);transition:width .2s linear;}
+
+  /* ---------- header ---------- */
+  .hdr{position:fixed;inset:0;z-index:60;display:flex;flex-direction:column;justify-content:space-between;pointer-events:none;color:var(--fg);}
+  .hdr-top{display:flex;align-items:center;justify-content:space-between;padding:18px clamp(16px,4vw,56px);}
+  .hdr-bot{display:flex;align-items:center;justify-content:space-between;padding:18px clamp(16px,4vw,56px);color:var(--mut);}
+  .logo{font-family:var(--d);font-stretch:125%;font-variation-settings:'wdth' 125;font-weight:700;text-transform:uppercase;font-size:20px;letter-spacing:.02em;pointer-events:auto;}
+  .logo .o{opacity:.45;}
+  .hdr-nav{display:flex;gap:2px;pointer-events:auto;}
+  .hdr-mid{position:absolute;left:50%;bottom:20px;transform:translateX(-50%);color:var(--mut);pointer-events:none;}
+  .hl{position:relative;padding:8px 10px;font-family:var(--m);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--fg);background:none;border:0;cursor:pointer;transition:color .18s;}
+  .hl::before{content:'';position:absolute;inset:0;border:2px dashed transparent;transition:border-color .18s;}
+  a.hl:hover,button.hl:hover{color:var(--hov);}
+  a.hl:hover::before,button.hl:hover::before{border-color:var(--mut);}
+  .hdr-mid{font-size:10px;}
+  @media(max-width:900px){.hdr-mid{display:none;}}
+  @media(max-width:768px){.hdr-nav{display:none;}}
+
+  /* ---------- line mask reveal ---------- */
+  .mask .ln{display:block;overflow:hidden;}
+  html.js .mask .ln>span{display:inline-block;transform:translateY(120%);transition:transform 1.1s cubic-bezier(.16,1,.3,1) var(--dl,0s);will-change:transform;}
+  html.js .mask.in .ln>span{transform:translateY(0);}
+  .ln{display:block;}
+
+  /* ---------- generic reveal ---------- */
+  html.js .rv{opacity:0;transform:translateY(34px);transition:opacity .8s ease,transform 1s cubic-bezier(.16,1,.3,1);}
+  html.js .rv.in{opacity:1;transform:none;}
+
+  /* ---------- inline links ---------- */
+  a.l{color:var(--fg);text-decoration:underline;text-decoration-color:var(--mut);text-decoration-thickness:1px;text-underline-offset:.16em;transition:color .15s,text-decoration-color .15s;}
+  a.l:hover{color:var(--hov);text-decoration-color:var(--hov);}
+
+  /* ---------- hero ---------- */
+  .hero{min-height:100svh;display:flex;flex-direction:column;padding:20vh clamp(16px,4vw,56px) 7vh;}
+  .hero-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:10px 12px;flex:1;align-content:start;}
+  .hero-role{grid-column:1 / span 3;font-size:clamp(18px,1.8vw,30px);}
+  .hero-think{grid-column:4 / span 2;color:var(--mut);padding-top:6px;font-size:11px;line-height:1.7;}
+  .hero-bio{grid-column:6 / span 5;color:var(--mut);font-size:15px;line-height:1.7;padding-top:2px;}
+  .hero-bio b{color:var(--fg);font-weight:700;}
+  .hero-tag{grid-column:1 / -1;margin-top:auto;align-self:end;padding-top:60px;font-size:clamp(38px,8.4vw,120px);}
+  .hero-tag .ln>span{font-size:inherit;}
+  @media(max-width:768px){
+    .hero{padding-top:22vh;}
+    .hero-role{grid-column:1 / -1;}
+    .hero-think{grid-column:1 / -1;margin-top:14px;}
+    .hero-bio{grid-column:1 / -1;margin-top:14px;max-width:46ch;}
+    .hero-tag{font-size:clamp(34px,11vw,64px);}
+  }
+
+  /* ---------- statement / signature ---------- */
+  .stmt{display:grid;grid-template-columns:repeat(12,1fr);gap:12px;padding:20vh clamp(16px,4vw,56px) 6vh;}
+  .sign-col{grid-column:1 / span 4;align-self:start;}
+  .sign{width:100%;max-width:380px;display:block;}
+  .sign .p{opacity:0;fill:none;stroke:var(--sig);stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:700;stroke-dashoffset:700;}
+  .sign.in .p{animation:show 0s linear var(--pd,0s) forwards,draw var(--dr,1.4s) cubic-bezier(.65,0,.35,1) var(--pd,0s) forwards;}
+  .sign-gh{display:flex;align-items:center;gap:10px;margin-top:14px;font-size:12px;}
+  .gh-av{width:24px;height:24px;border-radius:50%;border:1px solid var(--ln);display:block;flex:none;}
+  .sign-cap{color:var(--mut);margin-top:12px;font-size:9px;letter-spacing:.05em;text-transform:uppercase;max-width:300px;line-height:1.7;}
+  @keyframes draw{to{stroke-dashoffset:0;}}
+  @keyframes show{to{opacity:1;}}
+  .stmt-copy{grid-column:6 / span 6;}
+  .stmt-1{font-size:clamp(22px,3vw,40px);line-height:1.25;margin-bottom:26px;}
+  .stmt-2{color:var(--mut);font-size:15px;line-height:1.75;max-width:52ch;}
+  @media(max-width:768px){.sign-col{grid-column:1 / -1;margin-bottom:20px;} .stmt-copy{grid-column:1 / -1;}}
+
+  /* ---------- selected work ---------- */
+  .work{padding:16vh clamp(16px,4vw,56px) 0;}
+  .work-head{display:flex;justify-content:space-between;align-items:baseline;color:var(--mut);padding-bottom:30px;border-bottom:1px solid var(--ln);margin-bottom:16px;}
+  .work-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:8px;}
+  .pcard{display:block;padding:6px;transition:transform .4s cubic-bezier(.2,.8,.2,1);}
+  .pcard:nth-child(1){grid-column:span 8;}
+  .pcard:nth-child(2){grid-column:span 6;}
+  .pcard:nth-child(3){grid-column:span 6;}
+  .pcard:nth-child(4),.pcard:nth-child(5),.pcard:nth-child(6){grid-column:span 4;}
+  .pcard:nth-child(7),.pcard:nth-child(8),.pcard:nth-child(9){grid-column:span 4;}
+  .pcard:nth-child(10),.pcard:nth-child(11),.pcard:nth-child(12),.pcard:nth-child(13){grid-column:span 3;}
+  .ptile{position:relative;aspect-ratio:1 / 1;overflow:hidden;transition:transform .6s cubic-bezier(.2,.8,.2,1),box-shadow .6s;}
+  .pcard:hover .ptile{transform:scale(.965) rotate(1deg);box-shadow:0 22px 44px rgba(0,0,0,.35);}
+  .pchip{position:absolute;top:10px;right:10px;background:var(--acc);color:var(--bg);font-family:var(--m);font-size:9px;letter-spacing:.06em;text-transform:uppercase;padding:5px 8px;pointer-events:none;transition:transform .4s;}
+  .pcard:hover .pchip{transform:rotate(4deg);}
+  .pnum{position:absolute;bottom:6px;left:10px;font-family:var(--m);font-size:clamp(34px,5vw,64px);color:rgba(255,255,255,.30);pointer-events:none;line-height:1;}
+  .pcard.neutral .pnum{color:var(--mut);}
+  .pmeta{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding:12px 4px 0;min-width:0;}
+  .ptitle{font-family:var(--d);font-stretch:125%;font-variation-settings:'wdth' 125;font-weight:700;text-transform:uppercase;font-size:15px;letter-spacing:.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:color .18s;}
+  .pcard:hover .ptitle{color:var(--hov);}
+  .pyear{font-family:var(--m);font-size:10px;letter-spacing:.06em;color:var(--mut);white-space:nowrap;}
+  .t1{background:linear-gradient(135deg,#FF2EA6,#8A2BFF);}
+  .t2{background:linear-gradient(135deg,#F7FF00,#00FF85);}
+  .t3{background:var(--bg2);}
+  .t4{background:linear-gradient(135deg,#FF1F1F,#FF5C00);}
+  .t5{background:linear-gradient(135deg,#8A2BFF,#1a1a22);}
+  .t6{background:linear-gradient(135deg,#00F4FF,#8A2BFF);}
+  .t7{background:linear-gradient(135deg,#00FF85,#00F4FF);}
+  .t8{background:var(--bg2);}
+  .t9{background:linear-gradient(135deg,#FF2EA6,#FF5C00);}
+  .t10{background:linear-gradient(135deg,#00F4FF,#00FF85);}
+  .t11{background:var(--bg2);}
+  .t12{background:linear-gradient(135deg,#F7FF00,#FF5C00);}
+  .t13{background:linear-gradient(135deg,#8A2BFF,#FF2EA6);}
+  .ptile.frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;z-index:0;pointer-events:none;}
+  .ptile.frame::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(10,10,14,.12) 0%,rgba(10,10,14,.18) 45%,rgba(10,10,14,.55) 100%);}
+  .ptile.frame .pchip,.ptile.frame .pnum{z-index:2;}
+  @media(max-width:768px){
+    .pcard:nth-child(n){grid-column:span 6;}
+  }
+  @media(max-width:480px){
+    .pcard:nth-child(n){grid-column:span 12;}
+  }
+
+  /* ---------- sticky slogan ---------- */
+  .slogan{position:sticky;top:0;height:100svh;display:grid;place-items:center;padding:0 clamp(16px,4vw,56px);z-index:1;}
+  .slogan-in{font-size:clamp(44px,10vw,150px);text-align:center;line-height:1.05;}
+  .slogan-in .ln{color:var(--mut);}
+  .slogan-in .ln:nth-child(2){color:var(--fg);}
+  .slogan-in .ln:nth-child(3){color:var(--mut);}
+
+  /* ---------- footer ---------- */
+  .footer{position:relative;z-index:2;height:100svh;display:flex;flex-direction:column;justify-content:center;padding:0 clamp(16px,4vw,56px);background:var(--bg);overflow:hidden;}
+  .f-head{font-size:clamp(44px,9.5vw,140px);}
+  .f-head .ln:nth-child(1){text-align:left;}
+  .f-head .ln:nth-child(2){text-align:right;padding-right:7vw;}
+  .f-head .ln:nth-child(3){text-align:left;padding-left:11vw;}
+  .f-head .ln:nth-child(4){text-align:right;padding-right:3vw;}
+  .f-row{position:absolute;inset:auto clamp(16px,4vw,56px) 5vh;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;}
+  .f-links{display:flex;gap:0;}
+  .f-copy{color:var(--mut);font-size:10px;}
+
+  /* ---------- stats ---------- */
+  .stats{max-width:1160px;margin:0 auto;padding:6vh clamp(16px,4vw,56px) 4vh;}
+  .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);}
+  .sstat{border-left:1px solid var(--ln);padding:6px 22px 6px 26px;}
+  .sstat:first-child{border-left:0;}
+  .snum{font-family:var(--d);font-stretch:125%;font-variation-settings:'wdth' 125;font-weight:750;font-size:clamp(46px,6vw,86px);line-height:1;display:block;transition:color .2s;}
+  .sstat:hover .snum{color:var(--hov);}
+  .sdesc{color:var(--mut);}
+  @media(max-width:768px){.stats-grid{grid-template-columns:repeat(2,1fr);gap:34px 0;} .sstat:nth-child(3){border-left:0;}}
+
+  /* ---------- loadout ---------- */
+  .loadout{max-width:1160px;margin:0 auto;padding:8vh clamp(16px,4vw,56px) 4vh;}
+  .load-grid{display:grid;grid-template-columns:1fr 1fr;gap:42px;}
+  .lg-label{color:var(--mut);margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--ln);}
+  .skill-list{list-style:none;}
+  .skill{display:flex;align-items:baseline;gap:16px;padding:12px 3px;border-bottom:1px solid var(--ln);transition:color .15s;}
+  .skill:hover{color:var(--hov);}
+  .sk-num{color:var(--mut);font-size:10px;}
+  .sk-name{font-family:var(--d);font-stretch:115%;font-variation-settings:'wdth' 115;font-weight:650;text-transform:uppercase;font-size:15px;letter-spacing:.02em;}
+  @media(max-width:768px){.load-grid{grid-template-columns:1fr;}}
+
+  /* ---------- devlog ---------- */
+  .devlog{max-width:1160px;margin:0 auto;padding:8vh clamp(16px,4vw,56px) 8vh;}
+  .post-list{display:flex;flex-direction:column;}
+  .post{display:grid;grid-template-columns:130px 1fr auto;gap:22px;align-items:baseline;padding:28px 8px;border-bottom:1px solid var(--ln);transition:padding-left .2s,background .2s;}
+  .post:first-child{border-top:1px solid var(--ln);}
+  .post:hover{padding-left:16px;}
+  .p-date{color:var(--mut);font-size:10px;}
+  .p-title{font-family:var(--d);font-stretch:125%;font-variation-settings:'wdth' 125;font-weight:700;text-transform:uppercase;font-size:clamp(18px,2.6vw,30px);transition:color .18s;}
+  .post:hover .p-title{color:var(--hov);}
+  .p-desc{color:var(--mut);font-size:13px;margin-top:5px;max-width:60ch;}
+  .p-go{font-size:20px;transition:transform .2s,color .2s;color:var(--mut);}
+  .post:hover .p-go{transform:translateX(8px);color:var(--hov);}
+  @media(max-width:768px){.post{grid-template-columns:1fr;gap:8px;} .p-go{display:none;}}
+
+  /* ---------- badges ---------- */
+  .stmt-badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+  .sb{font-family:var(--m);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);border:1px solid var(--ln);padding:6px 10px;transition:color .15s,border-color .15s;}
+  .sb:hover{color:var(--hov);border-color:var(--hov);}
+
+  /* ---------- marquee (max mode) ---------- */
+  .mq{display:none;overflow:hidden;white-space:nowrap;border-top:3px solid #000;border-bottom:3px solid #000;position:relative;}
+  [data-theme="max"] .mq{display:block;}
+  .mq-track{display:inline-flex;white-space:nowrap;animation:mqScroll 26s linear infinite;font-family:var(--m);font-size:12px;letter-spacing:.05em;}
+  .mq-track span{padding:12px 22px;color:#000;}
+  .mq-y{background:var(--yellow);}
+  .mq-p{background:var(--pink);}
+  @keyframes mqScroll{to{transform:translateX(-50%);}}
+
+  /* ---------- MAX mode overrides ---------- */
+  [data-theme="max"] .logo{color:var(--acc);}
+  [data-theme="max"] .hero-role{color:var(--acc);}
+  [data-theme="max"] .hero-tag .ln:nth-child(1) span{color:var(--pink);}
+  [data-theme="max"] .hero-tag .ln:nth-child(2) span{color:var(--yellow);}
+  [data-theme="max"] .hero-tag .ln:nth-child(3) span{color:var(--cyan);}
+  [data-theme="max"] .stmt-1{color:var(--acc);}
+  [data-theme="max"] .work-head{border-bottom:2px solid var(--acc);}
+  [data-theme="max"] .slogan-in .ln:nth-child(1){color:var(--pink);}
+  [data-theme="max"] .slogan-in .ln:nth-child(2){color:var(--yellow);}
+  [data-theme="max"] .slogan-in .ln:nth-child(3){color:var(--cyan);}
+  [data-theme="max"] .f-head .ln:nth-child(1){color:var(--pink);}
+  [data-theme="max"] .f-head .ln:nth-child(2){color:var(--yellow);}
+  [data-theme="max"] .f-head .ln:nth-child(3){color:var(--cyan);}
+  [data-theme="max"] .f-head .ln:nth-child(4){color:var(--orange);}
+  [data-theme="max"] .ptile{border:3px solid #000;box-shadow:8px 8px 0 #000;}
+  [data-theme="max"] .pcard:nth-child(odd) .ptile{transform:rotate(-1.2deg);}
+  [data-theme="max"] .pcard:nth-child(even) .ptile{transform:rotate(1deg);}
+  [data-theme="max"] .pcard:hover .ptile{transform:rotate(0) scale(1.02);box-shadow:12px 12px 0 var(--hov);}
+  [data-theme="max"] .pchip{border:2px solid #000;box-shadow:3px 3px 0 #000;}
+  [data-theme="max"] .sstat{border:3px solid #000;background:var(--bg2);box-shadow:6px 6px 0 #000;margin:0 8px 8px 0;}
+  [data-theme="max"] .sstat:first-child{border-left:3px solid #000;}
+  [data-theme="max"] .sstat:nth-child(odd){transform:rotate(-1deg);}
+  [data-theme="max"] .sstat:nth-child(even){transform:rotate(1.2deg) translateY(4px);}
+  [data-theme="max"] .skill{border:3px solid #000;background:var(--bg2);box-shadow:4px 4px 0 #000;margin-bottom:10px;padding:13px 16px;}
+  [data-theme="max"] .skill:nth-child(3n){transform:rotate(-.6deg);}
+  [data-theme="max"] .skill:nth-child(3n+2){transform:rotate(.7deg);}
+  [data-theme="max"] .skill:hover{color:var(--acc);}
+  [data-theme="max"] .lg-label{border-bottom:2px solid var(--acc);color:var(--acc);}
+  [data-theme="max"] .post{border:3px solid #000;box-shadow:6px 6px 0 #000;margin-bottom:16px;background:var(--bg2);border-bottom:3px solid #000;}
+  [data-theme="max"] .post:first-child{border-top:3px solid #000;}
+  [data-theme="max"] .post:hover{background:var(--pink);padding-left:16px;}
+  [data-theme="max"] .post:hover .p-title,[data-theme="max"] .post:hover .p-desc{color:#000;}
+  [data-theme="max"] .post:hover .p-go{color:#000;}
+  [data-theme="max"] .post:hover .p-date{color:#000;}
+  [data-theme="max"] .sb{border:2px solid #000;color:#000;box-shadow:3px 3px 0 #000;}
+  [data-theme="max"] .sb:nth-child(4n+1){background:var(--pink);}
+  [data-theme="max"] .sb:nth-child(4n+2){background:var(--yellow);}
+  [data-theme="max"] .sb:nth-child(4n+3){background:var(--cyan);}
+  [data-theme="max"] .sb:nth-child(4n){background:var(--green);}
+  [data-theme="max"] .f-row a.hl{color:var(--acc);}
+
+  @media(prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation:none!important;transition:none!important;}
+    html.js .mask .ln>span,html.js .rv{transform:none;opacity:1;}
+    html.js .sign.in .p{opacity:1;stroke-dashoffset:0;}
+  }
+</style>
+</head>
+<body>
+<div class="prog" aria-hidden="true"><div class="prog-i" id="pbar"></div></div>
+
+<header class="hdr">
+  <div class="hdr-top">
+    <a class="logo hl" href="#top"><span>miles</span><span class="o">.site</span></a>
+    <nav class="hdr-nav">
+      <a class="hl" href="#work">Work</a>
+      <a class="hl" href="#contact">Contact</a>
+      <button class="hl" id="themeBtn" type="button" aria-label="Theme: dark, click to toggle">THEME[A]</button>
+      <button class="hl" id="soundBtn" type="button" aria-label="Sound paused, click to play" aria-pressed="false">SOUND[&gt;]</button>
+    </nav>
+  </div>
+  <span class="hdr-mid mono" id="coords">0000 X 0000 Y</span>
+  <div class="hdr-bot">
+    <span class="mono" id="clock">--:--</span>
+    <span class="mono" style="color:var(--mut)">© 2026</span>
+  </div>
+</header>
+
+<main>
+<section class="hero" id="top">
+  <div class="hero-grid">
+    <div class="hero-role dsp mask" data-mask>
+      <span class="ln"><span>Developer &amp;</span></span>
+      <span class="ln"><span style="--dl:.06s">3D Artist</span></span>
+    </div>
+    <p class="hero-think mono rv">Thinking in systems.<br>Building with intent.</p>
+    <p class="hero-bio rv">I'm <b>Miles Wolf Allen</b>, developer &amp; 3D artist. Co-founder of <a class="l" href="https://diskettelabs.com/" target="_blank" rel="noopener">Diskette Labs</a>, still in school, and building a full <b>Electron replacement</b> — send help. 160 repos and counting.</p>
+    <div class="hero-tag dsp mask" data-mask>
+      <span class="ln"><span>I build</span></span>
+      <span class="ln"><span style="--dl:.06s">games, tools</span></span>
+      <span class="ln"><span style="--dl:.12s">&amp; websites</span></span>
+    </div>
+  </div>
+</section>
+
+<section class="stmt" id="about">
+  <div class="sign-col rv">
+    <svg class="sign" id="sign" viewBox="0 0 320 160" aria-hidden="true">
+      <path class="p" style="--pd:.1s;--dr:1.1s" d="M30 38 L44 108 L62 72 L80 108 L94 38"/>
+      <path class="p" style="--pd:.7s;--dr:.8s" d="M120 38 L144 38 M144 30 L144 108 M134 108 L154 108"/>
+      <path class="p" style="--pd:1s;--dr:.8s" d="M170 40 L170 108 L212 108"/>
+      <path class="p" style="--pd:1.3s;--dr:.9s" d="M230 40 L262 40 M230 40 L230 108 M230 108 L262 108 M230 74 L256 74"/>
+      <path class="p" style="--pd:1.6s;--dr:1.2s" d="M278 46 C300 40 308 60 290 68 C276 74 268 84 274 98 C278 108 296 114 308 106"/>
+      <path class="p" style="--pd:2.1s;--dr:1.2s" d="M26 128 C100 142 220 134 312 126"/>
+    </svg>
+    <div class="sign-gh">
+      <img class="gh-av" src="https://avatars.githubusercontent.com/u/115095719?v=4" alt="Miles Wolf Allen" width="24" height="24" loading="lazy">
+      <a class="l" href="https://github.com/mileswolfallen2" target="_blank" rel="noopener">github.com/mileswolfallen2</a>
+    </div>
+    <p class="sign-cap">I believe pancakes are better than waffles, cereal is soup, and software should feel good to use.</p>
+  </div>
+  <div class="stmt-copy">
+    <p class="stmt-1 rv">I explore how to make software feel good to use — games, tools, and websites built with craft and a little chaos.</p>
+    <p class="stmt-2 rv">I'm co-founder of <a class="l" href="https://diskettelabs.com/" target="_blank" rel="noopener">Diskette Labs</a>, currently building <a class="l" href="https://milesallen.site/projects/gelectron.html">Gelectron</a> — a drop-in Electron replacement using native web views instead of bundled Chromium — and previously built <a class="l" href="https://milesallen.site/projects/fedl.html">FEDL</a>, <a class="l" href="https://milesallen.site/projects/omniemu.html">OmniEmu</a>, <a class="l" href="https://milesallen.site/projects/command-move.html">CommandMove</a>, and way too many other repos.</p>
+    <div class="stmt-badges rv">
+      <span class="sb">Pull shark ×2</span>
+      <span class="sb">YOLO</span>
+      <span class="sb">Quickdraw</span>
+      <span class="sb">Geometry dash addict</span>
+    </div>
+  </div>
+</section>
+
+<section class="stats" id="stats">
+  <div class="stats-grid">
+    <div class="sstat rv"><span class="snum" data-count="160">0</span><span class="sdesc mono">Repos online</span></div>
+    <div class="sstat rv"><span class="snum" data-count="91">0</span><span class="sdesc mono">Stars earned</span></div>
+    <div class="sstat rv"><span class="snum" data-count="13">0</span><span class="sdesc mono">Watching me</span></div>
+    <div class="sstat rv"><span class="snum" data-count="37">0</span><span class="sdesc mono">I watch</span></div>
+  </div>
+</section>
+
+<section class="work" id="work">
+  <div class="work-head mono"><span>Selected work</span><span>2022 — 2026</span></div>
+  <div class="work-grid">
+    <a class="pcard rv" href="https://milesallen.site/projects/omniemu.html">
+      <div class="ptile t1 frame"><iframe src="https://milesallen.site/projects/omniemu" title="Project 1 preview" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true"></iframe><span class="pchip">Active</span><span class="pnum">01</span></div>
+      <div class="pmeta"><span class="ptitle">OmniEmu 2.0</span><span class="pyear">2024-2026</span></div>
+    </a>
+    <a class="pcard rv" href="https://milesallen.site/projects/gelectron.html">
+      <div class="ptile t2 frame"><iframe src="https://milesallen.site/projects/gelectron" title="Project 2 preview" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true"></iframe><span class="pchip">Early</span><span class="pnum">02</span></div>
+      <div class="pmeta"><span class="ptitle">Gelectron</span><span class="pyear">2025-2026</span></div>
+    </a>
+    <a class="pcard rv" href="https://vanilla.milesallen.site/" target="_blank" rel="noopener">
+      <div class="ptile t3 frame"><iframe src="https://vanilla.milesallen.site/" title="Project 3 preview" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true"></iframe><span class="pchip">Unreleased ↗</span><span class="pnum">03</span></div>
+      <div class="pmeta"><span class="ptitle">Vanilla</span><span class="pyear">2025</span></div>
+    </a>
+    <a class="pcard rv" href="https://milesallen.site/projects/fedl.html">
+      <div class="ptile t4 frame"><iframe src="https://me.fedl.site/" title="Project 4 preview" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true"></iframe><span class="pchip">Live</span><span class="pnum">04</span></div>
+      <div class="pmeta"><span class="ptitle">FEDL</span><span class="pyear">2024-2026</span></div>
+    </a>
+    <a class="pcard rv" href="https://milesallen.site/projects/command-move.html">
+      <div class="ptile t5 frame"><iframe src="https://milesallen.site/projects/command-move" title="Project 5 preview" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true"></iframe><span class="pchip">Tool</span><span class="pnum">05</span></div>
+      <div class="pmeta"><span class="ptitle">CommandMove</span><span class="pyear">2023</span></div>
+    </a>
+    <a class="pcard rv" href="https://milesallen.site/projects/noto.html">
+      <div class="ptile t6 frame"><iframe src="https://milesallen.site/projects/noto" title="Project 6 preview" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true"></iframe><span class="pchip">AI</span><span class="pnum">06</span></div>
+      <div class="pmeta"><span class="ptitle">Noto</span><span class="pyear">2025-2026</span></div>
+    </a>
+    <a class="pcard rv" href="https://milesallen.site/projects/nova.html">
+      <div class="ptile t7 frame"><iframe src="https://milesallen.site/projects/nova" title="Project 7 preview" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true"></iframe><span class="pchip">Local AI</span><span class="pnum">07</span></div>
+      <div class="pmeta"><span class="ptitle">Nova AI</span><span class="pyear">2024-2025</span></div>
+    </a>
+    <a class="pcard rv" href="https://milesallen.site/projects/music-app.html">
+      <div class="ptile t8 frame"><iframe src="https://milesallen.site/projects/music-app" title="Project 8 preview" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true"></iframe><span class="pchip">Web</span><span class="pnum">08</span></div>
+      <div class="pmeta"><span class="ptitle">Music App</span><span class="pyear">2023-2024</span></div>
+    </a>
+    <a class="pcard rv" href="https://milesallen.site/projects/rhythm-game.html">
+      <div class="ptile t9 frame"><iframe src="https://milesallen.site/projects/rhythm-game" title="Project 9 preview" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true"></iframe><span class="pchip">Game</span><span class="pnum">09</span></div>
+      <div class="pmeta"><span class="ptitle">Rhythm Game</span><span class="pyear">2022-2023</span></div>
+    </a>
+    <a class="pcard rv" href="https://milesallen.site/projects/geode-mod.html">
+      <div class="ptile t10 frame"><iframe src="https://milesallen.site/projects/geode-mod" title="Project 10 preview" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true"></iframe><span class="pchip">Mod</span><span class="pnum">10</span></div>
+      <div class="pmeta"><span class="ptitle">FEDL Geode Mod</span><span class="pyear">2025-2026</span></div>
+    </a>
+    <a class="pcard rv" href="https://milesallen.site/projects/decompilations.html">
+      <div class="ptile t11 frame"><iframe src="https://milesallen.site/projects/decompilations" title="Project 11 preview" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true"></iframe><span class="pchip">Tool</span><span class="pnum">11</span></div>
+      <div class="pmeta"><span class="ptitle">Decompilations</span><span class="pyear">2023-2024</span></div>
+    </a>
+    <a class="pcard rv" href="https://milesallen.site/projects/issue-tracker.html">
+      <div class="ptile t12 frame"><iframe src="https://milesallen.site/projects/issue-tracker" title="Project 12 preview" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true"></iframe><span class="pchip">Tool</span><span class="pnum">12</span></div>
+      <div class="pmeta"><span class="ptitle">Issue Tracker</span><span class="pyear">2024</span></div>
+    </a>
+    <a class="pcard rv" href="https://milesallen.site/projects/moon-gaming.html">
+      <div class="ptile t13 frame"><iframe src="https://milesallen.site/projects/moon-gaming" title="Project 13 preview" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true"></iframe><span class="pchip">Game</span><span class="pnum">13</span></div>
+      <div class="pmeta"><span class="ptitle">Moon Gaming</span><span class="pyear">2022-2026</span></div>
+    </a>
+  </div>
+</section>
+
+<div class="mq mq-y" aria-hidden="true">
+  <div class="mq-track">
+    <span>★ 160 REPOS AND COUNTING</span><span>★ SEND HELP</span><span>★ CEREAL IS SOUP</span><span>★ GEOMETRY DASH ADDICT</span><span>★ USUALLY ONLINE</span><span>★ FULL MAXIMALISM</span><span>★ STILL DEBUGGING</span><span>★ EST. 2008</span>
+    <span>★ 160 REPOS AND COUNTING</span><span>★ SEND HELP</span><span>★ CEREAL IS SOUP</span><span>★ GEOMETRY DASH ADDICT</span><span>★ USUALLY ONLINE</span><span>★ FULL MAXIMALISM</span><span>★ STILL DEBUGGING</span><span>★ EST. 2008</span>
+  </div>
+</div>
+
+<section class="loadout" id="loadout">
+  <div class="work-head mono"><span>Loadout</span><span>skills</span></div>
+  <div class="load-grid">
+    <div>
+      <div class="lg-label mono">Ready to use</div>
+      <ul class="skill-list">
+        <li class="skill rv"><span class="sk-num">01</span><span class="sk-name">JavaScript</span></li>
+        <li class="skill rv"><span class="sk-num">02</span><span class="sk-name">Backend JS</span></li>
+        <li class="skill rv"><span class="sk-num">03</span><span class="sk-name">HTML / CSS</span></li>
+        <li class="skill rv"><span class="sk-num">04</span><span class="sk-name">Python</span></li>
+        <li class="skill rv"><span class="sk-num">05</span><span class="sk-name">Git</span></li>
+        <li class="skill rv"><span class="sk-num">06</span><span class="sk-name">Blender</span></li>
+        <li class="skill rv"><span class="sk-num">07</span><span class="sk-name">Unity / Unreal</span></li>
+        <li class="skill rv"><span class="sk-num">08</span><span class="sk-name">Cloudflare</span></li>
+        <li class="skill rv"><span class="sk-num">09</span><span class="sk-name">Linux / Bash</span></li>
+        <li class="skill rv"><span class="sk-num">10</span><span class="sk-name">Electron</span></li>
+      </ul>
+    </div>
+    <div>
+      <div class="lg-label mono">Currently unlocking</div>
+      <ul class="skill-list">
+        <li class="skill rv"><span class="sk-num">11</span><span class="sk-name">Rust</span></li>
+        <li class="skill rv"><span class="sk-num">12</span><span class="sk-name">Swift</span></li>
+        <li class="skill rv"><span class="sk-num">13</span><span class="sk-name">Flutter</span></li>
+        <li class="skill rv"><span class="sk-num">14</span><span class="sk-name">PHP</span></li>
+        <li class="skill rv"><span class="sk-num">15</span><span class="sk-name">.NET</span></li>
+        <li class="skill rv"><span class="sk-num">16</span><span class="sk-name">Nix</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="devlog" id="devlog">
+  <div class="work-head mono"><span>Devlog</span><span>6 entries</span></div>
+  <div class="post-list">
+    <a class="post rv" href="https://milesallen.site/blog/diskette-devlog.html">
+      <span class="p-date">2026 // 001</span>
+      <div><div class="p-title">Focusing on Diskette Labs</div><p class="p-desc">Co-founder of a product design collective. Where my focus is now — still open to collabs.</p></div>
+      <span class="p-go">→</span>
+    </a>
+    <a class="post rv" href="https://milesallen.site/blog/gelectron-devlog.html">
+      <span class="p-date">2026 // 002</span>
+      <div><div class="p-title">Why I built Gelectron</div><p class="p-desc">Electron bundles Chromium with every app. Native web views fix that.</p></div>
+      <span class="p-go">→</span>
+    </a>
+    <a class="post rv" href="https://milesallen.site/blog/omniemu-devlog.html">
+      <span class="p-date">2026 // 003</span>
+      <div><div class="p-title">Why I built OmniEmu</div><p class="p-desc">I got tired of opening 15 emulator apps. So I built one that manages them all.</p></div>
+      <span class="p-go">→</span>
+    </a>
+    <a class="post rv" href="https://milesallen.site/blog/command-move-devlog.html">
+      <span class="p-date">2026 // 004</span>
+      <div><div class="p-title">CommandMove: cut &amp; paste</div><p class="p-desc">macOS doesn't have Cmd+X for files. I fixed that. Global event taps and AppleScript.</p></div>
+      <span class="p-go">→</span>
+    </a>
+    <a class="post rv" href="https://milesallen.site/blog/fedl-devlog.html">
+      <span class="p-date">2025 // 005</span>
+      <div><div class="p-title">Running the FEDL</div><p class="p-desc">What it takes to maintain a Geometry Dash demon list. 3,800+ verified runs.</p></div>
+      <span class="p-go">→</span>
+    </a>
+    <a class="post rv" href="https://milesallen.site/blog/nova-devlog.html">
+      <span class="p-date">2025 // 006</span>
+      <div><div class="p-title">Building Nova AI</div><p class="p-desc">Local AI that doesn't phone home. Desktop GUI, web interface, CLI — no subscriptions.</p></div>
+      <span class="p-go">→</span>
+    </a>
+  </div>
+</section>
+
+<div class="mq mq-p" aria-hidden="true">
+  <div class="mq-track">
+    <span>★ EMAIL ME</span><span>★ GITHUB ↗</span><span>★ REPLIT ↗</span><span>★ CODEPEN ↗</span><span>★ I RESPOND MAYBE FAST</span><span>★ COFFEE COUNT: UNKNOWN</span><span>★ BUGS: INFINITE</span><span>★ OVERCLOCKED</span>
+    <span>★ EMAIL ME</span><span>★ GITHUB ↗</span><span>★ REPLIT ↗</span><span>★ CODEPEN ↗</span><span>★ I RESPOND MAYBE FAST</span><span>★ COFFEE COUNT: UNKNOWN</span><span>★ BUGS: INFINITE</span><span>★ OVERCLOCKED</span>
+  </div>
+</div>
+
+<section class="slogan">
+  <div class="slogan-in dsp mask" data-mask>
+    <span class="ln"><span>Build</span></span>
+    <span class="ln"><span style="--dl:.08s">with</span></span>
+    <span class="ln"><span style="--dl:.16s">intent</span></span>
+  </div>
+</section>
+
+<footer class="footer" id="contact">
+  <div class="f-head dsp mask" data-mask>
+    <span class="ln"><span>Let's</span></span>
+    <span class="ln"><span style="--dl:.07s">Make</span></span>
+    <span class="ln"><span style="--dl:.14s">Something</span></span>
+    <span class="ln"><span style="--dl:.21s">Great</span></span>
+  </div>
+  <div class="f-row">
+    <a class="hl" href="mailto:mileswa1q2@gmail.com">mileswa1q2@gmail.com</a>
+    <div class="f-links">
+      <a class="hl" href="https://github.com/mileswolfallen2" target="_blank" rel="noopener">GitHub</a>
+      <a class="hl" href="https://replit.com/@MilesAllen1" target="_blank" rel="noopener">Replit</a>
+      <a class="hl" href="https://codepen.io/mileswolfallen2-the-typescripter" target="_blank" rel="noopener">CodePen</a>
+      <a class="hl" href="https://me.fedl.site" target="_blank" rel="noopener">Website</a>
+    </div>
+    <span class="f-copy mono">©2026</span>
+  </div>
+</footer>
+</main>
+
+<script>
+(function(){
+  'use strict';
+  var body=document.body;
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- theme ---------- */
+  var themeBtn=document.getElementById('themeBtn');
+  var THEMES=['dark','light','max'];
+  function themeLabel(t){ return t==='max'?'MAX':(t==='light'?'THEME[B]':'THEME[A]'); }
+  function setTheme(t){
+    document.documentElement.setAttribute('data-theme',t);
+    themeBtn.textContent=themeLabel(t);
+    themeBtn.setAttribute('aria-label','Theme: '+t+', click to toggle');
+    try{localStorage.setItem('miles-theme',t);}catch(e){}
+  }
+  try{var savedTheme=localStorage.getItem('miles-theme');}catch(e){}
+  setTheme(THEMES.indexOf(savedTheme)>-1?savedTheme:'dark');
+  themeBtn.addEventListener('click',function(){
+    var cur=document.documentElement.getAttribute('data-theme')||'dark';
+    setTheme(THEMES[(THEMES.indexOf(cur)+1)%THEMES.length]);
+  });
+
+  /* ---------- clock ---------- */
+  var clock=document.getElementById('clock');
+  var tz='';
+  try{tz=new Date().toLocaleTimeString('en-US',{timeZoneName:'short'}).match(/[A-Z]{2,6}$/)[0]||'';}catch(e){}
+  function tick(){
+    var d=new Date();
+    var hh=('0'+d.getHours()).slice(-2),mm=('0'+d.getMinutes()).slice(-2);
+    clock.textContent=(tz?tz+' ':'')+hh+':'+mm;
+  }
+  tick();
+  setInterval(tick,1000);
+
+  /* ---------- mouse coordinates ---------- */
+  var coords=document.getElementById('coords');
+  if(window.matchMedia&&window.matchMedia('(pointer: fine)').matches){
+    document.addEventListener('mousemove',function(e){
+      coords.textContent=('000'+e.clientX).slice(-4)+' X '+('000'+e.clientY).slice(-4)+' Y';
+    },{passive:true});
+  }
+
+  /* ---------- progress bar ---------- */
+  var pbar=document.getElementById('pbar');
+  function prog(){
+    var h=document.documentElement;
+    pbar.style.width=((window.scrollY/(h.scrollHeight-window.innerHeight))*100)+'%';
+  }
+  window.addEventListener('scroll',prog,{passive:true});
+  prog();
+
+  /* ---------- stats count-up ---------- */
+  function countUp(el){
+    var target=parseInt(el.getAttribute('data-count'),10)||0;
+    var t0=null;
+    function fmt(n){return Math.round(n).toLocaleString('en-US');}
+    function step(ts){
+      if(t0===null)t0=ts;
+      var p=Math.min(1,(ts-t0)/1000);
+      var ease=1-Math.pow(1-p,3);
+      el.textContent=fmt(target*ease);
+      if(p<1)requestAnimationFrame(step);else el.textContent=fmt(target);
+    }
+    requestAnimationFrame(step);
+  }
+  if('IntersectionObserver' in window&&!reduce){
+    var cio=new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(e.isIntersecting){countUp(e.target);cio.unobserve(e.target);}
+      });
+    },{threshold:0.4});
+    document.querySelectorAll('[data-count]').forEach(function(el){cio.observe(el);});
+  } else {
+    document.querySelectorAll('[data-count]').forEach(function(el){
+      el.textContent=(parseInt(el.getAttribute('data-count'),10)||0).toLocaleString('en-US');
+    });
+  }
+
+  /* ---------- reveal system ---------- */
+  function revealAll(){
+    document.querySelectorAll('.rv,[data-mask],#sign').forEach(function(el){ el.classList.add('in'); });
+  }
+  if('IntersectionObserver' in window&&!reduce){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    },{threshold:0.16,rootMargin:'0px 0px -8% 0px'});
+    document.querySelectorAll('.rv,[data-mask],#sign').forEach(function(el){ io.observe(el); });
+  } else {
+    revealAll();
+  }
+
+  /* ---------- sound ---------- */
+  var soundBtn=document.getElementById('soundBtn');
+  var snd=null;
+  function stopSound(){
+    if(!snd)return;
+    snd._g.gain.linearRampToValueAtTime(0,snd.currentTime+0.35);
+    setTimeout(function(){
+      if(!snd)return;
+      snd._o.forEach(function(o){try{o.stop();}catch(e){}});
+      snd.close();snd=null;
+    },500);
+  }
+  soundBtn.addEventListener('click',function(){
+    var AC=window.AudioContext||window.webkitAudioContext;
+    if(!AC)return;
+    if(snd){ stopSound(); soundBtn.setAttribute('aria-pressed','false'); soundBtn.innerHTML='SOUND[&gt;]'; return; }
+    snd=new AC();
+    var o1=snd.createOscillator(),o2=snd.createOscillator(),g=snd.createGain();
+    var lfo=snd.createOscillator(),lg=snd.createGain();
+    o1.type='sine';o1.frequency.value=55;
+    o2.type='triangle';o2.frequency.value=110.5;
+    lfo.frequency.value=0.13;lg.gain.value=0.015;
+    g.gain.value=0;
+    lfo.connect(lg);lg.connect(g.gain);
+    o1.connect(g);o2.connect(g);g.connect(snd.destination);
+    o1.start();o2.start();lfo.start();
+    g.gain.linearRampToValueAtTime(0.035,snd.currentTime+1.2);
+    snd._o=[o1,o2,lfo];snd._g=g;
+    soundBtn.setAttribute('aria-pressed','true');
+    soundBtn.innerHTML='SOUND[|]';
+  });
+})();
+</script>
+</body>
+</html>
