@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Redesign Lab — Miles Wolf Allen</title>
+<meta name="description" content="A collection of experimental redesigns of milesallen.site — work in progress.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23F7FF00'/%3E%3Ctext x='50' y='72' font-size='60' font-family='Arial Black' font-weight='900' text-anchor='middle' fill='%23000'%3ER%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Press+Start+2P&family=Space+Mono:wght@400;700&family=Playfair+Display:ital,wght@0,900;1,700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --bg:     #08080a;
+  --bg2:    #111116;
+  --ink:    #fff;
+  --muted:  #666672;
+  --dim:    #232329;
+  --yellow: #F7FF00;
+  --pink:   #FF2EA6;
+  --cyan:   #00F4FF;
+  --orange: #FF5C00;
+  --green:  #00FF85;
+  --rule:   rgba(255,255,255,.08);
+  --serif:  'Archivo Black', sans-serif;
+  --mono:   'Space Mono', monospace;
+  --pixel:  'Press Start 2P', monospace;
+  --elegant:'Playfair Display', serif;
+}
+html { scroll-behavior: smooth; overflow-x: hidden; }
+html, html::-webkit-scrollbar { scrollbar-width: none; }
+html::-webkit-scrollbar { display: none; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+::selection { background: var(--yellow); color: #000; }
+a { color: inherit; text-decoration: none; }
+
+/* ── grid bg ── */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+  background-size: 52px 52px;
+}
+
+/* ── NAV ── */
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  padding: 16px 5vw;
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(8,8,10,.9); border-bottom: 3px solid #000;
+  backdrop-filter: blur(8px); box-shadow: 0 3px 0 #000;
+}
+.nav-back {
+  font-family: var(--pixel); font-size: 8px; text-transform: uppercase;
+  letter-spacing: .06em; color: var(--muted);
+  display: flex; align-items: center; gap: 8px;
+  padding: 9px 14px; border: 2px solid var(--dim);
+  transition: all .15s;
+}
+.nav-back:hover { color: #fff; border-color: #fff; background: rgba(255,255,255,.05); }
+.nav-title { font-family: var(--pixel); font-size: 9px; text-transform: uppercase; letter-spacing: .08em; color: var(--yellow); }
+.nav-count { font-family: var(--pixel); font-size: 8px; color: var(--muted); }
+
+/* ── HERO ── */
+.hero {
+  position: relative; z-index: 1;
+  padding: clamp(60px,10vw,120px) 5vw clamp(40px,6vw,70px);
+  border-bottom: 3px solid #000;
+  overflow: hidden;
+}
+.hero-tag {
+  font-family: var(--pixel); font-size: 8px; text-transform: uppercase;
+  letter-spacing: .1em; color: #000; background: var(--yellow);
+  display: inline-block; padding: 9px 14px; border: 3px solid #000;
+  box-shadow: 4px 4px 0 #000; transform: rotate(-1.5deg);
+  margin-bottom: 28px;
+}
+.hero-title {
+  font-family: var(--serif);
+  font-size: clamp(52px, 12vw, 160px);
+  line-height: .88; letter-spacing: -.03em; text-transform: uppercase;
+  position: relative; z-index: 2;
+}
+.hero-title .row-2 { display: block; margin-left: .5em; color: transparent; -webkit-text-stroke: 2px rgba(255,255,255,.5); }
+.hero-sub {
+  font-family: var(--mono); font-size: clamp(12px, 1.1vw, 15px);
+  color: var(--muted); max-width: 52ch; line-height: 1.8;
+  margin-top: 24px; padding-left: 16px; border-left: 4px solid var(--pink);
+}
+/* big ghost text */
+.hero-ghost {
+  position: absolute; right: -2vw; bottom: -0.1em; z-index: 0;
+  font-family: var(--serif); font-size: clamp(100px, 22vw, 280px);
+  font-weight: 900; text-transform: uppercase;
+  color: transparent; -webkit-text-stroke: 1.5px rgba(255,255,255,.05);
+  user-select: none; pointer-events: none; line-height: .85;
+}
+
+/* ── GRID ── */
+.grid-section {
+  position: relative; z-index: 1;
+  padding: clamp(48px,7vw,88px) 5vw;
+}
+.grid-label {
+  font-family: var(--pixel); font-size: 8px; text-transform: uppercase;
+  letter-spacing: .1em; color: var(--muted);
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 32px;
+}
+.grid-label::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 380px), 1fr));
+  gap: 24px;
+}
+
+/* ── CARD ── */
+.card {
+  display: block; position: relative;
+  border: 4px solid #000; background: var(--bg2);
+  box-shadow: 8px 8px 0 #000;
+  transition: transform .18s, box-shadow .18s;
+  overflow: hidden;
+}
+.card:hover { transform: translate(-3px,-3px); box-shadow: 12px 12px 0 var(--pink); }
+
+/* tape decoration */
+.card::before {
+  content: ''; position: absolute; top: -7px; right: 24px;
+  width: 50px; height: 18px; opacity: .85;
+  transform: rotate(2deg); box-shadow: 0 0 0 2px #000; z-index: 2;
+}
+/* tape colours per variant */
+.card:nth-child(6n+1)::before { background: var(--yellow); }
+.card:nth-child(6n+2)::before { background: var(--pink); }
+.card:nth-child(6n+3)::before { background: var(--cyan); }
+.card:nth-child(6n+4)::before { background: var(--orange); }
+.card:nth-child(6n+5)::before { background: var(--green); }
+.card:nth-child(6n)::before   { background: #fff; }
+
+/* slight tilts */
+.card:nth-child(odd)  { transform: rotate(-.6deg); }
+.card:nth-child(even) { transform: rotate(.5deg) translateY(4px); }
+.card:nth-child(3n)   { transform: rotate(-.3deg); }
+.card:hover { transform: rotate(0) translate(-3px,-3px) !important; }
+
+/* preview area */
+.card-preview {
+  width: 100%; aspect-ratio: 16/9;
+  background: var(--dim); overflow: hidden; position: relative;
+  border-bottom: 3px solid #000;
+}
+.card-preview iframe {
+  width: 200%; height: 200%;
+  transform: scale(.5); transform-origin: top left;
+  border: 0; pointer-events: none;
+  position: absolute; top: 0; left: 0;
+}
+/* fallback solid color when no iframe */
+.card-preview.solid { display: flex; align-items: center; justify-content: center; }
+.card-preview.solid .preview-label {
+  font-family: var(--serif); font-size: clamp(32px,6vw,72px);
+  font-weight: 900; text-transform: uppercase; letter-spacing: -.03em;
+  opacity: .18; user-select: none;
+}
+
+/* card body */
+.card-body { padding: 22px 24px 26px; }
+.card-num {
+  font-family: var(--pixel); font-size: 7px; color: var(--muted);
+  letter-spacing: .08em; margin-bottom: 10px;
+}
+.card-name {
+  font-family: var(--serif); font-size: clamp(20px,2.4vw,28px);
+  font-weight: 900; text-transform: uppercase; line-height: 1;
+  margin-bottom: 10px; letter-spacing: -.01em;
+}
+.card-desc { font-size: 12px; color: var(--muted); line-height: 1.75; margin-bottom: 16px; }
+.card-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  border-top: 2px dashed rgba(255,255,255,.1); padding-top: 14px;
+}
+.card-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.ctag {
+  font-family: var(--pixel); font-size: 6px; text-transform: uppercase;
+  padding: 5px 8px; border: 2px solid #000; box-shadow: 2px 2px 0 #000; color: #000;
+}
+.ctag-y { background: var(--yellow); }
+.ctag-p { background: var(--pink); }
+.ctag-c { background: var(--cyan); }
+.ctag-w { background: #fff; }
+.ctag-g { background: var(--green); }
+.card-arrow {
+  font-size: 18px; color: var(--muted);
+  transition: transform .2s, color .2s;
+}
+.card:hover .card-arrow { transform: translate(3px,-3px); color: var(--pink); }
+
+/* ── FEATURED (full-width) ── */
+.card.featured {
+  grid-column: 1 / -1;
+  display: grid; grid-template-columns: 1fr 1fr;
+  transform: none !important;
+}
+.card.featured:hover { transform: translate(-3px,-3px) !important; }
+.card.featured .card-preview {
+  aspect-ratio: unset; height: 100%; border-bottom: 0; border-right: 3px solid #000;
+}
+.card.featured .card-body {
+  padding: 32px 36px 36px;
+  display: flex; flex-direction: column; justify-content: space-between;
+}
+.card.featured .card-name { font-size: clamp(26px,4vw,52px); }
+@media (max-width: 700px) {
+  .card.featured { grid-template-columns: 1fr; }
+  .card.featured .card-preview { height: auto; aspect-ratio: 16/9; border-right: 0; border-bottom: 3px solid #000; }
+}
+
+/* ── FOOTER ── */
+.foot {
+  position: relative; z-index: 1;
+  border-top: 3px solid #000; padding: 28px 5vw;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 12px;
+  background: #000;
+}
+.foot-copy { font-family: var(--pixel); font-size: 7px; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
+.foot-link { font-family: var(--pixel); font-size: 7px; color: var(--yellow); letter-spacing: .06em; text-transform: uppercase; transition: opacity .2s; }
+.foot-link:hover { opacity: .6; }
+
+/* ── ENTRY ANIMATIONS ── */
+html.js .card { opacity: 0; transform: translateY(30px) rotate(-.5deg); }
+html.js .card.visible { animation: cardIn .6s cubic-bezier(.16,1,.3,1) forwards; }
+@keyframes cardIn {
+  to { opacity: 1; transform: translateY(0) rotate(0); }
+}
+/* restore the slight tilt after entrance */
+html.js .card.visible:nth-child(odd)  { animation-name: cardInOdd; }
+html.js .card.visible:nth-child(even) { animation-name: cardInEven; }
+html.js .card.visible:nth-child(3n)   { animation-name: cardIn3n; }
+@keyframes cardInOdd  { to { opacity: 1; transform: rotate(-.6deg); } }
+@keyframes cardInEven { to { opacity: 1; transform: rotate(.5deg) translateY(4px); } }
+@keyframes cardIn3n   { to { opacity: 1; transform: rotate(-.3deg); } }
+html.js .card.featured       { animation-name: cardIn !important; }
+html.js .card.featured:hover { transform: translate(-3px,-3px) !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  html.js .card { opacity: 1; transform: none; animation: none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- nav -->
+<nav class="nav">
+  <a class="nav-back" href="../index.html">← Back to site</a>
+  <span class="nav-title">Redesign Lab</span>
+  <span class="nav-count">6 experiments</span>
+</nav>
+
+<!-- hero -->
+<div class="hero">
+  <div class="hero-ghost" aria-hidden="true">LAB</div>
+  <div class="hero-tag">Work in progress</div>
+  <h1 class="hero-title">
+    Redesign<span class="row-2">Lab.</span>
+  </h1>
+  <p class="hero-sub">
+    Experimental redesigns of milesallen.site — exploring different design languages,
+    animation approaches, and visual directions. None of these are "the" answer, just iterations.
+  </p>
+</div>
+
+<!-- cards -->
+<section class="grid-section">
+  <div class="grid-label">All experiments — newest first</div>
+  <div class="cards" id="cards">
+
+    <!-- index-four-max: featured -->
+    <a class="card featured" href="index-four-max.html">
+      <div class="card-preview">
+        <iframe src="index-four-max.html" title="index-four-max preview" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true"></iframe>
+      </div>
+      <div class="card-body">
+        <div>
+          <div class="card-num">06 — Latest</div>
+          <div class="card-name">Cinematic Max</div>
+          <p class="card-desc">
+            The award-quality editorial design of index-four — same loader, inertia scroll, pinned horizontal devlog, GSAP parallax — but rebuilt as full maximalism. Dark bg, neon palette, Archivo Black, hard box shadows, glitch on the hero title, neo-brutalist project rows that fill with yellow/pink/cyan on hover.
+          </p>
+        </div>
+        <div class="card-footer">
+          <div class="card-tags">
+            <span class="ctag ctag-p">Maximalist</span>
+            <span class="ctag ctag-y">GSAP</span>
+            <span class="ctag ctag-c">Horizontal scroll</span>
+            <span class="ctag ctag-w">Glitch</span>
+          </div>
+          <span class="card-arrow">↗</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- index-four -->
+    <a class="card" href="index-four.html">
+      <div class="card-preview">
+        <iframe src="index-four.html" title="index-four preview" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true"></iframe>
+      </div>
+      <div class="card-body">
+        <div class="card-num">05</div>
+        <div class="card-name">Cinematic Minimal</div>
+        <p class="card-desc">
+          Warm parchment palette, Playfair Display serif, smooth wheel inertia, counter loader, custom morphing cursor, pinned horizontal devlog scroll, GSAP parallax on the hero, project rows with ink-fill hover wipe.
+        </p>
+        <div class="card-footer">
+          <div class="card-tags">
+            <span class="ctag ctag-w">Minimal</span>
+            <span class="ctag ctag-y">GSAP</span>
+            <span class="ctag ctag-g">Serif</span>
+          </div>
+          <span class="card-arrow">↗</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- try-three -->
+    <a class="card" href="try-three.html">
+      <div class="card-preview">
+        <iframe src="try-three.html" title="try-three preview" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true"></iframe>
+      </div>
+      <div class="card-body">
+        <div class="card-num">04</div>
+        <div class="card-name">Maximus v3</div>
+        <p class="card-desc">
+          Polished Maximus language with orbital hero rings, scroll progress bar, sticky chip nav, 4 marquee bands, GSAP project card choreography, count-up stats, and Konami confetti.
+        </p>
+        <div class="card-footer">
+          <div class="card-tags">
+            <span class="ctag ctag-p">Maximalist</span>
+            <span class="ctag ctag-y">GSAP</span>
+          </div>
+          <span class="card-arrow">↗</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- index-three -->
+    <a class="card" href="index-three.html">
+      <div class="card-preview">
+        <iframe src="index-three.html" title="index-three preview" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true"></iframe>
+      </div>
+      <div class="card-body">
+        <div class="card-num">03</div>
+        <div class="card-name">Deep Green Editorial</div>
+        <p class="card-desc">
+          Dark green + beige palette, Anton display type, custom cursor with label, expand/collapse project rows, sticky nav that color-switches between sections, and a full-screen yellow contact footer.
+        </p>
+        <div class="card-footer">
+          <div class="card-tags">
+            <span class="ctag ctag-g">Editorial</span>
+            <span class="ctag ctag-w">Custom cursor</span>
+          </div>
+          <span class="card-arrow">↗</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- index-two -->
+    <a class="card" href="index-two.html">
+      <div class="card-preview">
+        <iframe src="index-two.html" title="index-two preview" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true"></iframe>
+      </div>
+      <div class="card-body">
+        <div class="card-num">02</div>
+        <div class="card-name">Multi-Theme System</div>
+        <p class="card-desc">
+          Three switchable themes — dark, light, and MAX — with a live clock, mouse coordinate tracker, SVG signature draw animation, ambient audio toggle, and scroll progress bar.
+        </p>
+        <div class="card-footer">
+          <div class="card-tags">
+            <span class="ctag ctag-c">Multi-theme</span>
+            <span class="ctag ctag-y">Audio</span>
+            <span class="ctag ctag-w">SVG draw</span>
+          </div>
+          <span class="card-arrow">↗</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- index (original redesign) -->
+    <a class="card" href="index.html">
+      <div class="card-preview">
+        <iframe src="index.html" title="index redesign preview" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true"></iframe>
+      </div>
+      <div class="card-body">
+        <div class="card-num">01 — First</div>
+        <div class="card-name">Maximus OG</div>
+        <p class="card-desc">
+          The original Maximus design language. Dark bg, neon palette, Archivo Black + Press Start 2P, hard box shadows, splash screen, cursor glow, GSAP scroll choreography, project card parallax, and Konami party mode.
+        </p>
+        <div class="card-footer">
+          <div class="card-tags">
+            <span class="ctag ctag-p">Maximalist</span>
+            <span class="ctag ctag-y">GSAP</span>
+            <span class="ctag ctag-c">Original</span>
+          </div>
+          <span class="card-arrow">↗</span>
+        </div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- footer -->
+<footer class="foot">
+  <span class="foot-copy">© 2026 Miles Wolf Allen — Redesign Lab</span>
+  <a class="foot-link" href="../index.html">← Back to site</a>
+</footer>
+
+<script>
+(function () {
+  // staggered card entrance on scroll
+  var cards = document.querySelectorAll('.card');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          e.target.style.animationDelay = (Array.prototype.indexOf.call(cards, e.target) % 3) * 0.08 + 's';
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.08 });
+    cards.forEach(function (c) { io.observe(c); });
+  } else {
+    cards.forEach(function (c) { c.classList.add('visible'); });
+  }
+
+  // hover — expand card shadow with correct colour cycling
+  cards.forEach(function (card) {
+    card.addEventListener('mouseenter', function () {
+      card.style.zIndex = '10';
+    });
+    card.addEventListener('mouseleave', function () {
+      card.style.zIndex = '';
+    });
+  });
+})();
+</script>
+</body>
+</html>
