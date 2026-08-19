@@ -139,6 +139,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://milesallen.site/games.html</loc>
+    <lastmod>2026-08-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://milesallen.site/404.html</loc>
     <lastmod>2026-07-28</lastmod>
     <changefreq>monthly</changefreq>

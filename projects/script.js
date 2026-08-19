@@ -71,6 +71,24 @@
     });
   })();
 
+  /* GAMES PAGE EASTER EGG: g, a, m, e, s */
+  (function(){
+    const seq = ['g','a','m','e','s'];
+    let pos = 0;
+    window.addEventListener('keydown', function(e){
+      const key = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+      if (key === seq[pos]) {
+        pos++;
+        if (pos === seq.length) {
+          pos = 0;
+          window.location.href = '/games.html';
+        }
+      } else {
+        pos = (key === seq[0]) ? 1 : 0;
+      }
+    });
+  })();
+
   /* CURSOR */
   (function(){
     const dot = document.getElementById('cursorDot');
