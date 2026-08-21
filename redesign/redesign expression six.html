@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MILES // ORBITAL — spatial portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#05070c;--ink:#eef2f6;--dim:rgba(238,242,246,.55);--faint:rgba(238,242,246,.28);
+  --cyan:#00f4ff;--pink:#ff2ea6;--yellow:#f7ff00;
+  --mono:'Space Mono',ui-monospace,Menlo,monospace;--disp:'Space Grotesk',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--mono);overflow:hidden}
+#gl{position:fixed;inset:0;display:block;touch-action:none}
+.hud{position:fixed;z-index:10;pointer-events:none}
+.hud a,.hud button{pointer-events:auto}
+#brand{top:22px;left:26px;font-size:12px;letter-spacing:.22em;color:var(--dim)}
+#brand b{color:var(--ink)}
+#brand i{font-style:normal;color:var(--cyan)}
+#stationTag{top:22px;right:26px;font-size:11px;letter-spacing:.18em;color:var(--dim);text-align:right}
+#stationTag b{color:var(--cyan)}
+#hint{bottom:20px;left:50%;transform:translateX(-50%);font-size:10px;letter-spacing:.16em;color:var(--faint);white-space:nowrap}
+#progress{bottom:0;left:0;height:3px;background:linear-gradient(90deg,var(--cyan),var(--pink));width:0%;transition:none}
+#dots{right:24px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:14px}
+#dots button{width:34px;height:12px;background:none;border:none;cursor:pointer;position:relative;padding:0}
+#dots button::after{content:"";position:absolute;left:50%;top:50%;width:8px;height:8px;transform:translate(-50%,-50%) rotate(45deg);
+  border:1px solid var(--faint);transition:.25s}
+#dots button:hover::after{border-color:var(--cyan)}
+#dots button.on::after{background:var(--cyan);border-color:var(--cyan);box-shadow:0 0 10px var(--cyan)}
+#loader{position:fixed;inset:0;z-index:40;background:var(--bg);display:flex;flex-direction:column;gap:18px;
+  align-items:center;justify-content:center;font-size:11px;letter-spacing:.3em;color:var(--dim);transition:opacity .5s}
+#loader.off{opacity:0;pointer-events:none}
+#loader .ring{width:44px;height:44px;border:1px solid var(--faint);border-top-color:var(--cyan);border-radius:50%;
+  animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+#fallback{position:fixed;inset:0;z-index:30;background:var(--bg);display:none;flex-direction:column;
+  align-items:center;justify-content:center;gap:22px;text-align:center;padding:30px}
+#fallback.show{display:flex}
+#fallback h1{font-family:var(--disp);font-weight:700;font-size:clamp(30px,7vw,64px);letter-spacing:-.02em}
+#fallback h1 span{color:var(--cyan)}
+#fallback p{color:var(--dim);font-size:13px;line-height:1.8;max-width:520px}
+#fallback .links{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+#fallback .links a{color:var(--ink);text-decoration:none;border:1px solid var(--faint);padding:10px 18px;
+  font-size:12px;letter-spacing:.12em;transition:.2s}
+#fallback .links a:hover{border-color:var(--cyan);color:var(--cyan)}
+@media (max-width:700px){
+  #stationTag{display:none}
+  #hint{font-size:9px}
+  #dots{right:12px}
+}
+@media (prefers-reduced-motion:reduce){
+  #loader .ring{animation:none}
+}
+</style>
+</head>
+<body>
+
+<canvas id="gl"></canvas>
+
+<div class="hud" id="brand"><b>MILES</b> // <i>ORBITAL</i></div>
+<div class="hud" id="stationTag">STATION <b id="stNo">01</b> — <span id="stName">HOME</span></div>
+<div class="hud" id="hint">SCROLL / DRAG TO FLY · CLICK CARDS · ↑↓ JUMP STATIONS</div>
+<div class="hud" id="dots" role="navigation" aria-label="stations"></div>
+<div id="progress"></div>
+
+<div id="loader"><div class="ring"></div><span>INITIALIZING SPACE</span></div>
+
+<div id="fallback">
+  <h1>MILES<span> //</span> ORBITAL</h1>
+  <p>This station needs WebGL to render. Your browser shut down the warp drive — but the portfolio still exists in flatland:</p>
+  <div class="links">
+    <a href="../index.html">PORTFOLIO</a>
+    <a href="https://github.com/mileswolfallen2" target="_blank" rel="noopener">GITHUB</a>
+    <a href="mailto:mileswa1q2@gmail.com">EMAIL</a>
+    <a href="./hub.html">REDESIGN LAB</a>
+  </div>
+</div>
+
+<script type="importmap">
+{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js"}}
+</script>
+
+<script type="module">
+import * as THREE from 'three';
+
+const RM=matchMedia("(prefers-reduced-motion: reduce)").matches;
+const canvas=document.getElementById("gl");
+const loader=document.getElementById("loader");
+const CYAN=0x00f4ff,PINK=0xff2ea6,YELLOW=0xf7ff00,INK=0xeef2f6;
+
+const STATIONS=[
+ {id:"home",name:"HOME"},
+ {id:"about",name:"ABOUT"},
+ {id:"builds",name:"BUILDS"},
+ {id:"skills",name:"SKILLS"},
+ {id:"now",name:"NOW"},
+ {id:"contact",name:"CONTACT"}
+];
+const SPACING=95;
+const MAXZ=(STATIONS.length-1)*SPACING;
+
+let renderer;
+try{
+  renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false});
+}catch(e){
+  fail();throw e;
+}
+function fail(){
+  loader.classList.add("off");
+  document.getElementById("fallback").classList.add("show");
+}
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.setSize(innerWidth,innerHeight);
+
+const scene=new THREE.Scene();
+scene.background=new THREE.Color(0x05070c);
+scene.fog=new THREE.Fog(0x05070c,30,240);
+
+const camera=new THREE.PerspectiveCamera(62,innerWidth/innerHeight,.1,600);
+
+const interactive=[];
+const bobbers=[];
+const spinners=[];
+const barFills=[];
+
+function textCanvas(draw,w,h){
+  const c=document.createElement("canvas");
+  c.width=w;c.height=h;
+  const x=c.getContext("2d");
+  draw(x,w,h);
+  const t=new THREE.CanvasTexture(c);
+  t.anisotropy=renderer.capabilities.getMaxAnisotropy();
+  t.colorSpace=THREE.SRGBColorSpace;
+  return t;
+}
+
+function planeFromTex(tex,wUnits,opts={}){
+  const aspect=tex.image.width/tex.image.height;
+  const mat=new THREE.MeshBasicMaterial({map:tex,transparent:true,depthWrite:false});
+  const m=new THREE.Mesh(new THREE.PlaneGeometry(wUnits,wUnits/aspect),mat);
+  if(opts.pos)m.position.set(...opts.pos);
+  return m;
+}
+
+function headingTex(txt,accent="#00f4ff"){
+  return textCanvas((x,w,h)=>{
+    x.font="700 92px 'Space Grotesk',sans-serif";
+    x.textBaseline="middle";
+    x.shadowColor=accent;x.shadowBlur=26;
+    x.fillStyle="#eef2f6";
+    x.fillText(txt,36,h/2);
+    x.shadowBlur=0;
+    x.fillStyle=accent;
+    x.fillRect(36,h-26,x.measureText(txt).width,5);
+  },1400,220);
+}
+
+function bodyTex(lines,{size=40,color="rgba(238,242,246,.78)",lh=1.55,w=1200}={}){
+  const h=Math.ceil(lines.length*size*lh)+80;
+  return textCanvas((x)=>{
+    x.font=`${size}px 'Space Mono',monospace`;
+    x.textBaseline="top";
+    x.fillStyle=color;
+    lines.forEach((l,i)=>x.fillText(l,30,40+i*size*lh));
+  },w,h);
+}
+
+function cardTex(title,desc,meta,accent="#00f4ff"){
+  return textCanvas((x,w,h)=>{
+    x.fillStyle="rgba(7,13,19,.94)";
+    roundRect(x,4,4,w-8,h-8,18);x.fill();
+    x.strokeStyle=accent;x.lineWidth=4;
+    roundRect(x,4,4,w-8,h-8,18);x.stroke();
+    x.fillStyle=accent;
+    x.fillRect(4,4,46,10);x.fillRect(4,4,10,46);
+    x.fillStyle="#eef2f6";
+    x.font="700 64px 'Space Grotesk',sans-serif";
+    x.textBaseline="top";
+    x.fillText(title,42,42,900);
+    x.font="38px 'Space Mono',monospace";
+    x.fillStyle="rgba(238,242,246,.6)";
+    x.fillText(desc,44,132,920);
+    x.fillStyle=accent;
+    x.font="700 30px 'Space Mono',monospace";
+    x.fillText(meta+"  ↗",44,h-66);
+  },1024,300);
+}
+function roundRect(x,a,b,w,h,r){
+  x.beginPath();
+  x.moveTo(a+r,b);
+  x.arcTo(a+w,b,a+w,b+h,r);
+  x.arcTo(a+w,b+h,a,b+h,r);
+  x.arcTo(a,b+h,a,b,r);
+  x.arcTo(a,b,a+w,b,r);
+  x.closePath();
+}
+
+function slimLink(group,label,handle,url,y,z,accent="#00f4ff"){
+  const tex=textCanvas((x,w,h)=>{
+    x.fillStyle="rgba(7,13,19,.9)";
+    roundRect(x,3,3,w-6,h-6,10);x.fill();
+    x.strokeStyle=accent;x.lineWidth=3;
+    roundRect(x,3,3,w-6,h-6,10);x.stroke();
+    x.font="700 44px 'Space Mono',monospace";
+    x.textBaseline="middle";
+    x.fillStyle="#eef2f6";
+    x.fillText(label+" — "+handle,34,h/2,1000);
+    x.fillStyle=accent;
+    x.fillText("↗",w-90,h/2);
+  },1400,110);
+  const p=planeFromTex(tex,24,{pos:[-2,y,z]});
+  p.userData={url,baseScale:1};
+  group.add(p);
+  interactive.push(p);
+  return p;
+}
+
+function addCard(group,title,desc,meta,url,pos,wUnits=26,accent="#00f4ff"){
+  const p=planeFromTex(cardTex(title,desc,meta,accent),wUnits,{pos});
+  p.userData={url,baseColor:null,baseScale:1};
+  group.add(p);
+  interactive.push(p);
+  return p;
+}
+
+function makeStars(){
+  const N=1600,pos=new Float32Array(N*3);
+  for(let i=0;i<N;i++){
+    pos[i*3]=(Math.random()-.5)*700;
+    pos[i*3+1]=Math.random()*260-90;
+    pos[i*3+2]=60-Math.random()*(MAXZ+420);
+  }
+  const g=new THREE.BufferGeometry();
+  g.setAttribute("position",new THREE.BufferAttribute(pos,3));
+  const m=new THREE.PointsMaterial({color:0x9fc2d8,size:1.5,transparent:true,opacity:.75,sizeAttenuation:true});
+  scene.add(new THREE.Points(g,m));
+}
+
+function makeGrid(){
+  const g1=new THREE.GridHelper(2400,240,0x0e3346,0x0a2030);
+  g1.position.set(0,-16,-MAXZ/2-100);
+  scene.add(g1);
+  const g2=new THREE.GridHelper(2400,240,0x2a0e24,0x1c0a18);
+  g2.position.set(0,150,-MAXZ/2-100);
+  scene.add(g2);
+}
+
+function buildHome(z){
+  const g=new THREE.Group();g.position.z=z;
+  const name=planeFromTex(textCanvas((x,w,h)=>{
+    x.font="700 150px 'Space Grotesk',sans-serif";
+    x.textBaseline="middle";
+    x.shadowColor="#00f4ff";x.shadowBlur=34;
+    x.fillStyle="#eef2f6";
+    x.fillText("MILES WOLF",30,h*.32);
+    x.fillStyle="#00f4ff";
+    x.fillText("ALLEN",30,h*.72);
+  },1700,520),54,{pos:[0,6,-6]});
+  g.add(name);
+  const sub=planeFromTex(bodyTex([
+    "DEVELOPER · BROWSER BUILDER · GD DEMON LIST RUNNER",
+    "SCROLL TO ENTER THE STATION ↓"
+  ],{size:34,w:1500}),40,{pos:[0,-12,-6]});
+  g.add(sub);
+  const ico=new THREE.Mesh(new THREE.IcosahedronGeometry(15,1),
+    new THREE.MeshBasicMaterial({color:CYAN,wireframe:true,transparent:true,opacity:.4}));
+  ico.position.set(-40,4,-30);
+  g.add(ico);spinners.push({o:ico,sx:.12,sy:.2});
+  const torus=new THREE.Mesh(new THREE.TorusGeometry(23,.5,8,64),
+    new THREE.MeshBasicMaterial({color:PINK,wireframe:true,transparent:true,opacity:.35}));
+  torus.position.set(40,-2,-34);
+  torus.rotation.x=1.2;
+  g.add(torus);spinners.push({o:torus,sx:.05,sy:.09});
+  scene.add(g);
+}
+
+function buildAbout(z){
+  const g=new THREE.Group();g.position.z=z;
+  g.add(planeFromTex(headingTex("ABOUT"),44,{pos:[-4,12.5,-4]}));
+  g.add(planeFromTex(bodyTex([
+    "Hey — I'm Miles Wolf Allen. Student developer who ships.",
+    "",
+    "I build browsers (Vanilla), tear Electron apart (Gelectron),",
+    "run the FEDL Geometry Dash level list, and keep way too",
+    "many side projects warm. If it renders on a screen:",
+    "I'm interested."
+  ],{size:38,w:1250}),46,{pos:[-4,-6,-4]}));
+  const stats=[["160+","PUBLIC REPOS"],["3,800+","FEDL RUNS"],["91","STARS"]];
+  stats.forEach(([n,l],i)=>{
+    const box=new THREE.Mesh(new THREE.BoxGeometry(11,11,11),
+      new THREE.MeshBasicMaterial({color:0x081018}));
+    box.position.set(-24+i*24,-12,-10-i*3);
+    g.add(box);
+    const edges=new THREE.LineSegments(new THREE.EdgesGeometry(box.geometry),
+      new THREE.LineBasicMaterial({color:i===1?PINK:CYAN,transparent:true,opacity:.85}));
+    edges.position.copy(box.position);
+    g.add(edges);
+    const num=planeFromTex(textCanvas((x,w,h)=>{
+      x.font="700 110px 'Space Grotesk',sans-serif";
+      x.textAlign="center";x.textBaseline="middle";
+      x.fillStyle="#eef2f6";
+      x.shadowColor="#00f4ff";x.shadowBlur=18;
+      x.fillText(n,w/2,h*.42);
+      x.shadowBlur=0;
+      x.font="700 30px 'Space Mono',monospace";
+      x.fillStyle="rgba(238,242,246,.55)";
+      x.fillText(l,w/2,h*.78);
+    },512,320),10.4,{pos:[box.position.x,box.position.y,box.position.z+5.6]});
+    g.add(num);
+    bobbers.push({o:box,p:i*1.3,a:1.1},{o:num,p:i*1.3,a:1.1});
+  });
+  scene.add(g);
+}
+
+const PROJECTS=[
+ ["OmniEmu 2.0","All your emulators in one place.","ACTIVE · TS","https://milesallen.site/projects/omniemu.html"],
+ ["Vanilla","A browser built to be rebuilt.","MAIN QUEST","https://vanilla.milesallen.site"],
+ ["Gelectron","Electron internals, dissected.","EARLY · TS","https://milesallen.site/projects/gelectron.html"],
+ ["FEDL","GD level list. 3800+ runs.","LIVE","https://me.fedl.site"],
+ ["Moon Gaming","Community hub. 1542 commits.","JS","https://github.com/mileswolfallen2"],
+ ["Noto","Notes app. Back burner.","PAUSED","https://milesallen.site/projects/noto.html"],
+ ["Portfolio v3","Street-poster energy.","LIVE","https://milesallen.site"],
+ ["Redesign Lab","11 design languages deep.","LAB","https://milesallen.site/redesign/hub.html"],
+ ["Emulator Core","20+ cores, one launcher.","ACTIVE","https://milesallen.site/projects/omniemu.html"],
+ ["GD Tools","Demon list utilities.","SIDE","https://me.fedl.site"],
+ ["School Utils","Make the day shorter.","PY","https://github.com/mileswolfallen2"],
+ ["Pixel Play","Canvas + shader doodles.","WIP","https://codepen.io/mileswolfallen2-the-typescripter"],
+ ["ORBITAL","You are flying through it.","META","#contact"]
+];
+function buildProjects(z){
+  const g=new THREE.Group();g.position.z=z;
+  g.add(planeFromTex(headingTex("BUILDS","#ff2ea6"),44,{pos:[-4,12.5,-4]}));
+  g.add(planeFromTex(bodyTex(["13 shipped builds — click any card to open it."],{size:34,w:1100,color:"rgba(238,242,246,.5)"}),40,{pos:[-2,6,-4]}));
+  const accents=["#00f4ff","#ff2ea6","#f7ff00"];
+  PROJECTS.forEach((p,i)=>{
+    const row=Math.floor(i/5),col=i%5;
+    const perRow=row===2?3:5;
+    const spread=(col-(perRow-1)/2)*13.5;
+    const zz=-row*22-Math.abs(spread)*.3;
+    const card=addCard(g,p[0],p[1],p[2],p[3],[spread,1-row*15,zz-8],20,accents[i%3]);
+    if(p[3]==="#contact"){card.userData.url=null;card.userData.jump=STATIONS.length-1;}
+  });
+  scene.add(g);
+}
+
+const SKILLS=[["JAVASCRIPT",90],["HTML / CSS",92],["TYPESCRIPT",82],["PYTHON",75],["SWIFT",65],["GIT",86],["NODE",78],["BLENDER",70]];
+function buildSkills(z){
+  const g=new THREE.Group();g.position.z=z;
+  g.add(planeFromTex(headingTex("SKILLS","#f7ff00"),44,{pos:[-4,12.5,-4]}));
+  SKILLS.forEach(([k,v],i)=>{
+    const y=8-i*3.4;
+    const label=planeFromTex(textCanvas((x,w,h)=>{
+      x.font="700 44px 'Space Mono',monospace";
+      x.textBaseline="middle";x.textAlign="right";
+      x.fillStyle="#eef2f6";
+      x.fillText(k,w-24,h/2);
+    },560,90),15,{pos:[-20,y,-4]});
+    g.add(label);
+    const track=new THREE.Mesh(new THREE.BoxGeometry(34,1.7,1),
+      new THREE.MeshBasicMaterial({color:0x0d1a24}));
+    track.position.set(-6,y,-4);
+    g.add(track);
+    const fill=new THREE.Mesh(new THREE.BoxGeometry(33,1.1,1.4),
+      new THREE.MeshBasicMaterial({color:i%2?PINK:CYAN}));
+    fill.geometry.translate(16.5,0,0);
+    fill.position.set(-22.7,y,-4);
+    fill.scale.x=.001;
+    g.add(fill);
+    barFills.push({mesh:fill,target:v/100});
+    const pct=planeFromTex(textCanvas((x,w,h)=>{
+      x.font="700 40px 'Space Mono',monospace";
+      x.textBaseline="middle";
+      x.fillStyle="rgba(238,242,246,.6)";
+      x.fillText(v+"%",24,h/2);
+    },200,80),5.4,{pos:[13.5,y,-4]});
+    g.add(pct);
+  });
+  g.add(planeFromTex(bodyTex(["QUEUED PACKAGES: PHP · DOTNET · NIX · YARN"],{size:30,w:1000,color:"rgba(238,242,246,.4)"}),40,{pos:[-2,-18,-10]}));
+  scene.add(g);
+}
+
+const NOW=[
+ ["VANILLA","the main quest — a browser rebuilt from scratch, active daily"],
+ ["GELECTRON","side quest — window / ipc / menu / tray internals"],
+ ["FEDL","live ops — ~4,000 runs verified across 340+ ranked levels"],
+ ["NOTO","back burner — waiting for its moment"]
+];
+function buildNow(z){
+  const g=new THREE.Group();g.position.z=z;
+  g.add(planeFromTex(headingTex("NOW"),44,{pos:[-4,12.5,-4]}));
+  const spots=[[-13,3.5,-4],[7,3.5,-4],[-13,-9.5,-9],[7,-9.5,-9]];
+  NOW.forEach(([t,d],i)=>{
+    const card=addCard(g,t,d,"AUG 2026",i===0?"https://vanilla.milesallen.site":i===2?"https://me.fedl.site":"#",spots[i],26,i===1?"#ff2ea6":"#00f4ff");
+    if(i===1||i===3)card.userData.url=null;
+  });
+  scene.add(g);
+}
+
+function buildContact(z){
+  const g=new THREE.Group();g.position.z=z;
+  g.add(planeFromTex(headingTex("SAY HI","#ff2ea6"),44,{pos:[-4,12.5,-4]}));
+  g.add(planeFromTex(bodyTex(["RESPONSE TIME: SAME DAY · NO BOTS PLEASE"],{size:30,w:1000,color:"rgba(238,242,246,.5)"}),40,{pos:[-2,6.2,-4]}));
+  const mail=addCard(g,"mileswa1q2@gmail.com","click to open your mail app","EMAIL ME","",[0,-1.5,-6],41,"#ff2ea6");
+  mail.userData.url="mailto:mileswa1q2@gmail.com";
+  slimLink(g,"GITHUB","@mileswolfallen2","https://github.com/mileswolfallen2",-10.5,-6);
+  slimLink(g,"REPLIT","@MilesAllen1","https://replit.com/@MilesAllen1",-13.7,-9);
+  slimLink(g,"CODEPEN","typescripter","https://codepen.io/mileswolfallen2-the-typescripter",-16.9,-12,"#ff2ea6");
+  slimLink(g,"FEDL","me.fedl.site","https://me.fedl.site",-20.1,-15);
+  scene.add(g);
+}
+
+makeStars();
+makeGrid();
+buildHome(0);
+buildAbout(-SPACING);
+buildProjects(-SPACING*2);
+buildSkills(-SPACING*3);
+buildNow(-SPACING*4);
+buildContact(-SPACING*5);
+
+let targetZ=0,curZ=0,lastInput=0;
+let mx=0,my=0,pmx=0,pmy=0;
+const raycaster=new THREE.Raycaster();
+const ndc=new THREE.Vector2();
+let hovered=null;
+let dragging=false,downX=0,downY=0,lastY=0,moved=0;
+
+function setNdc(cx,cy){
+  ndc.x=(cx/innerWidth)*2-1;
+  ndc.y=-(cy/innerHeight)*2+1;
+}
+function pick(){
+  raycaster.setFromCamera(ndc,camera);
+  const hits=raycaster.intersectObjects(interactive,false);
+  return hits.length?hits[0].object:null;
+}
+
+addEventListener("pointermove",e=>{
+  mx=(e.clientX/innerWidth)*2-1;
+  my=(e.clientY/innerHeight)*2-1;
+  if(dragging){
+    targetZ=THREE.MathUtils.clamp(targetZ+(lastY-e.clientY)*.12,0,MAXZ);
+    lastY=e.clientY;
+    moved+=Math.abs(e.movementX||0)+Math.abs(e.movementY||0);
+    lastInput=performance.now();
+  }
+});
+canvas.addEventListener("pointerdown",e=>{
+  dragging=true;moved=0;downX=e.clientX;downY=e.clientY;lastY=e.clientY;
+});
+addEventListener("pointerup",e=>{
+  if(!dragging)return;
+  dragging=false;
+  if(moved<8){
+    setNdc(e.clientX,e.clientY);
+    const hit=pick();
+    if(hit&&hit.userData.url)window.open(hit.userData.url,"_blank","noopener");
+    else if(hit&&hit.userData.jump!==undefined)jump(hit.userData.jump);
+  }
+});
+addEventListener("wheel",e=>{
+  e.preventDefault();
+  targetZ=THREE.MathUtils.clamp(targetZ+e.deltaY*.085,0,MAXZ);
+  lastInput=performance.now();
+},{passive:false});
+
+const dotsEl=document.getElementById("dots");
+STATIONS.forEach((s,i)=>{
+  const b=document.createElement("button");
+  b.setAttribute("aria-label","go to "+s.name);
+  b.addEventListener("click",()=>jump(i));
+  dotsEl.appendChild(b);
+});
+function jump(i){
+  targetZ=THREE.MathUtils.clamp(i*SPACING,0,MAXZ);
+  lastInput=performance.now();
+}
+addEventListener("keydown",e=>{
+  const idx=Math.round(curZ/SPACING);
+  if(e.key==="ArrowDown"||e.key==="PageDown"||e.key===" "){e.preventDefault();jump(idx+1);}
+  else if(e.key==="ArrowUp"||e.key==="PageUp"){e.preventDefault();jump(idx-1);}
+  else if(e.key==="Home"){e.preventDefault();jump(0);}
+  else if(e.key==="End"){e.preventDefault();jump(STATIONS.length-1);}
+});
+
+addEventListener("resize",()=>{
+  camera.aspect=innerWidth/innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth,innerHeight);
+});
+
+const clock=new THREE.Clock();
+const stNo=document.getElementById("stNo");
+const stName=document.getElementById("stName");
+let lastIdx=-1;
+
+function animate(){
+  requestAnimationFrame(animate);
+  const dt=Math.min(clock.getDelta(),.05);
+  const t=clock.elapsedTime;
+
+  if(!RM&&performance.now()-lastInput>700&&!dragging){
+    const near=Math.round(targetZ/SPACING)*SPACING;
+    targetZ+=(near-targetZ)*Math.min(1,dt*2.2);
+  }
+
+  curZ+=(targetZ-curZ)*Math.min(1,dt*3.4);
+  pmx+=(mx-pmx)*Math.min(1,dt*4);
+  pmy+=(my-pmy)*Math.min(1,dt*4);
+  const camZ=22-curZ;
+  camera.position.set(pmx*4.5,-pmy*2.6,camZ);
+  camera.lookAt(pmx*2,-pmy*1.2,camZ-130);
+
+  spinners.forEach(s=>{s.o.rotation.x+=s.sx*dt;s.o.rotation.y+=s.sy*dt;});
+  if(!RM)bobbers.forEach(b=>{
+    if(b.o.userData.by===undefined)b.o.userData.by=b.o.position.y;
+    b.o.position.y=b.o.userData.by+Math.sin(t*1.1+b.p)*b.a;
+  });
+
+  barFills.forEach(f=>{
+    f.cur=f.cur??0;
+    const d=f.target-f.cur;
+    if(Math.abs(d)>.001)f.cur+=d*Math.min(1,dt*2.4);
+    f.mesh.scale.x=Math.max(.001,f.cur);
+  });
+
+  const hit=dragging?null:pick();
+  if(hit!==hovered){
+    if(hovered){hovered.scale.setScalar(hovered.userData.baseScale);}
+    hovered=hit;
+    if(hovered)hovered.scale.setScalar(hovered.userData.baseScale*1.06);
+    const act=hovered&&(hovered.userData.url||hovered.userData.jump!==undefined);
+    canvas.style.cursor=act?"pointer":"default";
+  }
+
+  const idx=THREE.MathUtils.clamp(Math.round(curZ/SPACING),0,STATIONS.length-1);
+  if(idx!==lastIdx){
+    lastIdx=idx;
+    stNo.textContent=String(idx+1).padStart(2,"0");
+    stName.textContent=STATIONS[idx].name;
+    [...dotsEl.children].forEach((b,i)=>b.classList.toggle("on",i===idx));
+  }
+  document.getElementById("progress").style.width=(curZ/MAXZ*100)+"%";
+
+  renderer.render(scene,camera);
+}
+
+document.fonts.ready.then(()=>{
+  loader.classList.add("off");
+  setTimeout(()=>loader.remove(),600);
+  animate();
+  window.__orbitalBooted=true;
+});
+</script>
+<script>
+setTimeout(function(){
+  if(!window.__orbitalBooted){
+    var l=document.getElementById("loader");
+    if(l)l.classList.add("off");
+    document.getElementById("fallback").classList.add("show");
+  }
+},3500);
+</script>
+</body>
+</html>

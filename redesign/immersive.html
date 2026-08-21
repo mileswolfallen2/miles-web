@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Miles Wolf Allen / The Studio</title>
+  <meta name="description" content="Enter the studio of Miles Wolf Allen — a developer and 3D artist building tools, games, and websites.">
+  <meta name="theme-color" content="#0c1114">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23c9f36b'/%3E%3Cpath d='M24 74V26h13l13 19 13-19h13v48H63V49L50 67 37 49v25z' fill='%230c1114'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:#0c1114; --panel:rgba(18,25,28,.82); --panel-solid:#141d20; --ink:#edf0e8; --muted:#87928d;
+      --lime:#c9f36b; --coral:#ff765f; --cyan:#8adbd5; --line:rgba(237,240,232,.15); --mono:'DM Mono',monospace; --sans:Manrope,sans-serif; --serif:'Playfair Display',serif;
+    }
+    * { box-sizing:border-box; }
+    html { background:var(--bg); scroll-behavior:smooth; }
+    body { margin:0; color:var(--ink); background:var(--bg); font-family:var(--sans); overflow-x:hidden; }
+    body.scene-ready { overflow-x:hidden; }
+    ::selection { color:var(--bg); background:var(--lime); }
+    a { color:inherit; text-decoration:none; }
+    button { color:inherit; font:inherit; cursor:pointer; }
+    .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+
+    #webgl { position:fixed; inset:0; z-index:0; width:100%; height:100%; display:block; opacity:0; transition:opacity 1s ease; }
+    body.scene-ready #webgl { opacity:1; }
+    .vignette { position:fixed; inset:0; z-index:1; pointer-events:none; background:radial-gradient(ellipse at 50% 40%,transparent 30%,rgba(4,7,8,.6) 100%); }
+    .grain { position:fixed; inset:0; z-index:20; pointer-events:none; opacity:.045; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); mix-blend-mode:screen; }
+    .scroll-progress { position:fixed; z-index:50; left:0; top:0; width:0; height:3px; background:var(--lime); box-shadow:0 0 16px rgba(201,243,107,.8); }
+
+    .loader { position:fixed; inset:0; z-index:100; display:grid; place-items:center; background:var(--bg); transition:opacity .7s ease,visibility .7s; }
+    .loader.done { opacity:0; visibility:hidden; pointer-events:none; }
+    .loader-inner { width:min(290px,80vw); }
+    .loader-top { display:flex; justify-content:space-between; color:var(--muted); font:400 10px var(--mono); text-transform:uppercase; letter-spacing:.1em; }
+    .loader-top b { color:var(--lime); font-weight:400; }
+    .loader-bar { height:2px; margin-top:14px; overflow:hidden; background:var(--line); }
+    .loader-bar i { display:block; width:0; height:100%; background:var(--lime); transition:width .4s ease; }
+    .loader-tip { margin-top:18px; color:var(--muted); font:400 10px var(--mono); }
+
+    .hud { position:fixed; z-index:10; inset:0; pointer-events:none; }
+    .top-hud { position:absolute; top:0; left:0; right:0; display:flex; justify-content:space-between; align-items:center; gap:20px; padding:25px 4vw; border-bottom:1px solid var(--line); background:linear-gradient(rgba(12,17,20,.74),transparent); pointer-events:auto; }
+    .brand { display:flex; align-items:center; gap:11px; color:var(--ink); font:500 11px var(--mono); letter-spacing:.1em; text-transform:uppercase; }
+    .brand i { width:11px; height:11px; border:2px solid var(--lime); border-radius:50%; box-shadow:0 0 14px rgba(201,243,107,.6); }
+    .top-meta { display:flex; align-items:center; gap:24px; color:var(--muted); font:400 10px var(--mono); text-transform:uppercase; letter-spacing:.08em; }
+    .top-meta b { color:var(--lime); font-weight:400; }
+    .skip { pointer-events:auto; position:absolute; right:4vw; bottom:29px; display:inline-flex; align-items:center; gap:10px; padding:10px 12px; border:1px solid var(--line); color:var(--ink); background:rgba(12,17,20,.68); font:400 10px var(--mono); text-transform:uppercase; backdrop-filter:blur(10px); transition:.25s; }
+    .skip:hover { color:var(--bg); background:var(--lime); border-color:var(--lime); }
+    .scene-instruction { pointer-events:none; position:absolute; bottom:30px; left:4vw; color:var(--muted); font:400 10px var(--mono); letter-spacing:.07em; text-transform:uppercase; }
+    .scene-instruction span { display:inline-block; margin-right:9px; color:var(--lime); animation:bob 1.6s ease-in-out infinite; }
+    @keyframes bob { 50% { transform:translateY(4px); } }
+    .project-nav { pointer-events:auto; position:absolute; left:4vw; top:50%; display:grid; gap:7px; transform:translateY(-50%); }
+    .project-nav button { display:grid; grid-template-columns:24px 1fr; gap:8px; align-items:center; min-width:165px; padding:9px 10px; border:1px solid transparent; color:var(--muted); background:rgba(12,17,20,.32); text-align:left; font:400 9px var(--mono); text-transform:uppercase; transition:.25s; }
+    .project-nav button:hover,.project-nav button:focus-visible,.project-nav button.active { color:var(--ink); border-color:var(--lime); background:rgba(12,17,20,.8); outline:none; }
+    .project-nav button.active { box-shadow:inset 3px 0 var(--lime); }
+    .project-nav .num { color:var(--coral); }
+    @media(max-width:850px) { .project-nav { top:auto; left:50%; bottom:74px; grid-template-columns:repeat(5,auto); width:max-content; transform:translateX(-50%); } .project-nav button { min-width:0; width:42px; height:30px; padding:4px; grid-template-columns:1fr; text-align:center; } .project-nav button .name { display:none; } .project-nav .num { color:var(--ink); } .scene-instruction { display:none; } }
+    @media(max-width:580px) { .top-hud { padding:18px 5vw; } .top-meta { gap:0; } .top-meta span { display:none; } .skip { right:5vw; bottom:23px; } }
+
+    .scene-scroll { position:relative; z-index:2; height:310vh; pointer-events:none; }
+    .scene-intro { position:absolute; top:0; left:0; right:0; min-height:100vh; display:grid; place-items:center; padding:130px 5vw 180px; pointer-events:none; }
+    .intro-copy { width:min(850px,90vw); margin-left:13vw; }
+    .eyebrow { display:flex; align-items:center; gap:12px; color:var(--lime); font:400 10px var(--mono); letter-spacing:.14em; text-transform:uppercase; }
+    .eyebrow::before { content:''; width:28px; height:1px; background:var(--lime); }
+    h1 { max-width:850px; margin:24px 0 22px; font:800 clamp(4rem,12vw,11rem)/.78 var(--sans); letter-spacing:-.12em; }
+    h1 span { display:block; } h1 .outline { color:transparent; -webkit-text-stroke:1px var(--ink); } h1 .lime { color:var(--lime); } h1 em { font:600 .72em/.8 var(--serif); color:var(--coral); letter-spacing:-.05em; }
+    .intro-copy p { max-width:440px; margin:0; color:var(--muted); font-size:14px; line-height:1.8; }
+    @media(max-width:850px) { .intro-copy { margin-left:0; } h1 { font-size:clamp(4.2rem,16vw,8rem); } }
+
+    .focus-panel { position:fixed; z-index:12; top:50%; right:5vw; width:min(390px,38vw); padding:25px; border:1px solid var(--lime); background:rgba(18,25,28,.92); box-shadow:0 24px 75px rgba(0,0,0,.35); transform:translate(40px,-50%); opacity:0; visibility:hidden; pointer-events:none; transition:opacity .45s ease,transform .55s cubic-bezier(.2,.8,.2,1),visibility .45s; backdrop-filter:blur(15px); }
+    .focus-panel.open { opacity:1; visibility:visible; transform:translate(0,-50%); pointer-events:auto; }
+    .focus-panel .close { position:absolute; right:14px; top:13px; width:25px; height:25px; border:1px solid var(--line); color:var(--muted); background:transparent; font-size:16px; line-height:1; }
+    .focus-panel .close:hover { color:var(--bg); background:var(--lime); }
+    .focus-kicker { color:var(--coral); font:400 9px var(--mono); letter-spacing:.12em; text-transform:uppercase; }
+    .focus-panel h2 { max-width:300px; margin:17px 0 12px; font:600 clamp(2rem,4vw,3rem)/.9 var(--sans); letter-spacing:-.08em; }
+    .focus-panel p { margin:0; color:var(--muted); font:400 12px/1.75 var(--mono); }
+    .focus-meta { display:flex; justify-content:space-between; gap:10px; margin-top:25px; padding-top:15px; border-top:1px solid var(--line); color:var(--muted); font:400 9px var(--mono); text-transform:uppercase; }
+    .focus-meta a { color:var(--lime); } .focus-meta a:hover { color:var(--coral); }
+    @media(max-width:850px) { .focus-panel { top:auto; right:5vw; bottom:120px; left:5vw; width:auto; transform:translateY(25px); } .focus-panel.open { transform:translateY(0); } }
+
+    .full-list { position:relative; z-index:5; min-height:100vh; padding:150px 0 100px; background:var(--bg); border-top:1px solid var(--line); }
+    .full-list-inner { width:min(1100px,89vw); margin:auto; }
+    .section-head { display:flex; justify-content:space-between; align-items:end; gap:30px; margin-bottom:48px; }
+    .section-label { color:var(--lime); font:400 10px var(--mono); letter-spacing:.13em; text-transform:uppercase; }
+    h2.section-title { margin:10px 0 0; font:600 clamp(3rem,7vw,6.5rem)/.8 var(--sans); letter-spacing:-.11em; } h2.section-title em { color:var(--coral); font:600 .82em var(--serif); }
+    .section-head p { max-width:280px; margin:0 0 4px; color:var(--muted); font:400 11px/1.7 var(--mono); }
+    .list-grid { display:grid; border-top:1px solid var(--line); }
+    .list-project { display:grid; grid-template-columns:55px 1fr 1.3fr auto; gap:20px; align-items:center; padding:24px 0; border-bottom:1px solid var(--line); transition:.25s; }
+    .list-project:hover { padding-left:12px; background:linear-gradient(90deg,rgba(201,243,107,.08),transparent 65%); }
+    .list-project .number { color:var(--coral); font:400 10px var(--mono); } .list-project h3 { margin:0; font:600 19px var(--sans); letter-spacing:-.05em; } .list-project .type { color:var(--lime); font:400 9px var(--mono); text-transform:uppercase; } .list-project p { margin:0; color:var(--muted); font:400 11px/1.6 var(--mono); } .list-project .arrow { color:var(--lime); font-size:19px; }
+    .about-band { display:grid; grid-template-columns:1fr 1fr; gap:8vw; margin-top:150px; padding-top:35px; border-top:1px solid var(--line); }
+    .about-band h2 { margin:10px 0 0; font:600 clamp(2.8rem,6vw,5.5rem)/.82 var(--sans); letter-spacing:-.1em; } .about-band h2 span { color:var(--lime); } .about-band p { max-width:430px; color:var(--muted); font-size:13px; line-height:1.8; } .about-band a { display:inline-block; margin-top:17px; color:var(--lime); font:400 10px var(--mono); text-transform:uppercase; }
+    .contact-links { display:flex; justify-content:space-between; gap:20px; flex-wrap:wrap; margin-top:90px; padding-top:24px; border-top:1px solid var(--line); color:var(--muted); font:400 10px var(--mono); text-transform:uppercase; } .contact-links a { color:var(--lime); } .contact-links a:hover { color:var(--coral); }
+    @media(max-width:760px) { .full-list { padding-top:100px; } .section-head { display:block; } .section-head p { margin-top:20px; } .list-project { grid-template-columns:34px 1fr auto; gap:11px; } .list-project p { grid-column:2 / -1; grid-row:2; } .list-project .type { grid-column:2; grid-row:3; } .about-band { grid-template-columns:1fr; gap:35px; margin-top:100px; } }
+
+    .fallback { display:none; position:relative; z-index:6; min-height:100vh; padding:130px 0 80px; background:var(--bg); }
+    body.fallback-mode #webgl, body.fallback-mode .scene-scroll, body.fallback-mode .scene-instruction, body.fallback-mode .project-nav { display:none; }
+    body.fallback-mode .fallback { display:block; }
+    body.fallback-mode .skip { display:none; }
+    .fallback-inner { width:min(1000px,89vw); margin:auto; } .fallback h1 { max-width:700px; } .fallback p { max-width:490px; color:var(--muted); line-height:1.8; }
+    .fallback-grid { display:grid; gap:1px; margin-top:70px; border:1px solid var(--line); background:var(--line); } .fallback-card { display:grid; grid-template-columns:50px 1fr auto; gap:18px; align-items:center; padding:23px; background:var(--panel-solid); } .fallback-card:hover { background:#202d31; } .fallback-card .n { color:var(--coral); font:400 10px var(--mono); } .fallback-card strong { display:block; font-size:18px; } .fallback-card small { color:var(--muted); font:400 10px var(--mono); } .fallback-card b { color:var(--lime); font:400 10px var(--mono); }
+    @media(prefers-reduced-motion:reduce) { .scene-scroll { display:none; } .fallback { display:block; } .focus-panel { transition:none; } }
+  </style>
+</head>
+<body>
+  <canvas id="webgl" aria-hidden="true"></canvas><div class="vignette" aria-hidden="true"></div><div class="grain" aria-hidden="true"></div><div class="scroll-progress" id="scrollProgress"></div>
+  <div class="loader" id="loader"><div class="loader-inner"><div class="loader-top"><span>entering the studio</span><b id="loaderPercent">0%</b></div><div class="loader-bar"><i id="loaderBar"></i></div><div class="loader-tip">low-poly / high curiosity</div></div></div>
+  <div class="hud"><div class="top-hud"><a class="brand" href="#top"><i></i><span>Miles Wolf Allen / Studio</span></a><div class="top-meta"><span>room 01 / the workbench</span><b>● open</b></div></div><div class="project-nav" aria-label="Projects in the room"><button class="active" type="button" data-project="0"><span class="num">01</span><span class="name">OmniEmu</span></button><button type="button" data-project="1"><span class="num">02</span><span class="name">Gelectron</span></button><button type="button" data-project="2"><span class="num">03</span><span class="name">FEDL</span></button><button type="button" data-project="3"><span class="num">04</span><span class="name">Noto</span></button><button type="button" data-project="4"><span class="num">05</span><span class="name">Moon</span></button></div><div class="scene-instruction"><span>↓</span> scroll to move through the room / drag to look around</div><a class="skip" href="#full-list">skip the 3D / view full project list ↘</a></div>
+  <section class="fallback" id="fallback"><div class="fallback-inner"><div class="eyebrow">2D mode / same content, fewer polygons</div><h1><span class="outline">MILES</span><span>WOLF <em>ALLEN</em><span class="lime">.</span></span></h1><p>The interactive room is unavailable here, so the studio has unfolded into a simple project list. Everything is still reachable.</p><div class="fallback-grid"><a class="fallback-card" href="https://milesallen.site/projects/omniemu.html"><span class="n">01</span><span><strong>OmniEmu 2.0</strong><small>tool / active</small></span><b>view ↗</b></a><a class="fallback-card" href="https://milesallen.site/projects/gelectron.html"><span class="n">02</span><span><strong>Gelectron</strong><small>tool / in progress</small></span><b>view ↗</b></a><a class="fallback-card" href="https://milesallen.site/projects/fedl.html"><span class="n">03</span><span><strong>FEDL</strong><small>community / live</small></span><b>view ↗</b></a><a class="fallback-card" href="https://milesallen.site/projects/noto.html"><span class="n">04</span><span><strong>Noto</strong><small>tool / active</small></span><b>view ↗</b></a><a class="fallback-card" href="https://milesallen.site/projects/moon-gaming.html"><span class="n">05</span><span><strong>Moon Gaming</strong><small>games / growing</small></span><b>view ↗</b></a></div></div></section>
+  <main class="scene-scroll" id="top"><div class="scene-intro"><div class="intro-copy"><div class="eyebrow">developer / 3D artist / perpetual beginner</div><h1><span class="outline">MILES</span><span>WOLF <em>ALLEN</em><span class="lime">.</span></span></h1><p>Welcome to the studio. I make games, tools, and websites for the space between a good question and a working answer.</p></div></div></main>
+  <aside class="focus-panel" id="focusPanel" aria-live="polite"><button class="close" id="closeFocus" type="button" aria-label="Close project detail">×</button><div class="focus-kicker" id="focusKicker">tool / active</div><h2 id="focusTitle">OmniEmu 2.0</h2><p id="focusDescription">All your emulators in one place. Scan ROMs, install what you need, and launch without opening fifteen different apps.</p><div class="focus-meta"><span id="focusStack">typescript / desktop</span><a id="focusLink" href="https://milesallen.site/projects/omniemu.html" target="_blank" rel="noopener">view case study ↗</a></div></aside>
+  <section class="full-list" id="full-list"><div class="full-list-inner"><div class="section-head"><div><div class="section-label">the exit ramp / 01</div><h2 class="section-title">The work,<br><em>without the room.</em></h2></div><p>A quick, readable index for visitors who would rather skim than explore.</p></div><div class="list-grid"><a class="list-project" href="https://milesallen.site/projects/omniemu.html"><span class="number">01</span><h3>OmniEmu 2.0</h3><p>All your emulators in one place — scan ROMs, install what you need, and launch without opening fifteen different apps.</p><span class="type">tool / active ↗</span></a><a class="list-project" href="https://milesallen.site/projects/gelectron.html"><span class="number">02</span><h3>Gelectron</h3><p>A drop-in Electron replacement using native web views instead of bundling an entire copy of Chromium with every app.</p><span class="type">tool / in progress ↗</span></a><a class="list-project" href="https://milesallen.site/projects/fedl.html"><span class="number">03</span><h3>FEDL</h3><p>The Geometry Dash demon list: ranked levels, run submissions, and a community that keeps raising the ceiling.</p><span class="type">community / live ↗</span></a><a class="list-project" href="https://milesallen.site/projects/noto.html"><span class="number">04</span><h3>Noto</h3><p>Note-taking with AI built in — a calmer way to turn a pile of fragments into something you can find later.</p><span class="type">tool / active ↗</span></a><a class="list-project" href="https://milesallen.site/projects/moon-gaming.html"><span class="number">05</span><h3>Moon Gaming</h3><p>A browser game hub with a suspicious number of commits and a library that keeps getting bigger at 2am.</p><span class="type">games / growing ↗</span></a></div><div class="about-band"><div><div class="section-label">the person behind the objects</div><h2>I build things<br>with <span>curiosity.</span></h2></div><div><p>I’m Miles — a developer and 3D artist, co-founder of Diskette Labs, and a student who spends a lot of time turning “that should be easier” into a repository.</p><a href="../about-me.html">read more about me ↗</a></div></div><div class="contact-links"><span>open channel</span><a href="mailto:mileswa1q2@gmail.com">email</a><a href="https://github.com/mileswolfallen2" target="_blank" rel="noopener">github</a><a href="https://diskettelabs.com/" target="_blank" rel="noopener">diskette labs</a><a href="#top">return to room ↑</a></div></div></section>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.min.js"></script>
+  <script>
+    (() => {
+      'use strict';
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const fallback = reduce || !window.WebGLRenderingContext || !window.THREE;
+      const body = document.body;
+      const loader = document.getElementById('loader');
+      const percent = document.getElementById('loaderPercent');
+      const bar = document.getElementById('loaderBar');
+      let loadValue = 0;
+      const setLoad = value => { loadValue = Math.min(100, value); percent.textContent = `${loadValue}%`; bar.style.width = `${loadValue}%`; };
+      const finishFallback = () => { body.classList.add('fallback-mode'); setLoad(100); setTimeout(() => loader.classList.add('done'), 500); };
+      if (fallback) { finishFallback(); return; }
+
+      const projects = [
+        { title:'OmniEmu 2.0', type:'tool / active', kicker:'a cabinet for the collection', description:'All your emulators in one place. Scan your ROMs, install what you need, and launch without opening fifteen different apps.', stack:'typescript / desktop', link:'https://milesallen.site/projects/omniemu.html', color:0xc9f36b },
+        { title:'Gelectron', type:'tool / in progress', kicker:'a lighter desktop future', description:'A drop-in Electron replacement using native web views instead of bundling an entire copy of Chromium with every app.', stack:'rust / node / native', link:'https://milesallen.site/projects/gelectron.html', color:0xff765f },
+        { title:'FEDL', type:'community / live', kicker:'a list that became a place', description:'The Geometry Dash demon list: ranked levels, run submissions, and a community that keeps raising the ceiling.', stack:'node / community', link:'https://milesallen.site/projects/fedl.html', color:0x8adbd5 },
+        { title:'Noto', type:'tool / active', kicker:'a second brain with better lighting', description:'Note-taking with AI built in. A calmer way to turn a pile of fragments into something you can actually find later.', stack:'flutter / ai', link:'https://milesallen.site/projects/noto.html', color:0xff765f },
+        { title:'Moon Gaming', type:'games / growing', kicker:'small games, big late-night energy', description:'A browser game hub with a suspicious number of commits and a library that keeps getting bigger at 2am.', stack:'web / games', link:'https://milesallen.site/projects/moon-gaming.html', color:0xc9f36b }
+      ];
+      let renderer, camera, scene, room, raycaster, pointer;
+      const objectGroups = [];
+      const targetCamera = new THREE.Vector3(0, 3.5, 10.5);
+      const targetLook = new THREE.Vector3(0, 2.4, 0);
+      let currentProject = 0;
+      let focused = false;
+      let dragStart = null;
+      let roomYaw = 0;
+      let scrollProgress = 0;
+      const canvas = document.getElementById('webgl');
+      const sceneScroll = document.querySelector('.scene-scroll');
+      const closeFocus = document.getElementById('closeFocus');
+      const focusPanel = document.getElementById('focusPanel');
+
+      const material = (color, roughness=.7, metalness=.05, emissive=0) => new THREE.MeshStandardMaterial({ color, roughness, metalness, emissive, emissiveIntensity:emissive ? .28 : 0 });
+      const box = (w,h,d,color,roughness=.7) => new THREE.Mesh(new THREE.BoxGeometry(w,h,d), material(color,roughness));
+      const addBox = (parent, w,h,d,color,x,y,z) => { const mesh = box(w,h,d,color); mesh.position.set(x,y,z); parent.add(mesh); return mesh; };
+      const labelTexture = (text, color) => { const c = document.createElement('canvas'); c.width=512; c.height=128; const context=c.getContext('2d'); context.fillStyle='#12191c'; context.fillRect(0,0,c.width,c.height); context.strokeStyle=`#${color.toString(16).padStart(6,'0')}`; context.lineWidth=4; context.strokeRect(4,4,c.width-8,c.height-8); context.fillStyle=`#${color.toString(16).padStart(6,'0')}`; context.font='500 34px monospace'; context.fillText(text.toUpperCase(),24,79); const texture=new THREE.CanvasTexture(c); texture.colorSpace=THREE.SRGBColorSpace; return texture; };
+      const plaque = (parent, text, color, x,y,z, scale=1) => { const mesh=new THREE.Mesh(new THREE.PlaneGeometry(1.35*scale,.34*scale),new THREE.MeshBasicMaterial({map:labelTexture(text,color),transparent:true})); mesh.position.set(x,y,z); mesh.rotation.x=-Math.PI/2; parent.add(mesh); return mesh; };
+
+      function makeRoom() {
+        scene = new THREE.Scene(); scene.background = new THREE.Color(0x0c1114); scene.fog = new THREE.Fog(0x0c1114, 12, 28);
+        camera = new THREE.PerspectiveCamera(42, innerWidth/innerHeight, .1, 100); camera.position.copy(targetCamera);
+        renderer = new THREE.WebGLRenderer({ canvas, antialias:true, alpha:false, powerPreference:'high-performance' }); renderer.setPixelRatio(Math.min(devicePixelRatio,1.7)); renderer.setSize(innerWidth,innerHeight); renderer.shadowMap.enabled=true; renderer.shadowMap.type=THREE.PCFSoftShadowMap; renderer.outputColorSpace=THREE.SRGBColorSpace; renderer.toneMapping=THREE.ACESFilmicToneMapping; renderer.toneMappingExposure=1.1;
+        scene.add(new THREE.HemisphereLight(0xa9d9d5,0x101418,2.1)); const key=new THREE.DirectionalLight(0xd8f3c0,3.7); key.position.set(-4,8,6); key.castShadow=true; key.shadow.mapSize.set(1024,1024); scene.add(key); const warm=new THREE.PointLight(0xff765f,20,11); warm.position.set(4,3,1); scene.add(warm); const green=new THREE.PointLight(0xc9f36b,12,9); green.position.set(-4,2,-3); scene.add(green);
+        room = new THREE.Group(); scene.add(room);
+        const floor=box(18,.2,17,0x182226,.9); floor.position.set(0,-.1,-1); floor.receiveShadow=true; room.add(floor); const grid=new THREE.GridHelper(17,17,0x34494b,0x223235); grid.position.set(0,.015,-1); grid.material.transparent=true; grid.material.opacity=.42; room.add(grid);
+        const back=box(18,8,.2,0x121a1d); back.position.set(0,4,-6); back.receiveShadow=true; room.add(back); const left=box(.2,8,17,0x11181b); left.position.set(-9,4,-1); room.add(left); const right=box(.2,8,17,0x11181b); right.position.set(9,4,-1); room.add(right);
+        const desk=box(9,.35,3,0x263334,.55); desk.position.set(0,2.05,-.7); desk.castShadow=true; desk.receiveShadow=true; room.add(desk); [-3.8,3.8].forEach(x=>{ const leg=box(.3,2.05,.3,0x1b2527); leg.position.set(x,1,-.7); leg.castShadow=true; room.add(leg); });
+        const shelf=box(7,.18,.65,0x354348,.5); shelf.position.set(0,5.8,-5.6); room.add(shelf); const shelf2=box(5,.18,.65,0x354348,.5); shelf2.position.set(0,4.35,-5.6); room.add(shelf2);
+        const monitor=box(3.7,2.35,.25,0x202d30,.35); monitor.position.set(0,3.45,-1.05); monitor.castShadow=true; room.add(monitor); const screen=new THREE.Mesh(new THREE.PlaneGeometry(3.35,1.93),new THREE.MeshBasicMaterial({color:0x6f967f})); screen.position.set(0,3.45,-1.19); room.add(screen); const stand=box(.35,.75,.35,0x202d30,.3); stand.position.set(0,2.42,-1.05); room.add(stand); addBox(room,1.3,.1,.55,0x202d30,-.02,2.04,-1.05);
+        const poster=new THREE.Mesh(new THREE.PlaneGeometry(2,2.45),new THREE.MeshStandardMaterial({map:labelTexture('MAKE / PLAY',0xc9f36b),roughness:.9})); poster.position.set(-5.1,3.95,-5.82); poster.rotation.y=.02; room.add(poster);
+        const lamp=new THREE.Group(); const stem=box(.08,1.4,.08,0x9aa49c,.4); stem.position.set(4.9,3.25,-.6); lamp.add(stem); const shade=new THREE.Mesh(new THREE.ConeGeometry(.55,.55,24,1,true),material(0xc9f36b,.5)); shade.position.set(4.9,4,-.6); shade.rotation.x=Math.PI; lamp.add(shade); room.add(lamp);
+        makeProps(); makeProjects(); raycaster=new THREE.Raycaster(); pointer=new THREE.Vector2();
+      }
+      function makeProps() { const books=[{x:-2.8,y:2.3,z:-.9,w:.55,h:.75,d:.8,c:0xff765f},{x:-2.22,y:2.3,z:-.9,w:.55,h:.75,d:.8,c:0x8adbd5},{x:-1.64,y:2.3,z:-.9,w:.55,h:.75,d:.8,c:0xc9f36b}]; books.forEach(item=>{ const b=box(item.w,item.h,item.d,item.c,.6); b.position.set(item.x,item.y,item.z); b.rotation.z=(Math.random()-.5)*.15; b.castShadow=true; room.add(b); }); const plant=new THREE.Group(); const pot=new THREE.Mesh(new THREE.CylinderGeometry(.38,.28,.55,12),material(0xff765f,.8)); pot.position.set(3,2.45,-.7); plant.add(pot); for(let i=0;i<5;i++){ const leaf=new THREE.Mesh(new THREE.SphereGeometry(.28,8,5),material(0x6d9f78,.8)); leaf.scale.set(.65,1.4,.25); leaf.position.set(2.7+(i%3)*.28,2.95+(i%2)*.18,-.7+(i%2)*.1); leaf.rotation.z=(i-2)*.35; plant.add(leaf); } room.add(plant); }
+      function makeProjects() { projects.forEach((project,index)=>{ const group=new THREE.Group(); group.userData.project=index; const x=[-5.2,-2.5,1.8,4.8,2.7][index]; const z=[-5.45,-5.42,-5.4,-5.38, -2.2][index]; const y=[4.8,4.8,4.8,5.1,2.55][index]; group.position.set(x,y,z); if(index===0) makeMonitorObject(group,project); if(index===1) makeCubeObject(group,project); if(index===2) makeArcObject(group,project); if(index===3) makeNotebookObject(group,project); if(index===4) makeArcadeObject(group,project); room.add(group); objectGroups.push(group); }); }
+      function register(mesh,group){ mesh.userData.project=group.userData.project; mesh.castShadow=true; mesh.receiveShadow=true; group.add(mesh); }
+      function makeMonitorObject(group,project){ const base=box(1.8,1.35,.22,0x243136,.35); register(base,group); const face=new THREE.Mesh(new THREE.PlaneGeometry(1.55,1.06),new THREE.MeshBasicMaterial({color:project.color})); face.position.set(0,0,-.13); face.userData.project=group.userData.project; group.add(face); const stand=box(.18,.48,.2,0x334144,.4); stand.position.y=-.9; register(stand,group); const foot=box(.75,.08,.35,0x334144,.4); foot.position.y=-1.12; register(foot,group); plaque(group,'OMNIEMU',project.color,0,-1.45,.02,.9); }
+      function makeCubeObject(group,project){ const core=new THREE.Mesh(new THREE.IcosahedronGeometry(1.05,1),material(project.color,.3,.25,project.color)); register(core,group); const wire=new THREE.Mesh(new THREE.IcosahedronGeometry(1.18,1),new THREE.MeshBasicMaterial({color:0xedf0e8,wireframe:true,transparent:true,opacity:.35})); wire.userData.project=group.userData.project; group.add(wire); plaque(group,'GELECTRON',project.color,0,-1.4,.02,.82); }
+      function makeArcObject(group,project){ const ring=new THREE.Mesh(new THREE.TorusGeometry(.85,.18,12,32),material(project.color,.45,.1,project.color)); ring.rotation.x=Math.PI/2; register(ring,group); const core=new THREE.Mesh(new THREE.SphereGeometry(.35,16,10),material(0x101719,.5)); register(core,group); plaque(group,'FEDL',project.color,0,-1.25,.02,1); }
+      function makeNotebookObject(group,project){ const book=box(1.65,.18,2.1,project.color,.75); register(book,group); book.rotation.y=-.18; const line=new THREE.Mesh(new THREE.PlaneGeometry(1.25,1.6),new THREE.MeshBasicMaterial({color:0x142021})); line.rotation.x=-Math.PI/2; line.position.y=.11; line.userData.project=group.userData.project; group.add(line); plaque(group,'NOTO',project.color,0,-1.4,.02,1); }
+      function makeArcadeObject(group,project){ const body=box(1.45,1.7,.8,0x263638,.6); register(body,group); const top=box(1.48,.7,.84,project.color,.45); top.position.y=.75; top.rotation.x=-.18; register(top,group); const screen=new THREE.Mesh(new THREE.PlaneGeometry(.95,.42),new THREE.MeshBasicMaterial({color:0x151e21})); screen.position.set(0,.85,-.44); screen.rotation.x=-.18; screen.userData.project=group.userData.project; group.add(screen); plaque(group,'MOON',project.color,0,-1.05,.02,1); }
+
+      function updateFocus(index) { const item=projects[index]; currentProject=index; document.querySelectorAll('.project-nav button').forEach((button,i)=>button.classList.toggle('active',i===index)); document.getElementById('focusKicker').textContent=item.type; document.getElementById('focusTitle').textContent=item.title; document.getElementById('focusDescription').textContent=item.description; document.getElementById('focusStack').textContent=item.stack; const link=document.getElementById('focusLink'); link.href=item.link; focusPanel.classList.add('open'); focused=true; const object=objectGroups[index]; targetCamera.set(object.position.x*.42,object.position.y+.5,object.position.z+5.4); targetLook.set(object.position.x,object.position.y,object.position.z); }
+      function closeProject() { focused=false; focusPanel.classList.remove('open'); }
+      function onResize(){ if(!renderer) return; camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth,innerHeight); }
+      function updateScroll(){ const rect=sceneScroll.getBoundingClientRect(); const total=Math.max(1,sceneScroll.offsetHeight-innerHeight); scrollProgress=Math.min(1,Math.max(0,-rect.top/total)); document.getElementById('scrollProgress').style.width=`${scrollProgress*100}%`; if(!focused){ targetCamera.set(Math.sin(scrollProgress*Math.PI)*1.2,3.35+scrollProgress*.35,10.5-scrollProgress*5.1); targetLook.set(0,2.45,-1.5-scrollProgress*2.2); } }
+      function pick(event){ const rect=renderer.domElement.getBoundingClientRect(); pointer.x=(event.clientX-rect.left)/rect.width*2-1; pointer.y=-(event.clientY-rect.top)/rect.height*2+1; raycaster.setFromCamera(pointer,camera); const hits=raycaster.intersectObjects(objectGroups,true); if(hits.length){ let object=hits[0].object; while(object && object.userData.project===undefined) object=object.parent; if(object) updateFocus(object.userData.project); } }
+      function animate(time){ requestAnimationFrame(animate); if(!focused){ const drift=Math.sin(time*.0007)*.03; room.rotation.y += (roomYaw+drift-room.rotation.y)*.04; } else room.rotation.y += (roomYaw-room.rotation.y)*.06; camera.position.lerp(targetCamera,.055); const look=new THREE.Vector3().lerpVectors(camera.position,targetLook,.19); camera.lookAt(look); objectGroups.forEach((group,index)=>{ const selected=focused&&index===currentProject; group.scale.lerp(new THREE.Vector3(selected?1.12:1,selected?1.12:1,selected?1.12:1),.08); group.rotation.y += (index%2 ? .002 : -.001); }); renderer.render(scene,camera); }
+      function setupInteraction(){ addEventListener('resize',onResize); addEventListener('scroll',updateScroll,{passive:true}); canvas.addEventListener('pointerdown',event=>{dragStart={x:event.clientX,y:event.clientY,yaw:roomYaw};}); canvas.addEventListener('pointermove',event=>{ if(!dragStart) return; roomYaw=dragStart.yaw+(event.clientX-dragStart.x)*.003; }); canvas.addEventListener('pointerup',event=>{ if(!dragStart) return; const distance=Math.hypot(event.clientX-dragStart.x,event.clientY-dragStart.y); if(distance<8) pick(event); dragStart=null; }); canvas.addEventListener('pointerleave',()=>{dragStart=null;}); document.querySelectorAll('.project-nav button').forEach(button=>button.addEventListener('click',()=>updateFocus(Number(button.dataset.project)))); closeFocus.addEventListener('click',closeProject); addEventListener('keydown',event=>{ if(event.key==='Escape') closeProject(); if(event.key>='1'&&event.key<='5') updateFocus(Number(event.key)-1); }); }
+      try { setLoad(18); makeRoom(); setLoad(65); setupInteraction(); setLoad(88); updateScroll(); setLoad(100); body.classList.add('scene-ready'); setTimeout(()=>loader.classList.add('done'),650); animate(0); } catch(error) { console.error(error); finishFallback(); }
+    })();
+  </script>
+</body>
+</html>

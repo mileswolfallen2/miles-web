@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Field Journal // Miles Wolf Allen</title>
+  <meta name="description" content="A field journal of projects, questions, experiments, and works in progress by Miles Wolf Allen.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23e9f875'/%3E%3Cpath d='M23 72V25h13l14 21 14-21h13v47H63V45L50 64 37 45v27z' fill='%231d271e'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --forest:#1d271e; --forest-2:#263228; --paper:#f3efdf; --paper-2:#e8e1ca; --ink:#243025; --muted:#687263; --lime:#e9f875; --rust:#c96742; --blue:#a8c8c2; --mono:'DM Mono',monospace; --serif:'DM Serif Display',serif; --sans:Inter,sans-serif; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; background:var(--paper); }
+    body { margin:0; color:var(--ink); background:var(--paper); font-family:var(--sans); overflow-x:hidden; }
+    ::selection { background:var(--lime); color:var(--forest); }
+    a { color:inherit; text-decoration:none; }
+    button { font:inherit; cursor:pointer; }
+    .grain { position:fixed; inset:0; z-index:20; pointer-events:none; opacity:.08; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); mix-blend-mode:multiply; }
+    .page { width:min(1180px,88vw); margin:auto; }
+    .top { display:flex; justify-content:space-between; align-items:center; padding:27px 0; border-bottom:1px solid rgba(36,48,37,.23); font:500 10px var(--mono); letter-spacing:.1em; text-transform:uppercase; }
+    .brand { display:flex; align-items:center; gap:10px; }
+    .brand b { width:12px; height:12px; display:block; background:var(--rust); border-radius:50% 0 50% 50%; transform:rotate(45deg); }
+    .top nav { display:flex; gap:25px; color:var(--muted); }
+    .top nav a:hover { color:var(--rust); }
+    .edition { color:var(--rust); }
+    .hero { min-height:75vh; display:grid; grid-template-columns:1.25fr .75fr; gap:8vw; align-items:center; padding:100px 0 120px; position:relative; }
+    .hero::after { content:'✳'; position:absolute; right:3%; top:20%; color:var(--rust); font-size:28px; animation:float 5s ease-in-out infinite; }
+    @keyframes float { 50% { transform:translateY(16px) rotate(90deg); } }
+    .eyebrow { color:var(--rust); font:500 11px var(--mono); letter-spacing:.13em; text-transform:uppercase; }
+    h1 { margin:18px 0 27px; max-width:780px; font:400 clamp(4.8rem,11vw,10.5rem)/.82 var(--serif); letter-spacing:-.06em; }
+    h1 em { color:var(--rust); font-style:italic; }
+    .hero p { max-width:500px; color:var(--muted); font-size:15px; line-height:1.85; }
+    .hero-aside { position:relative; padding:28px; background:var(--lime); transform:rotate(3deg); box-shadow:9px 9px 0 var(--forest); }
+    .hero-aside::before { content:'FIELD NOTE 001'; position:absolute; top:-12px; left:25px; padding:5px 8px; color:var(--paper); background:var(--rust); font:500 9px var(--mono); transform:rotate(-5deg); }
+    .hero-aside h2 { margin:0 0 18px; font:400 34px/1 var(--serif); }
+    .hero-aside p { margin:0; color:var(--forest); font:400 12px/1.8 var(--mono); }
+    .scribble { display:block; margin-top:22px; color:var(--rust); font:italic 17px var(--serif); transform:rotate(-4deg); }
+    .jump { display:inline-flex; gap:12px; align-items:center; margin-top:28px; color:var(--rust); font:500 10px var(--mono); letter-spacing:.1em; text-transform:uppercase; }
+    .jump::before { content:'↓'; display:grid; place-items:center; width:25px; height:25px; border:1px solid var(--rust); border-radius:50%; }
+    .divider { margin:0 calc((88vw - 100vw)/2); overflow:hidden; white-space:nowrap; background:var(--forest); color:var(--lime); transform:rotate(-1deg); }
+    .divider-track { display:flex; width:max-content; animation:marquee 28s linear infinite; }
+    .divider span { padding:12px 20px; font:500 10px var(--mono); letter-spacing:.12em; text-transform:uppercase; }
+    @keyframes marquee { to { transform:translateX(-50%); } }
+    section { padding:125px 0; }
+    .section-top { display:flex; justify-content:space-between; align-items:end; gap:30px; margin-bottom:42px; }
+    .section-no { color:var(--rust); font:500 10px var(--mono); text-transform:uppercase; letter-spacing:.12em; }
+    h2 { margin:9px 0 0; font:400 clamp(3.1rem,7vw,6.8rem)/.84 var(--serif); letter-spacing:-.06em; }
+    h2 em { color:var(--rust); }
+    .section-note { max-width:290px; color:var(--muted); font:400 11px/1.7 var(--mono); }
+    .journal-grid { display:grid; grid-template-columns:repeat(12,1fr); gap:18px; }
+    .entry { position:relative; min-height:270px; padding:26px; border:1px solid rgba(36,48,37,.3); background:rgba(255,255,255,.25); transition:transform .35s, box-shadow .35s, background .35s; }
+    .entry:hover { transform:translateY(-8px) rotate(0deg)!important; background:#fffdf2; box-shadow:10px 10px 0 var(--paper-2); }
+    .entry:nth-child(1) { grid-column:span 7; transform:rotate(-1.4deg); background:var(--blue); }
+    .entry:nth-child(2) { grid-column:span 5; transform:rotate(1.5deg); background:var(--lime); }
+    .entry:nth-child(3) { grid-column:span 5; transform:rotate(.8deg); background:#fffdf2; }
+    .entry:nth-child(4) { grid-column:span 7; transform:rotate(-.8deg); background:var(--paper-2); }
+    .entry::before { content:attr(data-number); position:absolute; right:20px; top:13px; color:rgba(29,39,30,.19); font:400 45px var(--serif); }
+    .entry-meta { display:flex; justify-content:space-between; color:var(--muted); font:500 9px var(--mono); text-transform:uppercase; letter-spacing:.08em; }
+    .entry h3 { max-width:440px; margin:48px 0 12px; font:400 clamp(1.7rem,3.3vw,3.2rem)/.9 var(--serif); letter-spacing:-.05em; }
+    .entry p { max-width:430px; margin:0; color:var(--muted); font-size:12px; line-height:1.75; }
+    .entry-link { position:absolute; bottom:22px; right:24px; color:var(--rust); font:500 10px var(--mono); }
+    .entry-link:hover { text-decoration:underline; }
+    .timeline { position:relative; margin-top:70px; padding-left:40px; border-left:1px solid rgba(36,48,37,.3); }
+    .timeline::before { content:'THE ROUTE SO FAR'; position:absolute; top:-35px; left:40px; color:var(--rust); font:500 9px var(--mono); letter-spacing:.12em; }
+    .moment { position:relative; display:grid; grid-template-columns:110px 1fr; gap:30px; padding:25px 0; border-bottom:1px solid rgba(36,48,37,.18); }
+    .moment::before { content:''; position:absolute; left:-45px; top:30px; width:9px; height:9px; border-radius:50%; background:var(--rust); box-shadow:0 0 0 4px var(--paper); }
+    .moment time { color:var(--rust); font:500 10px var(--mono); }
+    .moment h3 { margin:0 0 7px; font:400 24px var(--serif); }
+    .moment p { max-width:570px; margin:0; color:var(--muted); font-size:12px; line-height:1.75; }
+    .artifact { display:grid; grid-template-columns:.8fr 1.2fr; align-items:center; gap:8vw; padding:50px; background:var(--forest); color:var(--paper); }
+    .artifact-label { color:var(--lime); font:500 10px var(--mono); letter-spacing:.1em; text-transform:uppercase; }
+    .artifact h2 { color:var(--paper); margin-top:15px; }
+    .artifact h2 em { color:var(--lime); }
+    .artifact-copy { color:#b7c0b5; font-size:13px; line-height:1.8; }
+    .artifact-list { display:grid; gap:0; border-top:1px solid rgba(243,239,223,.25); }
+    .artifact-row { display:flex; align-items:center; justify-content:space-between; gap:18px; padding:18px 0; border-bottom:1px solid rgba(243,239,223,.25); font:400 11px var(--mono); }
+    .artifact-row strong { color:var(--lime); font-weight:400; }
+    .artifact-row:hover strong { color:var(--rust); }
+    .footer { display:flex; justify-content:space-between; gap:20px; padding:30px 0 45px; border-top:1px solid rgba(36,48,37,.25); color:var(--muted); font:400 10px var(--mono); text-transform:uppercase; }
+    .footer a { color:var(--rust); }
+    [data-reveal] { opacity:0; transform:translateY(25px); transition:.7s cubic-bezier(.2,.8,.2,1); }
+    [data-reveal].visible { opacity:1; transform:none; }
+    @media(max-width:720px) { .top nav { display:none; } .hero { grid-template-columns:1fr; padding:80px 0 95px; gap:65px; } .hero-aside { max-width:330px; } .section-top { display:block; } .section-note { margin-top:20px; } .entry, .entry:nth-child(n) { grid-column:span 12; min-height:240px; transform:none; } .timeline { padding-left:28px; } .timeline::before { left:28px; } .moment { grid-template-columns:1fr; gap:7px; } .moment::before { left:-33px; } .artifact { grid-template-columns:1fr; padding:30px 24px; gap:35px; } .footer { flex-direction:column; } }
+    @media(prefers-reduced-motion:reduce) { *,*::before,*::after { animation:none!important; transition:none!important; scroll-behavior:auto!important; } [data-reveal] { opacity:1; transform:none; } }
+  </style>
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="page">
+    <header class="top"><a class="brand" href="#top"><b></b><span>Miles Wolf Allen</span></a><nav><a href="#entries">Entries</a><a href="#route">Route</a><a href="#artifacts">Artifacts</a></nav><span class="edition">Edition 06 / 2026</span></header>
+    <main id="top">
+      <section class="hero"><div><div class="eyebrow">A working document / not a portfolio</div><h1>Things I’m<br><em>figuring</em> out.</h1><p>A field journal from the overlap between software, games, design, and the particular kind of curiosity that makes a small idea become a whole project.</p><a class="jump" href="#entries">open the notebook</a></div><aside class="hero-aside"><h2>Today’s question</h2><p>Can software be powerful without feeling heavy? Can a tool have a point of view? Can a website make you want to stay a little longer?</p><span class="scribble">still investigating →</span></aside></section>
+      <div class="divider"><div class="divider-track"><span>observations</span><span>experiments</span><span>unfinished things</span><span>small victories</span><span>observations</span><span>experiments</span><span>unfinished things</span><span>small victories</span></div></div>
+      <section id="entries"><div class="section-top" data-reveal><div><div class="section-no">01 / selected entries</div><h2>Recent <em>evidence.</em></h2></div><p class="section-note">A few artifacts from the workbench. Some are polished. Some are still warm.</p></div><div class="journal-grid">
+        <article class="entry" data-number="01" data-reveal><div class="entry-meta"><span>build log</span><span>jan / 2026</span></div><h3>One home for every emulator.</h3><p>OmniEmu started with the deeply unglamorous problem of opening fifteen apps to play fifteen games. It became a little operating system for the collection.</p><a class="entry-link" href="https://milesallen.site/projects/omniemu.html">inspect →</a></article>
+        <article class="entry" data-number="02" data-reveal><div class="entry-meta"><span>long-term question</span><span>in progress</span></div><h3>What if Electron left?</h3><p>Gelectron is an attempt to keep the nice parts of web apps and lose the several-hundred-megabyte apology.</p><a class="entry-link" href="https://milesallen.site/projects/gelectron.html">follow the thread →</a></article>
+        <article class="entry" data-number="03" data-reveal><div class="entry-meta"><span>community note</span><span>ongoing</span></div><h3>A list that became a place.</h3><p>FEDL began as rankings. The interesting part turned out to be the people who keep showing up to make the list harder.</p><a class="entry-link" href="https://milesallen.site/projects/fedl.html">visit the list →</a></article>
+        <article class="entry" data-number="04" data-reveal><div class="entry-meta"><span>side experiment</span><span>2024—</span></div><h3>Making room for play.</h3><p>Small browser games, rhythm experiments, and a growing library of things made because a blank page felt like an invitation.</p><a class="entry-link" href="https://milesallen.site/projects/moon-gaming.html">browse the games →</a></article>
+      </div></section>
+      <section id="route"><div class="section-top" data-reveal><div><div class="section-no">02 / the route so far</div><h2>A map of<br><em>becoming.</em></h2></div><p class="section-note">The path is less linear than this makes it look. That’s part of the fun.</p></div><div class="timeline"><div class="moment" data-reveal><time>2008—</time><div><h3>Curiosity enters the chat.</h3><p>Games, computers, and the early suspicion that anything on a screen could probably be taken apart.</p></div></div><div class="moment" data-reveal><time>2021—22</time><div><h3>The web becomes a workshop.</h3><p>Learning by building: sites, games, experiments, and far too many tabs open at once.</p></div></div><div class="moment" data-reveal><time>2024—25</time><div><h3>Tools start taking over.</h3><p>Emulators, local AI, macOS utilities, and the eternal question of why the computer makes simple things feel complicated.</p></div></div><div class="moment" data-reveal><time>now</time><div><h3>Make it feel good.</h3><p>Less shipping for the sake of shipping. More attention to the tiny decisions that make a tool feel like it belongs in someone’s life.</p></div></div></div></section>
+      <section id="artifacts"><div class="artifact" data-reveal><div><div class="artifact-label">03 / objects on the desk</div><h2>The <em>kit.</em></h2><p class="artifact-copy">The software is only half the story. These are the tools, ideas, and recurring obsessions currently within arm’s reach.</p></div><div class="artifact-list"><a class="artifact-row" href="https://github.com/mileswolfallen2"><span>code / repositories</span><strong>github ↗</strong></a><a class="artifact-row" href="https://diskettelabs.com/"><span>collective / design</span><strong>diskette labs ↗</strong></a><a class="artifact-row" href="../uses.html"><span>tools / setup</span><strong>the current stack ↗</strong></a><a class="artifact-row" href="mailto:mileswa1q2@gmail.com"><span>signal / hello</span><strong>send a note ↗</strong></a></div></div></section>
+    </main>
+    <footer class="footer"><span>Filed by Miles / © 2026</span><a href="#top">back to the first page ↑</a><span>still making things</span></footer>
+  </div>
+  <script>
+    const observer = new IntersectionObserver(entries => entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } }), { threshold: .12 });
+    document.querySelectorAll('[data-reveal]').forEach((item, index) => { item.style.transitionDelay = `${Math.min(index % 4, 3) * 80}ms`; observer.observe(item); });
+  </script>
+</body>
+</html>

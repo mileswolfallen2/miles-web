@@ -1,896 +1,129 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MILES WOLF ALLEN // VERY MAXIMALIST</title>
-<meta name="description" content="Miles Wolf Allen — developer, 3D artist, and the guy trying to replace Electron. Games, tools, websites, and way too many repos.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23F7FF00'/%3E%3Ctext x='50' y='72' font-size='60' font-family='Arial Black' font-weight='900' text-anchor='middle' fill='%23000'%3EM%3C/text%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Press+Start+2P&family=Space+Mono:ital,wght@0,400;0,700&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --bg:#0b0b0d; --bg2:#121215; --ink:#ffffff; --muted:#9a9aa2;
-    --pink:#FF2EA6; --yellow:#F7FF00; --cyan:#00F4FF; --orange:#FF5C00;
-    --purple:#8A2BFF; --red:#FF1F1F; --green:#00FF85;
-    --d:'Archivo Black',Impact,sans-serif;
-    --m:'Space Mono',monospace;
-    --p:'Press Start 2P',monospace;
-    --blk:#000;
-  }
-  *{margin:0;padding:0;box-sizing:border-box;}
-  html{scroll-behavior:smooth;overflow-x:hidden;}
-  body{
-    background:var(--bg);color:var(--ink);
-    font-family:var(--m);font-size:15px;line-height:1.6;
-    overflow-x:hidden;-webkit-font-smoothing:antialiased;
-  }
-  ::selection{background:var(--yellow);color:#000;}
-  a{color:inherit;text-decoration:none;}
-  ::-webkit-scrollbar{width:12px;}
-  ::-webkit-scrollbar-track{background:#000;}
-  ::-webkit-scrollbar-thumb{background:var(--pink);border:3px solid #000;}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Miles City // A Personal Portfolio</title>
+  <meta name="description" content="Explore Miles City — a map of tools, games, communities, and ideas by Miles Wolf Allen.">
+  <meta name="theme-color" content="#101a1f">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%23d9f99d'/%3E%3Cpath d='M23 73V27h13l14 19 14-19h13v46H64V51L50 68 36 51v22z' fill='%23101a1f'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --night:#101a1f; --night-2:#17242a; --paper:#edf0e6; --muted:#879791; --line:rgba(237,240,230,.15);
+      --lime:#d9f99d; --orange:#ff8365; --cyan:#88d8d2; --violet:#b6a5ff; --mono:'DM Mono',monospace; --display:'Space Grotesk',sans-serif; --body:Manrope,sans-serif; --ease:cubic-bezier(.2,.8,.2,1);
+    }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; background:var(--night); }
+    body { margin:0; color:var(--paper); background:var(--night); font-family:var(--body); overflow-x:hidden; }
+    body.panel-open { overflow:hidden; }
+    ::selection { color:var(--night); background:var(--lime); }
+    a { color:inherit; text-decoration:none; }
+    button { color:inherit; font:inherit; cursor:pointer; }
+    .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
 
-  /* ---------- fixed layers ---------- */
-  .bg-grid{
-    position:fixed;inset:0;z-index:-3;pointer-events:none;
-    background-image:
-      linear-gradient(rgba(255,255,255,0.045) 1px,transparent 1px),
-      linear-gradient(90deg,rgba(255,255,255,0.045) 1px,transparent 1px);
-    background-size:44px 44px;
-  }
-  .noise{
-    position:fixed;inset:0;z-index:-2;pointer-events:none;opacity:.06;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-  }
-  .vignette{position:fixed;inset:0;z-index:-1;pointer-events:none;
-    background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,0.55) 100%);}
-  .progress{position:fixed;top:0;left:0;height:5px;width:0;background:var(--yellow);z-index:600;box-shadow:0 0 12px var(--yellow);}
+    .grain { position:fixed; inset:0; z-index:30; pointer-events:none; opacity:.045; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); mix-blend-mode:screen; }
+    .stars { position:fixed; inset:0; z-index:-3; opacity:.75; background-image:radial-gradient(circle,rgba(237,240,230,.7) 0 1px,transparent 1.5px),radial-gradient(circle,rgba(136,216,210,.45) 0 1px,transparent 1.5px); background-size:91px 91px,147px 147px; background-position:17px 21px,55px 4px; }
+    .glow { position:fixed; z-index:-2; left:var(--mx,50%); top:var(--my,40%); width:600px; height:600px; pointer-events:none; transform:translate(-50%,-50%); background:radial-gradient(circle,rgba(136,216,210,.1),transparent 67%); }
+    .progress { position:fixed; z-index:50; left:0; top:0; width:0; height:3px; background:var(--lime); box-shadow:0 0 14px var(--lime); }
 
-  /* ---------- cursor ---------- */
-  .cursor,.glow{position:fixed;top:0;left:0;pointer-events:none;z-index:900;border-radius:50%;}
-  .cursor{width:12px;height:12px;background:#fff;transform:translate(-50%,-50%);mix-blend-mode:difference;}
-  .glow{width:320px;height:320px;background:radial-gradient(circle,rgba(255,46,166,0.18),transparent 65%);transform:translate(-50%,-50%);z-index:800;transition:opacity .3s;}
-  .cursor.on{width:44px;height:44px;border:2px solid #fff;background:transparent;transition:width .18s,height .18s;mix-blend-mode:difference;}
-  @media(pointer:coarse){.cursor,.glow{display:none;}}
+    .topbar { position:fixed; z-index:20; top:0; left:0; right:0; height:76px; display:flex; align-items:center; justify-content:space-between; gap:20px; padding:0 5vw; border-bottom:1px solid transparent; transition:background .3s,border-color .3s; }
+    .topbar.scrolled { background:rgba(16,26,31,.8); border-color:var(--line); backdrop-filter:blur(17px); }
+    .brand { display:flex; align-items:center; gap:11px; font:500 11px var(--mono); letter-spacing:.1em; text-transform:uppercase; }
+    .brand i { width:12px; height:12px; display:block; border:2px solid var(--lime); border-radius:50% 50% 50% 0; transform:rotate(-45deg); box-shadow:0 0 14px rgba(217,249,157,.5); }
+    .topnav { display:flex; gap:30px; color:var(--muted); font:400 10px var(--mono); letter-spacing:.08em; text-transform:uppercase; }
+    .topnav a { position:relative; padding:8px 0; }
+    .topnav a::after { content:''; position:absolute; left:0; right:100%; bottom:1px; height:1px; background:var(--lime); transition:right .3s var(--ease); }
+    .topnav a:hover,.topnav a:focus-visible { color:var(--paper); } .topnav a:hover::after,.topnav a:focus-visible::after { right:0; }
+    .city-status { color:var(--lime); font:400 10px var(--mono); text-transform:uppercase; } .city-status::before { content:'●'; margin-right:7px; animation:blink 1.7s steps(1) infinite; } @keyframes blink { 50% { opacity:.3; } }
+    @media(max-width:680px) { .topbar { height:64px; } .topnav { display:none; } .city-status { font-size:9px; } }
 
-  /* ---------- splash ---------- */
-  .splash{
-    position:fixed;inset:0;z-index:1000;background:var(--bg);
-    display:flex;align-items:center;justify-content:center;gap:0;
-    pointer-events:none;
-    animation:splashOut .55s ease forwards .95s;
-  }
-  .splash span{
-    font-family:var(--d);font-size:clamp(64px,18vw,220px);color:#fff;
-    display:inline-block;opacity:0;
-    animation:splashIn .6s cubic-bezier(.2,1.6,.3,1) forwards;
-  }
-  .splash span:nth-child(1){animation-delay:.05s;color:var(--yellow);-webkit-text-stroke:3px #000;}
-  .splash span:nth-child(2){animation-delay:.15s;}
-  .splash span:nth-child(3){animation-delay:.25s;color:var(--pink);-webkit-text-stroke:3px #000;}
-  .splash span:nth-child(4){animation-delay:.35s;}
-  .splash span:nth-child(5){animation-delay:.45s;color:var(--cyan);-webkit-text-stroke:3px #000;}
-  .splash .splash-tag{
-    position:absolute;bottom:12%;left:50%;transform:translateX(-50%) rotate(-3deg);
-    font-family:var(--p);font-size:9px;background:var(--yellow);color:#000;
-    padding:10px 16px;border:3px solid #000;box-shadow:5px 5px 0 var(--pink);
-  }
-  @keyframes splashIn{0%{opacity:0;transform:translateY(120%) rotate(4deg);}100%{opacity:1;transform:translateY(0) rotate(0);}}
-  @keyframes splashOut{0%{opacity:1;}100%{opacity:0;visibility:hidden;}}
+    .hero { position:relative; min-height:100svh; padding:135px 5vw 75px; overflow:hidden; }
+    .hero-copy { position:relative; z-index:4; width:min(450px,90vw); }
+    .eyebrow { display:flex; align-items:center; gap:12px; color:var(--lime); font:400 10px var(--mono); letter-spacing:.14em; text-transform:uppercase; }
+    .eyebrow::before { content:''; width:29px; height:1px; background:var(--lime); }
+    h1 { margin:22px 0 24px; font:700 clamp(4.5rem,11.5vw,11rem)/.78 var(--display); letter-spacing:-.12em; }
+    h1 span { display:block; } h1 .outline { color:transparent; -webkit-text-stroke:1px var(--paper); } h1 .lime { color:var(--lime); } h1 em { color:var(--orange); font:600 .76em/.8 Georgia,serif; letter-spacing:-.04em; }
+    .hero-copy p { max-width:400px; color:var(--muted); font-size:14px; line-height:1.8; }
+    .hero-copy p strong { color:var(--paper); font-weight:600; }
+    .hero-actions { display:flex; flex-wrap:wrap; align-items:center; gap:18px; margin-top:30px; }
+    .primary { display:inline-flex; align-items:center; gap:12px; padding:13px 16px; color:var(--night); background:var(--lime); box-shadow:5px 5px 0 var(--orange); font:500 10px var(--mono); text-transform:uppercase; transition:transform .2s var(--ease),box-shadow .2s var(--ease); }
+    .primary:hover { transform:translate(-3px,-3px); box-shadow:8px 8px 0 var(--orange); }
+    .primary::after { content:'↘'; font-size:15px; }
+    .quiet-link { display:inline-flex; align-items:center; gap:9px; color:var(--paper); font:400 10px var(--mono); text-transform:uppercase; }
+    .quiet-link::before { content:''; width:24px; height:1px; background:var(--paper); transition:width .25s var(--ease); } .quiet-link:hover { color:var(--lime); } .quiet-link:hover::before { width:42px; background:var(--lime); }
 
-  /* ---------- nav ---------- */
-  .nav{
-    position:fixed;top:14px;left:14px;right:14px;z-index:500;
-    display:flex;align-items:center;justify-content:space-between;gap:14px;
-    background:rgba(11,11,13,0.78);border:3px solid #000;box-shadow:5px 5px 0 #000;
-    padding:10px 14px;backdrop-filter:blur(6px);
-  }
-  .nav-logo{font-family:var(--d);font-size:20px;display:flex;align-items:center;gap:9px;letter-spacing:.5px;}
-  .nav-logo .dot{width:12px;height:12px;background:var(--green);border:2px solid #000;animation:blink 1.6s steps(1) infinite;}
-  .nav-links{display:flex;gap:6px;flex-wrap:wrap;}
-  .nav-links a{font-family:var(--p);font-size:8px;color:#fff;padding:9px 12px;border:2px solid #fff;text-transform:uppercase;transition:all .15s;}
-  .nav-links a:hover{background:var(--pink);color:#000;transform:translate(-2px,-2px);box-shadow:3px 3px 0 #fff;}
-  .nav-status{display:flex;align-items:center;gap:8px;font-family:var(--p);font-size:8px;color:var(--yellow);}
-  .nav-status b{width:9px;height:9px;background:var(--yellow);border-radius:50%;animation:blink 1s steps(1) infinite;}
-  @keyframes blink{50%{opacity:.2;}}
-  @media(max-width:720px){.nav-links{display:none;}}
+    .map-wrap { position:absolute; z-index:1; right:-4vw; top:11vh; width:min(78vw,1050px); height:min(82vh,760px); min-height:510px; perspective:1100px; }
+    .map-stage { position:absolute; inset:0; transform:rotateX(48deg) rotateZ(-9deg) rotateY(-4deg); transform-style:preserve-3d; transition:transform .8s var(--ease); }
+    .map-surface { position:absolute; inset:4%; overflow:hidden; border:1px solid rgba(217,249,157,.35); background:linear-gradient(135deg,rgba(25,43,45,.97),rgba(14,25,30,.98)); box-shadow:28px 30px 0 rgba(0,0,0,.22),0 0 80px rgba(136,216,210,.08); transform-style:preserve-3d; }
+    .map-surface::before { content:''; position:absolute; inset:0; opacity:.17; background-image:linear-gradient(rgba(136,216,210,.2) 1px,transparent 1px),linear-gradient(90deg,rgba(136,216,210,.2) 1px,transparent 1px); background-size:42px 42px; }
+    .map-surface::after { content:'MILES CITY / EST. 2008'; position:absolute; right:25px; top:20px; color:rgba(237,240,230,.36); font:400 9px var(--mono); letter-spacing:.12em; }
+    .city-map { position:absolute; inset:4%; width:92%; height:92%; overflow:visible; }
+    .map-label { position:absolute; z-index:2; color:rgba(237,240,230,.33); font:400 9px var(--mono); letter-spacing:.14em; text-transform:uppercase; pointer-events:none; }
+    .label-north { left:13%; top:10%; } .label-west { left:9%; bottom:20%; } .label-east { right:9%; top:39%; } .label-south { left:44%; bottom:10%; }
+    .map-legend { position:absolute; z-index:3; left:24px; bottom:21px; display:flex; gap:16px; color:rgba(237,240,230,.52); font:400 8px var(--mono); text-transform:uppercase; } .map-legend span::before { content:''; display:inline-block; width:7px; height:7px; margin-right:6px; border:1px solid currentColor; border-radius:50%; } .map-legend span:first-child::before { background:var(--lime); border-color:var(--lime); } .map-legend span:last-child::before { background:var(--orange); border-color:var(--orange); }
+    .road { fill:none; stroke:#66817d; stroke-linecap:round; stroke-linejoin:round; } .road.major { stroke:#90aca3; stroke-width:13; opacity:.27; } .road.minor { stroke:#52706d; stroke-width:5; opacity:.45; } .road.center { stroke:var(--lime); stroke-width:1; stroke-dasharray:9 14; opacity:.6; } .water { fill:#12313b; stroke:#4b7777; stroke-width:1; opacity:.78; } .park { fill:#1f423b; stroke:#6a9b75; stroke-width:1; opacity:.8; } .district { fill:#1a2d31; stroke:rgba(217,249,157,.28); stroke-width:1; } .block { fill:#263d3d; opacity:.72; }
+    .pin { position:absolute; z-index:5; display:flex; align-items:center; gap:8px; min-width:125px; padding:8px 10px; border:1px solid rgba(237,240,230,.3); color:var(--paper); background:rgba(16,26,31,.83); text-align:left; transform:translate(-50%,-50%); backdrop-filter:blur(8px); transition:transform .3s var(--ease),background .25s,border-color .25s,box-shadow .25s; }
+    .pin:hover,.pin:focus-visible,.pin.active { z-index:8; border-color:var(--lime); background:var(--lime); color:var(--night); outline:none; box-shadow:7px 7px 0 rgba(0,0,0,.25); transform:translate(-50%,-50%) translateY(-7px); }
+    .pin::before { content:''; flex:0 0 9px; width:9px; height:9px; border-radius:50% 50% 50% 0; background:var(--orange); transform:rotate(-45deg); } .pin.active::before,.pin:hover::before,.pin:focus-visible::before { background:var(--night); }
+    .pin .pin-name { display:block; font:500 10px var(--mono); text-transform:uppercase; letter-spacing:.05em; } .pin .pin-kind { display:block; margin-top:3px; color:var(--muted); font:400 8px var(--mono); text-transform:uppercase; } .pin:hover .pin-kind,.pin:focus-visible .pin-kind,.pin.active .pin-kind { color:rgba(16,26,31,.68); }
+    .pin-arcade { left:38%; top:30%; } .pin-foundry { left:69%; top:28%; } .pin-stadium { left:72%; top:66%; } .pin-library { left:35%; top:70%; } .pin-home { left:51%; top:49%; } .pin-contact { left:20%; top:56%; }
+    .route { position:absolute; z-index:1; width:1px; height:60px; background:linear-gradient(var(--lime),transparent); transform-origin:top; opacity:.6; }
+    .route-a { left:38%; top:34%; transform:rotate(27deg); } .route-b { left:67%; top:32%; transform:rotate(-30deg); } .route-c { left:70%; top:62%; transform:rotate(18deg); } .route-d { left:39%; top:66%; transform:rotate(-18deg); }
+    .map-pulse { position:absolute; z-index:4; width:20px; height:20px; border:1px solid var(--lime); border-radius:50%; transform:translate(-50%,-50%); animation:ping 2.4s ease-out infinite; pointer-events:none; } .pulse-home { left:51%; top:49%; } @keyframes ping { 0% { opacity:.8; transform:translate(-50%,-50%) scale(.55); } 100% { opacity:0; transform:translate(-50%,-50%) scale(2.7); } }
+    @media(max-width:900px) { .map-wrap { right:-13vw; top:27vh; width:105vw; height:58vh; min-height:430px; opacity:.9; } .map-stage { transform:rotateX(48deg) rotateZ(-7deg) rotateY(0); } .hero-copy { position:relative; z-index:6; } .pin { min-width:105px; } .pin .pin-kind { display:none; } }
+    @media(max-width:580px) { .hero { min-height:920px; padding:110px 5vw 70px; } .map-wrap { top:34vh; right:-27vw; width:135vw; height:520px; min-height:0; } .map-surface { inset:5%; } .pin { min-width:0; padding:7px; } .pin .pin-name { font-size:8px; } .pin::before { width:7px; height:7px; flex-basis:7px; } .pin-home,.pin-contact { display:none; } .map-legend { display:none; } }
 
-  /* ---------- utility ---------- */
-  .btn{
-    display:inline-flex;align-items:center;gap:10px;cursor:pointer;
-    font-family:var(--p);font-size:11px;text-transform:uppercase;letter-spacing:.05em;
-    padding:16px 22px;border:3px solid #000;color:#000;
-    box-shadow:5px 5px 0 #000;transition:transform .12s,box-shadow .12s,background .12s;
-    user-select:none;
-  }
-  .btn:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 #000;}
-  .btn:active{transform:translate(3px,3px);box-shadow:1px 1px 0 #000;}
-  .btn-pink{background:var(--pink);}
-  .btn-yellow{background:var(--yellow);}
-  .btn-cyan{background:var(--cyan);}
-  .btn-ghost{background:transparent;color:#fff;}
-  .btn-ghost:hover{background:#fff;color:#000;box-shadow:8px 8px 0 var(--pink);}
+    .panel-scrim { position:fixed; z-index:39; inset:0; background:rgba(3,7,9,.55); opacity:0; visibility:hidden; transition:opacity .35s,visibility .35s; }
+    .panel-scrim.open { opacity:1; visibility:visible; }
+    .city-panel { position:fixed; z-index:40; top:50%; right:4vw; width:min(430px,calc(100vw - 40px)); padding:29px; border:1px solid var(--lime); background:rgba(18,29,32,.96); box-shadow:18px 18px 0 rgba(0,0,0,.3); transform:translate(45px,-50%); opacity:0; visibility:hidden; transition:opacity .4s ease,transform .55s var(--ease),visibility .4s; backdrop-filter:blur(15px); }
+    .city-panel.open { transform:translate(0,-50%); opacity:1; visibility:visible; }
+    .panel-close { position:absolute; right:14px; top:14px; width:27px; height:27px; display:grid; place-items:center; border:1px solid var(--line); color:var(--muted); background:transparent; font-size:17px; line-height:1; } .panel-close:hover { color:var(--night); background:var(--lime); border-color:var(--lime); }
+    .panel-kicker { color:var(--orange); font:400 9px var(--mono); text-transform:uppercase; letter-spacing:.13em; } .city-panel h2 { max-width:340px; margin:17px 0 13px; font:600 clamp(2.4rem,5vw,4rem)/.84 var(--display); letter-spacing:-.1em; } .city-panel p { margin:0; color:var(--muted); font-size:13px; line-height:1.8; } .panel-rule { height:1px; margin:24px 0 15px; background:var(--line); } .panel-meta { display:flex; justify-content:space-between; gap:15px; color:var(--muted); font:400 9px var(--mono); text-transform:uppercase; } .panel-meta b { color:var(--lime); font-weight:400; } .panel-link { display:inline-flex; gap:10px; align-items:center; margin-top:25px; color:var(--lime); font:500 10px var(--mono); text-transform:uppercase; } .panel-link::after { content:'↗'; font-size:16px; } .panel-link:hover { color:var(--orange); }
+    @media(max-width:580px) { .city-panel { top:auto; right:15px; bottom:15px; left:15px; width:auto; padding:24px; transform:translateY(30px); } .city-panel.open { transform:translateY(0); } .city-panel h2 { font-size:2.7rem; } }
 
-  .chip{
-    display:inline-flex;align-items:center;gap:8px;
-    font-family:var(--p);font-size:8px;text-transform:uppercase;
-    border:2px solid #000;padding:8px 12px;background:#fff;color:#000;
-    box-shadow:3px 3px 0 #000;
-  }
-  .chip-y{background:var(--yellow);} .chip-p{background:var(--pink);} .chip-c{background:var(--cyan);} .chip-o{background:var(--orange);}
+    .directory { position:relative; z-index:4; padding:145px 0 105px; background:var(--night); border-top:1px solid var(--line); }
+    .directory-inner { width:min(1150px,90vw); margin:auto; }
+    .section-head { display:flex; align-items:end; justify-content:space-between; gap:30px; margin-bottom:48px; } .section-label { color:var(--lime); font:400 10px var(--mono); letter-spacing:.14em; text-transform:uppercase; } h2.section-title { margin:10px 0 0; font:600 clamp(3rem,7vw,6.5rem)/.8 var(--display); letter-spacing:-.11em; } h2.section-title em { color:var(--orange); font:600 .82em Georgia,serif; letter-spacing:-.04em; } .section-head p { max-width:290px; margin:0 0 4px; color:var(--muted); font:400 11px/1.75 var(--mono); }
+    .directory-list { display:grid; border-top:1px solid var(--line); } .directory-item { display:grid; grid-template-columns:57px minmax(160px,.8fr) minmax(260px,1.3fr) auto auto; gap:20px; align-items:center; padding:23px 0; border-bottom:1px solid var(--line); transition:padding .25s var(--ease),background .25s; } .directory-item:hover { padding-left:13px; background:linear-gradient(90deg,rgba(217,249,157,.08),transparent 70%); } .directory-no { color:var(--orange); font:400 10px var(--mono); } .directory-item h3 { margin:0; font:600 18px var(--display); letter-spacing:-.05em; } .directory-item p { margin:0; color:var(--muted); font:400 11px/1.65 var(--mono); } .directory-type { color:var(--lime); font:400 9px var(--mono); text-transform:uppercase; } .directory-arrow { color:var(--lime); font-size:18px; }
+    .city-bands { display:grid; grid-template-columns:1fr 1fr; gap:2px; margin-top:120px; background:var(--line); } .city-band { min-height:260px; padding:28px; background:var(--night-2); } .city-band h3 { margin:10px 0 13px; font:600 clamp(2rem,4vw,3.4rem)/.85 var(--display); letter-spacing:-.09em; } .city-band h3 em { color:var(--lime); font:600 .88em Georgia,serif; } .city-band p { max-width:410px; color:var(--muted); font-size:13px; line-height:1.8; } .city-band a { display:inline-block; margin-top:14px; color:var(--lime); font:400 10px var(--mono); text-transform:uppercase; } .city-band a:hover { color:var(--orange); }
+    .footer-links { display:flex; justify-content:space-between; flex-wrap:wrap; gap:20px; margin-top:80px; padding-top:24px; border-top:1px solid var(--line); color:var(--muted); font:400 10px var(--mono); text-transform:uppercase; } .footer-links a { color:var(--lime); } .footer-links a:hover { color:var(--orange); }
+    @media(max-width:760px) { .directory { padding-top:100px; } .section-head { display:block; } .section-head p { margin-top:20px; } .directory-item { grid-template-columns:35px 1fr auto; gap:10px; } .directory-item p { grid-column:2 / -1; grid-row:2; } .directory-type { grid-column:2; grid-row:3; } .city-bands { grid-template-columns:1fr; margin-top:90px; } }
 
-  .marquee{overflow:hidden;white-space:nowrap;position:relative;z-index:3;border-top:3px solid #000;border-bottom:3px solid #000;}
-  .marquee .mq-track{display:inline-flex;white-space:nowrap;animation:mq 22s linear infinite;}
-  .marquee.mq-rev .mq-track{animation:mq 22s linear infinite reverse;}
-  .marquee span{font-family:var(--p);font-size:12px;padding:14px 0;margin:0 22px;flex-shrink:0;}
-  .mq-y{background:var(--yellow);} .mq-y span{color:#000;}
-  .mq-p{background:var(--pink);} .mq-p span{color:#000;}
-  .mq-c{background:var(--cyan);} .mq-c span{color:#000;}
-  .mq-b{background:#fff;} .mq-b span{color:#000;}
-  @keyframes mq{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
-
-  .stick{
-    position:absolute;z-index:5;pointer-events:none;display:flex;align-items:center;justify-content:center;
-    font-family:var(--p);font-size:9px;text-transform:uppercase;text-align:center;line-height:1.5;
-    border:3px solid #000;box-shadow:5px 5px 0 #000;padding:10px 14px;
-  }
-  .stick-s{font-size:7px;border-radius:50%;width:120px;height:120px;box-shadow:none;}
-  .star{display:inline-block;color:var(--yellow);filter:drop-shadow(2px 2px 0 #000);}
-
-  .sec{position:relative;padding:110px 5vw 90px;}
-  .sec-index{
-    font-family:var(--d);font-size:clamp(120px,26vw,300px);line-height:.8;
-    color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,0.10);
-    position:absolute;top:30px;right:-2vw;z-index:0;user-select:none;pointer-events:none;
-  }
-  .sec-band{
-    position:relative;z-index:2;margin-bottom:56px;overflow:hidden;
-  }
-  .sec-band .band-inner{display:flex;align-items:baseline;gap:20px;flex-wrap:nowrap;}
-  .sec-tag{
-    font-family:var(--p);font-size:9px;color:#000;background:var(--yellow);
-    border:3px solid #000;padding:8px 12px;box-shadow:3px 3px 0 #000;
-    transform:rotate(-2deg);white-space:nowrap;
-  }
-  .sec-title{
-    font-family:var(--d);font-size:clamp(44px,10vw,130px);line-height:.9;letter-spacing:-.02em;
-    white-space:nowrap;text-transform:uppercase;position:relative;display:inline-block;
-  }
-  .sec-title .out{color:transparent;-webkit-text-stroke:2px #fff;}
-  .sec-sub{font-family:var(--m);color:var(--muted);font-size:15px;margin-top:14px;max-width:520px;}
-
-  /* ---------- hero ---------- */
-  .hero{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:120px 5vw 40px;overflow:hidden;}
-  .hero-top{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:26px;position:relative;z-index:2;}
-  .hero-title{
-    position:relative;z-index:2;font-family:var(--d);line-height:.88;letter-spacing:-.03em;
-    font-size:clamp(72px,22vw,300px);text-transform:uppercase;
-  }
-  .hero-title .l{display:block;}
-  .hero-title .l2{margin-left:1.1em;}
-  .hero-title em{font-style:normal;color:transparent;-webkit-text-stroke:2.5px #fff;}
-  .hero-title .dot{color:var(--yellow);}
-  .hero-rings{position:absolute;top:50%;right:4vw;transform:translateY(-55%);width:min(46vw,560px);height:min(46vw,560px);z-index:0;pointer-events:none;}
-  .hero-rings .ring{position:absolute;inset:0;border-radius:50%;border:3px dashed rgba(255,255,255,0.35);animation:spin 30s linear infinite;}
-  .hero-rings .ring.r2{inset:9%;border:3px solid rgba(255,46,166,0.5);animation-duration:20s;animation-direction:reverse;}
-  .hero-rings .ring.r3{inset:18%;border:3px dashed rgba(0,244,255,0.5);animation-duration:45s;}
-  .hero-rings .ring-star{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:64px;animation:pop 1s cubic-bezier(.2,1.6,.3,1) 1.2s both;}
-  .hero-ring-mid{position:absolute;top:50%;right:4vw;transform:translateY(-55%);width:14px;height:14px;background:var(--yellow);border:3px solid #000;z-index:1;animation:blink 1s steps(1) infinite;}
-  .hero-sub{position:relative;z-index:2;font-family:var(--m);font-size:clamp(14px,1.6vw,19px);color:var(--muted);max-width:560px;line-height:1.7;margin:26px 0 30px;padding-left:18px;border-left:6px solid var(--pink);}
-  .hero-sub b{color:#fff;}
-  .hero-cta{display:flex;gap:14px;flex-wrap:wrap;position:relative;z-index:2;}
-  .hero-float{position:absolute;z-index:2;}
-  .hf-1{top:22%;left:6%;}
-  .hf-2{top:32%;right:6%;}
-  .hf-3{bottom:16%;left:44%;}
-  .hf-4{bottom:30%;left:12%;}
-  .hero-scroll{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);font-family:var(--p);font-size:9px;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:8px;z-index:2;}
-  .hero-scroll .a{font-size:18px;animation:bob 1.4s ease-in-out infinite;}
-  @keyframes bob{50%{transform:translateY(6px);}}
-  @keyframes spin{to{transform:rotate(360deg);}}
-  @keyframes pop{0%{opacity:0;transform:scale(0) rotate(-40deg);}100%{opacity:1;transform:scale(1) rotate(0);}}
-  @media(max-width:720px){.hero-rings,.hero-ring-mid{display:none;} .hero-title .l2{margin-left:.6em;}}
-
-  /* ---------- stats ---------- */
-  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;padding:0 5vw 30px;position:relative;z-index:2;}
-  .stat{
-    border:4px solid #000;padding:34px 18px;text-align:center;position:relative;
-    box-shadow:8px 8px 0 #000;transition:transform .15s,box-shadow .15s;
-  }
-  .stat:hover{transform:translate(-3px,-3px);box-shadow:12px 12px 0 #000;}
-  .stat .n{font-family:var(--d);font-size:clamp(40px,6vw,84px);line-height:1;display:block;}
-  .stat .l{font-family:var(--p);font-size:8px;text-transform:uppercase;margin-top:12px;display:block;letter-spacing:.06em;}
-  .st-pink{background:var(--pink);} .st-yellow{background:var(--yellow);} .st-cyan{background:var(--cyan);} .st-orange{background:var(--orange);}
-  .st-yellow .n,.st-pink .n{color:#000;} .st-cyan .n,.st-orange .n{color:#000;}
-  .st-pink{transform:rotate(-2deg);} .st-yellow{transform:rotate(1.5deg) translateY(10px);} .st-cyan{transform:rotate(-1deg) translateY(-6px);} .st-orange{transform:rotate(2deg) translateY(6px);}
-  .stat .tick{position:absolute;top:-12px;right:-12px;width:34px;height:34px;background:#fff;border:3px solid #000;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;box-shadow:3px 3px 0 #000;}
-  @media(max-width:860px){.stats{grid-template-columns:repeat(2,1fr);gap:26px 14px;} .st-yellow,.st-cyan,.st-orange{transform:none;}}
-
-  /* ---------- about ---------- */
-  .about-grid{display:grid;grid-template-columns:280px 1fr;gap:40px;position:relative;z-index:2;}
-  .avatar-wrap{position:relative;align-self:start;}
-  .avatar{width:100%;border:5px solid #000;box-shadow:10px 10px 0 var(--pink);transform:rotate(-3deg);display:block;filter:grayscale(.2) contrast(1.1);transition:transform .2s;}
-  .avatar:hover{transform:rotate(0) scale(1.02);box-shadow:12px 12px 0 var(--pink);}
-  .avatar-sticker{position:absolute;bottom:-20px;left:-16px;background:var(--yellow);border:3px solid #000;padding:10px 14px;font-family:var(--p);font-size:8px;transform:rotate(-5deg);box-shadow:4px 4px 0 #000;text-transform:uppercase;}
-  .card{
-    background:var(--bg2);border:4px solid #000;box-shadow:10px 10px 0 #000;padding:34px;position:relative;
-  }
-  .card::before{content:'';position:absolute;top:-14px;right:30px;width:70px;height:26px;background:var(--tape,#FFC93C);opacity:.85;transform:rotate(3deg);box-shadow:0 0 0 2px #000;}
-  .card h3{font-family:var(--d);font-size:clamp(24px,3vw,40px);margin-bottom:16px;}
-  .card p{color:var(--muted);margin-bottom:18px;font-size:14.5px;}
-  .badges{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px;}
-  .badge{font-family:var(--p);font-size:8px;padding:10px 14px;border:2px solid #000;box-shadow:3px 3px 0 #000;text-transform:uppercase;}
-  .bg-pink{background:var(--pink);} .bg-cyan{background:var(--cyan);} .bg-green{background:var(--green);} .bg-orange{background:var(--orange);} .bg-purple{background:var(--purple);} .bg-yellow{background:var(--yellow);} .bg-red{background:var(--red);}
-  .bg-pink,.bg-green,.bg-orange,.bg-yellow,.bg-cyan{color:#000;}
-  .about-links{display:flex;gap:12px;flex-wrap:wrap;border-top:3px dashed rgba(255,255,255,0.2);padding-top:20px;margin-top:6px;}
-  @media(max-width:860px){.about-grid{grid-template-columns:1fr;} .avatar{max-width:240px;}}
-
-  /* ---------- skills ---------- */
-  .skills-wrap{position:relative;z-index:2;display:flex;flex-direction:column;gap:40px;}
-  .skill-group{display:flex;flex-direction:column;gap:16px;}
-  .skill-group .gl{font-family:var(--p);font-size:10px;text-transform:uppercase;color:var(--yellow);display:flex;align-items:center;gap:12px;}
-  .skill-group .gl::after{content:'';flex:1;height:3px;background:rgba(255,255,255,0.12);}
-  .skill-pills{display:flex;flex-wrap:wrap;gap:12px;}
-  .pill{
-    font-family:var(--m);font-weight:700;font-size:14px;text-transform:uppercase;letter-spacing:.02em;
-    padding:13px 18px;background:#fff;color:#000;border:3px solid #000;box-shadow:4px 4px 0 #000;
-    display:inline-flex;align-items:center;gap:10px;transition:transform .12s,box-shadow .12s,background .12s,color .12s;
-  }
-  .pill:nth-child(5n){transform:rotate(-2deg);} .pill:nth-child(5n+2){transform:rotate(1.5deg);} .pill:nth-child(5n+4){transform:rotate(-1deg);}
-  .pill:hover{transform:translate(-2px,-3px) rotate(0) scale(1.04);box-shadow:8px 8px 0 var(--pink);}
-  .pill .si{width:20px;height:20px;flex-shrink:0;}
-  .pill.learn{background:var(--bg2);color:#fff;border-style:dashed;box-shadow:none;}
-  .pill.learn:hover{background:var(--orange);color:#000;border-style:solid;box-shadow:8px 8px 0 #000;}
-
-  /* ---------- projects ---------- */
-  .proj-list{display:flex;flex-direction:column;gap:26px;position:relative;z-index:2;}
-  .proj{
-    background:var(--bg2);border:4px solid #000;box-shadow:10px 10px 0 #000;padding:30px 32px;position:relative;
-    transition:transform .16s,box-shadow .16s;display:block;overflow:hidden;
-  }
-  .proj:nth-child(odd){transform:rotate(-1.2deg);}
-  .proj:nth-child(even){transform:rotate(1deg);}
-  .proj:nth-child(3n){transform:rotate(-0.5deg);}
-  .proj:hover{transform:rotate(0) translate(-3px,-3px);box-shadow:16px 16px 0 var(--pink);}
-  .proj .num{
-    position:absolute;top:14px;right:20px;font-family:var(--d);font-size:clamp(56px,9vw,110px);line-height:1;
-    color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,0.14);user-select:none;pointer-events:none;
-  }
-  .proj-top{display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap;position:relative;z-index:2;}
-  .tag{font-family:var(--p);font-size:8px;padding:8px 12px;border:2px solid #000;box-shadow:3px 3px 0 #000;text-transform:uppercase;color:#000;}
-  .proj-title{font-family:var(--d);font-size:clamp(26px,4.5vw,52px);line-height:1;text-transform:uppercase;position:relative;z-index:2;display:flex;align-items:baseline;gap:14px;}
-  .proj-title .go{font-family:var(--p);font-size:16px;color:var(--yellow);transition:transform .15s;}
-  .proj:hover .go{transform:translate(4px,-4px);}
-  .proj-desc{color:var(--muted);margin-top:14px;max-width:640px;position:relative;z-index:2;font-size:14px;}
-  .proj:hover .proj-desc{color:#fff;}
-
-  /* ---------- scoreboard ---------- */
-  .score-block{margin-bottom:40px;position:relative;z-index:2;}
-  .score-head{display:flex;align-items:center;gap:14px;margin-bottom:18px;}
-  .score-head h3{font-family:var(--d);font-size:clamp(22px,3vw,36px);text-transform:uppercase;}
-  .score-head .lvl{font-family:var(--p);font-size:9px;background:var(--cyan);color:#000;border:3px solid #000;padding:8px 12px;box-shadow:3px 3px 0 #000;}
-  .score-cells{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
-  .scell{border:4px solid #000;padding:26px 18px;text-align:center;box-shadow:6px 6px 0 #000;background:var(--bg2);}
-  .scell .v{font-family:var(--d);font-size:clamp(26px,4vw,48px);display:block;line-height:1;}
-  .scell .k{font-family:var(--p);font-size:7px;margin-top:10px;display:block;color:var(--muted);text-transform:uppercase;}
-  .scell.filled{background:var(--pink);color:#000;} .scell.filled .k{color:#000;}
-  .scell.filled.s2{background:var(--yellow);} .scell.filled.s3{background:var(--cyan);} .scell.filled.s4{background:var(--orange);}
-  @media(max-width:860px){.score-cells{grid-template-columns:repeat(2,1fr);}}
-
-  /* ---------- blog ---------- */
-  .blog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:22px;position:relative;z-index:2;}
-  .blog{border:4px solid #000;background:var(--bg2);box-shadow:8px 8px 0 #000;padding:26px;display:block;position:relative;transition:transform .15s,box-shadow .15s;}
-  .blog:nth-child(3n+1){transform:rotate(-1deg);} .blog:nth-child(3n+2){transform:rotate(0.8deg) translateY(6px);} .blog:nth-child(3n){transform:rotate(-0.6deg);}
-  .blog:hover{transform:translate(-3px,-3px) rotate(0);box-shadow:14px 14px 0 var(--cyan);}
-  .blog .date{font-family:var(--p);font-size:8px;color:var(--pink);display:block;margin-bottom:12px;}
-  .blog h3{font-family:var(--d);font-size:19px;line-height:1.15;text-transform:uppercase;margin-bottom:10px;}
-  .blog p{font-size:13px;color:var(--muted);margin-bottom:16px;}
-  .blog .tags{display:flex;gap:8px;flex-wrap:wrap;}
-  .blog .bt{font-family:var(--p);font-size:7px;background:#fff;color:#000;border:2px solid #000;padding:6px 9px;box-shadow:2px 2px 0 #000;}
-
-  /* ---------- contact ---------- */
-  .contact-rows{position:relative;z-index:2;display:flex;flex-direction:column;border-top:4px solid #000;}
-  .crow{
-    display:flex;align-items:center;justify-content:space-between;gap:20px;
-    padding:26px 20px;border:4px solid #000;border-top:none;margin-top:-4px;position:relative;background:var(--bg2);
-    transition:background .12s,color .12s,padding-left .15s;box-shadow:6px 6px 0 #000;margin-bottom:8px;
-  }
-  .crow .k{font-family:var(--p);font-size:10px;color:var(--yellow);text-transform:uppercase;}
-  .crow .v{font-family:var(--d);font-size:clamp(18px,3vw,30px);text-transform:lowercase;display:flex;align-items:center;gap:10px;}
-  .crow .arrow{font-size:22px;transition:transform .15s;color:var(--pink);}
-  .crow:hover{background:var(--pink);color:#000;padding-left:30px;}
-  .crow:hover .k,.crow:hover .arrow{color:#000;}
-  .crow:hover .arrow{transform:translate(6px,0);}
-
-  /* ---------- footer ---------- */
-  .footer{position:relative;padding:90px 5vw 40px;text-align:center;overflow:hidden;}
-  .footer .fword{font-family:var(--d);font-size:clamp(70px,20vw,280px);line-height:.9;color:transparent;-webkit-text-stroke:2px rgba(255,255,255,0.14);text-transform:uppercase;user-select:none;}
-  .footer .fmeta{font-family:var(--p);font-size:9px;color:var(--muted);margin-top:26px;display:flex;justify-content:center;gap:18px;flex-wrap:wrap;}
-  .footer .fmeta a{color:#fff;text-decoration:underline;text-underline-offset:4px;}
-  .footer .fmeta a:hover{color:var(--pink);}
-  .top-btn{margin-top:30px;}
-
-  /* ---------- reveal system ---------- */
-  html.js [data-in]{opacity:0;transition:opacity .7s ease,transform .7s cubic-bezier(.2,1.3,.3,1);will-change:transform,opacity;}
-  html.js [data-in="up"]{transform:translateY(60px) rotate(-1.2deg);}
-  html.js [data-in="down"]{transform:translateY(-60px) rotate(1deg);}
-  html.js [data-in="left"]{transform:translateX(-80px) rotate(-1.5deg);}
-  html.js [data-in="right"]{transform:translateX(80px) rotate(1.5deg);}
-  html.js [data-in="pop"]{transform:scale(.6) rotate(-6deg);}
-  html.js [data-in="flip"]{transform:translateY(40px) rotateX(-60deg);transform-style:preserve-3d;}
-  html.js [data-in].in{opacity:1;transform:none;}
-
-  @media(max-width:720px){
-    .sec{padding:80px 5vw 70px;}
-    .sec-band .band-inner{flex-direction:column;align-items:flex-start;gap:10px;}
-    .sec-title{white-space:normal;}
-    .proj .num{font-size:60px;}
-  }
-
-  @media(prefers-reduced-motion:reduce){
-    *,*::before,*::after{animation:none!important;transition:none!important;}
-    .splash{display:none;}
-  }
-</style>
+    .reveal { opacity:0; transform:translateY(26px); transition:opacity .75s var(--ease),transform .75s var(--ease); } .reveal.visible { opacity:1; transform:none; }
+    @media(prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:.001ms!important; animation-iteration-count:1!important; transition-duration:.001ms!important; scroll-behavior:auto!important; } .reveal { opacity:1; transform:none; } .map-stage { transform:rotateX(48deg) rotateZ(-9deg) rotateY(-4deg)!important; } }
+  </style>
 </head>
 <body>
-<div class="splash" aria-hidden="true"><span>M</span><span>I</span><span>L</span><span>E</span><span>S</span><div class="splash-tag">MAXIMALISM ON</div></div>
-<div class="bg-grid" aria-hidden="true"></div>
-<div class="noise" aria-hidden="true"></div>
-<div class="vignette" aria-hidden="true"></div>
-<div class="cursor" id="cursor"></div>
-<div class="glow" id="glow"></div>
-<div class="progress" id="progress"></div>
-
-<nav class="nav">
-  <a class="nav-logo" href="#top"><span class="dot"></span>MILES</a>
-  <div class="nav-links">
-    <a href="#about">About</a>
-    <a href="#skills">Skills</a>
-    <a href="#projects">Builds</a>
-    <a href="#blog">Devlog</a>
-    <a href="#contact">Contact</a>
-  </div>
-  <span class="nav-status"><b></b> USUALLY ONLINE</span>
-</nav>
-
-<header class="hero" id="top">
-  <div class="hero-rings" aria-hidden="true">
-    <div class="ring"></div>
-    <div class="ring r2"></div>
-    <div class="ring r3"></div>
-    <div class="ring-star"><span class="star">★</span></div>
-  </div>
-  <div class="hero-ring-mid" aria-hidden="true"></div>
-
-  <div class="hero-top">
-    <span class="chip chip-y">★ MILES WOLF ALLEN</span>
-    <span class="chip chip-p">DEVELOPER &amp; 3D ARTIST</span>
-    <span class="chip chip-c">DISKETTE LABS CO-FOUNDER</span>
-  </div>
-
-  <h1 class="hero-title" id="heroTitle">
-    <span class="l"><em>MI</em>L</span>
-    <span class="l l2"><em>E</em>S<span class="dot">.</span></span>
-  </h1>
-
-  <div class="hero-float hf-1 stick" data-speed="18">★ EST. 2008</div>
-  <div class="hero-float hf-2 stick stick-s"><span class="star">★</span></div>
-  <div class="hero-float hf-3 stick" style="background:var(--yellow);color:#000;" data-speed="-14">THE WOW</div>
-  <div class="hero-float hf-4 stick stick-s" style="border-radius:50%;background:var(--pink);"><span class="star">★</span></div>
-
-  <p class="hero-sub">I make <b>games</b>, <b>tools</b>, and <b>websites</b>. Still in school, currently building a full <b>Electron replacement</b> — send help. 160 repos and counting.</p>
-
-  <div class="hero-cta">
-    <a class="btn btn-pink" href="#projects">SEE THE BUILDS ↓</a>
-    <a class="btn btn-ghost" href="https://github.com/mileswolfallen2" target="_blank" rel="noopener">GITHUB ↗</a>
-  </div>
-
-  <div class="hero-scroll">SCROLL<div class="a">↓</div></div>
-</header>
-
-<div class="marquee mq-y" data-mq="build"> </div>
-
-<section class="sec" id="stats">
-  <div class="sec-index" data-par="12">000</div>
-  <div class="sec-band">
-    <div class="band-inner">
-      <span class="sec-tag">LEVEL 00</span>
-      <h2 class="sec-title" data-band="1">THE <span class="out">NUMBERS</span>.</h2>
-    </div>
-  </div>
-  <div class="stats">
-    <div class="stat st-pink" data-in="left"><span class="tick">★</span><span class="n num" data-count="160">0</span><span class="l">REPOS ONLINE</span></div>
-    <div class="stat st-yellow" data-in="pop"><span class="tick">★</span><span class="n num" data-count="91">0</span><span class="l">STARS EARNED</span></div>
-    <div class="stat st-cyan" data-in="right"><span class="tick">★</span><span class="n num" data-count="13">0</span><span class="l">WATCHING ME</span></div>
-    <div class="stat st-orange" data-in="down"><span class="tick">★</span><span class="n num" data-count="37">0</span><span class="l">I WATCH</span></div>
-  </div>
-</section>
-
-<section class="sec" id="about">
-  <div class="sec-index" data-par="8">01</div>
-  <div class="sec-band">
-    <div class="band-inner">
-      <span class="sec-tag">LEVEL 01 // IDENTITY</span>
-      <h2 class="sec-title" data-band="-1"><span class="out">WHO'S</span> MILES<span class="dot">?</span></h2>
-    </div>
-    <p class="sec-sub">the human behind the commits. pancakes &gt; waffles, cereal is soup, software should feel good to use.</p>
-  </div>
-  <div class="about-grid">
-    <div class="avatar-wrap" data-in="left">
-      <img class="avatar" src="https://avatars.githubusercontent.com/u/115095719?v=4" alt="Miles Wolf Allen" loading="lazy" width="280" height="280">
-      <span class="avatar-sticker">@mileswolfallen2</span>
-    </div>
-    <div class="card" data-in="up">
-      <h3>// PLAYER BIO</h3>
-      <p>I build things on the internet. Some are games, some are tools, and some are just because I thought it'd be fun. I'm co-founder of <b style="color:#fff">Diskette Labs</b>, still in school, and chasing the dream of a world without bundled Chromium.</p>
-      <div class="badges">
-        <span class="badge bg-pink">PULL SHARK ×2</span>
-        <span class="badge bg-yellow">YOLO</span>
-        <span class="badge bg-green">QUICKDRAW</span>
-        <span class="badge bg-orange">GEOMETRY DASH ADDICT</span>
-      </div>
-      <div class="about-links">
-        <a class="btn btn-yellow" href="https://diskettelabs.com/" target="_blank" rel="noopener">DISKETTE LABS ↗</a>
-        <a class="btn btn-ghost" href="about-me.html">MORE ABOUT ME →</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="marquee mq-p mq-rev" data-mq="warn"> </div>
-
-<section class="sec" id="skills">
-  <div class="sec-index" data-par="10">02</div>
-  <div class="sec-band">
-    <div class="band-inner">
-      <span class="sec-tag">LEVEL 02 // LOADOUT</span>
-      <h2 class="sec-title" data-band="1">MY <span class="out">LOADOUT</span>.</h2>
-    </div>
-    <p class="sec-sub">what I actually know how to use (and what I'm currently failing at).</p>
-  </div>
-  <div class="skills-wrap">
-    <div class="skill-group" data-in="up">
-      <span class="gl">READY TO USE</span>
-      <div class="skill-pills" id="skillPills">
-        <span class="pill" data-si="javascript">JS</span>
-        <span class="pill" data-si="nodedotjs">BACKEND JS</span>
-        <span class="pill" data-si="html5">HTML</span>
-        <span class="pill" data-si="css3">CSS</span>
-        <span class="pill" data-si="python">PYTHON</span>
-        <span class="pill" data-si="git">GIT</span>
-        <span class="pill" data-si="blender">BLENDER</span>
-        <span class="pill" data-si="unity">UNITY</span>
-        <span class="pill" data-si="unrealengine">UNREAL</span>
-        <span class="pill" data-si="cloudflare">CLOUDFLARE</span>
-        <span class="pill" data-si="linux">LINUX</span>
-        <span class="pill" data-si="netlify">NETLIFY</span>
-        <span class="pill" data-si="gnubash">BASH</span>
-        <span class="pill" data-si="github">GITHUB</span>
-        <span class="pill" data-si="electron">ELECTRON</span>
-        <span class="pill" data-si="c">GELECTRON</span>
-      </div>
-    </div>
-    <div class="skill-group" data-in="up">
-      <span class="gl">CURRENTLY UNLOCKING</span>
-      <div class="skill-pills">
-        <span class="pill learn" data-si="php">PHP</span>
-        <span class="pill learn" data-si="dotnet">.NET</span>
-        <span class="pill learn" data-si="nixos">NIX</span>
-        <span class="pill learn" data-si="yarn">YARN</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="sec" id="projects">
-  <div class="sec-index" data-par="14">03</div>
-  <div class="sec-band">
-    <div class="band-inner">
-      <span class="sec-tag">LEVEL 03 // BUILDS</span>
-      <h2 class="sec-title" data-band="-1">THE <span class="out">BUILDS</span>.</h2>
-    </div>
-    <p class="sec-sub">stuff I've made (and some I forked). every one of these was at least 80% 2am.</p>
-  </div>
-  <div class="proj-list">
-    <a class="proj" href="https://milesallen.site/projects/omniemu.html" data-par="-8">
-      <span class="num">01</span>
-      <div class="proj-top"><span class="tag" style="background:var(--green);">ACTIVE</span><span class="chip" style="font-size:7px;">MIT · v0.3.2 · TS</span></div>
-      <div class="proj-title">OmniEmu 2.0 <span class="go">↗</span></div>
-      <div class="proj-desc">All your emulators in one place. Install 20+ emulators, scan your ROMs, launch games without opening 15 apps.</div>
-    </a>
-    <a class="proj" href="https://milesallen.site/projects/gelectron.html" data-par="10">
-      <span class="num">02</span>
-      <div class="proj-top"><span class="tag" style="background:var(--yellow);">EARLY</span><span class="chip" style="font-size:7px;">RUST + NODE · MIT</span></div>
-      <div class="proj-title">Gelectron <span class="go">↗</span></div>
-      <div class="proj-desc">Drop-in Electron replacement using native web views (WKWebView / WebView2 / WebKitGTK) instead of bundling Chromium. The send-help project.</div>
-    </a>
-    <a class="proj" href="https://vanilla.milesallen.site/" target="_blank" rel="noopener" data-par="-12">
-      <span class="num">03</span>
-      <div class="proj-top"><span class="tag" style="background:var(--cyan);">UNRELEASED</span><span class="chip" style="font-size:7px;">VANILLA JS</span></div>
-      <div class="proj-title">Vanilla <span class="go">↗</span></div>
-      <div class="proj-desc">A clean, minimal web experiment. Pure vanilla JS, no frameworks, no cruft.</div>
-    </a>
-    <a class="proj" href="https://milesallen.site/projects/fedl.html" data-par="6">
-      <span class="num">04</span>
-      <div class="proj-top"><span class="tag" style="background:var(--red);">LIVE</span><span class="chip" style="font-size:7px;">2196 COMMITS</span></div>
-      <div class="proj-title">FEDL <span class="go">↗</span></div>
-      <div class="proj-desc">The demon list for Geometry Dash. Ranked levels, run submissions, and a community way better at the game than me.</div>
-    </a>
-    <a class="proj" href="https://milesallen.site/projects/command-move.html" data-par="-10">
-      <span class="num">05</span>
-      <div class="proj-top"><span class="tag" style="background:var(--purple);">SWIFT</span><span class="chip" style="font-size:7px;">MACOS · MIT</span></div>
-      <div class="proj-title">CommandMove <span class="go">↗</span></div>
-      <div class="proj-desc">True cut-and-paste for Finder on macOS. Select files, Cmd+X, navigate, Cmd+V. What Apple forgot to build.</div>
-    </a>
-    <a class="proj" href="https://milesallen.site/projects/noto.html" data-par="8">
-      <span class="num">06</span>
-      <div class="proj-top"><span class="tag" style="background:var(--green);">ACTIVE</span><span class="chip" style="font-size:7px;">FLUTTER · AI</span></div>
-      <div class="proj-title">Noto <span class="go">↗</span></div>
-      <div class="proj-desc">Note-taking with AI built in. Flutter, powered by Cortex AI, actually good at organizing my chaos.</div>
-    </a>
-    <a class="proj" href="https://milesallen.site/projects/nova.html" data-par="-6">
-      <span class="num">07</span>
-      <div class="proj-top"><span class="tag" style="background:var(--yellow);">PYTHON</span><span class="chip" style="font-size:7px;">MIT · LOCAL AI</span></div>
-      <div class="proj-title">Nova AI <span class="go">↗</span></div>
-      <div class="proj-desc">AI that runs on your machine. Desktop GUI, web interface, CLI. No cloud, no subscriptions, just vibes.</div>
-    </a>
-    <a class="proj" href="https://milesallen.site/projects/music-app.html" data-par="12">
-      <span class="num">08</span>
-      <div class="proj-top"><span class="tag" style="background:var(--cyan);">JS</span><span class="chip" style="font-size:7px;">APACHE-2.0</span></div>
-      <div class="proj-title">Music App <span class="go">↗</span></div>
-      <div class="proj-desc">Music player that doesn't interrupt you with ads. YouTube Music minus the annoying parts.</div>
-    </a>
-    <a class="proj" href="https://milesallen.site/projects/rhythm-game.html" data-par="-8">
-      <span class="num">09</span>
-      <div class="proj-top"><span class="tag" style="background:var(--pink);">HTML</span><span class="chip" style="font-size:7px;">MPL-2.0</span></div>
-      <div class="proj-title">Rhythm Game <span class="go">↗</span></div>
-      <div class="proj-desc">Hit keys to the beat. Song selection, real-time notes, keyboard controls. My fingers hurt.</div>
-    </a>
-    <a class="proj" href="https://milesallen.site/projects/geode-mod.html" data-par="9">
-      <span class="num">10</span>
-      <div class="proj-top"><span class="tag" style="background:var(--orange);">WIP</span><span class="chip" style="font-size:7px;">MIT</span></div>
-      <div class="proj-title">FEDL Geode Mod <span class="go">↗</span></div>
-      <div class="proj-desc">Geometry Dash mod that shows the demon list in-game. Roulette mode, banned mod detection, more.</div>
-    </a>
-    <a class="proj" href="https://milesallen.site/projects/decompilations.html" data-par="-9">
-      <span class="num">11</span>
-      <div class="proj-top"><span class="tag" style="background:var(--pink);">HTML</span><span class="chip" style="font-size:7px;">MIT</span></div>
-      <div class="proj-title">Decompilations <span class="go">↗</span></div>
-      <div class="proj-desc">Native PC ports and decompilations of games. Progress tracking for projects that probably shouldn't exist.</div>
-    </a>
-    <a class="proj" href="https://milesallen.site/projects/issue-tracker.html" data-par="7">
-      <span class="num">12</span>
-      <div class="proj-top"><span class="tag" style="background:var(--cyan);">HTML</span><span class="chip" style="font-size:7px;">MIT · NODE</span></div>
-      <div class="proj-title">Issue Tracker <span class="go">↗</span></div>
-      <div class="proj-desc">Built my own issue tracker because why not. Node.js backend, no frameworks, raw determination.</div>
-    </a>
-    <a class="proj" href="https://milesallen.site/projects/moon-gaming.html" data-par="-11">
-      <span class="num">13</span>
-      <div class="proj-top"><span class="tag" style="background:var(--yellow);">HTML</span><span class="chip" style="font-size:7px;">1542 COMMITS</span></div>
-      <div class="proj-title">Moon Gaming <span class="go">↗</span></div>
-      <div class="proj-desc">Game hub with 1,500+ commits. A growing library of browser games I made at 2am.</div>
-    </a>
-  </div>
-</section>
-
-<div class="marquee mq-c" data-mq="project"> </div>
-
-<section class="sec" id="highlights">
-  <div class="sec-index" data-par="9">04</div>
-  <div class="sec-band">
-    <div class="band-inner">
-      <span class="sec-tag">LEVEL 04 // SCOREBOARD</span>
-      <h2 class="sec-title" data-band="1">SCORE<span class="out">BOARD</span>.</h2>
-    </div>
-    <p class="sec-sub">what my projects have achieved. all numbers real, some embarrassing.</p>
-  </div>
-  <div class="score-block" data-in="up">
-    <div class="score-head"><span class="lvl">HIGH SCORE</span><h3>FEDL</h3></div>
-    <div class="score-cells">
-      <div class="scell filled"><span class="v num" data-count="3839">0</span><span class="k">VERIFIED RUNS</span></div>
-      <div class="scell filled s2"><span class="v num" data-count="341">0</span><span class="k">RANKED LEVELS</span></div>
-      <div class="scell filled s3"><span class="v num" data-count="250" data-suffix="+">0</span><span class="k">ACTIVE PLAYERS</span></div>
-      <div class="scell filled s4"><span class="v num" data-count="3800" data-suffix="+">0</span><span class="k">YOUTUBE VIDEOS</span></div>
-    </div>
-  </div>
-  <div class="score-block" data-in="up">
-    <div class="score-head"><span class="lvl">STAGE CLEAR</span><h3>OmniEmu 2.0</h3></div>
-    <div class="score-cells">
-      <div class="scell filled"><span class="v num" data-count="20" data-suffix="+">0</span><span class="k">EMULATORS</span></div>
-      <div class="scell filled s2"><span class="v num" data-count="3">0</span><span class="k">PLATFORMS</span></div>
-      <div class="scell"><span class="v">v0.3.2</span><span class="k">LATEST</span></div>
-      <div class="scell"><span class="v">TS</span><span class="k">BUILT WITH</span></div>
-    </div>
-  </div>
-  <div class="score-block" data-in="up">
-    <div class="score-head"><span class="lvl">SIDE QUESTS</span><h3>Other projects</h3></div>
-    <div class="score-cells">
-      <div class="scell filled"><span class="v num" data-count="3">0</span><span class="k">NOVA INTERFACES</span></div>
-      <div class="scell filled s2"><span class="v num" data-count="5">0</span><span class="k">NOTO AI FEATURES</span></div>
-      <div class="scell filled s3"><span class="v num" data-count="1542">0</span><span class="k">MOON GAMING COMMITS</span></div>
-      <div class="scell"><span class="v">MIT</span><span class="k">LICENSED</span></div>
-    </div>
-  </div>
-</section>
-
-<section class="sec" id="blog">
-  <div class="sec-index" data-par="13">05</div>
-  <div class="sec-band">
-    <div class="band-inner">
-      <span class="sec-tag">LEVEL 05 // DEVLOG</span>
-      <h2 class="sec-title" data-band="-1">THE <span class="out">DEVLOG</span>.</h2>
-    </div>
-    <p class="sec-sub">things I've learned, broken, and fixed.</p>
-  </div>
-  <div class="blog-grid">
-    <a class="blog" href="https://milesallen.site/blog/diskette-devlog.html" data-in="up">
-      <span class="date">2026 // 001</span><h3>Focusing on Diskette Labs</h3>
-      <p>I'm co-founder of Diskette Labs, a product design collective started by Owen. It's where my focus is now — still open to collabs.</p>
-      <div class="tags"><span class="bt">DESIGN</span><span class="bt">COLLECTIVE</span></div>
-    </a>
-    <a class="blog" href="https://milesallen.site/blog/gelectron-devlog.html" data-in="up">
-      <span class="date">2026 // 002</span><h3>Why I Built Gelectron</h3>
-      <p>Electron bundles Chromium with every app. 150-300MB per app, hundreds of MB of RAM. Native web views fix that.</p>
-      <div class="tags"><span class="bt">RUST</span><span class="bt">NATIVE</span></div>
-    </a>
-    <a class="blog" href="https://milesallen.site/blog/omniemu-devlog.html" data-in="up">
-      <span class="date">2026 // 003</span><h3>Why I Built OmniEmu</h3>
-      <p>I got tired of opening 15 different emulator apps. So I built one that manages them all. Here's how it started.</p>
-      <div class="tags"><span class="bt">TYPESCRIPT</span><span class="bt">ELECTRON</span></div>
-    </a>
-    <a class="blog" href="https://milesallen.site/blog/command-move-devlog.html" data-in="up">
-      <span class="date">2026 // 004</span><h3>CommandMove: Cut &amp; Paste</h3>
-      <p>macOS doesn't have Cmd+X for files. I fixed that. Global event taps, AppleScript, and a lot of Accessibility permissions.</p>
-      <div class="tags"><span class="bt">SWIFT</span><span class="bt">MACOS</span></div>
-    </a>
-    <a class="blog" href="https://milesallen.site/blog/fedl-devlog.html" data-in="up">
-      <span class="date">2025 // 005</span><h3>Running the FEDL</h3>
-      <p>What it takes to maintain a Geometry Dash demon list. 3,800+ verified runs, ranked levels, a community that never sleeps.</p>
-      <div class="tags"><span class="bt">NODE.JS</span><span class="bt">COMMUNITY</span></div>
-    </a>
-    <a class="blog" href="https://milesallen.site/blog/nova-devlog.html" data-in="up">
-      <span class="date">2025 // 006</span><h3>Building Nova AI</h3>
-      <p>Local AI that doesn't phone home. Desktop GUI, web interface, CLI — no subscriptions, no cloud, no nonsense.</p>
-      <div class="tags"><span class="bt">PYTHON</span><span class="bt">AI</span></div>
-    </a>
-  </div>
-</section>
-
-<div class="marquee mq-b mq-rev" data-mq="final"> </div>
-
-<section class="sec" id="contact">
-  <div class="sec-index" data-par="7">06</div>
-  <div class="sec-band">
-    <div class="band-inner">
-      <span class="sec-tag">LEVEL 06 // REACH OUT</span>
-      <h2 class="sec-title" data-band="1">GET IN <span class="out">TOUCH</span>.</h2>
-    </div>
-    <p class="sec-sub">unless you're a bot, then please go away.</p>
-  </div>
-  <div class="contact-rows" data-in="up">
-    <a class="crow" href="mailto:mileswa1q2@gmail.com"><span class="k">EMAIL</span><span class="v">mileswa1q2@gmail.com<span class="arrow">→</span></span></a>
-    <a class="crow" href="https://github.com/mileswolfallen2" target="_blank" rel="noopener"><span class="k">GITHUB</span><span class="v">mileswolfallen2<span class="arrow">→</span></span></a>
-    <a class="crow" href="https://replit.com/@MilesAllen1" target="_blank" rel="noopener"><span class="k">REPLIT</span><span class="v">@MilesAllen1<span class="arrow">→</span></span></a>
-    <a class="crow" href="https://codepen.io/mileswolfallen2-the-typescripter" target="_blank" rel="noopener"><span class="k">CODEPEN</span><span class="v">mileswolfallen2<span class="arrow">→</span></span></a>
-    <a class="crow" href="https://me.fedl.site" target="_blank" rel="noopener"><span class="k">WEBSITE</span><span class="v">me.fedl.site<span class="arrow">→</span></span></a>
-  </div>
-</section>
-
-<footer class="footer">
-  <div class="fword">MILES</div>
-  <div class="fmeta">
-    <a href="#top">BACK TO TOP ↑</a>
-    <a href="https://milesallen.site/uses.html">USES</a>
-    <a href="https://milesallen.site/now.html">NOW</a>
-    <a href="https://milesallen.site/colophon.html">COLOPHON</a>
-    <span>BUILT BY MILES © 2026</span>
-  </div>
-  <div class="top-btn"><button class="btn btn-yellow" onclick="document.getElementById('top').scrollIntoView({behavior:'smooth'})">↑</button></div>
-</footer>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script>
-(function(){
-  'use strict';
-  var body=document.body, html=document.documentElement;
-  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var fine=window.matchMedia&&window.matchMedia('(pointer: fine)').matches;
-
-  /* ---------- marquees: render track ---------- */
-  function renderMarquees(){
-    var sets={
-      build:['BUILDING EMULATORS','SEND HELP','160 REPOS AND COUNTING','STILL DEBUGGING','GEOMETRY DASH ADDICT','USUALLY ONLINE','FULL MAXIMALISM','CEREAL IS SOUP'],
-      warn:['RATED ★★★★★','EST. 2008','PULL SHARK ×2','OVERCLOCKED','DISKETTE LABS','COFFEE COUNT: UNKNOWN','BUGS: INFINITE'],
-      project:['OMNIEMU 2.0','GELECTRON','FEDL','NOTO','NOVA AI','COMMANDMOVE','MOON GAMING','1,500+ COMMITS','MIT LICENSE'],
-      final:['EMAIL ME','PLEASE','GITHUB ↗','REPLIT ↗','CODEPEN ↗','I RESPOND','MAYBE','FAST'],
-    };
-    Object.keys(sets).forEach(function(k){
-      document.querySelectorAll('[data-mq="'+k+'"]').forEach(function(wrap){
-        var track=document.createElement('div');
-        track.className='mq-track';
-        var half='';
-        sets[k].forEach(function(t){ half+='<span>★ '+t+'</span>'; });
-        track.innerHTML=half+half;
-        wrap.appendChild(track);
-      });
-    });
-  }
-  renderMarquees();
-
-  /* ---------- skill icons ---------- */
-  function addSkillIcons(){
-    document.querySelectorAll('.pill[data-si]').forEach(function(pill){
-      var img=document.createElement('img');
-      img.className='si';
-      img.alt='';
-      img.loading='lazy';
-      img.src='https://cdn.simpleicons.org/'+pill.getAttribute('data-si')+'/000000';
-      pill.insertBefore(img,pill.firstChild);
-    });
-  }
-  addSkillIcons();
-
-  /* ---------- cursor ---------- */
-  var cur=document.getElementById('cursor'), glow=document.getElementById('glow');
-  if (cur && fine){
-    var cx=-100,cy=-100,tx=-100,ty=-100,gx=-100,gy=-100,gtx=-100,gty=-100;
-    document.addEventListener('mousemove',function(e){ tx=e.clientX; ty=e.clientY; },{passive:true});
-    function loop(){
-      cx+=(tx-cx)*0.35; cy+=(ty-cy)*0.35;
-      gx+=(tx-gx)*0.08; gy+=(ty-gy)*0.08;
-      cur.style.transform='translate('+(cx-6)+'px,'+(cy-6)+'px)';
-      glow.style.transform='translate('+(gx-160)+'px,'+(gy-160)+'px)';
-      requestAnimationFrame(loop);
-    }
-    loop();
-    document.addEventListener('mouseover',function(e){
-      if (e.target.closest&&e.target.closest('a,button,.btn,.pill,.proj,.crow')){
-        cur.classList.add('on');
-        document.documentElement.style.setProperty('--mouse','auto');
-      }
-    },{passive:true});
-    document.addEventListener('mouseout',function(e){
-      if (e.target.closest&&e.target.closest('a,button,.btn,.pill,.proj,.crow')){
-        cur.classList.remove('on');
-      }
-    },{passive:true});
-  }
-
-  /* ---------- scroll progress ---------- */
-  var prog=document.getElementById('progress');
-  function onScroll(){ prog.style.width=(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%'; }
-  window.addEventListener('scroll',onScroll,{passive:true});
-  onScroll();
-
-  /* ---------- count-up ---------- */
-  function countUp(el){
-    var target=parseInt(el.getAttribute('data-count'),10)||0;
-    var suffix=el.getAttribute('data-suffix')||'';
-    var t0=null;
-    function fmt(n){ return Math.round(n).toLocaleString('en-US')+suffix; }
-    function step(ts){
-      if(t0===null) t0=ts;
-      var p=Math.min(1,(ts-t0)/1200);
-      var ease=1-Math.pow(1-p,3);
-      el.textContent=fmt(target*ease);
-      if(p<1) requestAnimationFrame(step);
-      else el.textContent=fmt(target);
-    }
-    if(reduce){ el.textContent=fmt(target); return; }
-    requestAnimationFrame(step);
-  }
-  if('IntersectionObserver' in window){
-    var io=new IntersectionObserver(function(entries){
-      entries.forEach(function(e){
-        if(e.isIntersecting){
-          countUp(e.target);
-          io.unobserve(e.target);
-        }
-      });
-    },{threshold:0.5});
-    document.querySelectorAll('.num[data-count]').forEach(function(el){ io.observe(el); });
-  }
-
-  /* ---------- reveal system ---------- */
-  function revealAll(){
-    document.querySelectorAll('[data-in]').forEach(function(el){ el.classList.add('in'); });
-  }
-  if('IntersectionObserver' in window && !reduce){
-    var rio=new IntersectionObserver(function(entries){
-      entries.forEach(function(e){
-        if(e.isIntersecting){
-          e.target.classList.add('in');
-          rio.unobserve(e.target);
-        }
-      });
-    },{threshold:0.15,rootMargin:'0px 0px -40px 0px'});
-    document.querySelectorAll('[data-in]').forEach(function(el){ rio.observe(el); });
-  } else {
-    revealAll();
-  }
-
-  /* ---------- konami ---------- */
-  (function(){
-    var seq=[38,38,40,40,37,39,37,39,66,65];
-    var pos=0;
-    document.addEventListener('keydown',function(e){
-      if(e.keyCode===seq[pos]){ pos++; if(pos===seq.length){ pos=0; party(); } }
-      else pos=0;
-    });
-    function party(){
-      var colors=['#FF2EA6','#F7FF00','#00F4FF','#FF5C00','#00FF85','#FF1F1F'];
-      for(var i=0;i<36;i++){
-        var s=document.createElement('div');
-        s.style.cssText='position:fixed;left:50%;top:50%;width:'+(6+Math.random()*16)+'px;height:'+(6+Math.random()*16)+'px;z-index:950;pointer-events:none;border:2px solid #000;background:'+colors[i%colors.length]+';box-shadow:3px 3px 0 #000;';
-        document.body.appendChild(s);
-        var ang=Math.random()*Math.PI*2;
-        var dist=60+Math.random()*360;
-        var dx=Math.cos(ang)*dist, dy=Math.sin(ang)*dist;
-        s.animate([
-          {transform:'translate(-50%,-50%) rotate(0deg)',opacity:1},
-          {transform:'translate(calc(-50% + '+dx+'px), calc(-50% + '+dy+'px)) rotate('+(Math.random()*720-360)+'deg)',opacity:0}
-        ],{duration:900+Math.random()*500,easing:'cubic-bezier(.2,.8,.2,1)'}).onfinish=function(){ s.remove(); };
-      }
-    }
-  })();
-
-  /* ---------- GSAP scroll choreography ---------- */
-  if (window.gsap && window.ScrollTrigger && !reduce){
-    gsap.registerPlugin(ScrollTrigger);
-
-    /* hero parallax */
-    gsap.to('#heroTitle',{yPercent:-18,scale:.96,opacity:.25,ease:'none',
-      scrollTrigger:{trigger:'#top',start:'top top',end:'bottom top',scrub:1}});
-    gsap.to('.hero-sub',{yPercent:-60,opacity:0,ease:'none',
-      scrollTrigger:{trigger:'#top',start:'10% top',end:'bottom top',scrub:1}});
-    gsap.to('.hero-rings',{scale:1.15,opacity:.3,ease:'none',
-      scrollTrigger:{trigger:'#top',start:'top top',end:'bottom top',scrub:1}});
-
-    /* floating stickers: parallax via data-speed */
-    gsap.utils.toArray('[data-par]').forEach(function(el){
-      if(el.classList && el.classList.contains('proj'))return;
-      var rate=parseFloat(el.getAttribute('data-par'))||0;
-      if(!rate)return;
-      gsap.to(el,{y:rate*10,ease:'none',
-        scrollTrigger:{trigger:el,start:'top bottom',end:'bottom top',scrub:1}});
-    });
-    gsap.utils.toArray('[data-speed]').forEach(function(el){
-      var rate=parseFloat(el.getAttribute('data-speed'))||0;
-      gsap.to(el,{y:rate*12,ease:'none',
-        scrollTrigger:{trigger:el,start:'top bottom',end:'bottom top',scrub:1}});
-    });
-
-    /* section title bands slide */
-    gsap.utils.toArray('[data-band]').forEach(function(t){
-      var dir=parseFloat(t.getAttribute('data-band'))||0;
-      gsap.fromTo(t,{xPercent:dir*8},{xPercent:dir*-8,ease:'none',
-        scrollTrigger:{trigger:t,start:'top bottom',end:'bottom top',scrub:1}});
-    });
-
-    /* project cards: flip + rise */
-    gsap.utils.toArray('.proj').forEach(function(card){
-      var side=(parseFloat(card.getAttribute('data-par'))||0)>0?-1:1;
-      gsap.set(card,{transition:'none'});
-      gsap.fromTo(card,
-        {y:80,rotation:side*4,opacity:0},
-        {y:0,rotation:0,opacity:1,duration:1,ease:'power3.out',
-         scrollTrigger:{trigger:card,start:'top 94%'},
-         onComplete:function(){ gsap.set(card,{clearProps:'transform,opacity,transition'}); }});
-    });
-
-    ScrollTrigger.refresh();
-  }
-  /* if no gsap, still make sure proj cards visible */
-  else if(!reduce){
-    setTimeout(function(){
-      document.querySelectorAll('.proj').forEach(function(c){ c.style.opacity='1'; });
-    },1200);
-  }
-})();
-</script>
+  <div class="stars" aria-hidden="true"></div><div class="glow" aria-hidden="true"></div><div class="grain" aria-hidden="true"></div><div class="progress" id="progress"></div>
+  <nav class="topbar" id="topbar"><a class="brand" href="#top"><i></i><span>Miles City / city guide</span></a><div class="topnav"><a href="#city-map">Map</a><a href="#directory">Directory</a><a href="#about">About</a><a href="#contact">Contact</a></div><span class="city-status">city is open</span></nav>
+  <main id="top">
+    <section class="hero" id="city-map"><div class="hero-copy"><div class="eyebrow">welcome to miles city</div><h1><span class="outline">MILES</span><span>WOLF <em>ALLEN</em><span class="lime">.</span></span></h1><p>A map of the things I build: <strong>tools, games, communities, and experiments</strong> connected by one slightly overactive curiosity.</p><div class="hero-actions"><a class="primary" href="#map-surface">explore the city</a><a class="quiet-link" href="#directory">skip to the directory</a></div></div><div class="map-wrap" id="mapWrap"><div class="map-stage" id="mapStage"><div class="map-surface" id="map-surface"><svg class="city-map" viewBox="0 0 1000 650" role="img" aria-label="Stylized map of Miles City showing roads, parks, water, and districts"><path class="water" d="M760 0h240v650H850c35-54 42-108 13-158-25-44-28-83-8-126 22-49 3-94-35-124-40-32-63-78-60-130z"></path><path class="park" d="M78 404c45-31 101-31 135 4 29 31 23 87-8 112-45 36-114 30-148-12-24-29-17-79 21-104z"></path><path class="park" d="M426 49c62-24 127-4 143 42 13 39-28 78-81 79-62 0-111-47-95-86 6-15 16-27 33-35z"></path><path class="district" d="M146 74h242l31 145-89 96-169-28-52-117z"></path><path class="district" d="M438 177l143-31 142 83-22 155-142 20-124-91z"></path><path class="district" d="M130 323l173-25 119 95-30 154-178 34-127-94z"></path><path class="district" d="M431 404l128-31 132 21 70 130-161 77-166-74z"></path><path class="road major" d="M-30 288C174 268 311 281 466 338S747 448 1028 370"></path><path class="road major" d="M352-25c35 150 47 257 34 357s-31 190-4 347"></path><path class="road minor" d="M76 122c165 94 308 105 461 84s259-13 410 94"></path><path class="road minor" d="M27 490c154-95 283-108 409-63s278 98 537 21"></path><path class="road minor" d="M192 20c43 124 57 245 39 369s-3 190 55 277"></path><path class="road minor" d="M602 16c-43 113-59 233-33 343s72 180 151 291"></path><path class="road center" d="M-30 288C174 268 311 281 466 338S747 448 1028 370"></path><path class="road center" d="M352-25c35 150 47 257 34 357s-31 190-4 347"></path><g class="blocks"><rect class="block" x="176" y="122" width="54" height="35" rx="3"></rect><rect class="block" x="246" y="102" width="72" height="42" rx="3"></rect><rect class="block" x="174" y="188" width="95" height="31" rx="3"></rect><rect class="block" x="481" y="222" width="54" height="45" rx="3"></rect><rect class="block" x="558" y="202" width="75" height="35" rx="3"></rect><rect class="block" x="467" y="291" width="82" height="34" rx="3"></rect><rect class="block" x="590" y="284" width="59" height="53" rx="3"></rect><rect class="block" x="191" y="363" width="70" height="42" rx="3"></rect><rect class="block" x="282" y="346" width="77" height="31" rx="3"></rect><rect class="block" x="151" y="435" width="96" height="39" rx="3"></rect><rect class="block" x="268" y="439" width="63" height="55" rx="3"></rect><rect class="block" x="466" y="438" width="71" height="35" rx="3"></rect><rect class="block" x="552" y="423" width="72" height="47" rx="3"></rect></g></svg><span class="map-label label-north">north loop / ideas</span><span class="map-label label-west">west commons</span><span class="map-label label-east">east river / systems</span><span class="map-label label-south">southside / play</span><span class="route route-a"></span><span class="route route-b"></span><span class="route route-c"></span><span class="route route-d"></span><span class="map-pulse pulse-home"></span><button class="pin pin-arcade" type="button" data-location="arcade"><span><b class="pin-name">Arcade</b><small class="pin-kind">OmniEmu / tools</small></span></button><button class="pin pin-foundry" type="button" data-location="foundry"><span><b class="pin-name">Foundry</b><small class="pin-kind">Gelectron / systems</small></span></button><button class="pin pin-stadium" type="button" data-location="stadium"><span><b class="pin-name">Stadium</b><small class="pin-kind">FEDL / community</small></span></button><button class="pin pin-library" type="button" data-location="library"><span><b class="pin-name">Library</b><small class="pin-kind">Noto / notes</small></span></button><button class="pin pin-home" type="button" data-location="home"><span><b class="pin-name">Home Base</b><small class="pin-kind">About Miles</small></span></button><button class="pin pin-contact" type="button" data-location="contact"><span><b class="pin-name">Post Office</b><small class="pin-kind">Say hello</small></span></button><div class="map-legend"><span>district</span><span>open channel</span></div></div></div>
+    </section>
+    <section class="directory" id="directory"><div class="directory-inner"><div class="section-head reveal"><div><div class="section-label">the city guide / 01</div><h2 class="section-title">A readable<br><em>directory.</em></h2></div><p>Prefer the direct route? Here’s every district with the useful details up front.</p></div><div class="directory-list"><a class="directory-item reveal" href="https://milesallen.site/projects/omniemu.html"><span class="directory-no">01</span><h3>OmniEmu 2.0</h3><p>All your emulators in one place — scan ROMs, install what you need, and launch without opening fifteen different apps.</p><span class="directory-type">arcade / active ↗</span><span class="directory-arrow">↗</span></a><a class="directory-item reveal" href="https://milesallen.site/projects/gelectron.html"><span class="directory-no">02</span><h3>Gelectron</h3><p>A drop-in Electron replacement using native web views instead of bundling an entire copy of Chromium with every app.</p><span class="directory-type">foundry / in progress ↗</span><span class="directory-arrow">↗</span></a><a class="directory-item reveal" href="https://milesallen.site/projects/fedl.html"><span class="directory-no">03</span><h3>FEDL</h3><p>The Geometry Dash demon list: ranked levels, run submissions, and a community that keeps raising the ceiling.</p><span class="directory-type">stadium / live ↗</span><span class="directory-arrow">↗</span></a><a class="directory-item reveal" href="https://milesallen.site/projects/noto.html"><span class="directory-no">04</span><h3>Noto</h3><p>Note-taking with AI built in — a calmer way to turn a pile of fragments into something you can find later.</p><span class="directory-type">library / active ↗</span><span class="directory-arrow">↗</span></a><a class="directory-item reveal" href="https://milesallen.site/projects/moon-gaming.html"><span class="directory-no">05</span><h3>Moon Gaming</h3><p>A browser game hub with a suspicious number of commits and a library that keeps getting bigger at 2am.</p><span class="directory-type">arcade annex / growing ↗</span><span class="directory-arrow">↗</span></a></div><div class="city-bands"><article class="city-band reveal" id="about"><div class="section-label">home base / 02</div><h3>The person<br>behind the <em>map.</em></h3><p>I’m Miles — a developer and 3D artist, co-founder of Diskette Labs, and a student who spends a lot of time turning “that should be easier” into a repository.</p><a href="../about-me.html">read more about me ↗</a></article><article class="city-band reveal" id="contact"><div class="section-label">post office / 03</div><h3>Send a<br><em>message.</em></h3><p>Have a question, a strange idea, or a link to something you’re making? The city is open to visitors.</p><a href="mailto:mileswa1q2@gmail.com">open a channel ↗</a></article></div><div class="footer-links"><span>© 2026 Miles Wolf Allen / Miles City</span><a href="https://github.com/mileswolfallen2" target="_blank" rel="noopener">github ↗</a><a href="https://diskettelabs.com/" target="_blank" rel="noopener">diskette labs ↗</a><a href="#top">return to city hall ↑</a></div></div></section>
+  </main>
+  <div class="panel-scrim" id="panelScrim"></div><aside class="city-panel" id="cityPanel" role="dialog" aria-modal="true" aria-labelledby="panelTitle"><button class="panel-close" id="panelClose" type="button" aria-label="Close location details">×</button><div class="panel-kicker" id="panelKicker">district / arcade</div><h2 id="panelTitle">OmniEmu 2.0</h2><p id="panelDescription">All your emulators in one place. Scan ROMs, install what you need, and launch without opening fifteen different apps.</p><div class="panel-rule"></div><div class="panel-meta"><span id="panelStack">typescript / desktop</span><b id="panelStatus">active</b></div><a class="panel-link" id="panelLink" href="https://milesallen.site/projects/omniemu.html" target="_blank" rel="noopener">visit the project</a></aside>
+  <script>
+    (() => {
+      const locations = {
+        arcade:{ kicker:'district / arcade',title:'OmniEmu 2.0',description:'All your emulators in one place. Scan ROMs, install what you need, and launch without opening fifteen different apps.',stack:'typescript / desktop',status:'active',link:'https://milesallen.site/projects/omniemu.html' },
+        foundry:{ kicker:'district / industrial systems',title:'Gelectron',description:'A drop-in Electron replacement using native web views instead of bundling an entire copy of Chromium with every app.',stack:'rust / node / native',status:'in progress',link:'https://milesallen.site/projects/gelectron.html' },
+        stadium:{ kicker:'district / community stadium',title:'FEDL',description:'The Geometry Dash demon list: ranked levels, run submissions, and a community that keeps raising the ceiling.',stack:'node / community',status:'live',link:'https://milesallen.site/projects/fedl.html' },
+        library:{ kicker:'district / library of thoughts',title:'Noto',description:'Note-taking with AI built in — a calmer way to turn a pile of fragments into something you can find later.',stack:'flutter / ai',status:'active',link:'https://milesallen.site/projects/noto.html' },
+        home:{ kicker:'neighborhood / home base',title:'Miles Wolf Allen',description:'Developer, 3D artist, co-founder of Diskette Labs, and a person who keeps turning “that should be easier” into a repository.',stack:'curiosity / perpetual beginner',status:'online',link:'../about-me.html' },
+        contact:{ kicker:'neighborhood / post office',title:'Come say hello.',description:'Have a question, a strange idea, or a link to something you’re making? The city is open to visitors.',stack:'email / github / diskette labs',status:'accepting mail',link:'mailto:mileswa1q2@gmail.com' }
+      };
+      const body=document.body, panel=document.getElementById('cityPanel'), scrim=document.getElementById('panelScrim');
+      const openLocation = key => { const item=locations[key]; document.querySelectorAll('.pin').forEach(pin=>pin.classList.toggle('active',pin.dataset.location===key)); document.getElementById('panelKicker').textContent=item.kicker; document.getElementById('panelTitle').textContent=item.title; document.getElementById('panelDescription').textContent=item.description; document.getElementById('panelStack').textContent=item.stack; document.getElementById('panelStatus').textContent=item.status; document.getElementById('panelLink').href=item.link; panel.classList.add('open'); scrim.classList.add('open'); body.classList.add('panel-open'); document.getElementById('panelClose').focus(); };
+      const closeLocation = () => { panel.classList.remove('open'); scrim.classList.remove('open'); body.classList.remove('panel-open'); document.querySelectorAll('.pin').forEach(pin=>pin.classList.remove('active')); };
+      document.querySelectorAll('.pin').forEach(pin=>pin.addEventListener('click',()=>openLocation(pin.dataset.location))); document.getElementById('panelClose').addEventListener('click',closeLocation); scrim.addEventListener('click',closeLocation); addEventListener('keydown',event=>{ if(event.key==='Escape') closeLocation(); });
+      const topbar=document.getElementById('topbar'), progress=document.getElementById('progress'); const updateScroll=()=>{ topbar.classList.toggle('scrolled',scrollY>20); const max=document.documentElement.scrollHeight-innerHeight; progress.style.width=`${max?scrollY/max*100:0}%`; }; addEventListener('scroll',updateScroll,{passive:true}); updateScroll();
+      const glow=document.querySelector('.glow'); addEventListener('pointermove',event=>{ document.documentElement.style.setProperty('--mx',`${event.clientX}px`); document.documentElement.style.setProperty('--my',`${event.clientY}px`); if(glow) { glow.style.left=`${event.clientX}px`; glow.style.top=`${event.clientY}px`; } },{passive:true});
+      const mapStage=document.getElementById('mapStage'); addEventListener('pointermove',event=>{ if(matchMedia('(pointer:coarse)').matches) return; const x=event.clientX/innerWidth-.5; const y=event.clientY/innerHeight-.5; mapStage.style.transform=`rotateX(${48-y*3}deg) rotateZ(${-9+x*2}deg) rotateY(${-4+x*3}deg)`; },{passive:true});
+      const reveal=new IntersectionObserver(entries=>entries.forEach(entry=>{ if(entry.isIntersecting){ entry.target.classList.add('visible'); reveal.unobserve(entry.target); } }),{threshold:.12}); document.querySelectorAll('.reveal').forEach((item,index)=>{ item.style.transitionDelay=`${Math.min(index%4,3)*70}ms`; reveal.observe(item); });
+    })();
+  </script>
 </body>
 </html>

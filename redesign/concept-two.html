@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Miles Museum // A Digital Collection</title>
+  <meta name="description" content="A digital museum of tools, games, experiments, and unfinished ideas by Miles Wolf Allen.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23ff8b5c'/%3E%3Ccircle cx='50' cy='50' r='31' fill='none' stroke='%230a0d11' stroke-width='9'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root { --black:#080b0f; --wall:#11171c; --wall-2:#182128; --white:#e9edf0; --dim:#7d8990; --orange:#ff8b5c; --cyan:#7be7df; --yellow:#f6dd76; --mono:'DM Mono',monospace; --display:Outfit,sans-serif; }
+    * { box-sizing:border-box; }
+    html { background:var(--black); scroll-behavior:smooth; }
+    body { margin:0; min-height:100vh; color:var(--white); background:radial-gradient(circle at 50% 35%,#202c32 0,#0b1014 42%,var(--black) 80%); font-family:var(--display); overflow-x:hidden; }
+    body.modal-open { overflow:hidden; }
+    ::selection { background:var(--orange); color:var(--black); }
+    a { color:inherit; text-decoration:none; }
+    button { font:inherit; cursor:pointer; }
+    .ambient { position:fixed; inset:0; z-index:-2; pointer-events:none; opacity:.35; background:radial-gradient(ellipse at 20% 10%,rgba(123,231,223,.16),transparent 32%),radial-gradient(ellipse at 84% 63%,rgba(255,139,92,.12),transparent 29%); }
+    .stars { position:fixed; inset:0; z-index:-3; background-image:radial-gradient(circle,rgba(233,237,240,.7) 0 1px,transparent 1.5px),radial-gradient(circle,rgba(123,231,223,.45) 0 1px,transparent 1.5px); background-size:73px 73px,131px 131px; background-position:11px 23px,50px 3px; opacity:.25; }
+    .topbar { position:fixed; z-index:30; top:0; left:0; right:0; display:flex; justify-content:space-between; align-items:center; padding:22px 4vw; border-bottom:1px solid rgba(233,237,240,.13); background:rgba(8,11,15,.72); backdrop-filter:blur(15px); }
+    .brand { display:flex; align-items:center; gap:12px; font:500 11px var(--mono); letter-spacing:.1em; text-transform:uppercase; }
+    .brand i { width:15px; height:15px; display:block; border:2px solid var(--orange); border-radius:50%; box-shadow:0 0 16px rgba(255,139,92,.7); }
+    .topbar .meta { color:var(--dim); font:400 10px var(--mono); letter-spacing:.08em; text-transform:uppercase; }
+    .topbar .meta b { color:var(--cyan); font-weight:400; }
+    .hero { min-height:82vh; display:flex; flex-direction:column; justify-content:center; width:min(1180px,88vw); margin:auto; padding-top:105px; }
+    .eyebrow { color:var(--orange); font:400 10px var(--mono); text-transform:uppercase; letter-spacing:.14em; }
+    h1 { max-width:850px; margin:25px 0 20px; font:600 clamp(4.7rem,13vw,12rem)/.78 var(--display); letter-spacing:-.095em; }
+    h1 span { display:block; }
+    h1 .outline { color:transparent; -webkit-text-stroke:1px var(--white); }
+    h1 .cyan { color:var(--cyan); }
+    .hero p { max-width:440px; color:var(--dim); font:400 13px/1.8 var(--mono); }
+    .hero-footer { display:flex; align-items:center; gap:30px; margin-top:42px; color:var(--dim); font:400 10px var(--mono); text-transform:uppercase; letter-spacing:.1em; }
+    .hero-footer a { color:var(--cyan); }
+    .museum { position:relative; min-height:1050px; padding:100px 0 180px; overflow:hidden; perspective:1300px; }
+    .room-label { position:absolute; z-index:3; top:55px; left:6vw; right:6vw; display:flex; justify-content:space-between; color:var(--dim); font:400 10px var(--mono); letter-spacing:.1em; text-transform:uppercase; }
+    .room-label b { color:var(--orange); font-weight:400; }
+    .gallery { position:relative; width:min(1050px,86vw); height:750px; margin:auto; transform-style:preserve-3d; transform:rotateX(var(--rx, 4deg)) rotateY(var(--ry, 0deg)); transition:transform .25s ease-out; }
+    .back-wall { position:absolute; left:6%; right:6%; top:5%; height:520px; border:1px solid rgba(233,237,240,.15); background:linear-gradient(180deg,rgba(233,237,240,.04),rgba(233,237,240,.01)); transform:translateZ(-210px); box-shadow:inset 0 0 80px rgba(123,231,223,.04); }
+    .back-wall::before { content:'COLLECTION / 2026'; position:absolute; top:25px; left:28px; color:rgba(233,237,240,.25); font:400 9px var(--mono); letter-spacing:.14em; }
+    .floor { position:absolute; left:-10%; right:-10%; top:56%; height:48%; border-top:1px solid rgba(123,231,223,.25); background:repeating-linear-gradient(90deg,transparent 0 79px,rgba(123,231,223,.10) 80px),repeating-linear-gradient(0deg,transparent 0 59px,rgba(123,231,223,.10) 60px); transform:rotateX(67deg) translateZ(-30px); transform-origin:top center; }
+    .ceiling-light { position:absolute; left:25%; top:6%; width:50%; height:2px; background:var(--cyan); box-shadow:0 0 30px 10px rgba(123,231,223,.16); transform:translateZ(-100px); }
+    .exhibit { position:absolute; z-index:2; width:220px; min-height:260px; padding:18px; display:flex; flex-direction:column; justify-content:space-between; border:1px solid rgba(233,237,240,.55); background:rgba(24,33,40,.9); box-shadow:0 20px 55px rgba(0,0,0,.35); transform-style:preserve-3d; transition:transform .5s cubic-bezier(.2,.8,.2,1), border-color .3s, box-shadow .3s; }
+    .exhibit:hover { border-color:var(--orange); box-shadow:0 25px 65px rgba(255,139,92,.18); transform:translateZ(55px) rotateY(0deg)!important; }
+    .exhibit::after { content:attr(data-number); position:absolute; right:15px; top:12px; color:rgba(233,237,240,.25); font:400 27px var(--display); }
+    .exhibit:nth-of-type(1) { left:10%; top:19%; transform:translateZ(80px) rotateY(9deg) rotateZ(-2deg); }
+    .exhibit:nth-of-type(2) { left:39%; top:12%; transform:translateZ(160px) rotateY(-2deg) rotateZ(1deg); }
+    .exhibit:nth-of-type(3) { right:8%; top:25%; transform:translateZ(38px) rotateY(-10deg) rotateZ(2deg); }
+    .exhibit:nth-of-type(4) { left:26%; top:53%; transform:translateZ(115px) rotateY(6deg) rotateZ(-1deg); }
+    .exhibit:nth-of-type(5) { right:17%; top:61%; transform:translateZ(70px) rotateY(-6deg) rotateZ(1deg); }
+    .exhibit .top { display:flex; justify-content:space-between; color:var(--dim); font:400 9px var(--mono); text-transform:uppercase; letter-spacing:.08em; }
+    .exhibit .top b { color:var(--orange); font-weight:400; }
+    .exhibit-art { position:relative; height:105px; display:grid; place-items:center; margin:18px 0; border:1px solid rgba(233,237,240,.16); background:radial-gradient(circle,rgba(123,231,223,.12),transparent 65%); overflow:hidden; }
+    .exhibit-art::before, .exhibit-art::after { content:''; position:absolute; width:70px; height:70px; border:1px solid var(--cyan); transform:rotate(45deg); }
+    .exhibit-art::after { width:32px; height:32px; border-color:var(--orange); border-radius:50%; transform:rotate(0); box-shadow:0 0 25px var(--orange); }
+    .art-2 { background:radial-gradient(circle,rgba(255,139,92,.15),transparent 65%); }
+    .art-2::before { width:90px; height:25px; border-color:var(--orange); border-radius:50%; transform:rotate(-25deg); }
+    .art-2::after { width:8px; height:8px; background:var(--yellow); border:0; box-shadow:0 0 30px var(--yellow); }
+    .art-3::before { width:65px; height:65px; border-radius:50%; border-style:dashed; animation:spin 15s linear infinite; }
+    .art-3::after { width:45px; height:45px; border:1px solid var(--yellow); transform:rotate(45deg); }
+    .art-4::before { width:80px; height:1px; border:0; background:var(--cyan); transform:rotate(45deg); box-shadow:0 -19px 0 rgba(123,231,223,.45),0 19px 0 rgba(123,231,223,.25); }
+    .art-4::after { width:10px; height:10px; border:0; background:var(--orange); transform:none; }
+    @keyframes spin { to { transform:rotate(360deg); } }
+    .exhibit h2 { margin:0 0 8px; font:500 24px/.95 var(--display); letter-spacing:-.06em; }
+    .exhibit p { margin:0; color:var(--dim); font:400 10px/1.65 var(--mono); }
+    .exhibit .open { display:inline-flex; justify-content:space-between; align-items:center; margin-top:17px; padding-top:11px; border-top:1px solid rgba(233,237,240,.16); color:var(--cyan); font:400 9px var(--mono); text-transform:uppercase; }
+    .exhibit .open::after { content:'↗'; font-size:15px; }
+    .museum-caption { position:absolute; z-index:4; bottom:65px; left:50%; transform:translateX(-50%); color:var(--dim); font:400 10px var(--mono); letter-spacing:.12em; text-transform:uppercase; white-space:nowrap; }
+    .museum-caption b { color:var(--orange); font-weight:400; }
+    .facts { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; width:min(1180px,88vw); margin:0 auto; border:1px solid rgba(233,237,240,.13); background:rgba(233,237,240,.13); }
+    .fact { padding:25px; background:var(--wall); }
+    .fact small { display:block; color:var(--dim); font:400 9px var(--mono); text-transform:uppercase; letter-spacing:.1em; }
+    .fact strong { display:block; margin-top:10px; color:var(--cyan); font:500 28px var(--display); }
+    .fact p { margin:6px 0 0; color:var(--dim); font:400 10px/1.6 var(--mono); }
+    .exit { display:grid; grid-template-columns:1fr 1fr; gap:8vw; align-items:center; width:min(1180px,88vw); margin:180px auto 130px; padding:65px 0 0; border-top:1px solid rgba(233,237,240,.18); }
+    .exit h2 { margin:0; font:500 clamp(3.5rem,8vw,8.5rem)/.8 var(--display); letter-spacing:-.09em; }
+    .exit h2 span { color:var(--orange); }
+    .exit-copy { color:var(--dim); font:400 12px/1.8 var(--mono); }
+    .exit-copy a { display:inline-block; margin-top:22px; color:var(--cyan); }
+    footer { display:flex; justify-content:space-between; gap:20px; width:min(1180px,88vw); margin:auto; padding:25px 0 40px; border-top:1px solid rgba(233,237,240,.13); color:var(--dim); font:400 10px var(--mono); text-transform:uppercase; }
+    footer a { color:var(--orange); }
+    .modal { position:fixed; inset:0; z-index:50; display:none; place-items:center; padding:25px; background:rgba(8,11,15,.84); backdrop-filter:blur(14px); }
+    .modal.open { display:grid; }
+    .modal-card { position:relative; width:min(590px,100%); padding:32px; border:1px solid var(--orange); background:var(--wall-2); box-shadow:0 0 70px rgba(255,139,92,.14); }
+    .modal-card .close { position:absolute; top:16px; right:16px; width:30px; height:30px; border:1px solid rgba(233,237,240,.3); background:transparent; color:var(--white); }
+    .modal-card .close:hover { background:var(--orange); color:var(--black); }
+    .modal-kicker { color:var(--orange); font:400 10px var(--mono); text-transform:uppercase; letter-spacing:.1em; }
+    .modal-card h2 { margin:18px 0 15px; font:500 45px/.9 var(--display); letter-spacing:-.07em; }
+    .modal-card p { max-width:470px; color:var(--dim); font:400 12px/1.8 var(--mono); }
+    .modal-card a { display:inline-block; margin-top:20px; color:var(--cyan); font:400 11px var(--mono); }
+    @media(max-width:760px) { .topbar .meta { display:none; } .hero { min-height:70vh; } .museum { min-height:1250px; } .gallery { height:990px; transform:rotateX(2deg)!important; } .exhibit { width:190px; min-height:240px; } .exhibit:nth-of-type(1) { left:0; top:14%; } .exhibit:nth-of-type(2) { left:auto; right:0; top:8%; } .exhibit:nth-of-type(3) { right:0; top:35%; } .exhibit:nth-of-type(4) { left:0; top:54%; } .exhibit:nth-of-type(5) { right:0; top:73%; } .facts { grid-template-columns:1fr; } .exit { grid-template-columns:1fr; margin-top:120px; } }
+    @media(max-width:460px) { .exhibit { width:158px; padding:13px; } .exhibit h2 { font-size:20px; } .exhibit p { font-size:9px; } .exhibit-art { height:80px; } .gallery { width:94vw; } }
+    @media(prefers-reduced-motion:reduce) { *,*::before,*::after { animation:none!important; transition:none!important; scroll-behavior:auto!important; } }
+  </style>
+</head>
+<body>
+  <div class="stars" aria-hidden="true"></div><div class="ambient" aria-hidden="true"></div>
+  <nav class="topbar"><a class="brand" href="#top"><i></i><span>The Miles Museum</span></a><div class="meta"><b>● open</b> / gallery hours: always</div></nav>
+  <main id="top">
+    <header class="hero"><div class="eyebrow">digital collection / room 01</div><h1><span class="outline">A SMALL</span><span> MUSEUM OF</span><span class="cyan">BIG IDEAS.</span></h1><p>A spatial index of tools, games, experiments, and unfinished thoughts by Miles Wolf Allen. Walk around. Touch the exhibits. Nothing is behind glass.</p><div class="hero-footer"><span>↓ enter the collection</span><a href="#gallery">skip to exhibits ↘</a></div></header>
+    <section class="museum" id="gallery"><div class="room-label"><span>ROOM 01 / THE WORKS</span><b>CAMERA: ACTIVE</b></div><div class="gallery" id="galleryScene"><div class="back-wall"></div><div class="ceiling-light"></div><div class="floor"></div>
+      <article class="exhibit" data-number="01" data-title="OmniEmu 2.0" data-kicker="The emulator cabinet" data-copy="All your emulators in one place. Scan ROMs, install what you need, and launch without opening fifteen different apps." data-link="https://milesallen.site/projects/omniemu.html"><div><div class="top"><span>tool / active</span><b>2026</b></div><div class="exhibit-art"></div><h2>OmniEmu 2.0</h2><p>The cabinet that keeps the whole collection in one place.</p></div><button class="open" type="button">open exhibit</button></article>
+      <article class="exhibit" data-number="02" data-title="Gelectron" data-kicker="The native wing" data-copy="A drop-in Electron replacement using native web views instead of bundling an entire copy of Chromium with every app." data-link="https://milesallen.site/projects/gelectron.html"><div><div class="top"><span>tool / in progress</span><b>2026</b></div><div class="exhibit-art art-2"></div><h2>Gelectron</h2><p>A lighter future for desktop web apps.</p></div><button class="open" type="button">open exhibit</button></article>
+      <article class="exhibit" data-number="03" data-title="FEDL" data-kicker="The community hall" data-copy="The Geometry Dash demon list: ranked levels, run submissions, and a community that keeps raising the ceiling." data-link="https://milesallen.site/projects/fedl.html"><div><div class="top"><span>community / live</span><b>2024—</b></div><div class="exhibit-art art-3"></div><h2>FEDL</h2><p>A ranking system that turned into a place.</p></div><button class="open" type="button">open exhibit</button></article>
+      <article class="exhibit" data-number="04" data-title="Noto" data-kicker="The memory room" data-copy="Note-taking with AI built in. A calmer way to turn a pile of fragments into something you can actually find later." data-link="https://milesallen.site/projects/noto.html"><div><div class="top"><span>tool / active</span><b>2025—</b></div><div class="exhibit-art art-4"></div><h2>Noto</h2><p>A second brain with better lighting.</p></div><button class="open" type="button">open exhibit</button></article>
+      <article class="exhibit" data-number="05" data-title="Moon Gaming" data-kicker="The arcade annex" data-copy="A browser game hub with a suspicious number of commits and a library that keeps getting bigger at 2am." data-link="https://milesallen.site/projects/moon-gaming.html"><div><div class="top"><span>game hub / growing</span><b>2023—</b></div><div class="exhibit-art art-2"></div><h2>Moon Gaming</h2><p>Small games, big late-night energy.</p></div><button class="open" type="button">open exhibit</button></article>
+    </div><p class="museum-caption"><b>tip:</b> move your cursor to orbit the room / click an exhibit to learn more</p></section>
+    <div class="facts"><div class="fact"><small>collection size</small><strong>160+</strong><p>repositories and counting</p></div><div class="fact"><small>materials</small><strong>TS / RUST</strong><p>plus a lot of stubbornness</p></div><div class="fact"><small>last acquisition</small><strong>NOW</strong><p>still adding new rooms</p></div></div>
+    <section class="exit"><h2>Keep<br>looking <span>around.</span></h2><div class="exit-copy">The museum is never finished. There are more experiments in the archive, more notes in the margins, and probably another project open in a neighboring tab.<br><a href="../about-me.html">learn about the person behind the collection ↗</a></div></section>
+  </main>
+  <footer><span>© 2026 Miles Wolf Allen / The Miles Museum</span><a href="#top">return to entrance ↑</a></footer>
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal-card"><button class="close" id="closeModal" type="button" aria-label="Close exhibit">×</button><div class="modal-kicker" id="modalKicker"></div><h2 id="modalTitle"></h2><p id="modalCopy"></p><a id="modalLink" href="#" target="_blank" rel="noopener">visit the project ↗</a></div></div>
+  <script>
+    const scene = document.getElementById('galleryScene');
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!reduce && !matchMedia('(pointer: coarse)').matches) {
+      scene.addEventListener('pointermove', event => { const rect = scene.getBoundingClientRect(); const x = (event.clientX - rect.left) / rect.width - .5; const y = (event.clientY - rect.top) / rect.height - .5; scene.style.setProperty('--ry', `${x * 7}deg`); scene.style.setProperty('--rx', `${4 - y * 6}deg`); });
+      scene.addEventListener('pointerleave', () => { scene.style.setProperty('--ry', '0deg'); scene.style.setProperty('--rx', '4deg'); });
+    }
+    const modal = document.getElementById('modal');
+    const openModal = exhibit => { document.getElementById('modalKicker').textContent = exhibit.dataset.kicker; document.getElementById('modalTitle').textContent = exhibit.dataset.title; document.getElementById('modalCopy').textContent = exhibit.dataset.copy; document.getElementById('modalLink').href = exhibit.dataset.link; modal.classList.add('open'); document.body.classList.add('modal-open'); document.getElementById('closeModal').focus(); };
+    const closeModal = () => { modal.classList.remove('open'); document.body.classList.remove('modal-open'); };
+    document.querySelectorAll('.exhibit').forEach(exhibit => exhibit.querySelector('.open').addEventListener('click', () => openModal(exhibit)));
+    document.getElementById('closeModal').addEventListener('click', closeModal);
+    modal.addEventListener('click', event => { if (event.target === modal) closeModal(); });
+    addEventListener('keydown', event => { if (event.key === 'Escape') closeModal(); });
+  </script>
+</body>
+</html>

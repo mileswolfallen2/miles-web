@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Scrapbook / Miles Wolf Allen</title>
+  <meta name="description" content="An animated scrapbook of projects, experiments, and notes by Miles Wolf Allen.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%23ffcb66'/%3E%3Cpath d='M25 72V28h12l13 18 13-18h12v44H64V48L50 66 36 48v24z' fill='%23263135'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --desk:#2c3738; --desk-light:#344345; --paper:#f7f0db; --paper-dark:#e5d9bb; --ink:#263135; --muted:#667174;
+      --yellow:#ffcb66; --pink:#f19a98; --blue:#9bc9d0; --green:#b8d885; --red:#d86954; --mono:'DM Mono',monospace; --hand:'Caveat',cursive; --sans:Inter,sans-serif;
+    }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; background:var(--desk); }
+    body { margin:0; min-height:100vh; color:var(--ink); background:var(--desk); font-family:var(--sans); overflow-x:hidden; }
+    body.dragging { user-select:none; }
+    ::selection { color:var(--ink); background:var(--yellow); }
+    a { color:inherit; text-decoration:none; }
+    button { color:inherit; font:inherit; cursor:pointer; }
+    .desk-noise { position:fixed; inset:0; pointer-events:none; z-index:20; opacity:.11; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); mix-blend-mode:soft-light; }
+    .desk-lines { position:fixed; inset:0; pointer-events:none; opacity:.14; background-image:linear-gradient(115deg,transparent 0 49%,rgba(255,255,255,.13) 50%,transparent 51%); background-size:140px 140px; }
+    .wrap { width:min(1180px,90vw); margin:auto; }
+    .nav { position:relative; z-index:10; display:flex; align-items:center; justify-content:space-between; gap:25px; padding:24px 0; color:var(--paper); font:500 10px var(--mono); letter-spacing:.1em; text-transform:uppercase; }
+    .logo { display:flex; align-items:center; gap:10px; }
+    .logo i { width:13px; height:13px; background:var(--yellow); display:block; border-radius:3px; transform:rotate(12deg); box-shadow:4px 4px 0 var(--red); }
+    .nav-links { display:flex; gap:22px; color:#bdc5c1; }
+    .nav-links a:hover { color:var(--yellow); }
+    .nav-note { color:var(--yellow); }
+    .intro { position:relative; display:grid; grid-template-columns:1fr .7fr; gap:8vw; align-items:center; min-height:75vh; padding:70px 0 130px; }
+    .intro-copy { color:var(--paper); }
+    .intro-copy .eyebrow { color:var(--yellow); font:500 10px var(--mono); letter-spacing:.13em; text-transform:uppercase; }
+    h1 { margin:16px 0 25px; font:700 clamp(5rem,13vw,12rem)/.72 var(--hand); letter-spacing:-.07em; transform:rotate(-3deg); }
+    h1 span { display:block; }
+    h1 em { color:var(--yellow); font-style:normal; }
+    .intro-copy p { max-width:450px; color:#bdc5c1; font-size:14px; line-height:1.8; }
+    .intro-actions { display:flex; flex-wrap:wrap; gap:12px; margin-top:30px; }
+    .button { display:inline-flex; align-items:center; gap:9px; padding:12px 15px; border:2px solid var(--ink); background:var(--yellow); box-shadow:4px 4px 0 var(--ink); font:500 10px var(--mono); text-transform:uppercase; transition:transform .2s, box-shadow .2s; }
+    .button:hover { transform:translate(-3px,-3px) rotate(-2deg); box-shadow:7px 7px 0 var(--ink); }
+    .button.ghost { color:var(--paper); border-color:var(--paper); background:transparent; box-shadow:4px 4px 0 rgba(0,0,0,.3); }
+    .intro-collage { position:relative; height:370px; }
+    .sun { position:absolute; right:7%; top:0; width:100px; height:100px; border:3px dashed var(--yellow); border-radius:50%; animation:spin 22s linear infinite; }
+    .sun::after { content:'✳'; position:absolute; inset:0; display:grid; place-items:center; color:var(--yellow); font-size:30px; }
+    @keyframes spin { to { transform:rotate(360deg); } }
+    .mini-paper { position:absolute; width:220px; padding:19px; background:var(--paper); box-shadow:8px 10px 0 rgba(0,0,0,.24); transform:rotate(-9deg); animation:paperFloat 6s ease-in-out infinite; }
+    .mini-paper::before { content:''; position:absolute; top:-10px; right:25px; width:57px; height:21px; background:rgba(255,203,102,.8); transform:rotate(5deg); }
+    .mini-paper p { margin:0; font:600 26px/1.02 var(--hand); }
+    .mini-paper small { display:block; margin-top:20px; color:var(--muted); font:400 9px var(--mono); }
+    .mini-paper.one { left:2%; top:68px; background:var(--blue); }
+    .mini-paper.two { right:1%; bottom:18px; transform:rotate(8deg); background:var(--pink); animation-delay:-2.5s; }
+    .mini-paper.two::before { left:22px; right:auto; background:rgba(184,216,133,.9); }
+    @keyframes paperFloat { 0%,100% { translate:0 0; } 50% { translate:0 -10px; } }
+    .tape { position:absolute; width:80px; height:22px; background:rgba(255,203,102,.72); transform:rotate(-12deg); }
+    .tape.a { left:-16px; top:38%; } .tape.b { right:7%; top:45%; transform:rotate(65deg); background:rgba(155,201,208,.7); }
+    .section { position:relative; padding:125px 0; }
+    .section-heading { display:flex; justify-content:space-between; align-items:end; gap:30px; margin-bottom:45px; color:var(--paper); }
+    .section-heading .label { color:var(--yellow); font:500 10px var(--mono); letter-spacing:.12em; text-transform:uppercase; }
+    h2 { margin:9px 0 0; font:600 clamp(3.5rem,8vw,7rem)/.76 var(--hand); letter-spacing:-.06em; transform:rotate(-2deg); }
+    h2 em { color:var(--pink); font-style:normal; }
+    .section-heading p { max-width:270px; margin:0 0 3px; color:#bdc5c1; font:400 11px/1.75 var(--mono); }
+    .spread-wrap { position:relative; min-height:720px; padding:45px 4vw; background:var(--paper-dark); box-shadow:0 17px 0 rgba(0,0,0,.22); transform:rotate(.7deg); }
+    .spread-wrap::before { content:'✂ cut here / keep the good bits'; position:absolute; left:26px; top:15px; color:var(--muted); font:400 9px var(--mono); text-transform:uppercase; }
+    .spread-wrap::after { content:''; position:absolute; left:50%; top:0; bottom:0; width:1px; background:rgba(38,49,53,.16); transform:rotate(-1deg); }
+    .spread { position:relative; min-height:630px; }
+    .piece { --x:0px; --y:0px; --r:0deg; position:absolute; translate:var(--x) var(--y); rotate:var(--r); touch-action:none; transition:filter .2s, box-shadow .2s; }
+    .piece.draggable { cursor:grab; }
+    .piece.dragging { cursor:grabbing; z-index:15!important; transition:none; filter:brightness(1.04); }
+    .photo { width:260px; padding:12px 12px 39px; background:#fffdf4; box-shadow:8px 11px 0 rgba(38,49,53,.22); }
+    .photo img { display:block; width:100%; aspect-ratio:1; object-fit:cover; filter:sepia(.16) saturate(.8); }
+    .photo figcaption { position:absolute; bottom:11px; left:14px; color:var(--muted); font:400 10px var(--mono); }
+    .photo-main { left:7%; top:62px; --r:-5deg; z-index:4; }
+    .photo-main::before { content:'MILES / 001'; position:absolute; top:-14px; right:30px; padding:6px 9px; color:var(--ink); background:var(--yellow); font:500 9px var(--mono); transform:rotate(5deg); box-shadow:2px 3px 0 rgba(0,0,0,.15); }
+    .photo-main img { background:var(--forest,#37483e); }
+    .photo-art { right:8%; top:47px; --r:6deg; z-index:3; }
+    .photo-art .art { width:100%; aspect-ratio:1; position:relative; overflow:hidden; background:linear-gradient(145deg,var(--red) 0 45%,var(--blue) 45% 65%,var(--green) 65%); }
+    .photo-art .art::before { content:''; position:absolute; left:18%; top:12%; width:47%; height:70%; border:2px solid var(--ink); border-radius:50% 50% 4% 4%; transform:rotate(18deg); }
+    .photo-art .art::after { content:'✳'; position:absolute; right:13%; bottom:12%; color:var(--yellow); font-size:54px; text-shadow:3px 3px 0 var(--ink); }
+    .note { width:260px; padding:22px 21px 25px; box-shadow:7px 9px 0 rgba(38,49,53,.18); }
+    .note h3 { margin:0 0 13px; font:700 30px/.9 var(--hand); }
+    .note p { margin:0; color:var(--ink); font:500 13px/1.45 var(--hand); }
+    .note small { display:block; margin-top:18px; color:var(--muted); font:400 9px var(--mono); }
+    .note-yellow { left:31%; top:267px; --r:-4deg; z-index:6; background:var(--yellow); }
+    .note-pink { right:20%; bottom:36px; --r:5deg; z-index:5; background:var(--pink); }
+    .note-blue { left:12%; bottom:25px; --r:4deg; z-index:2; background:var(--blue); }
+    .note-blue h3 { font-size:26px; }
+    .clip { width:31px; height:65px; border:3px solid var(--red); border-bottom-color:transparent; border-radius:20px 20px 0 0; }
+    .clip.one { left:26%; top:37px; z-index:9; transform:rotate(13deg); } .clip.two { right:28%; top:277px; z-index:9; transform:rotate(-20deg); border-color:var(--ink); }
+    .sticker { display:grid; place-items:center; width:87px; height:87px; border:2px dashed var(--ink); border-radius:50%; color:var(--ink); background:var(--green); font:700 11px var(--mono); text-align:center; text-transform:uppercase; }
+    .sticker.star { right:2%; bottom:13px; z-index:8; transform:rotate(12deg); }
+    .spread-tip { position:absolute; right:24px; bottom:15px; color:var(--muted); font:400 9px var(--mono); text-transform:uppercase; }
+    .shuffle { display:flex; justify-content:center; gap:12px; margin-top:28px; }
+    .shuffle button { padding:10px 15px; border:1px solid var(--ink); color:var(--ink); background:transparent; font:500 10px var(--mono); text-transform:uppercase; }
+    .shuffle button:hover { color:var(--paper); background:var(--ink); }
+    .notes-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+    .memory { min-height:270px; padding:26px; background:var(--paper); box-shadow:7px 8px 0 rgba(0,0,0,.2); transform:rotate(-1deg); }
+    .memory:nth-child(2) { background:var(--yellow); transform:rotate(2deg); } .memory:nth-child(3) { background:var(--blue); transform:rotate(-2deg); }
+    .memory .date { color:var(--red); font:500 9px var(--mono); text-transform:uppercase; }
+    .memory h3 { margin:38px 0 12px; font:600 32px/.87 var(--hand); }
+    .memory p { color:var(--muted); font-size:12px; line-height:1.75; }
+    .memory a { display:inline-block; margin-top:17px; color:var(--red); font:500 10px var(--mono); text-transform:uppercase; }
+    .closing { display:grid; grid-template-columns:.7fr 1.3fr; gap:9vw; align-items:center; padding:60px 0 125px; }
+    .closing h2 { color:var(--paper); font-size:clamp(4rem,10vw,9rem); } .closing h2 em { color:var(--yellow); }
+    .closing-copy { color:#bdc5c1; font-size:14px; line-height:1.8; }
+    .closing-copy a { display:inline-block; margin-top:22px; color:var(--yellow); font:500 10px var(--mono); text-transform:uppercase; }
+    footer { display:flex; justify-content:space-between; gap:20px; padding:28px 0 42px; border-top:1px solid rgba(255,255,255,.22); color:#bdc5c1; font:400 10px var(--mono); text-transform:uppercase; }
+    footer a { color:var(--yellow); }
+    .page-flip { position:fixed; inset:0; z-index:30; display:grid; place-items:center; pointer-events:none; opacity:0; background:var(--paper); transform-origin:left center; transform:rotateY(-90deg); }
+    .page-flip.turn { animation:turnPage .85s cubic-bezier(.7,0,.2,1); }
+    .page-flip span { color:var(--ink); font:600 45px var(--hand); }
+    @keyframes turnPage { 0% { opacity:0; transform:rotateY(-90deg); } 18% { opacity:1; } 65% { opacity:1; transform:rotateY(0); } 100% { opacity:0; transform:rotateY(90deg); } }
+    @media(max-width:760px) { .nav-links { display:none; } .intro { grid-template-columns:1fr; padding:65px 0 100px; gap:50px; } .intro-collage { height:330px; } .section-heading { display:block; } .section-heading p { margin-top:18px; } .spread-wrap { min-height:950px; padding:48px 18px; } .spread { min-height:860px; } .spread-wrap::after { display:none; } .photo { width:205px; } .note { width:205px; } .photo-main { left:4%; top:45px; } .photo-art { right:2%; top:90px; } .note-yellow { left:17%; top:320px; } .note-pink { right:3%; bottom:200px; } .note-blue { left:5%; bottom:35px; } .clip.one { left:30%; top:26px; } .clip.two { right:28%; top:330px; } .sticker.star { right:0; bottom:40px; } .notes-grid { grid-template-columns:1fr; gap:25px; } .notes-grid .memory { min-height:220px; } .closing { grid-template-columns:1fr; gap:35px; } }
+    @media(max-width:450px) { h1 { font-size:4.5rem; } .photo,.note { width:175px; } .spread-wrap { margin-inline:-4vw; } }
+    @media(prefers-reduced-motion:reduce) { *,*::before,*::after { animation:none!important; transition:none!important; scroll-behavior:auto!important; } .piece { translate:0!important; } }
+  </style>
+</head>
+<body>
+  <div class="desk-lines" aria-hidden="true"></div><div class="desk-noise" aria-hidden="true"></div>
+  <div class="wrap">
+    <nav class="nav"><a class="logo" href="#top"><i></i><span>MWA / personal scrapbook</span></a><div class="nav-links"><a href="#spread">The spread</a><a href="#notes">Notes</a><a href="#contact">Say hi</a></div><span class="nav-note">✳ page 01 / 2026</span></nav>
+    <main id="top">
+      <header class="intro"><div class="intro-copy"><div class="eyebrow">a living collection of projects + fragments</div><h1><span>cut,</span><span>paste, <em>make.</em></span></h1><p>Hi, I’m Miles. This is the less orderly version of my portfolio: a desk covered in experiments, photos, half-formed questions, and things I kept because they felt important.</p><div class="intro-actions"><a class="button" href="#spread">open the scrapbook ↓</a><a class="button ghost" href="../about-me.html">about me ↗</a></div></div><div class="intro-collage" aria-hidden="true"><div class="sun"></div><span class="tape a"></span><span class="tape b"></span><div class="mini-paper one"><p>Make useful things feel a little more alive.</p><small>note to self / 06.26</small></div><div class="mini-paper two"><p>software is a material.</p><small>found in the margins</small></div></div></header>
+      <section class="section" id="spread"><div class="section-heading"><div><div class="label">01 / the desk</div><h2>Current <em>arrangement.</em></h2></div><p>Everything here can move. Drag the photos and notes around. Press shuffle when the composition starts feeling too responsible.</p></div><div class="spread-wrap"><div class="spread" id="spreadBoard">
+        <figure class="piece photo photo-main draggable" data-base-x="0" data-base-y="0"><img src="https://avatars.githubusercontent.com/u/115095719?v=4" alt="Miles Wolf Allen" draggable="false"><figcaption>miles / still curious</figcaption></figure>
+        <figure class="piece photo photo-art draggable" data-base-x="0" data-base-y="0"><div class="art" role="img" aria-label="Abstract colorful project sketch"></div><figcaption>sketch / future interface</figcaption></figure>
+        <article class="piece note note-yellow draggable" data-base-x="0" data-base-y="0"><h3>Build the weird version.</h3><p>The first idea is usually useful. The second idea is usually more interesting.</p><small>— current rule</small></article>
+        <article class="piece note note-pink draggable" data-base-x="0" data-base-y="0"><h3>Open loops</h3><p>Gelectron / local AI / tiny games / making software feel obvious.</p><small>things in orbit</small></article>
+        <article class="piece note note-blue draggable" data-base-x="0" data-base-y="0"><h3>Remember the person.</h3><p>Projects are only interesting because someone might use them.</p><small>underline twice</small></article>
+        <span class="piece clip one" aria-hidden="true"></span><span class="piece clip two" aria-hidden="true"></span><span class="piece sticker star">good<br>energy<br>only</span><span class="spread-tip">↗ drag the paper</span>
+      </div></div><div class="shuffle"><button type="button" id="shuffle">shuffle the desk ✳</button><button type="button" id="reset">put it back</button></div></section>
+      <section class="section" id="notes"><div class="section-heading"><div><div class="label">02 / things worth keeping</div><h2>Loose <em>notes.</em></h2></div><p>Somewhere between a devlog and a pile of receipts. Click through if a thought catches your eye.</p></div><div class="notes-grid">
+        <article class="memory"><div class="date">build log / 2026</div><h3>One home for every emulator.</h3><p>OmniEmu began with the very simple desire to stop opening fifteen apps to play fifteen games.</p><a href="https://milesallen.site/projects/omniemu.html">see the build →</a></article>
+        <article class="memory"><div class="date">question / ongoing</div><h3>What if Electron left?</h3><p>Gelectron is an attempt to keep the nice parts of web apps and lose the several-hundred-megabyte apology.</p><a href="https://milesallen.site/projects/gelectron.html">follow the thread →</a></article>
+        <article class="memory"><div class="date">community / live</div><h3>A list became a place.</h3><p>FEDL started as rankings. The people who keep showing up are the best part of it now.</p><a href="https://milesallen.site/projects/fedl.html">visit the list →</a></article>
+      </div></section>
+      <section class="closing" id="contact"><h2>Leave a<br><em>note?</em></h2><div class="closing-copy">Send a question, a strange idea, or a link to something you’re making. The desk always has room for one more piece of paper.<br><a href="mailto:mileswa1q2@gmail.com">put something in the mailbox ↗</a></div></section>
+    </main>
+    <footer><span>© 2026 Miles Wolf Allen / assembled with curiosity</span><a href="#top">back to the top ↑</a><span>✳ do not tidy</span></footer>
+  </div>
+  <div class="page-flip" id="pageFlip" aria-hidden="true"><span>turning the page...</span></div>
+  <script>
+    (() => {
+      const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const board = document.getElementById('spreadBoard');
+      const pieces = [...document.querySelectorAll('.draggable')];
+      let active = null;
+      let offsetX = 0;
+      let offsetY = 0;
+      let z = 10;
+      const setPosition = (piece, x, y) => { piece.style.setProperty('--x', `${x}px`); piece.style.setProperty('--y', `${y}px`); };
+      const startDrag = event => { if (reduce) return; active = event.currentTarget; active.classList.add('dragging'); active.style.zIndex = ++z; const rect = board.getBoundingClientRect(); offsetX = event.clientX - rect.left - active.offsetLeft; offsetY = event.clientY - rect.top - active.offsetTop; active.setPointerCapture(event.pointerId); document.body.classList.add('dragging'); };
+      const drag = event => { if (!active) return; const rect = board.getBoundingClientRect(); setPosition(active, event.clientX - rect.left - offsetX, event.clientY - rect.top - offsetY); };
+      const endDrag = () => { if (!active) return; active.classList.remove('dragging'); active = null; document.body.classList.remove('dragging'); };
+      pieces.forEach(piece => { piece.addEventListener('pointerdown', startDrag); piece.addEventListener('pointermove', drag); piece.addEventListener('pointerup', endDrag); piece.addEventListener('pointercancel', endDrag); });
+      document.getElementById('shuffle').addEventListener('click', () => { pieces.forEach((piece, index) => { const x = Math.round((Math.random() - .5) * 42); const y = Math.round((Math.random() - .5) * 38); setPosition(piece, x, y); piece.style.zIndex = ++z; piece.animate([{ transform:'translateY(0) rotate(0)' }, { transform:'translateY(-14px) rotate(3deg)' }, { transform:'translateY(0) rotate(0)' }], { duration:650, delay:index * 55, easing:'cubic-bezier(.2,.8,.2,1)' }); }); });
+      document.getElementById('reset').addEventListener('click', () => { pieces.forEach(piece => { setPosition(piece, 0, 0); piece.style.zIndex = ''; }); });
+      const flip = document.getElementById('pageFlip');
+      document.querySelectorAll('a[href^="#"]').forEach(link => link.addEventListener('click', () => { if (reduce) return; flip.classList.remove('turn'); void flip.offsetWidth; flip.classList.add('turn'); }));
+    })();
+  </script>
+</body>
+</html>
