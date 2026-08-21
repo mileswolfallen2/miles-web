@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="amber">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>miles_os — MILES WOLF ALLEN</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0705;--panel:#0f0b07;--ph:#ffb000;
+  --ph-dim:rgba(255,176,0,.55);--ph-faint:rgba(255,176,0,.16);--line:rgba(255,176,0,.28);
+  --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+}
+[data-theme="green"]{--bg:#040a05;--panel:#07110a;--ph:#3dff70;--ph-dim:rgba(61,255,112,.55);--ph-faint:rgba(61,255,112,.14);--line:rgba(61,255,112,.26)}
+[data-theme="ice"]{--bg:#05070c;--panel:#0a0e15;--ph:#a8d8ff;--ph-dim:rgba(168,216,255,.55);--ph-faint:rgba(168,216,255,.13);--line:rgba(168,216,255,.24)}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ph);font-family:var(--mono);font-size:14px;line-height:1.55;overflow:hidden}
+::selection{background:var(--ph);color:var(--bg)}
+body::before{content:"";position:fixed;inset:0;z-index:60;pointer-events:none;
+  background:radial-gradient(120% 90% at 50% 45%,transparent 55%,rgba(0,0,0,.5) 100%)}
+body::after{content:"";position:fixed;inset:0;z-index:61;pointer-events:none;opacity:.9;
+  background:repeating-linear-gradient(0deg,transparent 0 2px,rgba(0,0,0,.18) 2px 3px);
+  animation:flick 4s steps(1) infinite}
+@keyframes flick{0%,100%{opacity:.9}31%{opacity:.82}32%{opacity:.9}67%{opacity:.85}68%{opacity:.9}}
+a{color:var(--ph);text-decoration:underline dotted;text-underline-offset:3px}
+a:hover{text-decoration-style:solid;text-shadow:0 0 8px var(--ph-dim)}
+button{font-family:var(--mono)}
+.app{height:100dvh;display:flex;flex-direction:column}
+.bar{display:flex;align-items:center;gap:12px;padding:9px 14px;border-bottom:1px solid var(--line);flex:none}
+.dots{display:flex;gap:6px}
+.dots i{width:10px;height:10px;border-radius:50%;border:1px solid var(--ph-dim)}
+.dots i:first-child{background:var(--ph)}
+.bar-title{flex:1;text-align:center;color:var(--ph-dim);font-size:12px;letter-spacing:.08em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar-btn{background:none;border:1px solid var(--line);color:var(--ph-dim);padding:3px 9px;font-size:11px;cursor:pointer;letter-spacing:.06em;transition:.15s}
+.bar-btn:hover,.bar-btn[aria-pressed="true"]{color:var(--bg);background:var(--ph);border-color:var(--ph)}
+#clock{color:var(--ph-dim);font-size:12px;font-variant-numeric:tabular-nums}
+main{flex:1;display:grid;grid-template-columns:320px 1fr;min-height:0}
+aside{border-right:1px solid var(--line);padding:20px;overflow-y:auto;display:flex;flex-direction:column;gap:22px;background:var(--panel)}
+.banner pre{font-size:12.5px;line-height:1.4;color:var(--ph);text-shadow:0 0 10px var(--ph-dim);user-select:none}
+.banner .sub{margin-top:10px;color:var(--ph-dim);font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+.sysinfo{border:1px solid var(--line);padding:14px;display:flex;flex-direction:column;gap:7px;font-size:12.5px}
+.sysinfo div{display:flex;gap:10px}
+.sysinfo dt{color:var(--ph-dim);width:74px;flex:none;text-transform:uppercase;font-size:11px;letter-spacing:.08em;padding-top:1px}
+.sysinfo dd{color:var(--ph)}
+.sysinfo .live{color:var(--ph);font-variant-numeric:tabular-nums}
+.dot-on{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--ph);box-shadow:0 0 8px var(--ph);margin-right:6px;animation:pulse 2s infinite}
+@keyframes pulse{50%{opacity:.35}}
+.aside-note{color:var(--ph-dim);font-size:11px;line-height:1.7;border-left:2px solid var(--line);padding-left:12px}
+#viewport{overflow-y:auto;padding:20px 24px;min-height:0;scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+#viewport::-webkit-scrollbar{width:8px}
+#viewport::-webkit-scrollbar-thumb{background:var(--line)}
+.ln{margin-bottom:7px;animation:lnIn .18s both;animation-delay:calc(var(--i,0)*26ms)}
+@keyframes lnIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.ln.dim{color:var(--ph-dim)}
+.ln.head{margin-top:16px;color:var(--ph);font-weight:600;letter-spacing:.1em;text-transform:uppercase;font-size:12px}
+.ln.head::after{content:"";display:block;width:100%;height:1px;background:var(--line);margin-top:6px}
+.echo{color:var(--ph-dim)}
+.echo b{color:var(--ph);font-weight:600}
+.proj{display:grid;grid-template-columns:30px 1fr auto;gap:12px;align-items:baseline;padding:8px 10px;margin-bottom:2px;border-left:2px solid var(--ph-faint);cursor:pointer;transition:.15s}
+.proj:hover,.proj:focus-visible{background:var(--ph-faint);border-left-color:var(--ph);outline:none}
+.proj .no{color:var(--ph-dim);font-size:11px}
+.proj .t{font-weight:600}
+.proj .d{grid-column:2/4;color:var(--ph-dim);font-size:12px;margin-top:-2px}
+.proj .m{color:var(--ph-dim);font-size:11px;white-space:nowrap}
+.proj .go{color:var(--ph);font-size:11px}
+.meter{display:grid;grid-template-columns:118px 1fr 46px;gap:12px;align-items:center;margin-bottom:9px}
+.meter .k{color:var(--ph);font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.track{height:10px;border:1px solid var(--line);position:relative;background:transparent}
+.fill{position:absolute;top:1px;bottom:1px;left:1px;right:auto;width:calc(100% - 2px);background:var(--ph);opacity:.8;transform-origin:left;transform:scaleX(0);transition:transform .9s cubic-bezier(.2,.8,.2,1)}
+.meter .v{color:var(--ph-dim);font-size:11px;text-align:right;font-variant-numeric:tabular-nums}
+.kv{display:grid;grid-template-columns:150px 1fr;gap:4px 14px;font-size:13px}
+.kv dt{color:var(--ph-dim);text-transform:uppercase;font-size:11px;letter-spacing:.08em;padding-top:2px}
+.kv dd a{font-size:13px}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.stat-cell{border:1px solid var(--line);padding:12px}
+.stat-cell b{display:block;font-size:22px;font-weight:600;letter-spacing:.02em}
+.stat-cell span{color:var(--ph-dim);font-size:10.5px;text-transform:uppercase;letter-spacing:.1em}
+.prompt-row{flex:none;display:flex;align-items:center;gap:10px;padding:12px 16px;border-top:1px solid var(--line);background:var(--panel)}
+.ps1{color:var(--ph);font-weight:600;white-space:nowrap;font-size:13px}
+.ps1 .path{color:var(--ph-dim);font-weight:400}
+#cmd{flex:1;min-width:80px;background:none;border:none;outline:none;color:var(--ph);font:inherit;font-size:14px;caret-color:var(--ph)}
+.chips{flex:none;display:none;gap:8px;padding:9px 14px;border-top:1px solid var(--line);overflow-x:auto;background:var(--panel);scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chips button{flex:none;background:none;border:1px solid var(--line);color:var(--ph-dim);padding:5px 12px;font-size:11.5px;cursor:pointer}
+.chips button:active{background:var(--ph);color:var(--bg)}
+#boot{position:fixed;inset:0;z-index:80;background:var(--bg);display:flex;flex-direction:column;justify-content:center;padding:10vh 8vw;gap:5px;transition:opacity .35s}
+#boot.off{opacity:0;pointer-events:none}
+.bl{opacity:0;color:var(--ph)}
+.bl.on{opacity:1}
+.bl.dim{color:var(--ph-dim)}
+.boot-skip{position:absolute;right:8vw;bottom:8vh;color:var(--ph-dim);font-size:11px;letter-spacing:.1em}
+.noscript-msg{padding:40px;text-align:center;color:var(--ph)}
+@media (max-width:900px){
+  main{grid-template-columns:1fr}
+  aside{display:none}
+  .chips{display:flex}
+  body{font-size:13px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .fill{transform:scaleX(var(--w,1))}
+}
+</style>
+</head>
+<body>
+<noscript><div class="noscript-msg">miles_os needs JavaScript to boot.<br>The human behind it: <a href="https://milesallen.site">Miles Wolf Allen</a> — mileswa1q2@gmail.com</div></noscript>
+
+<div id="boot" aria-hidden="true">
+  <div class="bl">MILES_OS BIOS v3.0 — POST OK</div>
+  <div class="bl dim">cpu: human brain @ 3.2 thoughts/sec ............ OK</div>
+  <div class="bl dim">memory: 160 repos indexed ..................... OK</div>
+  <div class="bl dim">mounting /projects ............................ OK</div>
+  <div class="bl dim">mounting /games ............................... OK</div>
+  <div class="bl dim">starting phosphor driver [amber] .............. OK</div>
+  <div class="bl">welcome, guest.</div>
+  <span class="boot-skip">PRESS ANY KEY TO SKIP</span>
+</div>
+
+<div class="app">
+  <header class="bar">
+    <div class="dots" aria-hidden="true"><i></i><i></i><i></i></div>
+    <div class="bar-title">guest@milesallen.site: ~ — miles_os v3.0</div>
+    <button class="bar-btn" id="sndBtn" aria-pressed="true">SND ON</button>
+    <button class="bar-btn" id="themeBtn">THEME</button>
+    <span id="clock">00:00:00</span>
+  </header>
+
+  <main>
+    <aside aria-label="system info">
+      <div class="banner">
+        <pre aria-hidden="true">
+█▀▄▀█ ▀█▀ █░░ █▀▀ ▀█▀
+█░▀░█ ░█░ █░░ █▀░ ░█░
+▀░░░▀ ▀▀▀ ▀▀▀ ▀▀▀ ▀▀▀</pre>
+        <div class="sub">Miles Wolf Allen — Developer</div>
+      </div>
+      <dl class="sysinfo">
+        <div><dt>OS</dt><dd>miles_os 3.0 LTS</dd></div>
+        <div><dt>Host</dt><dd>school laptop</dd></div>
+        <div><dt>Shell</dt><dd>zsh + coffee</dd></div>
+        <div><dt>Editor</dt><dd>vscode</dd></div>
+        <div><dt>Uptime</dt><dd>since 2021</dd></div>
+        <div><dt>Session</dt><dd class="live" id="uptime">00:00:00</dd></div>
+        <div><dt>Status</dt><dd><span class="dot-on"></span>online</dd></div>
+      </dl>
+      <p class="aside-note">This whole site is a terminal. Type commands below, or click the menu buttons up top. Try `sudo hire-me`.</p>
+    </aside>
+
+    <section id="viewport" role="log" aria-live="polite" aria-label="terminal output"></section>
+  </main>
+
+  <div class="chips" aria-label="quick commands">
+    <button data-cmd="help">help</button>
+    <button data-cmd="about">about</button>
+    <button data-cmd="skills">skills</button>
+    <button data-cmd="projects">projects</button>
+    <button data-cmd="now">now</button>
+    <button data-cmd="stats">stats</button>
+    <button data-cmd="contact">contact</button>
+  </div>
+
+  <footer class="prompt-row">
+    <label class="ps1" for="cmd">guest@miles_os<span class="path">:~$</span></label>
+    <input id="cmd" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="type a command">
+  </footer>
+</div>
+
+<script>
+(function(){
+"use strict";
+const RM=matchMedia("(prefers-reduced-motion: reduce)").matches;
+const $=s=>document.querySelector(s);
+const vp=$("#viewport"),input=$("#cmd"),boot=$("#boot");
+let sndOn=true,audioCtx=null,lineIdx=0;
+const hist=[];let histIdx=-1;
+
+function blip(f,d){
+  if(!sndOn)return;
+  try{
+    audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();
+    if(audioCtx.state==="suspended")audioCtx.resume();
+    const o=audioCtx.createOscillator(),g=audioCtx.createGain();
+    o.type="square";o.frequency.value=f||1040;
+    g.gain.setValueAtTime(.028,audioCtx.currentTime);
+    g.gain.exponentialRampToValueAtTime(.0001,audioCtx.currentTime+(d||.045));
+    o.connect(g).connect(audioCtx.destination);
+    o.start();o.stop(audioCtx.currentTime+(d||.045)+.02);
+  }catch(e){}
+}
+
+function print(html,cls){
+  const d=document.createElement("div");
+  d.className="ln"+(cls?" "+cls:"");
+  d.style.setProperty("--i",Math.min(lineIdx++,30));
+  d.innerHTML=html;
+  vp.appendChild(d);
+  vp.scrollTop=vp.scrollHeight;
+  return d;
+}
+function gap(){lineIdx=0;}
+
+const PROJECTS=[
+ {n:"01",t:"OmniEmu 2.0",d:"All your emulators in one place.",m:"ACTIVE · TS",u:"https://milesallen.site/projects/omniemu.html"},
+ {n:"02",t:"Vanilla",d:"A browser built to be rebuilt. The main quest.",m:"MAIN · TS",u:"https://vanilla.milesallen.site"},
+ {n:"03",t:"Gelectron",d:"Electron internals, documented and dissected.",m:"EARLY · TS",u:"https://milesallen.site/projects/gelectron.html"},
+ {n:"04",t:"FEDL",d:"Geometry Dash level list. ~4,000 verified runs.",m:"LIVE · SITE",u:"https://me.fedl.site"},
+ {n:"05",t:"Moon Gaming",d:"Community hub. 1,542 commits and counting.",m:"COMMUNITY · JS",u:"https://github.com/mileswolfallen2"},
+ {n:"06",t:"Noto",d:"Notes app experiment. On the back burner.",m:"PAUSED · TS",u:"https://milesallen.site/projects/noto.html"},
+ {n:"07",t:"Portfolio v3",d:"The site you came from. Street-poster energy.",m:"LIVE · HTML",u:"https://milesallen.site"},
+ {n:"08",t:"Redesign Lab",d:"Nine+ design languages, one portfolio.",m:"LAB · HTML",u:"https://milesallen.site/redesign/hub.html"},
+ {n:"09",t:"Emulator Core",d:"20+ cores wrapped in one launcher.",m:"ACTIVE · TS",u:"https://milesallen.site/projects/omniemu.html"},
+ {n:"10",t:"GD Tools",d:"Utilities for the demon list grind.",m:"SIDE · JS",u:"https://me.fedl.site"},
+ {n:"11",t:"School Utils",d:"Tools that make the school day shorter.",m:"SIDE · PY",u:"https://github.com/mileswolfallen2"},
+ {n:"12",t:"Pixel Playground",d:"Canvas experiments and shader doodles.",m:"WIP · JS",u:"https://codepen.io/mileswolfallen2-the-typescripter"},
+ {n:"13",t:"This Terminal",d:"You are inside the project right now.",m:"META · VANILLA JS",u:"#"}
+];
+const SKILLS=[
+ ["JavaScript",90],["HTML / CSS",92],["TypeScript",82],["Python",75],
+ ["Swift",65],["Git",86],["Node",78],["Blender",70],
+ ["Electron internals",62],["Rust",38]
+];
+const STATS=[["160+","public repos"],["91","stars earned"],["3,800+","FEDL runs verified"],["20+","emulator cores"],["1,542","Moon Gaming commits"],["13","shipped builds"]];
+const CONTACT=[
+ ["email","mileswa1q2@gmail.com","mailto:mileswa1q2@gmail.com"],
+ ["github","@mileswolfallen2","https://github.com/mileswolfallen2"],
+ ["replit","@MilesAllen1","https://replit.com/@MilesAllen1"],
+ ["codepen","mileswolfallen2-the-typescripter","https://codepen.io/mileswolfallen2-the-typescripter"],
+ ["fedl","me.fedl.site","https://me.fedl.site"]
+];
+const NOW=[
+ ["Vanilla","the main quest — a browser rebuilt from scratch, active daily"],
+ ["Gelectron","side quest — Electron internals, BrowserWindow / IPC / Menu / Tray"],
+ ["FEDL","live ops — ~4,000 runs verified across 340+ ranked levels"],
+ ["Noto","back burner — notes app, waiting for its moment"]
+];
+const ABOUT=[
+ "Hey — I'm Miles Wolf Allen. I'm a student developer who ships.",
+ "I build browsers (Vanilla), tear down Electron (Gelectron), run a Geometry Dash level list (FEDL),",
+ "and maintain way too many side projects. If it renders on a screen, I'm interested.",
+ "Currently: Vanilla full-time, everything else in the background."
+];
+
+function secHead(t){print(t,"head");}
+function renderProjects(){
+  gap();secHead("/projects — 13 entries");
+  print("<span class='dim'>click a row or type `open &lt;n&gt;`</span>","dim");
+  PROJECTS.forEach(p=>{
+    const row=print(`<span class="no">${p.n}</span><span class="t">${p.t}</span><span class="m">${p.m} <span class="go">[open ↗]</span></span><span class="d">${p.d}</span>`,"proj");
+    row.tabIndex=0;row.dataset.url=p.u;
+    const go=()=>{if(p.u==="#"){exec("about");}else{window.open(p.u,"_blank","noopener");}};
+    row.addEventListener("click",()=>{blip(1240);go();});
+    row.addEventListener("keydown",e=>{if(e.key==="Enter")go();});
+  });
+}
+function renderSkills(){
+  gap();secHead("/skills — proficiency meters");
+  SKILLS.forEach(([k,v])=>{
+    const m=print(`<span class="k">${k}</span><span class="track"><span class="fill"></span></span><span class="v">${v}%</span>`,"meter");
+    const f=m.querySelector(".fill");
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{f.style.transform=`scaleX(${v/100})`;}));
+  });
+  print("<span class='dim'>queued packages: php · dotnet · nix · yarn — install in progress</span>","dim");
+}
+function renderStats(){
+  gap();secHead("/stats.log");
+  let g="";
+  STATS.forEach(([v,k])=>{g+=`<div class="stat-cell"><b>${v}</b><span>${k}</span></div>`;});
+  print(`<div class="stat-grid">${g}</div>`);
+}
+function renderContact(){
+  gap();secHead("/contact.cfg");
+  CONTACT.forEach(([k,v,u])=>{
+    print(`<span class="dim">${k.padEnd(9," ")}</span><a href="${u}" target="_blank" rel="noopener">${v}</a>`);
+  });
+  print("<span class='dim'>response time: usually same day. no bots please.</span>","dim");
+}
+function renderNow(){
+  gap();secHead("~/now.md");
+  NOW.forEach(([t,d])=>print(`<b>${t}</b> — <span class="dim">${d}</span>`));
+  print("<span class='dim'>last updated: aug 2026</span>","dim");
+}
+function renderAbout(){
+  gap();secHead("~/about.txt");
+  ABOUT.forEach(l=>print(l));
+}
+function renderHelp(){
+  gap();secHead("available commands");
+  [
+   ["about","who is miles"],["skills","proficiency meters"],["projects","list all 13 builds"],
+   ["open &lt;n&gt;","launch project n"],["now","current focus"],["stats","github numbers"],
+   ["contact","reach out"],["theme [name]","amber · green · ice"],["clear","wipe the screen"],
+   ["ls","list files"],["sudo hire-me","??? "],["exit","good luck"]
+  ].forEach(([c,d])=>print(`<b>${c}</b><span class="dim"> — ${d}</span>`));
+}
+
+function exec(raw){
+  const cmd=raw.trim();
+  print(`<span class="echo"><b>guest@miles_os:~$</b> ${cmd.replace(/</g,"&lt;")}</span>`);
+  if(!cmd){return;}
+  hist.push(cmd);histIdx=hist.length;
+  blip(1040);
+  const [c,...rest]=cmd.split(/\s+/);
+  const arg=rest.join(" ");
+  switch(c.toLowerCase()){
+    case "help":renderHelp();break;
+    case "about":case "cat about.txt":renderAbout();break;
+    case "skills":case "ls skills":renderSkills();break;
+    case "projects":case "ls projects":renderProjects();break;
+    case "open":{
+      const p=PROJECTS.find(x=>x.n==="0"+arg||x.n===arg||(arg&&x.t.toLowerCase().includes(arg.toLowerCase())));
+      if(p){print(`opening ${p.t} …`,"dim");if(p.u==="#"){exec("about");}else{window.open(p.u,"_blank","noopener");}}
+      else print(`open: no such project '${arg.replace(/</g,"&lt;")}' — try \`projects\``,"dim");
+      break;}
+    case "now":renderNow();break;
+    case "stats":renderStats();break;
+    case "contact":renderContact();break;
+    case "theme":{
+      const t=(arg||"").toLowerCase();
+      const order=["amber","green","ice"];
+      const next=t&&order.includes(t)?t:order[(order.indexOf(document.documentElement.dataset.theme)+1)%order.length];
+      document.documentElement.dataset.theme=next;
+      print(`phosphor driver → [${next}]`,"dim");blip(660);
+      break;}
+    case "clear":vp.innerHTML="";gap();break;
+    case "ls":print("about.txt&nbsp;&nbsp;skills/&nbsp;&nbsp;projects/&nbsp;&nbsp;now.md&nbsp;&nbsp;stats.log&nbsp;&nbsp;contact.cfg","dim");break;
+    case "cat":print(`cat: ${arg?arg.replace(/</g,"&lt;"):""}: try \`about\`, \`skills\`, \`projects\`, \`now\`, \`stats\`, \`contact\``,"dim");break;
+    case "whoami":print("guest — but you can be miles if you ship enough.","dim");break;
+    case "date":print(new Date().toString(),"dim");break;
+    case "echo":print(arg?arg.replace(/</g,"&lt;"):"","dim");break;
+    case "man":print("tldr: just type the command. it's not that kind of manual.","dim");break;
+    case "pwd":print("/home/guest/miles","dim");break;
+    case "sudo":
+      if(arg.toLowerCase().replace(/\s+/g,"-")==="hire-me"){
+        print("[sudo] password for guest: ********","dim");
+        print("access granted. drafting offer letter…");
+        print("just kidding — but seriously: <a href='mailto:mileswa1q2@gmail.com'>mileswa1q2@gmail.com</a>");
+      } else if(/rm\s+-rf\s+\//.test(arg)){
+        print("nice try. this incident will be reported.","dim");
+      } else {
+        print("sudo: only 'hire-me' is allowed here.","dim");
+      }
+      break;
+    case "rm":print("permission denied: this portfolio is load-bearing.","dim");break;
+    case "exit":print("there is no escape. close the tab manually.","dim");break;
+    case "konami":print("↑↑↓↓←→←→BA — nothing happened. wrong console.","dim");break;
+    default:print(`command not found: ${cmd.split(/\s+/)[0].replace(/</g,"&lt;")} — type \`help\``,"dim");
+  }
+}
+
+input.addEventListener("keydown",e=>{
+  if(e.key==="Enter"){exec(input.value);input.value="";}
+  else if(e.key==="ArrowUp"){e.preventDefault();if(histIdx>0){histIdx--;input.value=hist[histIdx]||"";}}
+  else if(e.key==="ArrowDown"){e.preventDefault();if(histIdx<hist.length){histIdx++;input.value=hist[histIdx]||"";}}
+  else blip(1320,.02);
+});
+document.querySelector(".app").addEventListener("click",e=>{
+  if(e.target.closest("a,button,input"))return;
+  if(String(getSelection()))return;
+  input.focus({preventScroll:true});
+});
+document.querySelectorAll(".chips button").forEach(b=>b.addEventListener("click",()=>{
+  exec(b.dataset.cmd);input.focus({preventScroll:true});
+}));
+$("#themeBtn").addEventListener("click",()=>exec("theme"));
+$("#sndBtn").addEventListener("click",function(){
+  sndOn=!sndOn;
+  this.textContent=sndOn?"SND ON":"SND OFF";
+  this.setAttribute("aria-pressed",String(sndOn));
+  if(sndOn)blip(880);
+});
+
+setInterval(()=>{
+  $("#clock").textContent=new Date().toLocaleTimeString("en-GB");
+},1000);
+$("#clock").textContent=new Date().toLocaleTimeString("en-GB");
+const t0=Date.now();
+setInterval(()=>{
+  const s=Math.floor((Date.now()-t0)/1000);
+  const hh=String(Math.floor(s/3600)).padStart(2,"0");
+  const mm=String(Math.floor(s%3600/60)).padStart(2,"0");
+  const ss=String(s%60).padStart(2,"0");
+  $("#uptime").textContent=`${hh}:${mm}:${ss}`;
+},1000);
+
+const bootLines=[...boot.querySelectorAll(".bl")];
+let bi=0,done=false;
+function endBoot(){
+  if(done)return;done=true;
+  boot.classList.add("off");
+  setTimeout(()=>boot.remove(),400);
+  gap();
+  print("welcome, guest. you are inside <b>miles_os</b> — a portfolio disguised as a terminal.");
+  print("type <b>help</b> to list commands, or click a menu button above.","dim");
+  input.focus({preventScroll:true});
+}
+if(RM){endBoot();}
+else{
+  const iv=setInterval(()=>{
+    if(bi>=bootLines.length){clearInterval(iv);setTimeout(endBoot,350);return;}
+    bootLines[bi++].classList.add("on");
+    blip(520+bio(),.03);
+  },130);
+  function bio(){return bi*90;}
+  addEventListener("keydown",endBoot,{once:true});
+  boot.addEventListener("click",endBoot,{once:true});
+}
+})();
+</script>
+</body>
+</html>

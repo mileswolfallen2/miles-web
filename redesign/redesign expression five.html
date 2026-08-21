@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MILES LAND — a playable portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+:root{
+  --p0:#9bbc0f;--p1:#8bac0f;--p2:#306230;--p3:#0f380f;
+  --shell:#c8c4bb;--shell-dk:#a9a49a;--bezel:#454952;--btn:#8b2f5e;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#e9e5da;font-family:'Press Start 2P',monospace;color:#3a382f;
+  min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:26px 14px}
+.room{display:flex;flex-direction:column;align-items:center;gap:18px}
+.gb{width:min(430px,94vw);background:var(--shell);border-radius:12px 12px 58px 12px;
+  padding:16px 16px 26px;border:1px solid var(--shell-dk);position:relative;
+  box-shadow:0 24px 50px -18px rgba(40,36,20,.45),inset 0 2px 0 rgba(255,255,255,.55),inset 0 -3px 0 rgba(0,0,0,.08)}
+.gb-top{display:flex;align-items:center;gap:10px;margin-bottom:10px;color:#8d887c;font-size:7px;letter-spacing:.12em}
+.gb-top::before,.gb-top::after{content:"";flex:1;height:2px;background:repeating-linear-gradient(90deg,var(--shell-dk) 0 6px,transparent 6px 10px)}
+.bezel{background:var(--bezel);border-radius:10px 10px 42px 10px;padding:22px 26px 30px;
+  box-shadow:inset 0 3px 8px rgba(0,0,0,.5),inset 0 -1px 0 rgba(255,255,255,.08)}
+.bezel-row{display:flex;justify-content:center;margin-bottom:9px}
+.bezel-txt{color:#98a2ac;font-size:7px;letter-spacing:.28em;text-align:center}
+.lcd-wrap{position:relative;background:#6b7355;padding:4px;border-radius:3px}
+.lcd{aspect-ratio:160/144;background:var(--p0);overflow:hidden;position:relative}
+.stage{width:160px;height:144px;transform-origin:0 0;position:absolute;top:4px;left:4px}
+.lcd-grid{position:absolute;inset:0;z-index:30;pointer-events:none;
+  background:
+   repeating-linear-gradient(0deg,rgba(15,56,15,.09) 0 1px,transparent 1px 3px),
+   repeating-linear-gradient(90deg,rgba(15,56,15,.09) 0 1px,transparent 1px 3px)}
+.glare{position:absolute;inset:0;z-index:31;pointer-events:none;
+  background:linear-gradient(115deg,rgba(255,255,255,.13) 0%,rgba(255,255,255,0) 32%)}
+.battery{position:absolute;left:-16px;bottom:34px;display:flex;flex-direction:column;align-items:center;gap:4px}
+.battery i{width:8px;height:8px;border-radius:50%;background:#e4485c;box-shadow:0 0 6px #e4485c}
+.battery span{color:#98a2ac;font-size:5px;letter-spacing:.1em;writing-mode:vertical-rl}
+.brand{margin-top:14px;text-align:center;font-style:italic;font-weight:700;font-size:15px;color:#33366b;letter-spacing:.02em}
+.brand small{font-size:8px;vertical-align:super}
+.controls{display:flex;justify-content:space-between;align-items:center;margin-top:18px;padding:0 6px}
+.dpad{position:relative;width:108px;height:108px;filter:drop-shadow(0 3px 2px rgba(0,0,0,.25))}
+.dpad::after{content:"";position:absolute;left:50%;top:50%;width:34px;height:34px;transform:translate(-50%,-50%);
+  background:radial-gradient(circle at 35% 30%,#3a3a40,#17171b);border-radius:50%}
+.dpad button{position:absolute;width:36px;height:36px;border:none;background:#212127;cursor:pointer;
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.14);touch-action:manipulation}
+.dpad button:active{background:#000}
+.dpad .u{left:36px;top:0;border-radius:5px 5px 0 0}
+.dpad .d{left:36px;bottom:0;border-radius:0 0 5px 5px}
+.dpad .l{left:0;top:36px;border-radius:5px 0 0 5px}
+.dpad .r{right:0;top:36px;border-radius:0 5px 5px 0}
+.ab{display:flex;gap:18px;transform:rotate(-20deg)}
+.ab button{width:54px;height:54px;border-radius:50%;border:none;background:var(--btn);cursor:pointer;
+  color:#f2d7e4;font-family:inherit;font-size:11px;box-shadow:0 4px 0 #5e1d3c,inset 0 2px 0 rgba(255,255,255,.25);
+  touch-action:manipulation}
+.ab button:active{transform:translateY(3px);box-shadow:0 1px 0 #5e1d3c}
+.ab .wrap{display:flex;flex-direction:column;align-items:center;gap:6px}
+.ab .lbl{font-size:8px;color:#8d887c;letter-spacing:.15em}
+.startselect{display:flex;justify-content:center;gap:22px;margin-top:20px}
+.ss{display:flex;flex-direction:column;align-items:center;gap:6px}
+.ss button{width:54px;height:14px;border-radius:8px;border:none;background:#212127;cursor:pointer;transform:rotate(-20deg);
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.14);touch-action:manipulation}
+.ss button:active{background:#000}
+.ss span{font-size:7px;color:#8d887c;letter-spacing:.15em}
+.speaker{position:absolute;right:22px;bottom:64px;width:74px;height:44px;transform:rotate(-20deg);
+  background:repeating-linear-gradient(90deg,var(--shell-dk) 0 5px,transparent 5px 12px);border-radius:3px;opacity:.85}
+.notes{max-width:430px;width:100%;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;
+  font-family:ui-monospace,Menlo,monospace;font-size:11px;color:#77725f;line-height:1.7}
+.notes a{color:#5a5540}
+.scr{position:absolute;inset:0;display:none;color:var(--p3);font-size:8px;line-height:1.5}
+.scr.active{display:block}
+.pad{padding:10px}
+.hdr{font-size:8px;letter-spacing:.06em;border-bottom:2px solid var(--p3);padding-bottom:5px;margin-bottom:8px;display:flex;justify-content:space-between}
+.dimtxt{color:var(--p2)}
+#scr-boot{background:var(--p3)}
+#scr-boot .logo{position:absolute;left:0;right:0;top:52px;text-align:center;color:var(--p0);font-size:14px;letter-spacing:.1em}
+#scr-boot .logo em{font-style:normal;font-size:7px;vertical-align:super}
+.booted #scr-boot .logo{animation:drop .9s cubic-bezier(.3,1.4,.5,1) both}
+@keyframes drop{from{transform:translateY(-46px)}to{transform:none}}
+#scr-title{text-align:center}
+.title-logo{margin-top:26px;display:inline-block;border:3px solid var(--p3);padding:10px 12px;background:var(--p1)}
+.title-logo b{display:block;font-size:15px;letter-spacing:.04em}
+.title-logo span{display:block;font-size:8px;margin-top:6px;color:var(--p2)}
+.pressstart{position:absolute;left:0;right:0;bottom:34px;font-size:8px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.copyright{position:absolute;left:0;right:0;bottom:12px;font-size:6px;color:var(--p2)}
+.menu-list{list-style:none;margin-top:6px}
+.menu-list li{padding:6px 4px;font-size:8px;display:flex;gap:6px;align-items:center}
+.menu-list li.sel{background:var(--p3);color:var(--p0)}
+.menu-list li.sel::before{content:"▶";font-size:7px}
+.menu-hint{position:absolute;left:10px;right:10px;bottom:8px;font-size:6px;color:var(--p2);line-height:1.8}
+.avatar{image-rendering:pixelated;display:grid}
+.avatar i{display:block}
+.about-top{display:flex;gap:10px;align-items:flex-start}
+.about-id{font-size:7px;line-height:1.9;padding-top:4px}
+.dialog{position:absolute;left:6px;right:6px;bottom:6px;height:56px;background:var(--p0);
+  border:3px solid var(--p3);border-radius:2px;padding:7px 8px;font-size:7px;line-height:1.75}
+.dialog .cont{position:absolute;right:7px;bottom:4px;animation:blink 1s steps(1) infinite}
+.lv-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:2px}
+.lv{border:2px solid var(--p3);padding:5px 6px;font-size:6px;line-height:1.6;min-height:30px}
+.lv.sel{background:var(--p3);color:var(--p0)}
+.lv b{display:block;font-size:7px;margin-bottom:2px}
+.lv-info{position:absolute;left:6px;right:6px;bottom:6px;border:2px solid var(--p3);background:var(--p0);
+  padding:5px 7px;font-size:6px;line-height:1.7;min-height:30px}
+.pg-ind{font-size:6px;color:var(--p2)}
+.stat-row{display:grid;grid-template-columns:64px 1fr 26px;gap:5px;align-items:center;margin-bottom:7px;font-size:6px}
+.bar{height:8px;border:2px solid var(--p3);background:var(--p0);position:relative}
+.bar i{position:absolute;top:0;bottom:0;left:0;background:var(--p2);width:0;transition:width .7s steps(12)}
+.quest{border:2px solid var(--p3);padding:6px 7px;margin-bottom:6px;font-size:6px;line-height:1.7}
+.quest b{font-size:7px;display:block;margin-bottom:2px}
+.tag{float:right;background:var(--p3);color:var(--p0);padding:1px 4px;font-size:5px}
+.ct-item{padding:6px 4px;font-size:7px;display:flex;justify-content:space-between;gap:6px}
+.ct-item.sel{background:var(--p3);color:var(--p0)}
+.toast{position:absolute;left:0;right:0;top:44px;text-align:center;font-size:8px;background:var(--p3);color:var(--p0);padding:6px 0;display:none}
+.noscript-lcd{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:14px;font-size:7px;line-height:2}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .bar i{width:var(--w)!important}
+}
+</style>
+</head>
+<body>
+<noscript><div style="font-family:monospace">MILES LAND needs JavaScript to boot. Human behind it: Miles Wolf Allen — mileswa1q2@gmail.com</div></noscript>
+
+<div class="room">
+  <div class="gb">
+    <div class="gb-top"><span>DOT MATRIX WITH STEREO SOUND</span></div>
+    <div class="bezel">
+      <div class="bezel-row"><span class="bezel-txt">◄◄►</span></div>
+      <div class="lcd-wrap">
+        <div class="battery"><i></i><span>BATTERY</span></div>
+        <div class="lcd" id="lcd">
+          <div class="stage" id="stage">
+
+            <section class="scr active" id="scr-boot" aria-label="boot">
+              <noscript><div class="noscript-lcd">JS REQUIRED TO BOOT.<br>MILES WOLF ALLEN<br>mileswa1q2@gmail.com</div></noscript>
+              <div class="logo">MILES<em>™</em></div>
+            </section>
+
+            <section class="scr" id="scr-title" aria-label="title screen">
+              <div class="title-logo"><b>MILES</b><b>LAND</b><span>DEV QUEST</span></div>
+              <div class="pressstart">PRESS START</div>
+              <div class="copyright">©2026 MILES WOLF ALLEN</div>
+            </section>
+
+            <section class="scr pad" id="scr-menu" aria-label="main menu">
+              <div class="hdr"><span>MAIN MENU</span><span class="pg-ind">v1.0</span></div>
+              <ul class="menu-list" id="menuList"></ul>
+              <div class="menu-hint">↑↓ SELECT · A CONFIRM<br>B BACK · ♪ = SELECT BTN</div>
+            </section>
+
+            <section class="scr pad" id="scr-about" aria-label="about">
+              <div class="about-top">
+                <div class="avatar" id="avatar" aria-hidden="true"></div>
+                <div class="about-id">MILES W.<br>ALLEN<br><br>CLASS:<br>DEV<br>LVL 19</div>
+              </div>
+              <div class="dialog" id="dlg"><span id="dlgTxt"></span><span class="cont" id="dlgCont" hidden>▼</span></div>
+            </section>
+
+            <section class="scr pad" id="scr-projects" aria-label="projects">
+              <div class="hdr"><span>LEVEL SELECT</span><span class="pg-ind" id="pgInd">1/3</span></div>
+              <div class="lv-grid" id="lvGrid"></div>
+              <div class="lv-info" id="lvInfo"></div>
+            </section>
+
+            <section class="scr pad" id="scr-skills" aria-label="skills">
+              <div class="hdr"><span>STATS</span><span class="pg-ind">HP/MP</span></div>
+              <div id="statList"></div>
+              <div class="menu-hint">QUEUED: PHP · DOTNET · NIX · YARN</div>
+            </section>
+
+            <section class="scr pad" id="scr-now" aria-label="now">
+              <div class="hdr"><span>QUEST LOG</span><span class="pg-ind">AUG 2026</span></div>
+              <div id="questList"></div>
+            </section>
+
+            <section class="scr pad" id="scr-contact" aria-label="contact">
+              <div class="hdr"><span>SAVE POINT</span><span class="pg-ind">♪ON</span></div>
+              <div id="ctList"></div>
+              <div class="menu-hint">A ON EMAIL = COPY · A ON LINK = OPEN</div>
+              <div class="toast" id="toast">COPIED!</div>
+            </section>
+
+          </div>
+          <div class="lcd-grid" aria-hidden="true"></div>
+          <div class="glare" aria-hidden="true"></div>
+        </div>
+      </div>
+    </div>
+    <div class="brand">MilesLand<small>™</small></div>
+    <div class="controls">
+      <div class="dpad" aria-label="directional pad">
+        <button class="u" data-k="up" aria-label="up"></button>
+        <button class="l" data-k="left" aria-label="left"></button>
+        <button class="r" data-k="right" aria-label="right"></button>
+        <button class="d" data-k="down" aria-label="down"></button>
+      </div>
+      <div class="ab">
+        <div class="wrap"><button data-k="b" aria-label="B button">B</button><span class="lbl">BACK</span></div>
+        <div class="wrap"><button data-k="a" aria-label="A button">A</button><span class="lbl">OK</span></div>
+      </div>
+    </div>
+    <div class="startselect">
+      <div class="ss"><button data-k="select" aria-label="select button"></button><span>SELECT</span></div>
+      <div class="ss"><button data-k="start" aria-label="start button"></button><span>START</span></div>
+    </div>
+    <div class="speaker" aria-hidden="true"></div>
+  </div>
+
+  <aside class="notes">
+    <span>KEYS: ARROWS · Z=A · X=B · ENTER=START</span>
+    <span><a href="./hub.html">← redesign lab</a> · <a href="../index.html">milesallen.site</a></span>
+  </aside>
+</div>
+
+<script>
+(function(){
+"use strict";
+const RM=matchMedia("(prefers-reduced-motion: reduce)").matches;
+const $=s=>document.querySelector(s);
+const stage=$("#stage"),lcd=$("#lcd");
+let sndOn=true,audioCtx=null;
+
+function blip(f,d){
+  if(!sndOn)return;
+  try{
+    audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();
+    if(audioCtx.state==="suspended")audioCtx.resume();
+    const o=audioCtx.createOscillator(),g=audioCtx.createGain();
+    o.type="square";o.frequency.value=f||720;
+    g.gain.setValueAtTime(.03,audioCtx.currentTime);
+    g.gain.exponentialRampToValueAtTime(.0001,audioCtx.currentTime+(d||.06));
+    o.connect(g).connect(audioCtx.destination);
+    o.start();o.stop(audioCtx.currentTime+(d||.06)+.02);
+  }catch(e){}
+}
+
+function fit(){
+  const w=lcd.clientWidth-8,h=lcd.clientHeight-8;
+  stage.style.transform=`scale(${Math.min(w/160,h/144)})`;
+}
+addEventListener("resize",fit);
+new ResizeObserver(fit).observe(lcd);
+
+const SCREENS=["boot","title","menu","about","projects","skills","now","contact"];
+let cur="boot";
+function go(name){
+  cur=name;
+  SCREENS.forEach(s=>$("#scr-"+s).classList.toggle("active",s===name));
+  if(name==="skills")fillBars();
+  blip(name==="title"?520:880);
+}
+
+const MENU=[
+ {id:"about",label:"ABOUT"},
+ {id:"projects",label:"PROJECTS"},
+ {id:"skills",label:"SKILLS"},
+ {id:"now",label:"NOW"},
+ {id:"contact",label:"CONTACT"}
+];
+let mIdx=0;
+const menuList=$("#menuList");
+MENU.forEach((m,i)=>{
+  const li=document.createElement("li");
+  li.textContent=m.label;
+  li.addEventListener("click",()=>{mIdx=i;paintMenu();press("a");});
+  menuList.appendChild(li);
+});
+function paintMenu(){[...menuList.children].forEach((li,i)=>li.classList.toggle("sel",i===mIdx));}
+paintMenu();
+
+const AVATAR=[
+ "..33333333..",
+ ".3222222223.",
+ "32333333323.",
+ "32333333323.",
+ "32222222223.",
+ "32333333323.",
+ ".3222222223.",
+ "..33111133..",
+ "..31333313..",
+ "...333333..."
+];
+const SHADES={"0":"var(--p0)","1":"var(--p1)","2":"var(--p2)","3":"var(--p3)"};
+(function drawAvatar(){
+  const el=$("#avatar");
+  el.style.gridTemplateColumns=`repeat(${AVATAR[0].length},4px)`;
+  AVATAR.join("").split("").forEach(ch=>{
+    const px=document.createElement("i");
+    px.style.width="4px";px.style.height="4px";
+    px.style.background=SHADES[ch]||"transparent";
+    el.appendChild(px);
+  });
+})();
+
+const DLG=[
+ "HEY! I'M MILES. I BUILD BROWSERS, EMULATORS AND WEIRD WEB THINGS.",
+ "VANILLA IS MY MAIN QUEST: A BROWSER REBUILT FROM SCRATCH.",
+ "FEDL IS MY LIVE OPS GRIND: ~4000 RUNS VERIFIED.",
+ "PRESS B TO HEAD BACK. NOW GO PICK A LEVEL!"
+];
+let dlgI=0,typing=false,typeTimer=null;
+function showLine(i){
+  const txt=DLG[i];const out=$("#dlgTxt");
+  $("#dlgCont").hidden=true;
+  if(RM){out.textContent=txt;typing=false;$("#dlgCont").hidden=false;return;}
+  typing=true;out.textContent="";let c=0;
+  clearInterval(typeTimer);
+  typeTimer=setInterval(()=>{
+    out.textContent+=txt[c++];
+    if(c>=txt.length){clearInterval(typeTimer);typing=false;$("#dlgCont").hidden=false;}
+  },26);
+}
+function advanceDlg(){
+  if(typing){clearInterval(typeTimer);$("#dlgTxt").textContent=DLG[dlgI];typing=false;$("#dlgCont").hidden=false;return;}
+  dlgI++;
+  if(dlgI>=DLG.length){go("menu");return;}
+  showLine(dlgI);
+}
+
+const PROJECTS=[
+ ["01","OMNIEMU","ALL YOUR EMULATORS IN ONE PLACE.","https://milesallen.site/projects/omniemu.html"],
+ ["02","VANILLA","A BROWSER BUILT TO BE REBUILT.","https://vanilla.milesallen.site"],
+ ["03","GELECTRON","ELECTRON INTERNALS, DISSECTED.","https://milesallen.site/projects/gelectron.html"],
+ ["04","FEDL","GD LEVEL LIST. 3800+ RUNS.","https://me.fedl.site"],
+ ["05","MOON GAMING","COMMUNITY HUB. 1542 COMMITS.","https://github.com/mileswolfallen2"],
+ ["06","NOTO","NOTES APP. BACK BURNER.","https://milesallen.site/projects/noto.html"],
+ ["07","PORTFOLIO V3","STREET-POSTER ENERGY.","https://milesallen.site"],
+ ["08","REDESIGN LAB","9+ DESIGN LANGUAGES.","https://milesallen.site/redesign/hub.html"],
+ ["09","EMULATOR CORE","20+ CORES, ONE LAUNCHER.","https://milesallen.site/projects/omniemu.html"],
+ ["10","GD TOOLS","DEMON LIST UTILITIES.","https://me.fedl.site"],
+ ["11","SCHOOL UTILS","MAKE THE DAY SHORTER.","https://github.com/mileswolfallen2"],
+ ["12","PIXEL PLAY","CANVAS + SHADER DOODLES.","https://codepen.io/mileswolfallen2-the-typescripter"],
+ ["13","MILES LAND","YOU ARE PLAYING IT.",""]
+];
+const PER=6;
+let pg=0,pSel=0;
+const pgCount=Math.ceil(PROJECTS.length/PER);
+const lvGrid=$("#lvGrid");
+function paintLv(){
+  lvGrid.innerHTML="";
+  const start=pg*PER;
+  PROJECTS.slice(start,start+PER).forEach((p,i)=>{
+    const d=document.createElement("div");
+    d.className="lv"+(i===pSel?" sel":"");
+    d.innerHTML=`<b>${p[0]} ${p[1]}</b>${p[3]?"▶ OPEN":""}`;
+    d.addEventListener("click",()=>{pSel=i;paintLv();});
+    lvGrid.appendChild(d);
+  });
+  $("#pgInd").textContent=(pg+1)+"/"+pgCount;
+  const p=PROJECTS[start+pSel];
+  $("#lvInfo").textContent=p?p[0]+" "+p[1]+" — "+p[2]:"";
+}
+paintLv();
+function openProject(){
+  const p=PROJECTS[pg*PER+pSel];
+  if(p&&p[3]){window.open(p[3],"_blank","noopener");blip(1040);}
+  else blip(220,.12);
+}
+
+const SKILLS=[["JAVASCRIPT",90],["HTML/CSS",92],["TYPESCRIPT",82],["PYTHON",75],["SWIFT",65],["GIT",86],["NODE",78],["BLENDER",70]];
+const statList=$("#statList");
+SKILLS.forEach(([k,v])=>{
+  const row=document.createElement("div");
+  row.className="stat-row";
+  row.innerHTML=`<span>${k}</span><span class="bar"><i style="--w:${v}%"></i></span><span>${v}</span>`;
+  statList.appendChild(row);
+});
+function fillBars(){
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    statList.querySelectorAll(".bar i").forEach(b=>b.style.width=b.style.getPropertyValue("--w"));
+  }));
+}
+
+const QUESTS=[
+ ["MAIN QUEST","VANILLA","browser rebuilt from scratch. active daily."],
+ ["SIDE QUEST","GELECTRON","electron internals: window/ipc/menu/tray."],
+ ["LIVE OPS","FEDL","~4000 runs verified across 340+ levels."],
+ ["BACK BURNER","NOTO","waiting for its moment."]
+];
+QUESTS.forEach(([tag,t,d])=>{
+  const q=document.createElement("div");
+  q.className="quest";
+  q.innerHTML=`<span class="tag">${tag}</span><b>${t}</b>${d}`;
+  $("#questList").appendChild(q);
+});
+
+const CONTACT=[
+ ["EMAIL","mileswa1q2@gmail.com","copy"],
+ ["GITHUB","@mileswolfallen2","https://github.com/mileswolfallen2"],
+ ["REPLIT","@MilesAllen1","https://replit.com/@MilesAllen1"],
+ ["CODEPEN","typescripter","https://codepen.io/mileswolfallen2-the-typescripter"],
+ ["FEDL","me.fedl.site","https://me.fedl.site"]
+];
+let ctIdx=0;
+const ctList=$("#ctList");
+CONTACT.forEach((c,i)=>{
+  const d=document.createElement("div");
+  d.className="ct-item";
+  d.innerHTML=`<span>${c[0]}</span><span>${c[1]}</span>`;
+  d.addEventListener("click",()=>{ctIdx=i;paintCt();press("a");});
+  ctList.appendChild(d);
+});
+function paintCt(){[...ctList.children].forEach((el,i)=>el.classList.toggle("sel",i===ctIdx));}
+paintCt();
+function actContact(){
+  const c=CONTACT[ctIdx];
+  if(c[2]==="copy"){
+    const done=()=>{const t=$("#toast");t.style.display="block";setTimeout(()=>t.style.display="none",1200);blip(1240);};
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(c[1]).then(done,done);}
+    else done();
+  }else{window.open(c[2],"_blank","noopener");blip(1040);}
+}
+
+function press(k){
+  blip(k==="a"?980:k==="b"?420:700,.04);
+  if(cur==="boot"){go("title");return;}
+  if(cur==="title"){if(k==="start"||k==="a"){go("menu");}return;}
+  if(cur==="menu"){
+    if(k==="up"){mIdx=(mIdx+MENU.length-1)%MENU.length;paintMenu();}
+    else if(k==="down"){mIdx=(mIdx+1)%MENU.length;paintMenu();}
+    else if(k==="a"){go(MENU[mIdx].id);if(MENU[mIdx].id==="about"){dlgI=0;showLine(0);}}
+    return;
+  }
+  if(cur==="about"){
+    if(k==="a")advanceDlg();
+    else if(k==="b")go("menu");
+    return;
+  }
+  if(cur==="projects"){
+    const n=PROJECTS.slice(pg*PER,pg*PER+PER).length;
+    if(k==="up"){pSel=(pSel+n-1)%n;paintLv();}
+    else if(k==="down"){pSel=(pSel+1)%n;paintLv();}
+    else if(k==="left"){pg=(pg+pgCount-1)%pgCount;pSel=0;paintLv();}
+    else if(k==="right"){pg=(pg+1)%pgCount;pSel=0;paintLv();}
+    else if(k==="a")openProject();
+    else if(k==="b")go("menu");
+    return;
+  }
+  if(cur==="contact"){
+    if(k==="up"){ctIdx=(ctIdx+CONTACT.length-1)%CONTACT.length;paintCt();}
+    else if(k==="down"){ctIdx=(ctIdx+1)%CONTACT.length;paintCt();}
+    else if(k==="a")actContact();
+    else if(k==="b")go("menu");
+    return;
+  }
+  if(k==="b")go("menu");
+}
+
+document.querySelectorAll("[data-k]").forEach(btn=>{
+  btn.addEventListener("click",()=>press(btn.dataset.k));
+});
+
+addEventListener("keydown",e=>{
+  const map={ArrowUp:"up",ArrowDown:"down",ArrowLeft:"left",ArrowRight:"right",
+    z:"a",Z:"a",Enter:"start",x:"b",X:"b",Escape:"b",Backspace:"b"};
+  const k=map[e.key];
+  if(k){e.preventDefault();press(k);}
+});
+
+function toggleSnd(){
+  sndOn=!sndOn;
+  document.querySelector("#scr-contact .pg-ind").textContent=sndOn?"♪ON":"♪OFF";
+  if(sndOn)blip(880);
+}
+document.querySelector('[data-k="select"]').addEventListener("click",toggleSnd);
+
+fit();
+if(RM){
+  go("title");
+}else{
+  setTimeout(()=>{document.body.classList.add("booted");blip(1040,.09);},250);
+  setTimeout(()=>{if(cur==="boot")go("title");},2100);
+}
+})();
+</script>
+</body>
+</html>
