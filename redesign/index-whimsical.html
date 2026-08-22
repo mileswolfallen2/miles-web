@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MILES WOLF ALLEN — Maximalist Whimsical</title>
+<meta name="description" content="A whimsical maximalist portfolio mockup — playful, rounded, warm, and alive.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%23C3A6FF'/%3E%3Ctext x='50' y='72' font-size='60' font-family='Arial Black' font-weight='900' text-anchor='middle' fill='%231E1033'%3EM%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,800;1,9..144,400&family=Nunito:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#FEFAF6;--bg2:#F5F0FF;--ink:#1E1033;--ink2:#2D1B4E;
+  --mut:#8A7F99;--line:rgba(30,16,51,.12);
+  --lavender:#C3A6FF;--peach:#FFB5A7;--mint:#9EECC4;
+  --yellow:#FFE566;--pink:#FF6B9D;--blue:#6BC5FF;
+  --orange:#FF8C42;--coral:#FF7D7D;--cream:#FFF3E6;
+  --display:'Fraunces',Georgia,serif;
+  --body:'Nunito','Segoe UI',sans-serif;
+  --mono:'JetBrains Mono',monospace;
+  --ease:cubic-bezier(.34,1.56,.64,1);
+  --soft:cubic-bezier(.25,.46,.45,.94);
+}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.65;
+  overflow-x:hidden;-webkit-font-smoothing:antialiased}
+::selection{background:var(--lavender);color:#1E1033}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+
+/* ─── loader ─── */
+.loader{position:fixed;inset:0;z-index:1100;background:var(--lavender);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;transition:opacity .6s,visibility .6s}
+.loader.done{opacity:0;visibility:hidden;pointer-events:none}
+.loader-emoji{font-size:clamp(48px,10vw,80px);animation:bounce 1s var(--ease) infinite}
+@keyframes bounce{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-18px) rotate(-5deg)}}
+.loader-bar{width:min(300px,70vw);height:8px;background:rgba(255,255,255,.35);border-radius:99px;overflow:hidden}
+.loader-bar i{display:block;height:100%;background:var(--ink);border-radius:99px;transform-origin:left;transform:scaleX(0);transition:transform .08s}
+.loader-text{font-family:var(--display);font-size:14px;color:var(--ink);letter-spacing:.1em;opacity:.7}
+
+/* ─── floating decor ─── */
+.deco{position:fixed;pointer-events:none;z-index:0}
+.deco-blob{border-radius:50%;filter:blur(80px);opacity:.18;animation:floatBlob 12s ease-in-out infinite}
+@keyframes floatBlob{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(30px,-20px) scale(1.08)}}
+.deco-star{font-size:20px;animation:twinkle 3s ease-in-out infinite;color:var(--yellow)}
+@keyframes twinkle{0%,100%{opacity:.4;transform:scale(1) rotate(0)}50%{opacity:1;transform:scale(1.3) rotate(20deg)}}
+
+/* ─── nav ─── */
+nav.topbar{position:sticky;top:0;z-index:800;display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:14px clamp(16px,5vw,52px);background:rgba(254,250,246,.88);backdrop-filter:blur(14px);
+  border-bottom:2px solid var(--line)}
+.brand{font-family:var(--display);font-weight:800;font-size:18px;display:flex;align-items:center;gap:8px;color:var(--ink)}
+.brand-dot{width:12px;height:12px;border-radius:50%;background:var(--mint);box-shadow:0 0 0 3px var(--bg),0 0 12px var(--mint);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 3px var(--bg),0 0 12px var(--mint)}50%{box-shadow:0 0 0 3px var(--bg),0 0 4px var(--mint)}}
+.top-links{display:flex;gap:6px;flex-wrap:wrap}
+.top-links a{font-family:var(--mono);font-size:11px;letter-spacing:.04em;padding:8px 14px;border-radius:99px;
+  border:2px solid transparent;color:var(--mut);transition:all .3s var(--soft)}
+.top-links a:hover{background:var(--lavender);color:var(--ink);border-color:var(--lavender);transform:translateY(-2px)}
+.top-links a.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+@media(max-width:720px){.top-links a{font-size:10px;padding:6px 10px}}
+
+/* ─── shared ─── */
+.wrap{width:min(1100px,90vw);margin:auto}
+.wavy{display:block;width:100%;margin-top:-2px;margin-bottom:-2px;line-height:0}
+.wavy path{fill:var(--bg)}
+.section{padding:clamp(80px,10vw,130px) 0;position:relative}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;letter-spacing:.06em;
+  background:var(--yellow);color:var(--ink);padding:8px 16px;border-radius:99px;margin-bottom:18px;
+  box-shadow:3px 3px 0 rgba(30,16,51,.12);transform:rotate(-1deg)}
+.sec-title{font-family:var(--display);font-size:clamp(36px,7vw,80px);font-weight:800;line-height:1;letter-spacing:-.025em;margin-bottom:10px}
+.sec-title em{font-style:italic;font-weight:300;color:var(--pink)}
+.sec-sub{font-size:16px;color:var(--mut);max-width:480px;margin-bottom:40px}
+
+/* ─── hero ─── */
+.hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:clamp(80px,10vw,130px) clamp(16px,5vw,52px) 40px;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;z-index:0;overflow:hidden}
+.hero-bg .blob{position:absolute;border-radius:50%;filter:blur(70px)}
+.blob-1{width:500px;height:500px;background:var(--lavender);top:10%;right:-8%;opacity:.25;animation:floatBlob 14s ease-in-out infinite}
+.blob-2{width:350px;height:350px;background:var(--peach);bottom:5%;left:-5%;opacity:.22;animation:floatBlob 16s ease-in-out infinite 2s}
+.blob-3{width:280px;height:280px;background:var(--mint);top:40%;left:30%;opacity:.15;animation:floatBlob 18s ease-in-out infinite 4s}
+.hero-inner{position:relative;z-index:2}
+.hero-chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}
+.h-chip{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
+  padding:8px 14px;border-radius:99px;border:2px solid var(--ink)}
+.h-chip-1{background:var(--yellow);transform:rotate(-1.5deg)}
+.h-chip-2{background:var(--pink);color:#fff;border-color:var(--pink);transform:rotate(1deg)}
+.h-chip-3{background:var(--blue);color:#fff;border-color:var(--blue);transform:rotate(-.5deg)}
+.hero-name{font-family:var(--display);font-size:clamp(56px,14vw,200px);font-weight:800;line-height:.88;letter-spacing:-.03em;margin-bottom:28px}
+.hero-name .line{display:block;overflow:hidden}
+.hero-name .line span{display:block}
+.hero-name .l1 span{background:linear-gradient(135deg,var(--ink) 30%,var(--ink2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero-name .l2 span{color:transparent;-webkit-text-stroke:2px var(--ink)}
+.hero-name .l3 span{background:linear-gradient(135deg,var(--pink),var(--orange));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero-star{display:inline-block;font-size:.3em;vertical-align:.5em;animation:spin 6s linear infinite}
+@keyframes spin{to{rotate:360deg}}
+.hero-desc{font-size:clamp(16px,1.8vw,20px);color:var(--mut);max-width:520px;line-height:1.7;margin-bottom:30px;font-weight:600}
+.hero-desc b{color:var(--ink)}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:36px}
+.btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:13px;font-weight:700;
+  letter-spacing:.03em;padding:14px 24px;border-radius:99px;border:3px solid var(--ink);color:var(--ink);
+  box-shadow:4px 4px 0 rgba(30,16,51,.15);transition:all .25s var(--ease);cursor:pointer;background:transparent}
+.btn:hover{transform:translate(-3px,-3px);box-shadow:8px 8px 0 rgba(30,16,51,.2)}
+.btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 rgba(30,16,51,.15)}
+.btn-primary{background:var(--ink);color:#fff;border-color:var(--ink)}
+.btn-primary:hover{background:var(--pink);border-color:var(--pink)}
+.btn-mint{background:var(--mint);border-color:var(--mint)}
+.btn-mint:hover{background:var(--blue);border-color:var(--blue)}
+.hero-status{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;color:var(--mut);
+  background:rgba(158,236,196,.25);padding:8px 16px;border-radius:99px;margin-bottom:12px}
+.hero-status i{width:8px;height:8px;border-radius:50%;background:var(--mint);animation:pulse 2s infinite}
+
+/* ─── hero stats ─── */
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:3px solid var(--ink);border-radius:20px;overflow:hidden;box-shadow:6px 6px 0 rgba(30,16,51,.1)}
+.hstat{padding:clamp(18px,2.5vw,30px);text-align:center;border-right:2px solid var(--ink);position:relative;overflow:hidden;transition:transform .3s}
+.hstat:last-child{border-right:none}
+.hstat::before{content:'';position:absolute;inset:0;transform:translateY(100%);transition:transform .4s var(--soft);z-index:0}
+.hstat:nth-child(1)::before{background:var(--yellow)}
+.hstat:nth-child(2)::before{background:var(--peach)}
+.hstat:nth-child(3)::before{background:var(--mint)}
+.hstat:nth-child(4)::before{background:var(--lavender)}
+.hstat:hover::before{transform:translateY(0)}
+.hstat .n{font-family:var(--display);font-size:clamp(28px,4.5vw,48px);font-weight:800;position:relative;z-index:1}
+.hstat .l{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);position:relative;z-index:1;margin-top:6px}
+@media(max-width:640px){.hero-stats{grid-template-columns:1fr 1fr}.hstat:nth-child(1),.hstat:nth-child(2){border-bottom:2px solid var(--ink)}.hstat:nth-child(2),.hstat:nth-child(4){border-right:none}}
+
+/* ─── marquee ─── */
+.marquee-wrap{background:var(--ink);border-radius:24px;margin:clamp(40px,6vw,80px) auto;width:min(1100px,92vw);overflow:hidden;
+  box-shadow:0 8px 32px rgba(30,16,51,.15);transform:rotate(-.8deg)}
+.marquee{display:flex;width:max-content;animation:scroll 30s linear infinite}
+.marquee:hover{animation-play-state:paused}
+.mq-item{display:flex;align-items:center;gap:24px;padding:18px 28px;font-family:var(--display);font-weight:800;
+  font-size:clamp(18px,2.8vw,30px);white-space:nowrap;color:var(--bg);text-transform:uppercase}
+.mq-item .dot{color:var(--pink);font-size:.6em}
+@keyframes scroll{to{transform:translateX(-50%)}}
+
+/* ─── about ─── */
+.about-grid{display:grid;grid-template-columns:260px 1fr;gap:clamp(32px,5vw,64px);align-items:start}
+.avatar-wrap{position:relative}
+.avatar{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:20px;border:4px solid var(--ink);box-shadow:8px 8px 0 var(--lavender);
+  transform:rotate(-2deg);transition:transform .4s var(--ease);filter:contrast(1.05)}
+.avatar:hover{transform:rotate(0) scale(1.02)}
+.avatar-label{position:absolute;bottom:-12px;right:-8px;font-family:var(--mono);font-size:11px;font-weight:700;
+  background:var(--yellow);color:var(--ink);padding:8px 14px;border-radius:12px;border:3px solid var(--ink);
+  box-shadow:3px 3px 0 rgba(30,16,51,.15);transform:rotate(2deg)}
+.about-card{background:var(--bg2);border:3px solid var(--ink);border-radius:20px;padding:clamp(24px,3vw,36px);
+  box-shadow:6px 6px 0 var(--peach);transition:transform .3s var(--ease),box-shadow .3s}
+.about-card:hover{transform:translateY(-4px);box-shadow:8px 8px 0 var(--peach)}
+.about-card .label{font-family:var(--display);font-weight:800;font-size:18px;margin-bottom:16px;color:var(--pink)}
+.about-card p{color:var(--mut);line-height:1.8;margin-bottom:14px}
+.about-card p b{color:var(--ink);font-weight:700}
+.badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.badge{font-family:var(--mono);font-size:11px;font-weight:700;padding:7px 12px;border-radius:12px;border:2px solid var(--ink);color:var(--ink)}
+.badge:nth-child(1){background:var(--yellow);transform:rotate(-2deg)}
+.badge:nth-child(2){background:var(--pink);color:#fff;border-color:var(--pink);transform:rotate(1deg)}
+.badge:nth-child(3){background:var(--mint);transform:rotate(-1deg)}
+.about-links{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.about-link{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.04em;padding:10px 18px;border-radius:99px;
+  border:2px solid var(--ink);transition:all .25s var(--ease);display:inline-block}
+.about-link:hover{transform:translateY(-2px);box-shadow:4px 4px 0 rgba(30,16,51,.12)}
+.about-link.primary{background:var(--ink);color:#fff}
+.about-link.primary:hover{background:var(--pink);border-color:var(--pink)}
+.about-page-links{display:flex;gap:14px;flex-wrap:wrap;margin-top:24px;padding-top:20px;border-top:2px solid var(--line)}
+.about-page-links a{font-family:var(--mono);font-size:12px;color:var(--mut);transition:color .25s}
+.about-page-links a:hover{color:var(--pink)}
+.about-page-links a.hl{color:var(--pink)}
+.facts{border:3px solid var(--ink);border-radius:20px;overflow:hidden;margin-top:24px}
+.fact{display:grid;grid-template-columns:100px 1fr;gap:12px;padding:14px 18px;border-bottom:2px solid var(--line)}
+.fact:last-child{border-bottom:none}
+.fact dt{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);font-weight:700}
+.fact dd{font-size:15px;font-weight:600}
+.fact dd .live{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--mint);margin-right:6px;animation:pulse 2s infinite}
+.badge-chip{display:inline-block;font-family:var(--mono);font-size:10px;border:2px solid var(--line);padding:4px 10px;margin:2px 4px 2px 0;border-radius:12px}
+@media(max-width:820px){.about-grid{grid-template-columns:1fr}.avatar-wrap{max-width:240px}}
+
+/* ─── skills ─── */
+.skills{background:var(--lavender);border-radius:28px;margin:0 clamp(16px,5vw,52px);padding:clamp(60px,8vw,100px) clamp(24px,5vw,52px);
+  box-shadow:0 12px 40px rgba(195,166,255,.3)}
+.skills .sec-title{color:#fff;text-shadow:3px 3px 0 rgba(30,16,51,.2)}
+.skills .sec-sub{color:rgba(255,255,255,.7)}
+.skill-group{margin-bottom:32px}
+.skill-group:last-child{margin-bottom:0}
+.sg-label{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);
+  padding-bottom:10px;border-bottom:2px dashed rgba(30,16,51,.2);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.sg-label::before{content:'✦';color:var(--pink)}
+.chip-wall{display:flex;flex-wrap:wrap;gap:10px}
+.chip{font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;
+  padding:12px 18px;border-radius:14px;background:#fff;color:var(--ink);border:2px solid var(--ink);
+  box-shadow:3px 3px 0 rgba(30,16,51,.15);transition:all .3s var(--ease);cursor:default}
+.chip:hover{transform:translate(-2px,-3px) rotate(calc(var(--r,0deg) + 2deg));box-shadow:6px 6px 0 rgba(30,16,51,.2)}
+.chip.locked{background:transparent;color:var(--ink);border-style:dashed;box-shadow:none;opacity:.6}
+.chip.locked:hover{opacity:1;background:var(--yellow)}
+
+/* ─── projects ─── */
+.proj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+.proj{display:block;border:3px solid var(--ink);border-radius:20px;padding:24px;position:relative;
+  overflow:hidden;transition:transform .3s var(--ease),box-shadow .3s;cursor:pointer}
+.proj::before{content:'';position:absolute;inset:0;transform:scaleY(0);transform-origin:bottom;transition:transform .45s var(--soft);z-index:0}
+.proj:hover::before{transform:scaleY(1)}
+.proj:nth-child(6n+1)::before{background:var(--yellow)}.proj:nth-child(6n+1){box-shadow:5px 5px 0 var(--yellow)}
+.proj:nth-child(6n+2)::before{background:var(--peach)}.proj:nth-child(6n+2){box-shadow:5px 5px 0 var(--peach)}
+.proj:nth-child(6n+3)::before{background:var(--mint)}.proj:nth-child(6n+3){box-shadow:5px 5px 0 var(--mint)}
+.proj:nth-child(6n+4)::before{background:var(--lavender)}.proj:nth-child(6n+4){box-shadow:5px 5px 0 var(--lavender)}
+.proj:nth-child(6n+5)::before{background:var(--blue)}.proj:nth-child(6n+5){box-shadow:5px 5px 0 var(--blue)}
+.proj:nth-child(6n)::before{background:var(--pink)}.proj:nth-child(6n){box-shadow:5px 5px 0 var(--pink)}
+.proj:hover{transform:translateY(-5px);box-shadow:8px 8px 0 rgba(30,16,51,.15)}
+.proj>*{position:relative;z-index:1}
+.proj-top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:12px}
+.proj-tag{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
+  padding:5px 10px;border-radius:8px;border:2px solid var(--ink);background:#fff;color:var(--ink)}
+.proj-meta{font-size:11px;color:var(--mut)}
+.proj-title{font-family:var(--display);font-size:clamp(18px,2.2vw,24px);font-weight:800;margin-bottom:8px}
+.proj-desc{font-size:14px;color:var(--mut);line-height:1.7}
+
+/* ─── scoreboard ─── */
+.scoreboard{background:var(--ink);color:#fff;border-radius:28px;margin:0 clamp(16px,5vw,52px);padding:clamp(60px,8vw,100px) clamp(24px,5vw,52px)}
+.scoreboard .eyebrow{background:var(--yellow);color:var(--ink)}
+.scoreboard .sec-title{color:#fff}
+.scoreboard .sec-sub{color:rgba(255,255,255,.55)}
+.board{margin-bottom:36px}
+.board:last-child{margin-bottom:0}
+.board h3{font-family:var(--display);font-weight:800;font-size:22px;margin-bottom:14px;color:var(--yellow)}
+.board-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.board-cell{padding:clamp(16px,2vw,24px);border-radius:14px;border:2px solid rgba(255,255,255,.18);
+  position:relative;overflow:hidden;transition:transform .3s var(--ease)}
+.board-cell::before{content:'';position:absolute;inset:0;transform:translateX(-100%);transition:transform .4s var(--soft);z-index:0}
+.board-cell:nth-child(1)::before{background:var(--yellow)}
+.board-cell:nth-child(2)::before{background:var(--cyan)}
+.board-cell:nth-child(3)::before{background:var(--pink)}
+.board-cell:nth-child(4)::before{background:var(--mint)}
+.board-cell:hover::before{transform:translateX(0)}
+.board-cell>*{position:relative;z-index:1}
+.bc-num{font-family:var(--display);font-weight:800;font-size:clamp(22px,3.2vw,36px);display:block}
+.bc-num.txt{font-size:clamp(16px,2vw,24px)}
+.bc-lab{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-top:6px;display:block}
+@media(max-width:720px){.board-row{grid-template-columns:1fr 1fr}.board-cell:nth-child(1),.board-cell:nth-child(2){border-bottom:none}}
+
+/* ─── github stats ─── */
+.gh-grid{display:flex;flex-wrap:wrap;gap:16px;justify-content:center}
+.gh-grid img{border-radius:16px;border:3px solid var(--ink);box-shadow:5px 5px 0 var(--lavender);
+  transition:transform .3s var(--ease),box-shadow .3s;max-width:100%;height:auto}
+.gh-grid img:hover{transform:translateY(-4px) rotate(-1deg);box-shadow:8px 8px 0 var(--peach)}
+
+/* ─── devlog ─── */
+.blog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+.blog{display:block;border:3px solid var(--ink);border-radius:20px;padding:24px;background:var(--bg2);
+  transition:transform .3s var(--ease),box-shadow .3s;box-shadow:4px 4px 0 rgba(30,16,51,.08)}
+.blog:hover{transform:translateY(-4px);box-shadow:6px 6px 0 rgba(30,16,51,.15)}
+.blog-date{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--pink);margin-bottom:10px}
+.blog-title{font-family:var(--display);font-weight:800;font-size:18px;margin-bottom:10px}
+.blog-excerpt{font-size:14px;color:var(--mut);line-height:1.7;margin-bottom:14px}
+.blog-tags{display:flex;gap:6px;flex-wrap:wrap}
+.blog-tag{font-family:var(--mono);font-size:10px;font-weight:700;padding:5px 10px;border-radius:8px;
+  border:2px solid var(--ink);color:var(--ink)}
+.blog-tag:nth-child(1){background:var(--yellow)}
+.blog-tag:nth-child(2){background:var(--peach)}
+
+/* ─── contact ─── */
+.contact{background:var(--mint);border-radius:28px;margin:0 clamp(16px,5vw,52px);padding:clamp(60px,8vw,100px) clamp(24px,5vw,52px);position:relative;overflow:hidden}
+.contact::before{content:'';position:absolute;top:-60px;right:-60px;width:250px;height:250px;background:var(--lavender);border-radius:50%;opacity:.3;filter:blur(50px)}
+.contact .sec-title{font-size:clamp(48px,12vw,140px);color:var(--ink);text-shadow:4px 4px 0 rgba(30,16,51,.12)}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,4vw,56px);align-items:start;margin-top:clamp(24px,4vw,40px)}
+.contact-copy p{font-size:17px;font-weight:600;line-height:1.6;max-width:400px;margin-bottom:24px}
+.contact-copy p em{font-family:var(--display);font-style:italic;color:var(--pink);font-size:1.08em}
+.magnet{display:inline-flex;align-items:center;gap:12px;font-family:var(--mono);font-weight:700;font-size:16px;
+  background:var(--ink);color:var(--mint);padding:18px 28px;border-radius:99px;border:3px solid var(--ink);
+  box-shadow:5px 5px 0 rgba(30,16,51,.2);transition:all .3s var(--ease)}
+.magnet:hover{transform:translate(-3px,-3px);box-shadow:8px 8px 0 rgba(30,16,51,.3)}
+.socials{display:flex;flex-direction:column;border:3px solid var(--ink);border-radius:20px;overflow:hidden}
+.soc{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:16px 18px;border-bottom:2px solid var(--line);
+  font-family:var(--mono);font-weight:700;font-size:14px;letter-spacing:.03em;text-transform:uppercase;transition:background .25s,padding-left .25s}
+.soc:last-child{border-bottom:none}
+.soc:hover{padding-left:26px;background:rgba(30,16,51,.06)}
+.soc span:last-child{font-weight:400;font-size:12px;color:var(--mut)}
+@media(max-width:720px){.contact-grid{grid-template-columns:1fr}}
+
+/* ─── footer ─── */
+footer{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;
+  padding:28px clamp(16px,5vw,52px);font-family:var(--mono);font-size:11px;color:var(--mut)}
+.footer-links{display:flex;gap:12px;flex-wrap:wrap}
+.footer-links a{transition:color .25s}
+.footer-links a:hover{color:var(--pink)}
+.footer-links a.hl{color:var(--pink)}
+.footer-links .sep{color:var(--line)}
+
+/* ─── reveal ─── */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .8s var(--soft) var(--d,0s),transform .8s var(--ease) var(--d,0s)}
+.rv.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  html{scroll-behavior:auto}.rv{opacity:1;transform:none}.loader{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- decor -->
+<div class="deco deco-blob" style="width:500px;height:500px;background:var(--lavender);top:5%;right:-10%;animation-delay:0s" aria-hidden="true"></div>
+<div class="deco deco-blob" style="width:350px;height:350px;background:var(--peach);top:50%;left:-8%;animation-delay:3s" aria-hidden="true"></div>
+<div class="deco deco-blob" style="width:280px;height:280px;background:var(--mint);top:80%;right:10%;animation-delay:6s" aria-hidden="true"></div>
+
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader-emoji">🛠️</div>
+  <div class="loader-bar"><i id="loaderBar"></i></div>
+  <div class="loader-text">building something whimsical…</div>
+</div>
+
+<nav class="topbar">
+  <a class="brand" href="#hero"><span class="brand-dot"></span>Miles Allen</a>
+  <div class="top-links">
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#projects">Projects</a>
+    <a href="#scoreboard">Scores</a>
+    <a href="#devlog">Devlog</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<main>
+
+  <!-- ═══ HERO ═══ -->
+  <section class="hero" id="hero">
+    <div class="hero-bg" aria-hidden="true">
+      <div class="blob blob-1"></div>
+      <div class="blob blob-2"></div>
+      <div class="blob blob-3"></div>
+    </div>
+    <div class="hero-inner wrap">
+      <div class="hero-chips">
+        <span class="h-chip h-chip-1">★ MILES WOLF ALLEN</span>
+        <span class="h-chip h-chip-2">DEVELOPER & 3D ARTIST</span>
+        <span class="h-chip h-chip-3">DISKETTE LABS</span>
+      </div>
+      <h1 class="hero-name">
+        <span class="line l1"><span>MILES</span></span>
+        <span class="line l2"><span>WOLF</span></span>
+        <span class="line l3"><span>ALLEN <span class="hero-star" aria-hidden="true">✦</span></span></span>
+      </h1>
+      <p class="hero-desc">I make <b>games</b>, <b>tools</b>, and <b>websites</b> — with craft and a little chaos. Still in school, building a full <b>Electron replacement</b>, and co-founder of <b>Diskette Labs</b>.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#projects">See my builds ↓</a>
+        <a class="btn btn-mint" href="https://github.com/mileswolfallen2" target="_blank" rel="noopener">GitHub ↗</a>
+        <a class="btn" href="https://diskettelabs.com/" target="_blank" rel="noopener">Diskette Labs ↗</a>
+      </div>
+      <div class="hero-status"><i></i>usually online</div>
+      <div class="hero-stats">
+        <div class="hstat rv"><span class="n" data-count="160">0</span><span class="l">repos online</span></div>
+        <div class="hstat rv" style="--d:.06s"><span class="n" data-count="91">0</span><span class="l">stars earned</span></div>
+        <div class="hstat rv" style="--d:.12s"><span class="n" data-count="13">0</span><span class="l">watching me</span></div>
+        <div class="hstat rv" style="--d:.18s"><span class="n" data-count="37">0</span><span class="l">I watch</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ MARQUEE ═══ -->
+  <div class="marquee-wrap" aria-hidden="true">
+    <div class="marquee">
+      <div class="mq-item"><span class="dot">✦</span> Building emulators</div>
+      <div class="mq-item"><span class="dot">✦</span> Send help</div>
+      <div class="mq-item"><span class="dot">✦</span> 160 repos and counting</div>
+      <div class="mq-item"><span class="dot">✦</span> Still debugging</div>
+      <div class="mq-item"><span class="dot">✦</span> Geometry Dash addict</div>
+      <div class="mq-item"><span class="dot">✦</span> Usually online</div>
+      <div class="mq-item"><span class="dot">✦</span> AB ← → ← → ↓ ↓ ↑ ↑</div>
+      <div class="mq-item"><span class="dot">✦</span> Building emulators</div>
+      <div class="mq-item"><span class="dot">✦</span> Send help</div>
+      <div class="mq-item"><span class="dot">✦</span> 160 repos and counting</div>
+      <div class="mq-item"><span class="dot">✦</span> Still debugging</div>
+      <div class="mq-item"><span class="dot">✦</span> Geometry Dash addict</div>
+      <div class="mq-item"><span class="dot">✦</span> Usually online</div>
+      <div class="mq-item"><span class="dot">✦</span> AB ← → ← → ↓ ↓ ↑ ↑</div>
+    </div>
+  </div>
+
+  <!-- ═══ ABOUT ═══ -->
+  <section class="section" id="about" style="background:var(--bg2)">
+    <div class="wrap">
+      <span class="eyebrow rv">01 // identity</span>
+      <h2 class="sec-title rv">Who's <em>Miles?</em></h2>
+      <p class="sec-sub rv">the human behind the commits</p>
+      <div class="about-grid">
+        <div class="avatar-wrap rv">
+          <img class="avatar" src="https://avatars.githubusercontent.com/u/115095719?v=4" alt="Miles Wolf Allen" loading="lazy">
+          <span class="avatar-label">@mileswolfallen2</span>
+        </div>
+        <div>
+          <div class="about-card rv">
+            <div class="label">// Player Bio</div>
+            <p>I build things on the internet. Some are <b>games</b>, some are <b>tools</b>, and some exist purely because I thought it would be fun. <b>160 repos</b>, <b>91 stars</b>, and a growing list of things I'm figuring out as I go.</p>
+            <p>Co-founder of <b>Diskette Labs</b>, building <b>Gelectron</b> (a full Electron replacement), and running <b>FEDL</b> — the Geometry Dash demon list. Still in school, somehow.</p>
+            <div class="badges">
+              <span class="badge">Pull Shark ×2</span>
+              <span class="badge">YOLO</span>
+              <span class="badge">Quickdraw</span>
+            </div>
+            <div class="about-links">
+              <a class="about-link primary" href="../about-me.html">More about me →</a>
+              <a class="about-link" href="https://diskettelabs.com/" target="_blank" rel="noopener">Diskette Labs ↗</a>
+            </div>
+            <div class="about-page-links">
+              <a href="../uses.html">Uses</a>
+              <a href="../now.html">Now</a>
+              <a href="../colophon.html">Colophon</a>
+              <a class="hl" href="../experiments.html">Internet History</a>
+            </div>
+          </div>
+          <dl class="facts rv" style="--d:.08s">
+            <div class="fact"><dt>Status</dt><dd><span class="live"></span>usually online</dd></div>
+            <div class="fact"><dt>Crew</dt><dd>Diskette Labs — co-founder</dd></div>
+            <div class="fact"><dt>Badges</dt><dd><span class="badge-chip">Pull Shark ×2</span><span class="badge-chip">YOLO</span><span class="badge-chip">Quickdraw</span></dd></div>
+            <div class="fact"><dt>Believes</dt><dd>pancakes &gt; waffles · cereal is soup</dd></div>
+            <div class="fact"><dt>Stack</dt><dd>JS · TS · Rust · Swift · Python · Blender</dd></div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ SKILLS ═══ -->
+  <section class="section" id="skills">
+    <div class="wrap">
+      <div class="skills">
+        <span class="eyebrow rv">02 // loadout</span>
+        <h2 class="sec-title rv">My <em>Loadout</em></h2>
+        <p class="sec-sub rv">what I actually know how to use</p>
+        <div class="skill-group rv">
+          <div class="sg-label">Ready to use</div>
+          <div class="chip-wall">
+            <span class="chip" style="--r:-2deg">JavaScript</span>
+            <span class="chip" style="--r:1deg">Backend JS</span>
+            <span class="chip" style="--r:-1deg">HTML</span>
+            <span class="chip" style="--r:2deg">CSS</span>
+            <span class="chip" style="--r:-1.5deg">Python</span>
+            <span class="chip" style="--r:1deg">Git</span>
+            <span class="chip" style="--r:-2.5deg">Blender</span>
+            <span class="chip" style="--r:1.5deg">Unity</span>
+            <span class="chip" style="--r:-1deg">Unreal</span>
+            <span class="chip" style="--r:2deg">Cloudflare</span>
+            <span class="chip" style="--r:-2deg">Linux</span>
+            <span class="chip" style="--r:1deg">Netlify</span>
+            <span class="chip" style="--r:-1.5deg">Bash</span>
+            <span class="chip" style="--r:2deg">GitHub</span>
+            <span class="chip" style="--r:-1deg">Electron</span>
+            <span class="chip" style="--r:1.5deg">Gelectron</span>
+          </div>
+        </div>
+        <div class="skill-group rv" style="--d:.08s">
+          <div class="sg-label">Currently unlocking</div>
+          <div class="chip-wall">
+            <span class="chip locked" style="--r:-1deg">PHP</span>
+            <span class="chip locked" style="--r:1.5deg">.NET</span>
+            <span class="chip locked" style="--r:-2deg">Nix</span>
+            <span class="chip locked" style="--r:1deg">Yarn</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ PROJECTS ═══ -->
+  <section class="section" id="projects">
+    <div class="wrap">
+      <span class="eyebrow rv">03 // builds</span>
+      <h2 class="sec-title rv">The <em>Projects</em></h2>
+      <p class="sec-sub rv">stuff I've made (and some I forked)</p>
+      <div class="proj-grid">
+        <a class="proj rv" href="../projects/omniemu.html">
+          <div class="proj-top"><span class="proj-tag">Active</span><span class="proj-meta">* MIT * v0.3.2</span></div>
+          <div class="proj-title">OmniEmu 2.0</div>
+          <div class="proj-desc">All your emulators in one place. Install 20+, scan ROMs, launch games.</div>
+        </a>
+        <a class="proj rv" style="--d:.03s" href="../projects/gelectron.html">
+          <div class="proj-top"><span class="proj-tag">Early</span><span class="proj-meta">* Rust + Node.js * MIT</span></div>
+          <div class="proj-title">Gelectron</div>
+          <div class="proj-desc">Drop-in Electron replacement on native web views. No bundled Chromium.</div>
+        </a>
+        <a class="proj rv" style="--d:.06s" href="https://vanilla.milesallen.site/" target="_blank" rel="noopener">
+          <div class="proj-top"><span class="proj-tag">Unreleased</span><span class="proj-meta">* Vanilla JS</span></div>
+          <div class="proj-title">Vanilla</div>
+          <div class="proj-desc">A clean, minimal web experiment. No frameworks, no cruft.</div>
+        </a>
+        <a class="proj rv" style="--d:.09s" href="../projects/fedl.html">
+          <div class="proj-top"><span class="proj-tag">Live</span><span class="proj-meta">* 2196 commits</span></div>
+          <div class="proj-title">FEDL</div>
+          <div class="proj-desc">The demon list for Geometry Dash. Ranked levels, verified runs, community chaos.</div>
+        </a>
+        <a class="proj rv" style="--d:.12s" href="../projects/command-move.html">
+          <div class="proj-top"><span class="proj-tag">Swift</span><span class="proj-meta">* MIT * macOS</span></div>
+          <div class="proj-title">CommandMove</div>
+          <div class="proj-desc">True cut-and-paste for Finder. Cmd+X, navigate, Cmd+V. What Apple forgot.</div>
+        </a>
+        <a class="proj rv" style="--d:.15s" href="../projects/noto.html">
+          <div class="proj-top"><span class="proj-tag">Active</span><span class="proj-meta">* Flutter * MIT</span></div>
+          <div class="proj-title">Noto</div>
+          <div class="proj-desc">Note-taking with AI built in. Powered by Cortex, organizes my chaos.</div>
+        </a>
+        <a class="proj rv" style="--d:.18s" href="../projects/nova.html">
+          <div class="proj-top"><span class="proj-tag">Python</span><span class="proj-meta">* MIT</span></div>
+          <div class="proj-title">Nova AI</div>
+          <div class="proj-desc">Local AI assistant. Desktop GUI, web interface, CLI. No cloud, just vibes.</div>
+        </a>
+        <a class="proj rv" style="--d:.21s" href="../projects/music-app.html">
+          <div class="proj-top"><span class="proj-tag">JS</span><span class="proj-meta">* Apache-2.0</span></div>
+          <div class="proj-title">Music App</div>
+          <div class="proj-desc">YouTube Music energy without the annoying parts.</div>
+        </a>
+        <a class="proj rv" style="--d:.24s" href="../projects/rhythm-game.html">
+          <div class="proj-top"><span class="proj-tag">HTML</span><span class="proj-meta">* MPL-2.0</span></div>
+          <div class="proj-title">Rhythm Game</div>
+          <div class="proj-desc">Hit keys to the beat. Real-time notes. My fingers hurt.</div>
+        </a>
+        <a class="proj rv" style="--d:.27s" href="../projects/geode-mod.html">
+          <div class="proj-top"><span class="proj-tag">WIP</span><span class="proj-meta">MIT</span></div>
+          <div class="proj-title">FEDL Geode Mod</div>
+          <div class="proj-desc">The demon list, in-game. Roulette mode, banned mod detection.</div>
+        </a>
+        <a class="proj rv" style="--d:.30s" href="../projects/decompilations.html">
+          <div class="proj-top"><span class="proj-tag">HTML</span><span class="proj-meta">MIT</span></div>
+          <div class="proj-title">Decompilations</div>
+          <div class="proj-desc">Native PC ports of games that probably shouldn't exist.</div>
+        </a>
+        <a class="proj rv" style="--d:.33s" href="../projects/issue-tracker.html">
+          <div class="proj-top"><span class="proj-tag">HTML</span><span class="proj-meta">MIT</span></div>
+          <div class="proj-title">Issue Tracker</div>
+          <div class="proj-desc">Built my own because why not. Node.js, no frameworks, raw determination.</div>
+        </a>
+        <a class="proj rv" style="--d:.36s" href="../projects/moon-gaming.html">
+          <div class="proj-top"><span class="proj-tag">HTML</span><span class="proj-meta">* 1,542 commits</span></div>
+          <div class="proj-title">Moon Gaming</div>
+          <div class="proj-desc">Browser-game hub built at 2am. A growing library of chaos.</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ SCOREBOARD ═══ -->
+  <section class="section" id="scoreboard">
+    <div class="wrap">
+      <div class="scoreboard">
+        <span class="eyebrow rv">04 // scoreboard</span>
+        <h2 class="sec-title rv">Score<em>board</em></h2>
+        <p class="sec-sub rv">what my projects have achieved</p>
+        <div class="board rv">
+          <h3>FEDL</h3>
+          <div class="board-row">
+            <div class="board-cell"><span class="bc-num" data-count="3839">0</span><span class="bc-lab">verified runs</span></div>
+            <div class="board-cell"><span class="bc-num" data-count="341">0</span><span class="bc-lab">ranked levels</span></div>
+            <div class="board-cell"><span class="bc-num" data-count="250" data-suffix="+">0</span><span class="bc-lab">active players</span></div>
+            <div class="board-cell"><span class="bc-num" data-count="3800" data-suffix="+">0</span><span class="bc-lab">youtube videos</span></div>
+          </div>
+        </div>
+        <div class="board rv">
+          <h3>OmniEmu</h3>
+          <div class="board-row">
+            <div class="board-cell"><span class="bc-num" data-count="20" data-suffix="+">0</span><span class="bc-lab">emulators</span></div>
+            <div class="board-cell"><span class="bc-num" data-count="3">0</span><span class="bc-lab">platforms</span></div>
+            <div class="board-cell"><span class="bc-num txt">v0.3.2</span><span class="bc-lab">latest</span></div>
+            <div class="board-cell"><span class="bc-num txt">TS</span><span class="bc-lab">built with</span></div>
+          </div>
+        </div>
+        <div class="board rv">
+          <h3>Other Projects</h3>
+          <div class="board-row">
+            <div class="board-cell"><span class="bc-num" data-count="3">0</span><span class="bc-lab">Nova interfaces</span></div>
+            <div class="board-cell"><span class="bc-num" data-count="5">0</span><span class="bc-lab">Noto AI features</span></div>
+            <div class="board-cell"><span class="bc-num" data-count="1542">0</span><span class="bc-lab">Moon commits</span></div>
+            <div class="board-cell"><span class="bc-num txt">MIT</span><span class="bc-lab">licensed</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ GITHUB STATS ═══ -->
+  <section class="section" id="github">
+    <div class="wrap">
+      <span class="eyebrow rv">05 // github</span>
+      <h2 class="sec-title rv">Raw <em>Stats</em></h2>
+      <p class="sec-sub rv">the raw numbers, straight from the API</p>
+      <div class="gh-grid rv">
+        <img src="https://github-readme-stats.josselinonduty.fr/api?username=mileswolfallen2&show_icons=true&theme=noctis_minimus" alt="GitHub stats" loading="lazy">
+        <img src="https://github-readme-stats.josselinonduty.fr/api/top-langs/?username=mileswolfallen2&layout=compact&theme=noctis_minimus" alt="GitHub top languages" loading="lazy">
+        <img src="https://streak-stats.demolab.com/?user=mileswolfallen2&theme=noctis_minimus" alt="GitHub streak" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ DEVLOG ═══ -->
+  <section class="section" id="devlog" style="background:var(--bg2)">
+    <div class="wrap">
+      <span class="eyebrow rv">06 // devlog</span>
+      <h2 class="sec-title rv">The <em>Devlog</em></h2>
+      <p class="sec-sub rv">things I've learned, broken, and fixed</p>
+      <div class="blog-grid">
+        <a class="blog rv" href="../blog/diskette-devlog.html">
+          <div class="blog-date">2026</div>
+          <div class="blog-title">Focusing on Diskette Labs</div>
+          <div class="blog-excerpt">Co-founder of Diskette Labs, a product design collective. Where my focus is now — still open to collaborations.</div>
+          <div class="blog-tags"><span class="blog-tag">Design</span><span class="blog-tag">Collective</span></div>
+        </a>
+        <a class="blog rv" style="--d:.05s" href="../blog/gelectron-devlog.html">
+          <div class="blog-date">2026</div>
+          <div class="blog-title">Why I Built Gelectron</div>
+          <div class="blog-excerpt">Electron bundles Chromium with every app. 150-300MB per app. Native web views fix that.</div>
+          <div class="blog-tags"><span class="blog-tag">Rust</span><span class="blog-tag">Native</span></div>
+        </a>
+        <a class="blog rv" style="--d:.1s" href="../blog/omniemu-devlog.html">
+          <div class="blog-date">2026</div>
+          <div class="blog-title">Why I Built OmniEmu</div>
+          <div class="blog-excerpt">Tired of opening 15 different emulator apps. Built one that manages them all.</div>
+          <div class="blog-tags"><span class="blog-tag">TypeScript</span><span class="blog-tag">Electron</span></div>
+        </a>
+        <a class="blog rv" style="--d:.15s" href="../blog/command-move-devlog.html">
+          <div class="blog-date">2026</div>
+          <div class="blog-title">CommandMove: Cut & Paste on Mac</div>
+          <div class="blog-excerpt">macOS doesn't have Cmd+X for files. Fixed that. Global event taps, AppleScript, Accessibility perms.</div>
+          <div class="blog-tags"><span class="blog-tag">Swift</span><span class="blog-tag">macOS</span></div>
+        </a>
+        <a class="blog rv" style="--d:.2s" href="../blog/fedl-devlog.html">
+          <div class="blog-date">2025</div>
+          <div class="blog-title">Running the FEDL</div>
+          <div class="blog-excerpt">3,800+ verified runs, ranked levels, and a community that never sleeps.</div>
+          <div class="blog-tags"><span class="blog-tag">Node.js</span><span class="blog-tag">Community</span></div>
+        </a>
+        <a class="blog rv" style="--d:.25s" href="../blog/nova-devlog.html">
+          <div class="blog-date">2025</div>
+          <div class="blog-title">Building Nova AI</div>
+          <div class="blog-excerpt">Local AI that doesn't phone home. Desktop GUI, web interface, CLI — no cloud, no subscriptions.</div>
+          <div class="blog-tags"><span class="blog-tag">Python</span><span class="blog-tag">AI</span></div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CONTACT ═══ -->
+  <section class="section" id="contact">
+    <div class="wrap">
+      <div class="contact">
+        <span class="eyebrow rv">07 // reach out</span>
+        <h2 class="sec-title rv">Get in <em>Touch</em></h2>
+        <p class="sec-sub rv">unless you're a bot, then please go away</p>
+        <div class="contact-grid">
+          <div class="contact-copy">
+            <p class="rv">I'm open to collaborations, weird ideas, and <em>very</em> specific bug reports. The door is always open.</p>
+            <a class="magnet" href="mailto:mileswa1q2@gmail.com">mileswa1q2@gmail.com <span>↗</span></a>
+          </div>
+          <div class="socials rv" style="--d:.08s">
+            <a class="soc" href="https://github.com/mileswolfallen2" target="_blank" rel="noopener"><span>GitHub</span><span>mileswolfallen2</span></a>
+            <a class="soc" href="https://replit.com/@MilesAllen1" target="_blank" rel="noopener"><span>Replit</span><span>@MilesAllen1</span></a>
+            <a class="soc" href="https://codepen.io/mileswolfallen2-the-typescripter" target="_blank" rel="noopener"><span>CodePen</span><span>mileswolfallen2</span></a>
+            <a class="soc" href="https://me.fedl.site" target="_blank" rel="noopener"><span>FEDL</span><span>me.fedl.site</span></a>
+            <a class="soc" href="https://diskettelabs.com/" target="_blank" rel="noopener"><span>Studio</span><span>Diskette Labs</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <span>© 2026 Miles Wolf Allen</span>
+  <div class="footer-links">
+    <a href="../uses.html">Uses</a><span class="sep">·</span>
+    <a href="../now.html">Now</a><span class="sep">·</span>
+    <a href="../colophon.html">Colophon</a><span class="sep">·</span>
+    <a class="hl" href="../experiments.html">Internet History</a>
+  </div>
+  <span>Built with craft ✦</span>
+</footer>
+
+<script>
+(function(){
+  var RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* loader */
+  var loader=document.getElementById('loader');
+  var bar=document.getElementById('loaderBar');
+  if(RM){if(loader)loader.classList.add('done');}
+  else{
+    var n=0;
+    var t=setInterval(function(){
+      n+=Math.max(1,Math.ceil((100-n)/6));
+      if(n>=100){n=100;clearInterval(t);if(bar)bar.style.transform='scaleX(1)';setTimeout(function(){if(loader)loader.classList.add('done');},500);}
+      if(bar)bar.style.transform='scaleX('+(n/100)+')';
+    },50);
+  }
+
+  /* reveal */
+  var ios=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){e.target.classList.add('in');ios.unobserve(e.target);}
+    });
+  },{threshold:.12});
+  document.querySelectorAll('.rv').forEach(function(el){ios.observe(el);});
+
+  /* count up */
+  var cios=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(!e.isIntersecting)return;
+      var el=e.target;var target=parseFloat(el.dataset.count)||0;var suffix=el.dataset.suffix||'';
+      if(RM){el.textContent=target.toLocaleString()+suffix;cios.unobserve(el);return;}
+      var start=null,dur=1400;
+      function step(ts){
+        if(!start)start=ts;var p=Math.min((ts-start)/dur,1);var eased=1-Math.pow(1-p,4);
+        el.textContent=Math.round(target*eased).toLocaleString()+suffix;
+        if(p<1)requestAnimationFrame(step);else el.textContent=target.toLocaleString()+suffix;
+      }
+      requestAnimationFrame(step);cios.unobserve(el);
+    });
+  },{threshold:.6});
+  document.querySelectorAll('[data-count]').forEach(function(el){cios.observe(el);});
+
+  /* nav active */
+  var navLinks=document.querySelectorAll('.top-links a');
+  var secs=['about','skills','projects','scoreboard','devlog','contact'];
+  var secEls=secs.map(function(id){return document.getElementById(id);}).filter(Boolean);
+  var nios=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        navLinks.forEach(function(a){a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id);});
+      }
+    });
+  },{rootMargin:'-40% 0px -55% 0px'});
+  secEls.forEach(function(s){nios.observe(s);});
+
+  /* magnetic button */
+  if(!RM){
+    document.querySelectorAll('.magnet').forEach(function(btn){
+      btn.addEventListener('mousemove',function(e){
+        var r=btn.getBoundingClientRect();
+        var dx=e.clientX-(r.left+r.width/2);var dy=e.clientY-(r.top+r.height/2);
+        btn.style.transform='translate('+(dx*.25)+'px,'+(dy*.25)+'px)';
+      });
+      btn.addEventListener('mouseleave',function(){btn.style.transform='';});
+    });
+  }
+
+  /* sparkle trail */
+  if(!RM){
+    var last=0;
+    document.addEventListener('mousemove',function(e){
+      var now=Date.now();if(now-last<70)return;last=now;
+      var s=document.createElement('div');
+      s.style.cssText='position:fixed;width:6px;height:6px;border-radius:50%;pointer-events:none;z-index:9999;left:'+e.clientX+'px;top:'+e.clientY+'px;background:'+(Math.random()>.5?'var(--lavender)':'var(--yellow)')+';opacity:.8;transition:opacity .4s,transform .4s';
+      document.body.appendChild(s);
+      requestAnimationFrame(function(){s.style.opacity='0';s.style.transform='translateY('+(10+Math.random()*14)+'px) scale(0)';});
+      setTimeout(function(){s.remove();},500);
+    },{passive:true});
+  }
+})();
+</script>
+</body>
+</html>
