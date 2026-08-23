@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE MILES BUGLE — Miles Wolf Allen</title>
+<meta name="description" content="The Miles Bugle — all the code that's fit to print. A newspaper edition of Miles Wolf Allen, developer & 3D artist.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23f4efde'/%3E%3Ctext x='50' y='72' font-size='60' font-family='Arial Black' font-weight='900' text-anchor='middle' fill='%23b3202c'%3EB%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pirata+One&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+/* ════════════════════════════════════════════════
+   THE MILES BUGLE — a Daily Bugle–style newspaper
+   newsprint cream · ink black · bugle red
+════════════════════════════════════════════════ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root{
+  --paper:      #f4efde;
+  --paper-deep: #ece3ca;
+  --paper-bright:#fffdf4;
+  --ink:        #1b1813;
+  --ink-soft:   #55503f;
+  --muted:      #6f6856;
+  --red:        #b3202c;
+  --red-deep:   #8c1720;
+  --rule:       #1b1813;
+  --blackletter:'Pirata One', 'UnifrakturMaguntia', serif;
+  --display:    'Playfair Display', Georgia, serif;
+  --body:       'Source Serif 4', Georgia, serif;
+}
+html{ scroll-behavior:smooth; }
+body{
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 15px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+::selection{ background: var(--red); color: var(--paper-bright); }
+a{ color: inherit; }
+img{ display:block; max-width:100%; }
+
+/* ── aged newsprint grain + vignette ── */
+body::before{
+  content:''; position: fixed; inset:0; z-index: 0; pointer-events:none; opacity:.055;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+body::after{
+  content:''; position: fixed; inset:0; z-index:0; pointer-events:none;
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(27,24,19,.10) 100%);
+}
+.page{ position:relative; z-index:1; max-width:1180px; margin:0 auto; padding:26px clamp(18px,4vw,48px) 0; }
+
+/* ── dateline bar ── */
+.dateline{
+  display:flex; justify-content:space-between; align-items:center; gap:14px;
+  font-size:10.5px; font-weight:600; letter-spacing:.16em; text-transform:uppercase;
+  border-top:1px solid var(--rule);
+  border-bottom:3px double var(--rule);
+  padding:7px 0; margin-bottom:14px;
+}
+.dateline .right{ text-align:right; }
+@media (max-width:720px){ .dateline .center{ display:none; } }
+
+/* ── masthead ── */
+.masthead{
+  text-align:center;
+  font-family: var(--blackletter);
+  font-size: clamp(54px, 11.5vw, 148px);
+  line-height: .95; letter-spacing: .015em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin: 6px 0 0;
+  user-select:none;
+}
+.masthead .spider{
+  display:inline-block; font-size:.42em; vertical-align:middle;
+  margin:0 .14em; transform:translateY(-.06em);
+}
+.mast-rule{ border-top: 5px double var(--red); margin: 10px 0 8px; }
+.tagline{
+  display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap;
+  font-size:11px; font-weight:600; letter-spacing:.14em; text-transform:uppercase;
+  color: var(--muted); padding-bottom: 10px;
+}
+.tagline em{ font-style:normal; color: var(--red); font-weight:700; }
+@media (max-width:720px){ .tagline{ justify-content:center; text-align:center; } }
+
+/* ── section nav ── */
+.sections{
+  display:flex; justify-content:center; flex-wrap:wrap;
+  gap: 4px 16px; padding: 11px 0 13px;
+  border-top: 2px solid var(--rule); border-bottom: 2px solid var(--rule);
+  margin-bottom: 30px;
+}
+.sections a{
+  font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
+  text-decoration:none; color: var(--ink);
+  transition: color .15s;
+}
+.sections a:hover{ color: var(--red); }
+.sections .dot{ color: var(--red); font-weight:900; }
+
+/* ── section headers ── */
+.sec-head{
+  display:flex; align-items:center; gap:16px;
+  margin: 0 0 8px;
+}
+.sec-head::before, .sec-head::after{ content:''; flex:1; border-top:1px solid var(--rule); }
+.sec-tag{
+  font-size:10.5px; font-weight:700; letter-spacing:.2em; text-transform:uppercase;
+  color: var(--red); white-space:nowrap;
+}
+.sec-title{
+  font-family: var(--blackletter);
+  font-size: clamp(40px, 6.5vw, 78px);
+  line-height: .95; text-transform: uppercase;
+  margin: 4px 0 30px;
+}
+.sec-title .ed{ color: var(--red); }
+.sec-sub{ font-size:13px; color:var(--muted); margin-top:-20px; margin-bottom:26px; font-style:italic; }
+
+/* ── front page grid ── */
+.front{
+  display:grid; grid-template-columns: 2fr 1fr;
+  gap: clamp(24px, 3vw, 44px);
+  border-bottom: 3px double var(--rule);
+  padding-bottom: 34px; margin-bottom: 8px;
+}
+@media (max-width:860px){ .front{ grid-template-columns:1fr; } }
+
+.kicker{
+  font-size:11px; font-weight:700; letter-spacing:.2em; text-transform:uppercase;
+  color: var(--red); margin-bottom: 12px;
+}
+.headline{
+  font-family: var(--display); font-weight:900;
+  font-size: clamp(34px, 5vw, 62px);
+  line-height: .99; letter-spacing:-.01em; text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.subhead{
+  font-family: var(--display); font-style:italic; font-weight:700;
+  font-size: clamp(16px, 1.9vw, 21px); color: var(--ink-soft);
+  margin-bottom: 16px; max-width: 46ch;
+}
+.byline{
+  font-size:11.5px; font-weight:700; letter-spacing:.12em; text-transform:uppercase;
+  padding-bottom: 10px; margin-bottom: 18px;
+  border-bottom: 1px solid var(--rule);
+  display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;
+}
+.byline .place{ color: var(--red); }
+
+.article{
+  column-count: 2; column-gap: 30px; column-rule: 1px solid var(--rule);
+  font-size: 14.5px; line-height: 1.78; text-align: justify;
+}
+.article p{ margin-bottom: 14px; }
+.article .drop::first-letter{
+  font-family: var(--display); font-weight:900; color: var(--ink);
+  float:left; font-size: 3.35em; line-height: .78;
+  padding: .06em .1em 0 0; margin-top: .05em;
+}
+.article b{ font-weight:700; }
+.article .jump{
+  display:block; text-align:right; font-style:italic; font-size:12px;
+  color: var(--muted); margin-top: 4px;
+}
+@media (max-width:720px){ .article{ column-count:1; } }
+
+/* ── front page photo ── */
+.photo-block{ position:relative; margin: 26px 0 10px; }
+.photo{
+  border: 1px solid var(--rule); padding: 9px; background: var(--paper-bright);
+  box-shadow: 5px 7px 0 rgba(27,24,19,.14);
+}
+.photo img{
+  width:100%; display:block; filter: grayscale(1) contrast(1.18);
+}
+/* newsprint halftone wash over the photo */
+.photo::after{
+  content:''; position:absolute; inset:9px; pointer-events:none; mix-blend-mode: multiply; opacity:.35;
+  background-image:
+    radial-gradient(rgba(27,24,19,.5) 1px, transparent 1.35px),
+    radial-gradient(rgba(27,24,19,.35) 1px, transparent 1.35px);
+  background-size: 11px 11px, 11px 11px;
+  background-position: 0 0, 5.5px 5.5px;
+}
+.photo-cap{
+  display:flex; justify-content:space-between; gap:12px;
+  font-size:11px; font-style:italic; color: var(--muted);
+  margin-top: 9px;
+}
+.photo-cap .cap-num{ font-style:normal; font-weight:700; letter-spacing:.1em; }
+.stamp{
+  position:absolute; top: 2px; right: 6px; z-index:2;
+  transform: rotate(4deg);
+  border: 3px solid var(--red); color: var(--red);
+  font-weight:900; letter-spacing:.16em; text-transform:uppercase;
+  font-size: 13px; padding: 6px 12px; background: rgba(244,239,222,.92);
+  box-shadow: 2px 3px 0 rgba(27,24,19,.18);
+}
+
+/* ── sidebar ── */
+.sidebar{ display:flex; flex-direction:column; gap: 20px; min-width:0; }
+.box{
+  border: 2px solid var(--rule); background: var(--paper-bright);
+  padding: 16px 18px 18px;
+}
+.box h3{
+  font-size: 11px; font-weight:700; letter-spacing:.18em; text-transform:uppercase;
+  border-bottom: 2px solid var(--rule); padding-bottom: 8px; margin-bottom: 12px;
+  display:flex; align-items:center; gap:8px;
+}
+.box h3 .mark{ color: var(--red); }
+.brief-list{ list-style:none; }
+.brief-list li{
+  font-size: 13px; line-height:1.6; padding: 7px 0;
+  border-bottom: 1px dashed rgba(27,24,19,.25);
+  display:flex; gap: 10px;
+}
+.brief-list li:last-child{ border-bottom:none; }
+.brief-list .k{ font-weight:700; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink); flex:0 0 74px; padding-top:2px; }
+.brief-list .v{ color: var(--ink-soft); }
+
+/* the numbers */
+.numbers{ display:grid; grid-template-columns: 1fr 1fr; gap: 14px 10px; }
+.num-cell .n{
+  font-family: var(--display); font-weight:900; font-size: clamp(26px, 2.6vw, 38px);
+  line-height: 1; letter-spacing:-.02em;
+}
+.num-cell .n sup{ font-size:.5em; color:var(--red); }
+.num-cell .l{ font-size:10px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-top:5px; }
+
+/* spider teaser */
+.spider-box{ background: var(--red); border-color: var(--ink); color: var(--paper-bright); }
+.spider-box h3{ border-color: rgba(255,255,255,.5); }
+.spider-box .mark, .spider-box h3{ color: var(--paper-bright); }
+.spider-box p{ font-size:13px; line-height:1.7; font-style:italic; }
+.spider-box .big-spider{ font-size: 34px; line-height:1; margin-top: 6px; filter: drop-shadow(2px 3px 0 rgba(0,0,0,.25)); }
+
+/* ── generic section spacing ── */
+.section{ padding: 40px 0 8px; }
+.section + .section{ border-top: 3px double var(--rule); margin-top: 6px; }
+
+/* ── about: reporter profile ── */
+.about-grid{
+  display:grid; grid-template-columns: 300px 1fr;
+  gap: clamp(24px, 3vw, 44px); align-items: start;
+}
+@media (max-width:860px){ .about-grid{ grid-template-columns:1fr; } }
+.about-photo-wrap{ position:relative; }
+.about-photo{
+  border:1px solid var(--rule); padding:7px; background: var(--paper-bright);
+  box-shadow: 5px 7px 0 rgba(27,24,19,.14);
+}
+.about-photo img{ filter: grayscale(1) contrast(1.15); }
+.about-photo::after{
+  content:''; position:absolute; inset:7px; pointer-events:none; mix-blend-mode:multiply; opacity:.3;
+  background-image: radial-gradient(rgba(27,24,19,.5) 1px, transparent 1.35px);
+  background-size: 11px 11px;
+}
+.about-photo .cap{
+  font-size:11px; font-style:italic; color:var(--muted); margin-top:8px;
+}
+.about-copy .drop::first-letter{
+  font-family: var(--display); font-weight:900; color: var(--ink);
+  float:left; font-size: 3.2em; line-height:.8;
+  padding:.05em .09em 0 0; margin-top:.04em;
+}
+.about-copy p{ margin-bottom:14px; text-align:justify; }
+.about-copy b{ font-weight:700; }
+.beat-list{
+  display:flex; flex-wrap:wrap; gap:8px; margin-top: 6px;
+}
+.beat{
+  font-size:10.5px; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
+  border:1.5px solid var(--ink); padding:6px 11px; background: var(--paper-bright);
+}
+.beat:nth-child(3n+1){ background: var(--red); color: var(--paper-bright); border-color: var(--ink); }
+
+/* ── the work ── */
+.work-grid{
+  display:grid; grid-template-columns: 1fr 1fr;
+  gap: 0 clamp(26px, 3.5vw, 52px);
+}
+@media (max-width:720px){ .work-grid{ grid-template-columns:1fr; } }
+.story{
+  display:block; text-decoration:none; color: inherit;
+  border-top: 3px solid var(--rule);
+  padding: 18px 0 22px;
+  position: relative;
+}
+.work-grid .story:nth-child(n+3){ border-top-color: rgba(27,24,19,.28); }
+.story-head{ display:flex; justify-content:space-between; align-items:baseline; gap:10px; margin-bottom:9px; }
+.story-kicker{ font-size:10px; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color: var(--red); }
+.story-kicker.live{ color: var(--ink); background: var(--paper-deep); padding:2px 7px; border:1px solid var(--ink); letter-spacing:.12em; }
+.story-page{ font-size:10px; font-weight:700; letter-spacing:.12em; color: var(--muted); }
+.story-title{
+  font-family: var(--display); font-weight:900;
+  font-size: clamp(18px, 1.7vw, 25px); line-height: 1.06;
+  text-transform: uppercase; letter-spacing:-.005em;
+  margin-bottom: 9px; transition: color .15s;
+}
+.story:hover .story-title{ color: var(--red); }
+.story-lede{ font-size:13.5px; line-height:1.7; color: var(--ink-soft); margin-bottom: 10px; }
+.story-more{
+  font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
+  color: var(--ink);
+}
+.story-more .arr{ color: var(--red); font-weight:900; transition: margin .15s; display:inline-block; }
+.story:hover .story-more .arr{ margin-left: 5px; }
+
+/* ── the toolkit ── */
+.toolkit-wrap{
+  border: 2px solid var(--rule); background: var(--paper-bright);
+  padding: 22px 24px;
+}
+.tool-row{
+  display:grid; grid-template-columns: 170px 1fr;
+  gap: 18px; padding: 13px 0;
+  border-bottom: 1px solid var(--rule);
+  align-items: baseline;
+}
+.tool-row:last-child{ border-bottom:none; }
+.tool-row .k{ font-size:11px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color: var(--red); }
+.tool-row .v{ font-size:14px; color: var(--ink); line-height:1.7; }
+.tool-row .v .sep{ color: var(--red); font-weight:900; margin: 0 6px; }
+.tool-row .learn{ color: var(--muted); font-style:italic; }
+@media (max-width:720px){ .tool-row{ grid-template-columns:1fr; gap:4px; } }
+
+/* ── classifieds ── */
+.ads-grid{
+  display:grid; grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+@media (max-width:720px){ .ads-grid{ grid-template-columns:1fr; } }
+.ad{
+  border: 2px solid var(--rule); padding: 18px 20px;
+  background: var(--paper-bright);
+  display:flex; flex-direction:column; gap: 8px;
+  position: relative;
+}
+.ad .ad-tag{
+  position:absolute; top:-11px; left:14px;
+  background: var(--paper); border:1.5px solid var(--ink);
+  font-size:9.5px; font-weight:700; letter-spacing:.16em; text-transform:uppercase;
+  padding: 2px 9px; color: var(--red);
+}
+.ad-title{ font-family: var(--display); font-weight:900; text-transform:uppercase; font-size:17px; line-height:1.1; }
+.ad p{ font-size:13px; color: var(--ink-soft); line-height:1.65; }
+.ad a.ad-link{
+  font-size:11.5px; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+  color: var(--ink); text-decoration:none; word-break: break-all;
+}
+.ad a.ad-link:hover{ color: var(--red); }
+.ad .stars{ color: var(--red); letter-spacing:.4em; font-size:11px; margin-top:2px; }
+.ad .ad-foot{ font-size:10.5px; color: var(--muted); font-style:italic; margin-top:auto; }
+
+/* ── footer ── */
+.end-rule{ border-top: 5px double var(--rule); margin: 34px 0 12px; }
+.foot{
+  display:flex; justify-content:space-between; align-items:center;
+  gap: 14px; flex-wrap: wrap;
+  padding: 12px 0 34px;
+  font-size:10.5px; font-weight:600; letter-spacing:.16em; text-transform:uppercase;
+  color: var(--muted);
+}
+.foot a{ color: var(--red); text-decoration:none; }
+.foot a:hover{ text-decoration: underline; }
+.foot .sp{ font-size:16px; }
+
+/* ── reveal ── */
+.reveal{ opacity:0; transform: translateY(20px); transition: opacity .6s ease, transform .6s ease; }
+.reveal.in{ opacity:1; transform:none; }
+@media (prefers-reduced-motion: reduce){
+  html{ scroll-behavior:auto; }
+  .reveal{ opacity:1; transform:none; transition:none; }
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- dateline -->
+  <div class="dateline">
+    <span>Vol. XLIV — No. 13</span>
+    <span class="center">New York, <span id="today">Wednesday, August 22, 2026</span></span>
+    <span class="right">Web Edition — 24 Pages</span>
+  </div>
+
+  <!-- masthead -->
+  <h1 class="masthead" aria-label="The Miles Bugle">
+    <span class="spider" aria-hidden="true">🕷</span>The&nbsp;Miles&nbsp;Bugle<span class="spider" aria-hidden="true">🕷</span>
+  </h1>
+  <div class="mast-rule"></div>
+  <div class="tagline">
+    <span>Est. 2004 — A Newspaper of Record for Developers</span>
+    <span><em>All the Code That’s Fit to Print.</em></span>
+    <span>Price: One Nice Email</span>
+  </div>
+
+  <!-- section nav -->
+  <nav class="sections" aria-label="Sections">
+    <a href="#front">Front Page</a><span class="dot">·</span>
+    <a href="#about">The Reporter</a><span class="dot">·</span>
+    <a href="#work">The Work</a><span class="dot">·</span>
+    <a href="#toolkit">The Toolkit</a><span class="dot">·</span>
+    <a href="#classifieds">Classifieds</a>
+  </nav>
+
+  <!-- ══════════ FRONT PAGE ══════════ -->
+  <section class="front" id="front">
+    <div>
+      <div class="kicker reveal">Development — Special Report</div>
+      <h2 class="headline reveal">Local Developer Ships the Future From His Bedroom</h2>
+      <p class="subhead reveal">Emulators, frameworks, and a demon list: one teenager’s relentless build, documented in ink.</p>
+      <div class="byline reveal">
+        <span>By Miles Wolf Allen — City Room</span>
+        <span class="place">New York</span>
+      </div>
+
+      <div class="article reveal">
+        <p class="drop"><b>NEW YORK —</b> The most interesting machine on the internet this season may be running in a bedroom on the Upper West Side. Miles Wolf Allen, a developer and 3D artist still in school, has been quietly shipping software that refuses to stay in one lane: emulators that swallow a dozen consoles, a drop-in replacement for the web’s heaviest desktop framework, and the demon list that a whole community of Geometry Dash players now treats as law.</p>
+        <p>The throughline, he says, is simple: <i>software should feel good to use</i>. “I don’t start with the business model,” Allen told the Bugle. “I start with the hundred-megabyte apology — and then I try to make it unnecessary.” That instinct produced FEDL, now tracking thousands of verified runs, and Gelectron, his attempt to keep the nice parts of web apps while losing the bundled browser that makes every Electron install feel like a commitment.</p>
+        <p>Colleagues at <b>Diskette Labs</b>, the collective he co-founded, describe a builder who treats documentation like love letters and bugs like personal insults. Asked what’s next, Allen was characteristically unspecific and entirely serious: “Whatever keeps the blank page scary.”</p>
+        <span class="jump">Continued on Page 3 — “A Day in the Life of a Pull Request”</span>
+      </div>
+
+      <div class="photo-block reveal">
+        <figure class="photo">
+          <img src="https://avatars.githubusercontent.com/u/115095719?v=4" alt="Miles Wolf Allen at his desk">
+          <figcaption class="photo-cap">
+            <span class="cap-num">FIG. 1</span>
+            <span>The reporter at his desk. Any resemblance to a certain wall-crawler is entirely coincidental. — Photo by M. Allen, City Room</span>
+          </figcaption>
+        </figure>
+        <span class="stamp" aria-hidden="true">Extra! Extra!</span>
+      </div>
+    </div>
+
+    <aside class="sidebar">
+      <div class="box reveal">
+        <h3><span class="mark">◆</span> In Brief</h3>
+        <ul class="brief-list">
+          <li><span class="k">Role</span><span class="v">Developer &amp; 3D artist, still in school</span></li>
+          <li><span class="k">Company</span><span class="v">Co-founder, Diskette Labs</span></li>
+          <li><span class="k">Building</span><span class="v">Gelectron — native web views, no bundled Chromium</span></li>
+          <li><span class="k">Habit</span><span class="v">Geometry Dash addict · Pull shark ×2</span></li>
+          <li><span class="k">Mode</span><span class="v">Full send, still debugging</span></li>
+        </ul>
+      </div>
+
+      <div class="box reveal">
+        <h3><span class="mark">◆</span> The Numbers</h3>
+        <div class="numbers">
+          <div class="num-cell"><div class="n">60<sup>+</sup></div><div class="l">Public Repos</div></div>
+          <div class="num-cell"><div class="n">100<sup>+</sup></div><div class="l">Stars Earned</div></div>
+          <div class="num-cell"><div class="n">3,800<sup>+</sup></div><div class="l">Runs Verified</div></div>
+          <div class="num-cell"><div class="n">’22</div><div class="l">Started Shipping</div></div>
+        </div>
+      </div>
+
+      <div class="box spider-box reveal">
+        <h3><span class="mark">◉</span> Spider-Menace?</h3>
+        <p>Residents of the web report a figure in tights swinging from pull request to pull request at all hours. Police say it’s just Miles, three days deep in a refactor.</p>
+        <div class="big-spider" aria-hidden="true">🕷️</div>
+      </div>
+    </aside>
+  </section>
+
+  <!-- ══════════ THE REPORTER ══════════ -->
+  <section class="section" id="about">
+    <div class="sec-head reveal"><span class="sec-tag">Section A — Profile</span></div>
+    <h2 class="sec-title reveal">About the <span class="ed">Reporter</span></h2>
+
+    <div class="about-grid">
+      <div class="about-photo-wrap reveal">
+        <figure class="about-photo">
+          <img src="https://avatars.githubusercontent.com/u/115095719?v=4" alt="Portrait of Miles Wolf Allen">
+          <figcaption class="cap">Fig. 2 — Staff mug shot. No spiders were harmed.</figcaption>
+        </figure>
+      </div>
+
+      <div class="about-copy reveal">
+        <p class="drop"><b>Miles Wolf Allen</b> writes software, renders 3D art, and keeps a list of things he wants to build that grows faster than he can cross items off it. He is still in school, which the people at Diskette Labs — the collective he co-founded — insist is less alarming than it sounds. “He ships,” one member said, “so we stopped asking questions.”</p>
+        <p>His beats run the full front page: emulator development, game tooling, web frameworks, and the particular kind of chaos that produces a demon list for Geometry Dash. The work tends to be either deeply practical (a command-line tool that finally makes cut-and-paste work in Finder) or gloriously impractical (a music player that makes listening feel like the whole point).</p>
+        <p>He is currently building <b>Gelectron</b> — an attempt to keep the nice parts of web apps and lose the several-hundred-megabyte apology — and believes a website should make you want to stay a little longer.</p>
+        <div class="beat-list">
+          <span class="beat">Emulators</span>
+          <span class="beat">Game Dev</span>
+          <span class="beat">Web Tooling</span>
+          <span class="beat">3D Art</span>
+          <span class="beat">Rhythm Games</span>
+          <span class="beat">Geometry Dash</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ THE WORK ══════════ -->
+  <section class="section" id="work">
+    <div class="sec-head reveal"><span class="sec-tag">Section B — Features</span></div>
+    <h2 class="sec-title reveal">The <span class="ed">Work</span></h2>
+    <p class="sec-sub reveal">Stories filed from the newsroom floor — statuses current as of press time.</p>
+
+    <div class="work-grid">
+      <a class="story reveal" href="https://milesallen.site/projects/omniemu.html">
+        <div class="story-head"><span class="story-kicker">Active — TypeScript</span><span class="story-page">B1</span></div>
+        <h3 class="story-title">OmniEmu 2.0 Consolidates the Entire Arcade</h3>
+        <p class="story-lede">All your emulators in one place. Install twenty-plus cores, scan your ROMs, and launch games from a single clean shell. The collection, finally organized.</p>
+        <span class="story-more">Continued <span class="arr">→</span></span>
+      </a>
+
+      <a class="story reveal" href="https://milesallen.site/projects/gelectron.html">
+        <div class="story-head"><span class="story-kicker">Early Days — Rust</span><span class="story-page">B1</span></div>
+        <h3 class="story-title">Gelectron Asks: What if Electron Left?</h3>
+        <p class="story-lede">A drop-in Electron replacement built on native web views. No bundled Chromium, no hundred-megabyte apology — just the good parts of web apps.</p>
+        <span class="story-more">Continued <span class="arr">→</span></span>
+      </a>
+
+      <a class="story reveal" href="https://me.fedl.site/" target="_blank" rel="noopener">
+        <div class="story-head"><span class="story-kicker">Live — 3,800+ Runs</span><span class="story-page">B2</span></div>
+        <h3 class="story-title">FEDL: The List That Became a Community</h3>
+        <p class="story-lede">What began as a demon list for Geometry Dash turned out to be about the people who keep showing up to make the list harder. Ranked levels, verified runs, one shared obsession.</p>
+        <span class="story-more">Continued <span class="arr">→</span></span>
+      </a>
+
+      <a class="story reveal" href="https://vanilla.milesallen.site/" target="_blank" rel="noopener">
+        <div class="story-head"><span class="story-kicker">Unreleased — Quietly Building</span><span class="story-page">B2</span></div>
+        <h3 class="story-title">Vanilla: A Framework With No Frameworks</h3>
+        <p class="story-lede">A clean, minimal web experiment with Diskette Labs. No dependencies, no cruft, no ceremony — the argument that the platform is finally enough.</p>
+        <span class="story-more">Continued <span class="arr">→</span></span>
+      </a>
+
+      <a class="story reveal" href="https://milesallen.site/projects/command-move.html">
+        <div class="story-head"><span class="story-kicker">MacOS — Swift</span><span class="story-page">B3</span></div>
+        <h3 class="story-title">CommandMove Brings True Cut-and-Paste to Finder</h3>
+        <p class="story-lede">Cmd+X, navigate, Cmd+V — the way it always should have worked. A small tool that fixes a decades-old itch on macOS.</p>
+        <span class="story-more">Continued <span class="arr">→</span></span>
+      </a>
+
+      <a class="story reveal" href="https://milesallen.site/projects/music-app.html">
+        <div class="story-head"><span class="story-kicker">Sidebar — Web</span><span class="story-page">B3</span></div>
+        <h3 class="story-title">A Music Player That Makes Listening the Point</h3>
+        <p class="story-lede">A web player designed around the listening, not the library. Evidence that a tool can have a point of view.</p>
+        <span class="story-more">Continued <span class="arr">→</span></span>
+      </a>
+    </div>
+
+    <p class="sec-sub reveal" style="margin-top:24px;">
+      More filed stories: <a href="https://milesallen.site/projects/noto.html" style="color:var(--red);">Noto</a> · <a href="https://milesallen.site/projects/nova.html" style="color:var(--red);">Nova</a> · <a href="https://milesallen.site/projects/rhythm-game.html" style="color:var(--red);">Rhythm Game</a> · <a href="https://milesallen.site/projects/geode-mod.html" style="color:var(--red);">Geode Mod</a> · <a href="https://milesallen.site/projects/issue-tracker.html" style="color:var(--red);">Issue Tracker</a> · <a href="https://milesallen.site/projects/moon-gaming.html" style="color:var(--red);">Moon Gaming</a> — see the <a href="https://github.com/mileswolfallen2" style="color:var(--red);" target="_blank" rel="noopener">full archive</a>.
+    </p>
+  </section>
+
+  <!-- ══════════ THE TOOLKIT ══════════ -->
+  <section class="section" id="toolkit">
+    <div class="sec-head reveal"><span class="sec-tag">Section B — Back Page</span></div>
+    <h2 class="sec-title reveal">The <span class="ed">Toolkit</span></h2>
+    <p class="sec-sub reveal">The newsroom’s equipment, as filed with the city desk.</p>
+
+    <div class="toolkit-wrap reveal">
+      <div class="tool-row">
+        <span class="k">Languages</span>
+        <span class="v">Python <span class="sep">/</span> JavaScript <span class="sep">/</span> TypeScript <span class="sep">/</span> C++ <span class="sep">/</span> Swift <span class="sep">/</span> Rust</span>
+      </div>
+      <div class="tool-row">
+        <span class="k">Web</span>
+        <span class="v">HTML <span class="sep">/</span> CSS <span class="sep">/</span> React <span class="sep">/</span> Node.js <span class="sep">/</span> Three.js</span>
+      </div>
+      <div class="tool-row">
+        <span class="k">3D &amp; Design</span>
+        <span class="v">Blender <span class="sep">/</span> WebGL <span class="sep">/</span> Figma <span class="sep">/</span> Photoshop-grade patience</span>
+      </div>
+      <div class="tool-row">
+        <span class="k">Tools</span>
+        <span class="v">Git <span class="sep">/</span> Linux <span class="sep">/</span> VS Code <span class="sep">/</span> Replit <span class="sep">/</span> Firefox DevTools</span>
+      </div>
+      <div class="tool-row">
+        <span class="k">Currently</span>
+        <span class="v learn">Learning: whatever the next blank page demands.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ CLASSIFIEDS ══════════ -->
+  <section class="section" id="classifieds">
+    <div class="sec-head reveal"><span class="sec-tag">Section C — Want Ads</span></div>
+    <h2 class="sec-title reveal">Classi<span class="ed">fieds</span></h2>
+    <p class="sec-sub reveal">Small print, big opportunities. Box numbers answered daily.</p>
+
+    <div class="ads-grid">
+      <div class="ad reveal">
+        <span class="ad-tag">Ad 1</span>
+        <h3 class="ad-title">Wanted: Interesting Problems</h3>
+        <p>Emulators, frameworks, the occasional impossible thing. Rates negotiable; curiosity mandatory. All inquiries read — the good ones get a reply.</p>
+        <a class="ad-link" href="mailto:mileswa1q2@gmail.com">→ write to mileswa1q2@gmail.com</a>
+        <span class="stars" aria-hidden="true">***</span>
+      </div>
+
+      <div class="ad reveal">
+        <span class="ad-tag">Ad 2</span>
+        <h3 class="ad-title">Read the Archive</h3>
+        <p>Every edition ever filed, freely available to the public. Sources include the code itself.</p>
+        <a class="ad-link" href="https://github.com/mileswolfallen2" target="_blank" rel="noopener">→ github.com/mileswolfallen2</a>
+        <span class="stars" aria-hidden="true">***</span>
+      </div>
+
+      <div class="ad reveal">
+        <span class="ad-tag">Ad 3</span>
+        <h3 class="ad-title">More Editions</h3>
+        <p>The syndicate network: a personal site, a company paper, and a place to remix software.</p>
+        <a class="ad-link" href="https://me.fedl.site" target="_blank" rel="noopener">→ me.fedl.site</a>
+        <a class="ad-link" href="https://diskettelabs.com/" target="_blank" rel="noopener">→ diskettelabs.com</a>
+        <span class="stars" aria-hidden="true">***</span>
+      </div>
+
+      <div class="ad reveal">
+        <span class="ad-tag">Ad 4</span>
+        <h3 class="ad-title">Letters to the Editor</h3>
+        <p>Spot a typo? A bad take on software? A brilliant idea for a build? The editor reads everything.</p>
+        <a class="ad-link" href="mailto:mileswa1q2@gmail.com">→ mileswa1q2@gmail.com</a>
+        <span class="ad-foot">Corrections printed prominently. Compliments modestly.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- footer -->
+  <div class="end-rule"></div>
+  <footer class="foot">
+    <span>© 2026 The Miles Bugle — Vol. XLIV</span>
+    <span class="sp" aria-hidden="true">🕸</span>
+    <span>Printed on recycled pixels · <a href="../index.html">Back to milesallen.site</a></span>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  // today's date in the dateline
+  var el = document.getElementById('today');
+  if (el) {
+    var d = new Date();
+    var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    el.textContent = days[d.getDay()] + ', ' + months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+  }
+
+  // reveal on scroll
+  var reveals = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting) {
+          e.target.classList.add('in');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.08 });
+    reveals.forEach(function(r){ io.observe(r); });
+  } else {
+    reveals.forEach(function(r){ r.classList.add('in'); });
+  }
+})();
+</script>
+</body>
+</html>

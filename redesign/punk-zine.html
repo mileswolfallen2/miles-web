@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en" class="js">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MILESWOLF ZINE — a broadside from every decade at once</title>
+<meta name="description" content="A photocopied, spray-painted, stapled-together punk broadside about Miles Wolf Allen. News clippings meet dot-matrix printouts meet Polaroids meet GitHub screenshots. No gods, no masters, no single era.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Rock+Salt&family=Special+Elite&family=Covered+By+Your+Grace&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Graduate&family=Creepster&family=Bangers&family=Nothing+You+Could+Do&family=Nanum+Pen+Script&family=Reenie+Beanie&family=Caveat+Brush&display=swap" rel="stylesheet">
+<style>
+/* ════════════════════════════════════════════════════
+   MILESWOLF ZINE — every decade at once.
+   Newsprint. Dot-matrix. Polaroid. Spray paint.
+   GitHub screenshots stapled to 1972 headlines.
+   Held together with tape, safety pins, and spite.
+════════════════════════════════════════════════════ */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --red:       #E63946;
+  --navy:      #1D3557;
+  --black:     #0D0D0D;
+  --paper:     #F1FAEE;
+  --paper-dim: #e4dcc9;
+  --neon:      #39FF14;
+  --photocopy: #fffcf0;
+  --newsprint: #f5f0e1;
+  --tape:      rgba(214,206,184,.82);
+  --ink:       #0D0D0D;
+  --marker:    'Permanent Marker', 'Rock Salt', cursive;
+  --typewriter:'Courier Prime', 'Courier New', monospace;
+  --shout:     'Bangers', 'Impact', sans-serif;
+  --stencil:   'Graduate', 'Arial Black', sans-serif;
+  --spooky:    'Creepster', cursive;
+  --scrawl:    'Covered By Your Grace', 'Reenie Beanie', cursive;
+  --rough:     'Nothing You Could Do', 'Caveat Brush', cursive;
+}
+
+html { scroll-behavior: auto; overflow-x: hidden; }
+body {
+  background: var(--paper);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.68' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-blend-mode: overlay;
+  color: var(--ink); font-family: var(--typewriter); font-size: 14px; line-height: 1.6;
+  -webkit-font-smoothing: antialiased; overflow-x: hidden;
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='32' viewBox='0 0 28 32'%3E%3Crect x='3' y='3' width='22' height='26' rx='3' fill='%230D0D0D' stroke='%23E63946' stroke-width='2.5'/%3E%3Ccircle cx='14' cy='17' r='2.5' fill='%23F1FAEE'/%3E%3Crect x='20' y='9' width='8' height='5' rx='1.5' fill='%2339FF14' stroke='%230D0D0D' stroke-width='1.5'/%3E%3C/svg%3E") 14 16, auto;
+}
+::selection { background:var(--red); color:var(--paper); }
+a { color:inherit; text-decoration:none; }
+img { display:block; max-width:100%; }
+
+/* ── halftone dot screen on everything ── */
+body::after {
+  content:''; position:fixed; inset:0; z-index:9998; pointer-events:none; opacity:.16; mix-blend-mode:multiply;
+  background-image:
+    radial-gradient(circle, var(--black) 1.2px, transparent 1.8px),
+    radial-gradient(circle, var(--black) 1.2px, transparent 1.8px);
+  background-size: 15px 15px; background-position: 0 0, 7.5px 7.5px;
+}
+
+/* ── MASTHEAD: cut-out magazine letters on different paper scraps ── */
+.masthead {
+  position:relative; text-align:center;
+  padding: clamp(36px,7vw,80px) clamp(16px,4vw,40px) clamp(20px,3vw,34px);
+  border-bottom: 5px solid var(--black);
+  overflow:hidden;
+}
+/* torn paper strips behind masthead */
+.masthead::before {
+  content:''; position:absolute; top:0; left:-4%; right:-4%; bottom:0; z-index:0; pointer-events:none;
+  background:
+    /* scrap of newsprint */
+    linear-gradient(2deg, var(--newsprint) 30%, transparent 32%) no-repeat,
+    /* scrap of dark paper */
+    linear-gradient(-3deg, rgba(29,53,87,.12) 55%, transparent 58%) no-repeat;
+  background-size: 100% 60%, 100% 45%;
+  background-position: 0 10%, 0 50%;
+}
+.issue-tag {
+  display:inline-block; font-family:var(--typewriter); font-size:10px; font-weight:700;
+  letter-spacing:.3em; text-transform:uppercase;
+  border:3px solid var(--black); padding:5px 12px;
+  transform:rotate(-4deg); margin-bottom:16px; position:relative; z-index:2;
+  background:var(--red); color:var(--paper);
+  box-shadow: 4px 4px 0 rgba(0,0,0,.25);
+}
+/* tape holding the issue tag */
+.issue-tag::after {
+  content:''; position:absolute; top:-9px; right:-14px; width:38px; height:22px;
+  background:var(--tape); transform:rotate(14deg); opacity:.82;
+  box-shadow:0 0 0 1px rgba(0,0,0,.15);
+}
+
+.zine-title {
+  font-family:var(--shout);
+  font-size:clamp(48px,14vw,170px);
+  line-height:.86; letter-spacing:-.04em; text-transform:uppercase;
+  position:relative; z-index:1;
+}
+.zine-title .line { display:block; }
+.zine-title .line:nth-child(1) { color:var(--black); transform:rotate(-2deg); }
+.zine-title .line:nth-child(2) { color:var(--red); transform:rotate(2deg); -webkit-text-stroke:2.5px var(--black); margin-top:-.06em; }
+
+/* cut-out magazine letters for "ZINE" — each on its own scrap */
+.zine-title .ransom { display:inline-flex; gap:3px; transform:rotate(-3deg); }
+.zine-title .ransom .rlet {
+  display:inline-flex; align-items:center; justify-content:center;
+  width:clamp(38px,5.5vw,64px); height:clamp(44px,6.5vw,72px);
+  font-size:clamp(32px,5.5vw,60px); font-weight:900;
+  border:2.5px solid var(--black);
+  position:relative; line-height:1;
+}
+.zine-title .ransom .rlet:nth-child(1) {
+  background:var(--newsprint); font-family:var(--typewriter); color:var(--navy);
+  transform:rotate(-9deg) translateY(-4px);
+}
+.zine-title .ransom .rlet:nth-child(2) {
+  background:var(--red); color:var(--paper); font-family:var(--shout);
+  transform:rotate(6deg) translateY(2px);
+}
+.zine-title .ransom .rlet:nth-child(3) {
+  background:var(--photocopy); font-family:var(--stencil); color:var(--black);
+  transform:rotate(-5deg) translateY(-7px); font-size:clamp(38px,6.5vw,68px);
+}
+.zine-title .ransom .rlet:nth-child(4) {
+  background:var(--neon); color:var(--black); font-family:var(--spooky);
+  transform:rotate(8deg) translateY(5px);
+}
+
+/* spray-paint drip under masthead */
+.masthead-drip {
+  position:absolute; bottom:-18px; left:15%; z-index:2; pointer-events:none;
+}
+.masthead-drip .drop {
+  display:block; width:4px; height:20px; background:var(--red); border-radius:0 0 2px 2px;
+  margin-bottom:2px; opacity:.75;
+}
+.masthead-drip .drop:nth-child(2) { width:2.5px; height:14px; margin-left:8px; }
+.masthead-drip .drop:nth-child(3) { width:3px; height:10px; margin-left:-4px; }
+
+.zine-sub {
+  font-family:var(--typewriter); font-size:clamp(11px,1.4vw,15px);
+  text-transform:uppercase; letter-spacing:.08em;
+  max-width:620px; margin:18px auto 0; position:relative; z-index:2;
+  transform:rotate(1deg); line-height:1.7;
+  border:2.5px solid var(--black); padding:9px 16px; display:inline-block;
+  background:var(--photocopy); box-shadow:5px 5px 0 rgba(0,0,0,.18);
+}
+.zine-sub s { text-decoration:line-through; color:var(--red); }
+
+/* safety pin holding sub */
+.zine-sub::before {
+  content:''; position:absolute; top:-6px; left:22px;
+  width:9px; height:20px; border-radius:50%; border:2px solid var(--black);
+  background:var(--tape);
+}
+.zine-sub::before { box-shadow: -2px 0 0 var(--red); }
+
+/* ── NAV: safety-pin buttons, different paper stocks ── */
+.nav {
+  display:flex; justify-content:center; gap:8px; flex-wrap:wrap;
+  padding:18px clamp(12px,3vw,32px);
+  border-bottom:4px solid var(--black); position:sticky; top:0; z-index:600;
+  background:var(--paper);
+}
+.nav a {
+  display:flex; align-items:center; gap:5px;
+  font-family:var(--typewriter); font-size:9.5px; font-weight:700;
+  letter-spacing:.14em; text-transform:uppercase;
+  padding:8px 14px; border:2px solid var(--black);
+  transition:transform .1s, background .1s, color .1s;
+  position:relative;
+}
+.nav a:nth-child(1) { transform:rotate(-2deg); background:var(--red); color:var(--paper); }
+.nav a:nth-child(2) { transform:rotate(1.5deg); background:var(--navy); color:var(--paper); }
+.nav a:nth-child(3) { transform:rotate(-.8deg); background:var(--photocopy); color:var(--ink); }
+.nav a:nth-child(4) { transform:rotate(2deg); background:var(--neon); color:var(--black); }
+.nav a:nth-child(5) { transform:rotate(-1.5deg); background:var(--newsprint); color:var(--ink); }
+.nav a:hover { transform:rotate(0deg) translateY(-3px); background:var(--black) !important; color:var(--paper); z-index:3; }
+/* safety pin on each nav link */
+.nav a::before {
+  content:''; position:absolute; top:-4px; right:6px;
+  width:8px; height:18px; border-radius:50%; border:1.5px solid var(--black);
+  background:var(--tape); transform:rotate(12deg);
+}
+
+/* ── section panel base ── */
+.panel {
+  position:relative; padding:clamp(40px,5vw,90px) clamp(16px,4vw,40px);
+  border-bottom:5px solid var(--black);
+  overflow:visible;
+}
+.panel-red { background:var(--paper); }
+.panel-navy { background:var(--newsprint); }
+.panel-neon { background:var(--photocopy); }
+.panel-mix { background:var(--paper); }
+
+.panel > * { position:relative; z-index:1; }
+
+/* ── panel numbers ── */
+.sec-num {
+  font-family:var(--typewriter); font-size:clamp(16px,2.5vw,26px); font-weight:700;
+  color:var(--red); display:block; margin-bottom:8px;
+  transform:rotate(-2deg); border-bottom:2px solid var(--black);
+  display:inline-block; padding-bottom:4px;
+}
+
+/* ── COMPONENT: newspaper clipping ── */
+.news-clip {
+  background:var(--newsprint); border:2px solid var(--black);
+  padding:clamp(18px,3vw,30px); position:relative;
+  transform:rotate(-1deg); box-shadow:5px 5px 0 rgba(0,0,0,.15);
+  margin-bottom:24px;
+}
+/* torn edges */
+.news-clip::after {
+  content:''; position:absolute; top:-6px; left:10%; right:5%; height:10px;
+  background:var(--newsprint);
+  clip-path: polygon(0% 40%, 3% 5%, 8% 70%, 14% 20%, 21% 85%, 28% 10%, 34% 60%, 39% 30%, 45% 90%, 52% 15%, 58% 55%, 63% 35%, 69% 80%, 76% 25%, 82% 50%, 88% 15%, 94% 75%, 100% 40%);
+}
+.news-headline {
+  font-family:var(--shout); font-size:clamp(22px,3.5vw,42px);
+  text-transform:uppercase; letter-spacing:-.01em; line-height:1.05;
+  margin-bottom:6px;
+}
+.news-byline {
+  font-family:var(--typewriter); font-size:10px; font-weight:700;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--navy);
+  margin-bottom:14px; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;
+}
+.news-body {
+  font-family:var(--typewriter); font-size:13.5px; line-height:1.75; text-align:justify;
+  column-count:2; column-gap:22px; column-rule:1px solid rgba(0,0,0,.3);
+}
+.news-body .drop {
+  font-family:var(--shout); font-size:3.2em; float:left; line-height:.78;
+  padding:.05em .08em 0 0; color:var(--red); -webkit-text-stroke:1.5px var(--black);
+}
+.news-body b { color:var(--red); }
+@media (max-width:640px) { .news-body { column-count:1; } }
+
+/* ── COMPONENT: halftone photo (like a newsprint picture) ── */
+.news-photo {
+  border:1.5px solid var(--black); padding:8px; background:var(--photocopy);
+  display:inline-block; transform:rotate(3deg); box-shadow:5px 5px 0 rgba(0,0,0,.18);
+  position:relative;
+}
+.news-photo img {
+  filter: grayscale(1) contrast(1.25) brightness(.95);
+}
+.news-photo::after {
+  content:''; position:absolute; inset:8px; pointer-events:none; mix-blend-mode:multiply; opacity:.4;
+  background-image:
+    radial-gradient(rgba(0,0,0,.6) 1px, transparent 1.35px),
+    radial-gradient(rgba(0,0,0,.4) 1px, transparent 1.35px);
+  background-size: 10px 10px, 10px 10px;
+  background-position: 0 0, 5px 5px;
+}
+.news-photo .cap {
+  font-size:10px; font-style:italic; color:var(--ink); margin-top:6px; max-width:280px;
+  text-align:left; line-height:1.4;
+}
+
+/* ── COMPONENT: tape strip ── */
+.tape {
+  position:absolute; height:26px; background:var(--tape);
+  box-shadow:0 0 0 1px rgba(0,0,0,.18); z-index:3; pointer-events:none;
+}
+.tape-a { top:-11px; left:12%; width:62px; transform:rotate(-5deg); }
+.tape-b { bottom:-12px; right:15%; width:54px; transform:rotate(3deg); }
+.tape-c { top:-9px; left:30%; width:48px; transform:rotate(7deg); }
+
+/* ── COMPONENT: staple mark ── */
+.staple {
+  position:absolute; z-index:3; pointer-events:none;
+  width:16px; height:8px; border:2.5px solid var(--black); border-radius:0;
+  transform:rotate(-8deg);
+}
+
+/* ── COMPONENT: dot-matrix printout strip ── */
+.dot-matrix {
+  background:linear-gradient(var(--photocopy), #f9f4e6);
+  border:2px solid var(--black); padding:clamp(14px,2vw,24px);
+  position:relative; transform:rotate(-1.5deg);
+  box-shadow:5px 5px 0 rgba(0,0,0,.18);
+  font-family:var(--typewriter); font-size:12px; line-height:1.8;
+}
+/* tractor-feed edge holes */
+.dot-matrix::before {
+  content:''; position:absolute; left:-14px; top:12px; bottom:12px; width:8px;
+  background: repeating-linear-gradient(180deg, var(--photocopy) 0px, var(--photocopy) 10px, var(--paper) 10px, var(--paper) 14px);
+  border-right:2px solid var(--black);
+}
+
+/* ── COMPONENT: spray-paint stencil overlay ── */
+.stencil {
+  position:absolute; z-index:2; pointer-events:none;
+  font-family:var(--stencil); font-size:clamp(14px,2vw,22px);
+  color:var(--red); text-transform:uppercase; letter-spacing:.1em;
+  opacity:.75; transform:rotate(-3deg);
+  text-shadow: 1px 1px 0 rgba(0,0,0,.3);
+}
+
+/* ── COMPONENT: Polaroid snapshot ── */
+.polaroid {
+  background:var(--photocopy); border:2px solid var(--black);
+  padding:10px 10px 32px 10px; display:inline-block;
+  transform:rotate(2deg); box-shadow:5px 5px 0 rgba(0,0,0,.2);
+  position:relative;
+}
+.polaroid img {
+  filter: contrast(1.1) saturate(.7) brightness(.95);
+  border:1px solid rgba(0,0,0,.15);
+}
+.polaroid .p-cap {
+  font-family:var(--rough); font-size:12px; color:var(--ink);
+  margin-top:8px; text-align:center; line-height:1.3;
+  transform:rotate(-1deg);
+}
+
+/* ── COMPONENT: notebook paper scrap ── */
+.notepad {
+  background:linear-gradient(var(--photocopy) 0, var(--photocopy) 95%, var(--paper-dim) 100%);
+  background-size:100% 28px;
+  border:2px solid var(--black); padding:clamp(14px,2vw,22px);
+  transform:rotate(-2deg); box-shadow:5px 5px 0 rgba(0,0,0,.15);
+  font-family:var(--rough); font-size:14px; line-height:1.75;
+  position:relative;
+}
+/* blue horizontal ruled lines */
+.notepad::before {
+  content:''; position:absolute; inset:0; pointer-events:none; opacity:.25;
+  background: repeating-linear-gradient(180deg, transparent, transparent 27px, #4a90d9 27px, #4a90d9 28px);
+}
+/* red margin line */
+.notepad::after {
+  content:''; position:absolute; left:32px; top:0; bottom:0; width:1.5px;
+  background:rgba(230,57,70,.4); pointer-events:none;
+}
+
+/* ── COMPONENT: magazine cut-out letter chips ── */
+.cutouts {
+  display:flex; flex-wrap:wrap; gap:10px; justify-content:center;
+}
+.cutout {
+  font-size:12px; font-weight:700; text-transform:uppercase;
+  padding:8px 13px; border:2px solid var(--black);
+  transform:rotate(-2deg); position:relative;
+  transition:transform .12s, background .12s, color .12s;
+}
+.cutout:nth-child(5n+1) { background:var(--red); color:var(--paper); font-family:var(--stencil); transform:rotate(-3deg); }
+.cutout:nth-child(5n+2) { background:var(--navy); color:var(--paper); font-family:var(--typewriter); transform:rotate(2deg); }
+.cutout:nth-child(5n+3) { background:var(--photocopy); color:var(--ink); font-family:var(--shout); transform:rotate(-1deg); }
+.cutout:nth-child(5n+4) { background:var(--neon); color:var(--black); font-family:var(--spooky); transform:rotate(3deg); }
+.cutout:nth-child(5n)   { background:var(--newsprint); color:var(--red); font-family:var(--scrawl); transform:rotate(-4deg); }
+.cutout:hover {
+  transform:rotate(0deg) scale(1.1) !important; z-index:4;
+  background:var(--black) !important; color:var(--paper);
+  box-shadow:0 0 0 3px var(--neon);
+}
+
+/* ── COMPONENT: wheat-pasted flyer with tear-off tabs ── */
+.flyer {
+  background:var(--red); color:var(--paper); border:3px solid var(--black);
+  padding:clamp(20px,3vw,36px); transform:rotate(-2deg);
+  box-shadow:8px 8px 0 rgba(0,0,0,.25); position:relative;
+  overflow:visible; padding-bottom:38px;
+}
+.flyer .fm-tag {
+  font-family:var(--stencil); font-size:11px; letter-spacing:.2em; text-transform:uppercase;
+  border:2px solid var(--paper); padding:4px 12px; display:inline-block;
+  margin-bottom:16px; background:var(--black);
+}
+.flyer .fm-head {
+  font-family:var(--shout); font-size:clamp(24px,3.5vw,44px);
+  text-transform:uppercase; line-height:.92; letter-spacing:-.02em; margin-bottom:16px;
+}
+.flyer .fm-row {
+  display:flex; justify-content:space-between; align-items:center; gap:14px;
+  padding:10px 0; border-bottom:1.5px solid rgba(255,255,255,.3);
+  font-family:var(--typewriter); font-size:13px;
+}
+.flyer .fm-row .k { font-weight:700; font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--black); }
+.flyer .fm-row .k em { font-style:normal; color:var(--paper); background:var(--navy); padding:1px 5px; }
+.flyer .fm-row .v { font-size:17px; font-weight:700; }
+.flyer .fm-row:last-child { border-bottom:none; }
+/* tear-off tabs at bottom */
+.flyer-tabs {
+  position:absolute; bottom:-14px; left:0; right:0; display:flex;
+  gap:0; border-top:2px dashed var(--paper);
+  padding-top:6px;
+}
+.flyer-tab {
+  flex:1; text-align:center; font-family:var(--typewriter); font-size:8px; font-weight:700;
+  letter-spacing:.06em; text-transform:uppercase; color:var(--paper);
+  border-right:1.5px dashed rgba(255,255,255,.4); padding:4px 2px 0;
+  transform:rotate(-2deg);
+}
+.flyer-tab:last-child { border-right:none; }
+.flyer-tab:nth-child(even) { transform:rotate(2deg); }
+
+/* spray paint drip on flyer */
+.flyer-drip {
+  position:absolute; top:-12px; right:12%; z-index:2; pointer-events:none;
+}
+.flyer-drip .d { display:block; width:3px; background:var(--neon); border-radius:0 0 2px 2px; margin-bottom:3px; opacity:.8; }
+.flyer-drip .d:nth-child(1) { height:16px; }
+.flyer-drip .d:nth-child(2) { height:10px; margin-left:6px; width:2px; }
+.flyer-drip .d:nth-child(3) { height:7px; margin-left:-2px; }
+
+/* ── COMPONENT: marker doodle arrow ── */
+.marker-arrow {
+  position:absolute; z-index:2; pointer-events:none;
+  font-family:var(--marker); font-size:clamp(18px,3vw,32px);
+  color:var(--red); transform:rotate(-8deg); opacity:.7;
+}
+
+/* ── COMPONENT: stitching thread ── */
+.stitch {
+  position:absolute; z-index:3; pointer-events:none;
+  height:40px; width:2px;
+  background: repeating-linear-gradient(180deg, var(--navy) 0px, var(--navy) 4px, transparent 4px, transparent 6px);
+}
+.stitch::before, .stitch::after {
+  content:''; position:absolute; width:4px; height:4px; border-radius:50%;
+  background:var(--navy);
+}
+.stitch::before { top:-2px; left:-1px; }
+.stitch::after { bottom:-2px; left:-1px; }
+
+/* ── divider ── */
+.clip-div {
+  width:100%; height:3px; background:var(--red); margin:clamp(36px,5vw,64px) 0;
+  position:relative; transform:rotate(-.4deg);
+}
+.clip-div::after {
+  content:'✂  ✂  ✂'; position:absolute; top:-12px; left:50%; transform:translateX(-50%);
+  font-family:var(--typewriter); font-weight:700; font-size:13px; color:var(--navy);
+  background:var(--paper); padding:0 12px;
+}
+
+/* ── DECREE banner ── */
+.decree {
+  font-family:var(--shout); font-size:clamp(18px,2.5vw,32px);
+  text-transform:uppercase; letter-spacing:-.01em; line-height:1.1;
+  max-width:520px; margin:0 auto 16px; text-align:center;
+  padding:14px 20px; border:3px solid var(--black);
+  background:var(--neon); color:var(--black);
+  box-shadow:6px 6px 0 rgba(0,0,0,.18); transform:rotate(-1deg);
+}
+.decree .em { color:var(--red); -webkit-text-stroke:2px var(--black); }
+.decree s { text-decoration:line-through; }
+/* stencil edge effect */
+.decree::before {
+  content:''; position:absolute; inset:-4px; border:2px dashed rgba(0,0,0,.3); pointer-events:none;
+}
+
+/* ── COMPONENT: ripped-out page from a book ── */
+.book-page {
+  background:var(--photocopy); border:2px solid var(--black);
+  padding:clamp(16px,2.5vw,28px); position:relative; transform:rotate(1deg);
+  box-shadow:5px 5px 0 rgba(0,0,0,.15); font-family:var(--typewriter); font-size:13px; line-height:1.8;
+}
+/* ragged left edge (torn from binding) */
+.book-page::before {
+  content:''; position:absolute; left:-10px; top:-1px; bottom:-1px; width:12px;
+  background:var(--photocopy);
+  clip-path: polygon(20% 0%, 60% 4%, 10% 10%, 70% 16%, 25% 22%, 55% 28%, 15% 34%, 65% 40%, 30% 46%, 50% 52%, 20% 58%, 60% 64%, 10% 70%, 70% 76%, 25% 82%, 55% 88%, 15% 94%, 65% 100%);
+}
+
+/* ── footer ── */
+.foot-bar {
+  padding:clamp(22px,3vw,44px) clamp(16px,4vw,40px);
+  background:var(--black); color:var(--paper);
+  display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;
+  font-family:var(--typewriter); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase;
+}
+.foot-bar a { color:var(--red); border-bottom:1.5px solid var(--red); }
+.foot-bar a:hover { color:var(--neon); border-color:var(--neon); }
+.foot-bar .fb-sym { font-size:30px; }
+
+/* ── jitter animations ── */
+.jitter-slow { animation: jitS .9s steps(3) infinite; }
+.jitter-fast { animation: jitF .35s steps(4) infinite; }
+@keyframes jitS {
+  0%,100% { transform:translate(0,0) rotate(-2deg); }
+  33% { transform:translate(-1.5px,2px) rotate(-2.5deg); }
+  66% { transform:translate(2px,-1.5px) rotate(-1.5deg); }
+}
+@keyframes jitF {
+  0%,100% { transform:translate(0,0); }
+  25% { transform:translate(1.5px,-2px); }
+  50% { transform:translate(-2px,1.5px); }
+  75% { transform:translate(1px,-1px); }
+}
+
+/* ── glitch hover ── */
+.glitch-hover { transition:filter .1s; }
+.glitch-hover:hover {
+  filter:drop-shadow(3px 0 var(--neon)) drop-shadow(-3px 0 var(--red));
+  animation: glitchPop .2s steps(3);
+}
+@keyframes glitchPop {
+  0% { filter:drop-shadow(2px 0 var(--neon)) drop-shadow(-2px 0 var(--red)); }
+  50% { filter:drop-shadow(-2px 0 var(--neon)) drop-shadow(2px 0 var(--red)); opacity:.7; }
+  100% { filter:none; opacity:1; }
+}
+
+/* ── reveal on scroll ── */
+.reveal { opacity:0; transform:translateY(30px) rotate(1deg); transition:opacity .5s ease, transform .5s cubic-bezier(.16,1,.3,1); }
+.reveal.in { opacity:1; transform:none; }
+
+/* ── responsive ── */
+@media (max-width:700px) {
+  .zine-title { font-size:clamp(36px,10vw,64px); }
+  .flyer-tabs { flex-wrap:wrap; }
+  .flyer-tab { flex:auto; }
+  .news-body { column-count:1; }
+}
+
+@media print {
+  body { background:white; color:black; font-size:10pt; }
+  body::after, .halftone, .tape, .staple, .stencil, .marker-arrow, .stitch, .flyer-drip, .masthead-drip { display:none !important; }
+  .panel { border-bottom:1pt solid black; padding:12pt 0; page-break-inside:avoid; }
+  .nav { display:none; }
+  a { color:black; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════ MASTHEAD ══════════════════════════ -->
+<header class="masthead" id="top">
+  <span class="issue-tag">ISSUE #1 · EVERY YEAR AT ONCE · PRICELESS</span>
+  <h1 class="zine-title" aria-label="Miles Wolf Zine">
+    <span class="line">MILESWOLF</span>
+    <span class="line">
+      <span class="ransom">
+        <span class="rlet">Z</span><span class="rlet">I</span><span class="rlet">N</span><span class="rlet">E</span>
+      </span>
+    </span>
+  </h1>
+  <div class="masthead-drip" aria-hidden="true">
+    <span class="drop"></span><span class="drop"></span><span class="drop"></span>
+  </div>
+  <p class="zine-sub">A photocopied broadside assembled from every decade at once. <s>One developer.</s> Multiple paper stocks.</p>
+  <!-- staple in the corner -->
+  <div class="staple" style="top:-2px;left:8%;" aria-hidden="true"></div>
+  <div class="staple" style="top:-2px;right:6%;transform:rotate(8deg);" aria-hidden="true"></div>
+</header>
+
+<!-- ══════════════════════════ NAV ══════════════════════════ -->
+<nav class="nav">
+  <a href="#front">Front Page</a>
+  <a href="#score">The Score</a>
+  <a href="#builds">The Builds</a>
+  <a href="#arsenal">Arsenal</a>
+  <a href="#flyer">Contact</a>
+</nav>
+
+<!-- ══════════════════════════ PANEL 1: FRONT PAGE ══════════════════════════ -->
+<section class="panel panel-red" id="front" style="display:flex;flex-wrap:wrap;gap:clamp(20px,3vw,44px);align-items:flex-start;justify-content:center;">
+
+  <!-- marker arrow pointing at the headline -->
+  <span class="marker-arrow" style="top:24px;left:5%;" aria-hidden="true">→ LOOK</span>
+
+  <!-- newspaper clipping -->
+  <div class="news-clip reveal" style="flex:1;min-width:300px;max-width:640px;">
+    <span class="tape tape-a" aria-hidden="true"></span>
+    <span class="tape tape-b" aria-hidden="true"></span>
+    <div class="staple" style="top:8px;left:32%;" aria-hidden="true"></div>
+
+    <div class="news-headline">LOCAL DEVELOPER SHIPS THE FUTURE FROM HIS BEDROOM</div>
+    <div class="news-byline">
+      <span>By M. W. Allen — City Desk</span>
+      <span>New York · Vol. XLIV</span>
+    </div>
+    <div class="news-body">
+      <p><span class="drop">N</span>EW YORK — The most interesting machine on the internet right now may be running in a bedroom on the Upper West Side. <b>Miles Wolf Allen</b>, a developer and 3D artist still in school, has been quietly shipping software that refuses to stay in one lane: emulators that swallow a dozen consoles, a drop-in replacement for Electron, and the demon list a whole community now treats as law.</p>
+      <p>"I don't start with the business model," Allen told this broadside. "I start with the hundred-megabyte apology — and then I try to make it unnecessary." Co-founder of <b>Diskette Labs</b>. Pull shark ×2. Mode: full send, still debugging. Asked what's next: "Whatever keeps the blank page scary."</p>
+    </div>
+  </div>
+
+  <!-- halftone photo insert -->
+  <div class="news-photo reveal" style="flex-shrink:0;">
+    <img src="https://avatars.githubusercontent.com/u/115095719?v=4" alt="Miles Wolf Allen" style="width:clamp(180px,22vw,260px);" loading="lazy">
+    <div class="cap">Fig. 1 — The reporter at his desk. Any resemblance to a certain wall-crawler is purely coincidental. — Photo by M. Allen</div>
+    <!-- staple on the photo -->
+    <div class="staple" style="top:-2px;right:14px;transform:rotate(5deg);" aria-hidden="true"></div>
+  </div>
+
+  <!-- spray-paint stencil floating over the photo -->
+  <div class="stencil reveal" style="top:clamp(60px,10vw,120px);right:2%;transform:rotate(-6deg);" aria-hidden="true">EXTRA!</div>
+</section>
+
+<div class="clip-div" aria-hidden="true"></div>
+
+<!-- ══════════════════════════ PANEL 2: THE SCORE ══════════════════════════ -->
+<section class="panel panel-navy" id="score" style="display:flex;flex-wrap:wrap;gap:clamp(20px,3vw,44px);align-items:flex-start;justify-content:center;">
+
+  <div class="reveal" style="flex:1;min-width:280px;max-width:500px;">
+    <span class="sec-num">// PANEL 02 — THE SCORE</span>
+
+    <!-- dot-matrix printout of the numbers -->
+    <div class="dot-matrix" style="position:relative;">
+      <span class="tape tape-c" aria-hidden="true"></span>
+      <div style="font-weight:700;font-size:11px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px;color:var(--navy);">> PRINT STATS.EXE</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px 20px;">
+        <div><span style="color:var(--red);">PUBLIC_REPOS:</span> <b>60+</b></div>
+        <div><span style="color:var(--red);">STARS_EARNED:</span> <b>100+</b></div>
+        <div><span style="color:var(--red);">RUNS_VERIFIED:</span> <b>3,800+</b></div>
+        <div><span style="color:var(--red);">SHIPPING_SINCE:</span> <b>'22</b></div>
+      </div>
+      <div style="font-size:10px;color:var(--ink);margin-top:14px;border-top:1px dashed rgba(0,0,0,.2);padding-top:10px;">> _</div>
+    </div>
+  </div>
+
+  <!-- Polaroid snapshot -->
+  <div class="polaroid reveal" style="flex-shrink:0;">
+    <img src="https://avatars.githubusercontent.com/u/115095719?v=4" alt="Polaroid" style="width:clamp(150px,18vw,200px);" loading="lazy">
+    <div class="p-cap">Miles · diskette labs ·<br>some tuesday · 2026</div>
+    <!-- stitch holding the polaroid -->
+    <div class="stitch" style="top:-10px;right:14px;" aria-hidden="true"></div>
+  </div>
+
+  <!-- NO symbol scribbled over -->
+  <svg viewBox="0 0 60 60" style="position:absolute;top:18%;right:8%;width:clamp(40px,5vw,70px);pointer-events:none;z-index:2;opacity:.6;transform:rotate(-12deg);" aria-hidden="true">
+    <circle cx="30" cy="30" r="26" fill="none" stroke="var(--red)" stroke-width="3.5"/>
+    <line x1="16" y1="16" x2="44" y2="44" stroke="var(--red)" stroke-width="3.5"/>
+  </svg>
+
+  <div class="decree reveal" style="margin-top:18px;">
+    <span class="em">THE KIT.</span> PYTHON · JS · TS · C++ · SWIFT · RUST · REACT · NODE · THREE · BLENDER
+  </div>
+</section>
+
+<div class="clip-div" aria-hidden="true"></div>
+
+<!-- ══════════════════════════ PANEL 3: THE BUILDS ══════════════════════════ -->
+<section class="panel panel-mix" id="builds">
+  <div class="reveal" style="margin-bottom:26px;">
+    <span class="sec-num">// PANEL 03 — THE BUILDS</span>
+  </div>
+
+  <div style="display:flex;flex-wrap:wrap;gap:clamp(18px,2.5vw,34px);align-items:flex-start;justify-content:center;">
+
+    <!-- OmniEmu: torn notebook paper -->
+    <a class="notepad reveal glitch-hover" href="https://milesallen.site/projects/omniemu.html" style="flex:1;min-width:220px;max-width:340px;position:relative;display:block;color:inherit;">
+      <span class="tape" style="top:-11px;left:20%;width:50px;transform:rotate(-6deg);" aria-hidden="true"></span>
+      <div style="position:relative;z-index:1;">
+        <span style="font-size:10px;font-weight:700;color:var(--red);letter-spacing:.1em;">OMNIEMU 2.0</span>
+        <span style="font-size:10px;color:var(--navy);float:right;">ACTIVE · TS</span>
+        <p style="margin-top:8px;">All your emulators in one place. Install 20+ cores, scan ROMs, launch. The arcade, consolidated. <b>read the file →</b></p>
+      </div>
+      <div class="staple" style="top:-2px;left:24%;" aria-hidden="true"></div>
+    </a>
+
+    <!-- Gelectron: ripped book page -->
+    <a class="book-page reveal glitch-hover" href="https://milesallen.site/projects/gelectron.html" style="flex:1;min-width:220px;max-width:340px;position:relative;display:block;color:inherit;">
+      <span style="font-size:10px;font-weight:700;color:var(--red);letter-spacing:.1em;">GELECTRON</span>
+      <span style="font-size:10px;color:var(--navy);float:right;">EARLY · RUST</span>
+      <p style="margin-top:8px;">What if Electron left? Native web views, no bundled Chromium, no hundred-megabyte apology. <b>read the file →</b></p>
+      <span class="tape" style="bottom:-12px;right:18%;width:44px;transform:rotate(4deg);" aria-hidden="true"></span>
+    </a>
+
+    <!-- FEDL: Polaroid -->
+    <a class="polaroid reveal glitch-hover" href="https://me.fedl.site/" target="_blank" rel="noopener" style="flex-shrink:0;display:block;color:inherit;">
+      <div style="width:clamp(160px,18vw,220px);height:120px;background:var(--red);display:flex;align-items:center;justify-content:center;border:1px solid rgba(0,0,0,.15);">
+        <span style="font-family:var(--shout);font-size:clamp(28px,4vw,48px);color:var(--paper);text-transform:uppercase;">FEDL</span>
+      </div>
+      <div class="p-cap">The demon list<br>3,800+ runs · LIVE</div>
+    </a>
+
+    <!-- Vanilla: dot-matrix scrap -->
+    <div class="dot-matrix reveal glitch-hover" style="flex:1;min-width:220px;max-width:340px;position:relative;">
+      <span style="font-size:10px;font-weight:700;color:var(--red);">> VANILLA.EXE</span>
+      <span style="font-size:10px;color:var(--navy);float:right;">QUIET BUILD</span>
+      <p style="margin-top:8px;">> No frameworks. No cruft.<br>> The platform is finally enough.<br>> <b><a href="https://vanilla.milesallen.site/" target="_blank" rel="noopener">raid the site →</a></b></p>
+      <span class="staple" style="top:-2px;right:20%;transform:rotate(-4deg);" aria-hidden="true"></span>
+    </div>
+
+  </div>
+
+  <!-- more builds: stitched-on list -->
+  <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:24px;">
+    <a class="book-page reveal glitch-hover" href="https://milesallen.site/projects/command-move.html" style="flex:1;min-width:180px;max-width:280px;display:block;color:inherit;padding:14px 16px;font-size:12px;">
+      <b>CommandMove</b> — Cmd+X, navigate, Cmd+V. The way it always should have worked. macOS. Swift. <b>→</b>
+    </a>
+    <a class="notepad reveal glitch-hover" href="https://milesallen.site/projects/music-app.html" style="flex:1;min-width:180px;max-width:280px;display:block;color:inherit;padding:14px 16px;font-size:12px;">
+      <b>Music App</b> — A player that makes listening the point. Proof a tool can have a point of view. <b>→</b>
+    </a>
+    <span class="marker-arrow" style="position:static;display:block;text-align:center;margin-top:8px;" aria-hidden="true">↓ MORE IN THE ARCHIVE</span>
+  </div>
+
+  <div class="decree reveal" style="margin-top:22px;">
+    <span class="em">DECREE #2:</span> MORE FILED IN THE <a href="https://github.com/mileswolfallen2" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;">UNDERGROUND ARCHIVE →</a>
+  </div>
+</section>
+
+<div class="clip-div" aria-hidden="true"></div>
+
+<!-- ══════════════════════════ PANEL 4: ARSENAL ══════════════════════════ -->
+<section class="panel panel-neon" id="arsenal">
+  <div class="reveal" style="margin-bottom:26px;">
+    <span class="sec-num">// PANEL 04 — THE ARSENAL</span>
+  </div>
+
+  <!-- skills as magazine cut-out letters on different scraps -->
+  <div class="cutouts reveal">
+    <span class="cutout">Python</span>
+    <span class="cutout">JavaScript</span>
+    <span class="cutout">TypeScript</span>
+    <span class="cutout">C++</span>
+    <span class="cutout">Swift</span>
+    <span class="cutout">Rust</span>
+    <span class="cutout">HTML/CSS</span>
+    <span class="cutout">React</span>
+    <span class="cutout">Node.js</span>
+    <span class="cutout">Three.js</span>
+    <span class="cutout">WebGL</span>
+    <span class="cutout">Blender</span>
+    <span class="cutout">Figma</span>
+    <span class="cutout">Git</span>
+    <span class="cutout">Linux</span>
+    <span class="cutout">VS Code</span>
+    <span class="cutout">Replit</span>
+    <span class="cutout">Firefox DevTools</span>
+    <span class="cutout">Docker</span>
+    <span class="cutout">SQLite</span>
+  </div>
+
+  <!-- tags as smaller cutouts -->
+  <div class="cutouts reveal" style="margin-top:18px;">
+    <span class="cutout">Emulators</span>
+    <span class="cutout">Game Dev</span>
+    <span class="cutout">Web Tooling</span>
+    <span class="cutout">3D Art</span>
+    <span class="cutout">Rhythm Games</span>
+    <span class="cutout">Geometry Dash</span>
+    <span class="cutout">Pull Shark ×2</span>
+    <span class="cutout">Still In School</span>
+  </div>
+
+  <!-- marker doodle scribble -->
+  <span class="marker-arrow" style="position:absolute;bottom:40px;right:8%;transform:rotate(14deg);" aria-hidden="true">← FOR REAL</span>
+
+  <div class="decree reveal" style="margin-top:32px;">
+    <span class="em">DECREE #3:</span> <s>NO GRID.</s> <s>NO GODS.</s> NO MINIFIED BUNDLES.
+  </div>
+</section>
+
+<div class="clip-div" aria-hidden="true"></div>
+
+<!-- ══════════════════════════ PANEL 5: RENDEZVOUS ══════════════════════════ -->
+<section class="panel panel-red" id="flyer" style="display:flex;flex-wrap:wrap;gap:clamp(20px,3vw,44px);align-items:flex-start;">
+  <div class="reveal" style="margin-bottom:10px;width:100%;">
+    <span class="sec-num">// PANEL 05 — RENDEZVOUS</span>
+  </div>
+
+  <!-- wheat-pasted flyer with tear-off tabs -->
+  <div class="flyer reveal" style="flex:1;min-width:280px;">
+    <div class="flyer-drip" aria-hidden="true">
+      <span class="d"></span><span class="d"></span><span class="d"></span>
+    </div>
+    <span class="fm-tag">TEAR OFF · PASS ALONG · REPOST</span>
+    <h3 class="fm-head">WANTED:<br>INTERESTING PROBLEMS</h3>
+    <div class="fm-row"><span class="k"><em>EMAIL</em></span><span class="v">mileswa1q2@gmail.com</span></div>
+    <div class="fm-row"><span class="k"><em>GITHUB</em></span><span class="v">mileswolfallen2</span></div>
+    <div class="fm-row"><span class="k"><em>CODEPEN</em></span><span class="v">mileswolfallen2</span></div>
+    <div class="fm-row"><span class="k"><em>WEBSITE</em></span><span class="v">me.fedl.site</span></div>
+    <div class="fm-row"><span class="k"><em>COLLECTIVE</em></span><span class="v">diskettelabs.com</span></div>
+    <!-- tear-off tabs at bottom -->
+    <div class="flyer-tabs">
+      <span class="flyer-tab">EMAIL</span>
+      <span class="flyer-tab">GITHUB</span>
+      <span class="flyer-tab">CODEPEN</span>
+      <span class="flyer-tab">WEBSITE</span>
+      <span class="flyer-tab">COLLECTIVE</span>
+    </div>
+    <!-- staple -->
+    <div class="staple" style="top:-2px;left:18%;transform:rotate(-6deg);" aria-hidden="true"></div>
+  </div>
+
+  <!-- sticker cards pinned next to the flyer -->
+  <div style="display:flex;flex-direction:column;gap:14px;flex:0 0 clamp(160px,18vw,240px);">
+    <div class="notepad reveal glitch-hover" style="transform:rotate(-2deg);padding:14px 16px;">
+      <span class="tape" style="top:-10px;left:18%;width:38px;transform:rotate(-5deg);" aria-hidden="true"></span>
+      <b style="font-family:var(--shout);font-size:16px;text-transform:uppercase;">THE REPORTER</b>
+      <p>Miles writes code, renders 3D, and co-founded Diskette Labs. Still in school. Already shipping.</p>
+      <a href="https://milesallen.site/about-me.html" style="font-weight:700;color:var(--red);border-bottom:2px solid var(--red);">read dossier →</a>
+    </div>
+    <div class="book-page reveal glitch-hover" style="transform:rotate(1deg);padding:14px 16px;">
+      <b style="font-family:var(--shout);font-size:16px;text-transform:uppercase;">FULL ARCHIVE</b>
+      <p>Every edition ever filed. Sources include the code itself.</p>
+      <a href="https://github.com/mileswolfallen2" target="_blank" rel="noopener" style="font-weight:700;color:var(--navy);border-bottom:2px solid var(--navy);">break into vault →</a>
+      <span class="stitch" style="bottom:-8px;right:14px;" aria-hidden="true"></span>
+    </div>
+    <div class="dot-matrix reveal glitch-hover" style="transform:rotate(-1deg);padding:14px 16px;font-size:12px;">
+      <b style="font-family:var(--shout);font-size:16px;text-transform:uppercase;">MORE ZINES</b>
+      <p>> me.fedl.site<br>> diskettelabs.com<br>> <b><a href="https://me.fedl.site" target="_blank" rel="noopener">visit syndicate →</a></b></p>
+      <span class="staple" style="top:-2px;right:16%;transform:rotate(4deg);" aria-hidden="true"></span>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════ FOOTER ══════════════════════════ -->
+<footer class="foot-bar">
+  <span>© EVERY YEAR AT ONCE · MILESWOLF ZINE · PHOTOCOPIED · WHEAT-PASTED · STAPLED · STITCHED · NEVER SOLD OUT</span>
+  <span class="fb-sym" aria-hidden="true">☠</span>
+  <a href="../index.html">← BACK TO THE SYSTEM</a>
+</footer>
+
+<script>
+(function(){
+  // reveal on scroll
+  var reveals = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.06 });
+    reveals.forEach(function(r){ io.observe(r); });
+  } else { reveals.forEach(function(r){ r.classList.add('in'); }); }
+
+  // random jitter assignments
+  document.querySelectorAll('.zine-title, .decree, .flyer, .stencil').forEach(function(el){
+    el.classList.add(Math.random() < 0.5 ? 'jitter-slow' : 'jitter-fast');
+  });
+
+  // periodic glitch flash on masthead
+  var masthead = document.querySelector('.masthead');
+  if (masthead) {
+    setInterval(function(){
+      if (Math.random() < 0.15) {
+        masthead.style.filter = 'drop-shadow(3px 0 var(--neon)) drop-shadow(-3px 0 var(--red))';
+        setTimeout(function(){ masthead.style.filter = ''; }, 200);
+      }
+    }, 6000);
+  }
+
+  // ambient glitch on cutouts
+  var cutouts = document.querySelectorAll('.cutout');
+  if (cutouts.length) {
+    setInterval(function(){
+      var el = cutouts[Math.floor(Math.random() * cutouts.length)];
+      el.style.filter = 'drop-shadow(2px 0 var(--neon)) drop-shadow(-2px 0 var(--red))';
+      el.style.opacity = '.65';
+      setTimeout(function(){ el.style.filter = ''; el.style.opacity = ''; }, 160);
+    }, 5000);
+  }
+})();
+</script>
+</body>
+</html>
