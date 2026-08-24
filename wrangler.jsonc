@@ -1,0 +1,15 @@
+{
+  // Cloudflare Workers Static Assets configuration.
+  // Deploys this static portfolio and serves a custom 404 page.
+  "$schema": "https://raw.githubusercontent.com/cloudflare/workers-sdk/main/packages/wrangler/config-schema.json",
+  "name": "miles-web",
+  // Purely static site: no Worker script is needed.
+  "compatibility_date": "2026-08-24",
+  "assets": {
+    // The directory holding the static site. 404.html lives here,
+    // so the built-in 404-page handling below will pick it up.
+    "directory": ".",
+    "not_found_handling": "404-page",
+    "html_handling": "auto-trailing-slash"
+  }
+}
