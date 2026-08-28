@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Why I Built Gelectron | Miles Wolf Allen</title>
+<meta name="description" content="Why I built Gelectron — a drop-in replacement for Electron using native web views instead of bundling Chromium. Memory usage, efficiency, and the problem with bundling a full browser.">
+<link rel="canonical" href="https://milesallen.site/remake/gelectron-devlog.html">
+<meta property="og:title" content="Why I Built Gelectron | Miles Wolf Allen">
+<meta property="og:description" content="Why I built Gelectron — a drop-in replacement for Electron using native web views instead of bundling Chromium.">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2026-03-15">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Why I Built Gelectron | Miles Wolf Allen",
+  "description": "Why I built Gelectron — a drop-in replacement for Electron using native web views instead of bundling Chromium.",
+  "author": { "@type": "Person", "name": "Miles Wolf Allen", "url": "https://milesallen.site/" },
+  "datePublished": "2026-03-15",
+  "url": "https://milesallen.site/remake/gelectron-devlog.html",
+  "mainEntityOfPage": "https://milesallen.site/remake/gelectron-devlog.html"
+}
+</script>
+<meta name="theme-color" content="#f5b700">
+<link rel="icon" type="image/png" href="../favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Josefin+Sans:wght@300;400&family=Spectral:ital,wght@0,400;0,600;1,400&family=Anton&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="broadside.css">
+</head>
+<body class="yellow">
+
+<nav class="article-nav">
+  <a class="brand" href="index.html"><span class="swatch"></span>MILES</a>
+  <div class="links">
+    <a href="index.html">Home</a>
+    <a href="index.html#projects">Projects</a>
+    <a href="index.html#blog">Devlog</a>
+    <a class="cta" href="index.html#contact">Say hi</a>
+  </div>
+</nav>
+
+<header class="article-wrap article-hero">
+  <div class="article-eyebrow">// DEVLOG 005 · 2026</div>
+  <h1>Why I Built Gelectron</h1>
+  <p class="article-tagline">Electron bundles Chromium with every app. 150-300MB on disk, hundreds of MBs of RAM. Native web views fix that without changing your code.</p>
+  <div class="article-tags">
+    <span class="article-tag">Rust</span>
+    <span class="article-tag">Native</span>
+  </div>
+</header>
+
+<div class="hairline"></div>
+
+<article class="article-wrap article-body">
+
+  <h2>The Electron Problem</h2>
+  <p>Electron is everywhere. VS Code, Discord, Slack, Figma — some of the best desktop apps in the world are built with it. And for good reason: you write one web app, and it runs on macOS, Windows, and Linux. The developer experience is fantastic.</p>
+  <p>But there's a cost. Every single Electron app bundles its own copy of Chromium. That's not a shared system library — it's a full copy of Chrome, embedded inside your app. A simple todo app? 150MB on disk. A chat app? 200MB. A complex tool like VS Code? Over 300MB.</p>
+  <p>And it's not just disk space. Each Electron app spins up its own Chromium renderer process, its own GPU compositing pipeline, its own memory space. If you have three Electron apps open, you have three copies of Chromium running. On a laptop with 8GB of RAM, that adds up fast.</p>
+
+  <h2>The Memory Issue</h2>
+  <p>This is what bothered me the most. Memory usage in Electron apps is genuinely high. A minimal "hello world" Electron app uses 80-120MB of RAM. That's more than some full desktop applications. The reason is Chromium — it's a full web browser, and browsers are memory hogs.</p>
+  <p>Chromium keeps multiple processes running: the main process, renderer processes for each window, GPU processes, utility processes. Each one consumes memory. Even when your app is idle, Chromium is still managing tabs you don't have, networking you don't need, and features you'll never use.</p>
+  <p>On my Mac, I routinely have 5-6 apps open at once. If three of them are Electron-based, that's easily 1-1.5GB of RAM just for those apps. On a machine where I'm also running Docker, VS Code, and a browser with 30 tabs... something has to give.</p>
+
+  <h2>The Native Web View Approach</h2>
+  <p>There are alternatives to Electron. Tauri uses the system's webview, which solves the disk space problem but introduces consistency issues — Safari's webview on macOS is different from WebView2 on Windows, which is different from WebKitGTK on Linux. You lose predictability.</p>
+  <p>I wanted something closer to Electron's developer experience. Same Node.js runtime. Same IPC model. Same APIs. But instead of bundling a full Chromium binary, Gelectron maps Electron's rendering layer to the OS-native web view. WKWebView on macOS/iOS, WebView2 on Windows, WebKitGTK on Linux. Each platform gets its own optimized renderer — no browser to bundle, no 150MB tax.</p>
+
+  <h2>Why Native Web Views Win</h2>
+  <p>The efficiency gains come from not duplicating what the OS already provides:</p>
+  <ul>
+    <li><strong>Shared system libraries:</strong> The OS already has its web rendering engine loaded. No need to bundle another one.</li>
+    <li><strong>No process-per-app overhead:</strong> Each Electron app spins up its own Chromium process tree. Native web views share the system renderer.</li>
+    <li><strong>Smaller binary:</strong> No Chromium bundle means binaries measured in megabytes, not hundreds of megabytes.</li>
+    <li><strong>Lower baseline memory:</strong> Without a full browser engine in-process, your app starts with a fraction of Electron's baseline RAM.</li>
+    <li><strong>OS-level optimizations:</strong> Apple, Microsoft, and the GNOME team all optimize their web views for their own platforms. You get that for free.</li>
+  </ul>
+  <p>I'm not claiming Gelectron is faster than Electron today. It's early, experimental, and many APIs are stubs. But the foundation is fundamentally more efficient. The ceiling is higher. And that's what matters.</p>
+
+  <h2>How It Works</h2>
+  <p>Gelectron is a drop-in replacement for Electron. You run <code>gelectron .</code> instead of <code>electron .</code>, and your app should just work. Under the hood:</p>
+  <ul>
+    <li>A JavaScript compatibility layer maps Electron's API surface (BrowserWindow, ipcMain, Menu, Tray, etc.) to Gelectron's internals</li>
+    <li>A Rust N-API addon handles the heavy lifting: window management via winit, native menus via muda, system tray via tray-icon, file dialogs via rfd</li>
+    <li>The platform's native web view handles all rendering — HTML, CSS, JavaScript execution</li>
+    <li>Node.js runs the main process, just like Electron</li>
+  </ul>
+  <p>The goal is zero changes to existing Electron apps. Same <code>require('electron')</code> imports, same APIs, same code. Just no bundled browser.</p>
+
+  <blockquote>The best infrastructure is the one you don't notice. If your app framework is using 200MB of RAM, you notice it.</blockquote>
+
+  <h2>Where It's At</h2>
+  <p>Let me be clear: Gelectron is very early. This is a proof of concept, not a production tool. Many Electron APIs are stubs. Some things break. Auto-updater doesn't exist yet. Multi-window support is limited.</p>
+  <p>But the core works. You can create windows, handle IPC, build menus, show dialogs. The foundation is there. And every week, more APIs get filled in.</p>
+
+  <h2>Why It Matters</h2>
+  <p>Desktop apps aren't going away. And the web platform keeps getting more powerful. The question is: how do we build cross-platform desktop apps without burning 300MB of disk and 200MB of RAM per app?</p>
+  <p>Gelectron is my answer to that question. It's early, it's rough, and it might not go anywhere. But if it works — if we can get Electron's developer experience without bundling a full browser — that changes the economics of desktop app development.</p>
+  <p>Smaller apps. Less memory. Same code. That's the dream.</p>
+
+  <div class="back-row">
+    <a class="btn primary" href="index.html#blog">↩ Back to Devlog</a>
+    <a class="btn" href="index.html">Home</a>
+  </div>
+
+</article>
+
+<footer class="article-footer">
+  <div class="foot-brand">MILES</div>
+  <div class="foot-links">
+    <a href="../uses.html">Uses</a>
+    <a href="../now.html">Now</a>
+    <a href="../colophon.html">Colophon</a>
+    <a href="../experiments.html">Internet History</a>
+  </div>
+  <p class="foot-note">Built by Miles · 2026 · Powered by too much coffee and the Konami code</p>
+</footer>
+
+</body>
+</html>

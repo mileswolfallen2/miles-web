@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Miles Wolf Allen | Developer &amp; 3D Artist</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --cream: #f5f0e8;
+      --black: #111111;
+      --yellow: #f6e548;
+      --pink: #ff6ca8;
+      --blue: #9fd9ff;
+      --orange: #ff7147;
+      --border: 2px solid var(--black);
+      --shadow: 6px 6px 0 var(--black);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--cream);
+      color: var(--black);
+      font-family: "Space Grotesk", sans-serif;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(1180px, calc(100% - 40px));
+      margin: auto;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 0;
+      border-bottom: var(--border);
+      font-family: "DM Mono", monospace;
+      font-size: 13px;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: 500;
+      letter-spacing: -1px;
+    }
+
+    nav ul {
+      display: flex;
+      gap: 26px;
+      list-style: none;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    .hero {
+      min-height: 770px;
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      align-items: center;
+      gap: 40px;
+      position: relative;
+      padding: 100px 0 130px;
+    }
+
+    .eyebrow {
+      font-family: "DM Mono", monospace;
+      font-size: 13px;
+      text-transform: uppercase;
+      margin-bottom: 26px;
+    }
+
+    h1 {
+      max-width: 800px;
+      font-size: clamp(68px, 10vw, 150px);
+      line-height: .82;
+      letter-spacing: -9px;
+      text-transform: uppercase;
+    }
+
+    .hero-copy {
+      max-width: 430px;
+      margin-top: 38px;
+      font-size: 20px;
+      line-height: 1.3;
+    }
+
+    .button {
+      display: inline-block;
+      margin-top: 32px;
+      padding: 16px 22px;
+      border: var(--border);
+      background: var(--yellow);
+      box-shadow: var(--shadow);
+      font-family: "DM Mono", monospace;
+      font-size: 13px;
+      text-transform: uppercase;
+      transition: .2s ease;
+    }
+
+    .button:hover {
+      transform: translate(4px, 4px);
+      box-shadow: 2px 2px 0 var(--black);
+    }
+
+    .sticker {
+      position: absolute;
+      top: 130px;
+      right: 4%;
+      width: 150px;
+      height: 150px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--pink);
+      border: var(--border);
+      transform: rotate(12deg);
+      font-weight: 700;
+      text-align: center;
+      text-transform: uppercase;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-art {
+      min-height: 450px;
+      border: var(--border);
+      background:
+        linear-gradient(135deg, transparent 35%, var(--black) 36% 39%, transparent 40%),
+        var(--blue);
+      box-shadow: var(--shadow);
+      position: relative;
+      transform: rotate(3deg);
+      overflow: hidden;
+    }
+
+    .hero-art::before {
+      content: "MAKE IT MATTER";
+      position: absolute;
+      top: 28%;
+      left: -12%;
+      width: 130%;
+      padding: 18px;
+      background: var(--orange);
+      border-block: var(--border);
+      font-size: clamp(28px, 4vw, 56px);
+      font-weight: 700;
+      letter-spacing: -3px;
+      transform: rotate(-14deg);
+      white-space: nowrap;
+    }
+
+    .hero-art::after {
+      content: "✳";
+      position: absolute;
+      right: 15%;
+      bottom: 12%;
+      font-size: 130px;
+    }
+
+    .marquee {
+      border-block: var(--border);
+      background: var(--black);
+      color: var(--cream);
+      overflow: hidden;
+      white-space: nowrap;
+      padding: 14px 0;
+      font-size: 22px;
+      text-transform: uppercase;
+    }
+
+    .marquee span {
+      display: inline-block;
+      animation: move 18s linear infinite;
+    }
+
+    @keyframes move {
+      to { transform: translateX(-50%); }
+    }
+
+    section {
+      padding: 120px 0;
+    }
+
+    .section-label {
+      font-family: "DM Mono", monospace;
+      font-size: 13px;
+      text-transform: uppercase;
+      margin-bottom: 26px;
+    }
+
+    .intro {
+      max-width: 880px;
+      font-size: clamp(36px, 6vw, 78px);
+      line-height: .95;
+      letter-spacing: -4px;
+    }
+
+    .services {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 60px;
+    }
+
+    .card {
+      min-height: 370px;
+      padding: 26px;
+      border: var(--border);
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .card:nth-child(1) { background: var(--yellow); }
+    .card:nth-child(2) { background: var(--pink); }
+    .card:nth-child(3) { background: var(--blue); }
+
+    .card-number {
+      font-family: "DM Mono", monospace;
+    }
+
+    .card h3 {
+      font-size: 34px;
+      line-height: .95;
+      letter-spacing: -2px;
+      text-transform: uppercase;
+    }
+
+    .card p {
+      font-size: 17px;
+      line-height: 1.3;
+    }
+
+    .work {
+      background: var(--orange);
+      border-block: var(--border);
+    }
+
+    .work-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 22px;
+      margin-top: 50px;
+    }
+
+    .project {
+      min-height: 310px;
+      padding: 25px;
+      border: var(--border);
+      background: var(--cream);
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    .project:nth-child(2) { background: var(--blue); }
+    .project:nth-child(3) { background: var(--pink); }
+    .project:nth-child(4) { background: var(--yellow); }
+
+    .project h3 {
+      font-size: 42px;
+      letter-spacing: -3px;
+      text-transform: uppercase;
+    }
+
+    .project p {
+      font-family: "DM Mono", monospace;
+      font-size: 13px;
+      margin-top: 8px;
+    }
+
+    .testimonial {
+      max-width: 900px;
+      margin: auto;
+      text-align: center;
+    }
+
+    blockquote {
+      font-size: clamp(32px, 5vw, 65px);
+      line-height: .98;
+      letter-spacing: -3px;
+    }
+
+    cite {
+      display: block;
+      margin-top: 28px;
+      font-family: "DM Mono", monospace;
+      font-size: 13px;
+      font-style: normal;
+    }
+
+    .contact {
+      background: var(--black);
+      color: var(--cream);
+      text-align: center;
+    }
+
+    .contact h2 {
+      max-width: 900px;
+      margin: auto;
+      font-size: clamp(56px, 10vw, 140px);
+      line-height: .82;
+      letter-spacing: -8px;
+      text-transform: uppercase;
+    }
+
+    .contact .button {
+      color: var(--black);
+      margin-top: 50px;
+    }
+
+    .page-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 26px;
+      font-family: "DM Mono", monospace;
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    footer {
+      padding: 25px 0;
+      background: var(--black);
+      color: var(--cream);
+      border-top: 1px solid #555;
+      font-family: "DM Mono", monospace;
+      font-size: 12px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    @media (max-width: 760px) {
+      nav ul {
+        display: none;
+      }
+
+      .hero {
+        display: block;
+        padding: 80px 0;
+      }
+
+      h1 {
+        letter-spacing: -5px;
+      }
+
+      .sticker {
+        top: 34px;
+        right: 0;
+        width: 105px;
+        height: 105px;
+        font-size: 12px;
+      }
+
+      .hero-art {
+        margin: 70px 12px 0 0;
+        min-height: 330px;
+      }
+
+      section {
+        padding: 80px 0;
+      }
+
+      .services,
+      .work-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .card {
+        min-height: 300px;
+      }
+
+      footer {
+        display: block;
+        line-height: 2;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <nav>
+      <a href="#top" class="logo">MILES</a>
+
+      <ul>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#work">Work</a></li>
+        <li><a href="about-me.html">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <main id="top">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Independent developer &amp; creative technologist</p>
+          <h1>Build things that refuse to whisper.</h1>
+          <p class="hero-copy">
+            I design weird tools, playful software, and 3D experiments that turn ideas into experiences people actually remember.
+          </p>
+          <a href="#contact" class="button">Start a conversation ↗</a>
+        </div>
+
+        <div class="hero-art" aria-hidden="true"></div>
+        <div class="sticker">Good ideas<br>move fast</div>
+      </section>
+    </main>
+  </div>
+
+  <div class="marquee">
+    <span>
+      Developer ✳ 3D Artist ✳ Emulator Builder ✳ Game Maker ✳ Toolsmith ✳ Developer ✳ 3D Artist ✳ Emulator Builder ✳ Game Maker ✳ Toolsmith ✳
+    </span>
+  </div>
+
+  <div class="container">
+    <section id="services">
+      <p class="section-label">01 / What I do</p>
+
+      <p class="intro">
+        I build the kinds of projects that feel like a point of view, not just a product.
+      </p>
+
+      <div class="services">
+        <article class="card">
+          <span class="card-number">01</span>
+          <h3>Prototype<br>Systems</h3>
+          <p>
+            Explore, test, and ship weird ideas fast — from game mechanics to emulator tooling and browser experiments.
+          </p>
+        </article>
+
+        <article class="card">
+          <span class="card-number">02</span>
+          <h3>Creative<br>Code</h3>
+          <p>
+            Turn visuals, motion, and interaction into expressive interfaces with attention to feeling and clarity.
+          </p>
+        </article>
+
+        <article class="card">
+          <span class="card-number">03</span>
+          <h3>3D + UI<br>Direction</h3>
+          <p>
+            Shape side projects, concepts, and production-facing systems with a strong visual and technical identity.
+          </p>
+        </article>
+      </div>
+    </section>
+  </div>
+
+  <section class="work" id="work">
+    <div class="container">
+      <p class="section-label">02 / Selected work</p>
+
+      <div class="work-grid">
+        <article class="project">
+          <h3>FEDL</h3>
+          <p>Emulator engineering / Game tooling</p>
+        </article>
+
+        <article class="project">
+          <h3>OmniEmu</h3>
+          <p>Platform experimentation / Browser emulation</p>
+        </article>
+
+        <article class="project">
+          <h3>Gelectron</h3>
+          <p>Creative software / UI prototypes</p>
+        </article>
+
+        <article class="project">
+          <h3>Nova</h3>
+          <p>Game concept / Iterative design</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <section>
+      <div class="testimonial">
+        <blockquote>
+          “The work feels intentional, curious, and impossible to ignore — it turns complex ideas into something people instantly understand.”
+        </blockquote>
+        <cite>— Personal note from building around the internet</cite>
+      </div>
+    </section>
+  </div>
+
+  <section class="contact" id="contact">
+    <div class="container">
+      <h2>Make your next idea impossible to ignore.</h2>
+      <a href="mailto:miles@wolfallen.dev" class="button">
+        miles@wolfallen.dev ↗
+      </a>
+
+      <div class="page-links">
+        <a href="projects/">Projects</a>
+        <a href="about-me.html">About</a>
+        <a href="blog/">Blog</a>
+        <a href="https://github.com/mileswolfallen2">GitHub</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <span>© 2026 Miles Wolf Allen</span>
+      <span>Built with intent, not templates.</span>
+    </div>
+  </footer>
+</body>
+</html>

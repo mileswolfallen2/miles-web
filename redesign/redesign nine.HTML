@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Miles Wolf Allen — independent developer, 3D artist, emulator builder, and game maker.">
+  <title>Miles Wolf Allen — Creative Technology</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #161616;
+      --paper: #f2ead8;
+      --yellow: #ffc700;
+      --orange: #ff4e27;
+      --pink: #f3a7bc;
+      --muted: #6d6a61;
+      --line: 1px solid var(--ink);
+      --display: "Space Grotesk", Arial, sans-serif;
+      --mono: "DM Mono", monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--paper); color: var(--ink); font-family: var(--display); overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+    a:hover { color: var(--orange); }
+    .wrap { width: min(1320px, calc(100% - 48px)); margin: 0 auto; }
+
+    header { border-bottom: var(--line); }
+    nav { min-height: 76px; display: flex; align-items: center; justify-content: space-between; }
+    .brand { font-size: 19px; font-weight: 700; letter-spacing: -.06em; text-transform: uppercase; }
+    nav ul { display: flex; gap: 28px; list-style: none; padding: 0; font: 12px var(--mono); text-transform: uppercase; }
+    .menu-mark { display: none; font: 12px var(--mono); text-transform: uppercase; }
+
+    .hero { min-height: 690px; display: grid; grid-template-columns: 1.35fr .65fr; border-bottom: var(--line); }
+    .hero-copy { padding: 92px 7vw 76px 0; border-right: var(--line); }
+    .kicker, .label { color: var(--orange); font: 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+    .hero h1 { max-width: 900px; margin-top: 24px; font-size: clamp(70px, 12vw, 174px); line-height: .82; letter-spacing: -.095em; text-transform: uppercase; }
+    .hero h1 em { color: var(--orange); font-style: normal; }
+    .lead { max-width: 480px; margin-top: 38px; font-size: 19px; line-height: 1.35; }
+    .cta { display: inline-flex; align-items: center; gap: 22px; margin-top: 42px; padding: 15px 18px; background: var(--yellow); border: var(--line); font: 12px var(--mono); text-transform: uppercase; transition: transform .2s, background .2s; }
+    .cta:hover { color: var(--ink); background: var(--orange); transform: translate(5px, -5px); }
+
+    .hero-side { position: relative; display: flex; flex-direction: column; justify-content: space-between; padding: 26px; background: var(--yellow); overflow: hidden; }
+    .hero-side .index { font: 11px var(--mono); }
+    .sun { width: min(260px, 70%); aspect-ratio: 1; margin: auto; border: var(--line); border-radius: 50%; background: var(--orange); display: grid; place-items: center; font-size: clamp(45px, 8vw, 100px); line-height: 1; transform: rotate(12deg); box-shadow: 12px 12px 0 var(--ink); }
+    .side-note { font: 12px/1.4 var(--mono); text-transform: uppercase; }
+
+    .ticker { overflow: hidden; border-bottom: var(--line); background: var(--ink); color: var(--paper); white-space: nowrap; }
+    .ticker-track { display: inline-block; padding: 16px 0; animation: slide 22s linear infinite; font-size: 15px; text-transform: uppercase; }
+    @keyframes slide { to { transform: translateX(-50%); } }
+
+    section { padding: 100px 0; border-bottom: var(--line); }
+    .section-head { display: grid; grid-template-columns: 1fr 2fr; gap: 24px; margin-bottom: 62px; }
+    .section-title { max-width: 760px; font-size: clamp(43px, 7vw, 92px); line-height: .88; letter-spacing: -.075em; text-transform: uppercase; }
+    .section-title span { color: var(--orange); }
+
+    .services { display: grid; grid-template-columns: repeat(3, 1fr); border-top: var(--line); border-left: var(--line); }
+    .service { min-height: 330px; padding: 22px; border-right: var(--line); border-bottom: var(--line); display: flex; flex-direction: column; justify-content: space-between; }
+    .service:nth-child(2) { background: var(--pink); }
+    .service:nth-child(3) { background: var(--orange); }
+    .number { font: 11px var(--mono); }
+    .service h3 { font-size: clamp(30px, 4vw, 53px); line-height: .86; letter-spacing: -.07em; text-transform: uppercase; }
+    .service p { max-width: 290px; font-size: 15px; line-height: 1.35; }
+
+    .work { background: var(--orange); }
+    .work .label { color: var(--ink); }
+    .work-grid { display: grid; grid-template-columns: repeat(2, 1fr); border-top: var(--line); border-left: var(--line); }
+    .project { min-height: 300px; padding: 23px; border-right: var(--line); border-bottom: var(--line); display: flex; flex-direction: column; justify-content: flex-end; background: var(--paper); transition: background .2s, color .2s; }
+    .project:hover { background: var(--yellow); color: var(--ink); }
+    .project:nth-child(2) { background: var(--ink); color: var(--paper); }
+    .project:nth-child(3) { background: var(--pink); }
+    .project:nth-child(4) { background: var(--yellow); }
+    .project h3 { font-size: clamp(42px, 7vw, 90px); line-height: .8; letter-spacing: -.09em; text-transform: uppercase; }
+    .project p { margin-top: 18px; font: 11px var(--mono); text-transform: uppercase; }
+
+    .quote { max-width: 980px; margin: 0 auto; text-align: center; }
+    blockquote { font-size: clamp(32px, 5.8vw, 76px); line-height: .93; letter-spacing: -.07em; }
+    cite { display: block; margin-top: 30px; color: var(--muted); font: 11px var(--mono); font-style: normal; text-transform: uppercase; }
+
+    .contact { padding: 110px 0 80px; background: var(--ink); color: var(--paper); text-align: center; }
+    .contact h2 { max-width: 1050px; margin: 0 auto; font-size: clamp(55px, 11vw, 150px); line-height: .8; letter-spacing: -.1em; text-transform: uppercase; }
+    .contact h2 span { color: var(--yellow); }
+    .contact .cta { color: var(--ink); margin-top: 54px; }
+    .links { display: flex; justify-content: center; flex-wrap: wrap; gap: 26px; margin-top: 58px; font: 11px var(--mono); text-transform: uppercase; }
+    footer { padding: 22px 0; background: var(--ink); color: var(--paper); border-top: 1px solid #555; font: 11px var(--mono); text-transform: uppercase; }
+    footer .wrap { display: flex; justify-content: space-between; gap: 20px; }
+
+    @media (max-width: 720px) {
+      .wrap { width: min(100% - 30px, 1320px); }
+      nav ul { display: none; }
+      .menu-mark { display: block; }
+      .hero { display: block; min-height: 0; }
+      .hero-copy { padding: 74px 0 64px; border-right: 0; }
+      .hero h1 { font-size: clamp(62px, 18vw, 110px); }
+      .hero-side { min-height: 330px; margin: 0 -15px; padding: 20px 15px; }
+      .sun { width: 180px; box-shadow: 8px 8px 0 var(--ink); }
+      section { padding: 72px 0; }
+      .section-head { display: block; margin-bottom: 40px; }
+      .section-title { margin-top: 25px; }
+      .services, .work-grid { grid-template-columns: 1fr; }
+      .service { min-height: 270px; }
+      .project { min-height: 230px; }
+      footer .wrap { display: block; line-height: 2; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <nav>
+        <a class="brand" href="#top">Miles Wolf Allen</a>
+        <span class="menu-mark">Scroll / Explore</span>
+        <ul>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#work">Work</a></li>
+          <li><a href="about-me.html">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <div class="wrap">
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="kicker">Independent developer / creative technologist</p>
+          <h1>Build things that <em>refuse</em> to whisper.</h1>
+          <p class="lead">I design weird tools, playful software, and 3D experiments that turn ideas into experiences people actually remember.</p>
+          <a class="cta" href="#contact">Start a conversation <span>↗</span></a>
+        </div>
+        <div class="hero-side" aria-hidden="true">
+          <span class="index">MWA / 001</span>
+          <div class="sun">✳</div>
+          <p class="side-note">Good ideas<br>move fast.</p>
+        </div>
+      </section>
+    </div>
+
+    <div class="ticker"><div class="ticker-track">Developer ✳ 3D Artist ✳ Emulator Builder ✳ Game Maker ✳ Toolsmith ✳ Developer ✳ 3D Artist ✳ Emulator Builder ✳ Game Maker ✳ Toolsmith ✳</div></div>
+
+    <div class="wrap">
+      <section id="services">
+        <div class="section-head">
+          <p class="label">01 / What I do</p>
+          <h2 class="section-title">A point of view, <span>not just a product.</span></h2>
+        </div>
+        <div class="services">
+          <article class="service"><span class="number">01</span><h3>Prototype<br>Systems</h3><p>Explore, test, and ship weird ideas fast — from game mechanics to emulator tooling and browser experiments.</p></article>
+          <article class="service"><span class="number">02</span><h3>Creative<br>Code</h3><p>Turn visuals, motion, and interaction into expressive interfaces with attention to feeling and clarity.</p></article>
+          <article class="service"><span class="number">03</span><h3>3D + UI<br>Direction</h3><p>Shape side projects, concepts, and production-facing systems with a strong visual and technical identity.</p></article>
+        </div>
+      </section>
+    </div>
+
+    <section class="work" id="work">
+      <div class="wrap">
+        <div class="section-head"><p class="label">02 / Selected work</p><h2 class="section-title">Made to be <span>remembered.</span></h2></div>
+        <div class="work-grid">
+          <article class="project"><h3>FEDL</h3><p>Emulator engineering / Game tooling</p></article>
+          <article class="project"><h3>OmniEmu</h3><p>Platform experimentation / Browser emulation</p></article>
+          <article class="project"><h3>Gelectron</h3><p>Creative software / UI prototypes</p></article>
+          <article class="project"><h3>Nova</h3><p>Game concept / Iterative design</p></article>
+        </div>
+      </div>
+    </section>
+
+    <div class="wrap"><section><div class="quote"><blockquote>“The work feels intentional, curious, and impossible to ignore — it turns complex ideas into something people instantly understand.”</blockquote><cite>— Personal note from building around the internet</cite></div></section></div>
+
+    <section class="contact" id="contact">
+      <div class="wrap">
+        <h2>Make your next idea <span>impossible</span> to ignore.</h2>
+        <a class="cta" href="mailto:miles@wolfallen.dev">miles@wolfallen.dev <span>↗</span></a>
+        <div class="links"><a href="projects/">Projects</a><a href="about-me.html">About</a><a href="blog/">Blog</a><a href="https://github.com/mileswolfallen2">GitHub</a></div>
+      </div>
+    </section>
+  </main>
+
+  <footer><div class="wrap"><span>© 2026 Miles Wolf Allen</span><span>Built with intent, not templates.</span></div></footer>
+</body>
+</html>

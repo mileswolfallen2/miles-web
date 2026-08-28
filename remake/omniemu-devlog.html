@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Why I Built OmniEmu | Miles Wolf Allen</title>
+<meta name="description" content="The story behind OmniEmu 2.0 — why I built a cross-platform emulator manager because I was tired of opening 15 different apps.">
+<link rel="canonical" href="https://milesallen.site/remake/omniemu-devlog.html">
+<meta property="og:title" content="Why I Built OmniEmu | Miles Wolf Allen">
+<meta property="og:description" content="The story behind OmniEmu 2.0 — why I built a cross-platform emulator manager because I was tired of opening 15 different apps.">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2026-01-15">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Why I Built OmniEmu | Miles Wolf Allen",
+  "description": "The story behind OmniEmu 2.0 — why I built a cross-platform emulator manager.",
+  "author": { "@type": "Person", "name": "Miles Wolf Allen", "url": "https://milesallen.site/" },
+  "datePublished": "2026-01-15",
+  "url": "https://milesallen.site/remake/omniemu-devlog.html",
+  "mainEntityOfPage": "https://milesallen.site/remake/omniemu-devlog.html"
+}
+</script>
+<meta name="theme-color" content="#f5b700">
+<link rel="icon" type="image/png" href="../favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Josefin+Sans:wght@300;400&family=Spectral:ital,wght@0,400;0,600;1,400&family=Anton&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="broadside.css">
+</head>
+<body class="yellow">
+
+<nav class="article-nav">
+  <a class="brand" href="index.html"><span class="swatch"></span>MILES</a>
+  <div class="links">
+    <a href="index.html">Home</a>
+    <a href="index.html#projects">Projects</a>
+    <a href="index.html#blog">Devlog</a>
+    <a class="cta" href="index.html#contact">Say hi</a>
+  </div>
+</nav>
+
+<header class="article-wrap article-hero">
+  <div class="article-eyebrow">// DEVLOG 001 · 2026</div>
+  <h1>Why I Built OmniEmu</h1>
+  <p class="article-tagline">I got tired of opening 15 different emulator apps. So I built one that manages them all.</p>
+  <div class="article-tags">
+    <span class="article-tag">TypeScript</span>
+    <span class="article-tag">Electron</span>
+  </div>
+</header>
+
+<div class="hairline"></div>
+
+<article class="article-wrap article-body">
+
+  <h2>The Problem</h2>
+  <p>I play a lot of retro games. Like, a lot. And over the years I've collected a ridiculous number of emulators — Dolphin for GameCube, PCSX2 for PS2, PPSSPP for PSP, melonDS for DS, RetroArch for everything else. The problem wasn't that these emulators were bad. Most of them are incredible. The problem was that I had 15+ apps installed, each with their own UI, their own update cycle, and their own way of handling things.</p>
+  <p>Every time I wanted to play a game, I had to remember which emulator handled which system, open that specific app, navigate its interface, find my ROM, and then launch it. On a Tuesday night when I just wanted to play something, this was exhausting.</p>
+
+  <h2>The Idea</h2>
+  <p>The idea was simple: one app to rule them all. A single place where I could see all my emulators, all my ROMs, and launch anything with one click. No more guessing which emulator handles PS2. No more opening RetroArch just to find out it doesn't have the right core installed.</p>
+  <p>But it went further than just launching. I wanted the app to <strong>install</strong> emulators for me. On Mac especially, setting up emulators is a pain. You download a DMG, drag it to Applications, figure out which core to install, configure paths... it's a whole thing. I wanted one-click install. Download, configure, done.</p>
+
+  <h2>The Mac Problem</h2>
+  <p>This is where OmniEmu really shines. On Windows, you can just download an exe and run it. On Mac? It's a nightmare. Half the emulators don't have native Mac builds. The ones that do require Homebrew or manual compilation. RPCS3 doesn't even work on Mac. And don't get me started on trying to get Wii U emulators running.</p>
+  <p>I built OmniEmu specifically because there was nothing out there that handled this gracefully. EmuDeck is great for Steam Deck. LaunchBox is Windows-only and costs money. RetroArch is... RetroArch. Nobody was solving the "I just want to click install and play" problem on Mac.</p>
+
+  <blockquote>The best tool is the one you build because nothing else does what you need.</blockquote>
+
+  <h2>What It Became</h2>
+  <p>What started as "I'll just make a quick launcher" turned into a full Electron app with TypeScript, a custom ROM library scanner, game art scraping from SteamGridDB, RetroAchievements integration, controller navigation, cloud save sync via Syncthing, and support for 20+ emulators across three platforms.</p>
+  <p>Sometimes the best projects come from the most selfish reasons. I just wanted to play my games without opening 15 apps. Now everyone can.</p>
+
+  <h2>Lessons Learned</h2>
+  <ul>
+    <li>Electron gets a lot of hate, but it genuinely works for cross-platform desktop apps</li>
+    <li>AppleScript is both powerful and infuriating at the same time</li>
+    <li>Building for Mac means dealing with Accessibility permissions, code signing, and notarization</li>
+    <li>The hardest part isn't the code — it's keeping up with emulator updates across 20+ projects</li>
+    <li>User feedback is worth more than any design document</li>
+  </ul>
+
+  <div class="back-row">
+    <a class="btn primary" href="index.html#blog">↩ Back to Devlog</a>
+    <a class="btn" href="index.html">Home</a>
+  </div>
+
+</article>
+
+<footer class="article-footer">
+  <div class="foot-brand">MILES</div>
+  <div class="foot-links">
+    <a href="../uses.html">Uses</a>
+    <a href="../now.html">Now</a>
+    <a href="../colophon.html">Colophon</a>
+    <a href="../experiments.html">Internet History</a>
+  </div>
+  <p class="foot-note">Built by Miles · 2026 · Powered by too much coffee and the Konami code</p>
+</footer>
+
+</body>
+</html>

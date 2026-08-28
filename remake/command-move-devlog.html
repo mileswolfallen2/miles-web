@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Why I Built Command-Move | Miles Wolf Allen</title>
+<meta name="description" content="The story behind Command-Move — a macOS app that does what Finder should have done ten years ago: absolute path display, quick copy, and move-to-folder.">
+<link rel="canonical" href="https://milesallen.site/remake/command-move-devlog.html">
+<meta property="og:title" content="Why I Built Command-Move | Miles Wolf Allen">
+<meta property="og:description" content="A macOS app that does what Finder should have done ten years ago.">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2026-02-15">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Why I Built Command-Move | Miles Wolf Allen",
+  "description": "A macOS app that does what Finder should have done ten years ago.",
+  "author": { "@type": "Person", "name": "Miles Wolf Allen", "url": "https://milesallen.site/" },
+  "datePublished": "2026-02-15",
+  "url": "https://milesallen.site/remake/command-move-devlog.html",
+  "mainEntityOfPage": "https://milesallen.site/remake/command-move-devlog.html"
+}
+</script>
+<meta name="theme-color" content="#f5b700">
+<link rel="icon" type="image/png" href="../favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Josefin+Sans:wght@300;400&family=Spectral:ital,wght@0,400;0,600;1,400&family=Anton&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="broadside.css">
+</head>
+<body class="yellow">
+
+<nav class="article-nav">
+  <a class="brand" href="index.html"><span class="swatch"></span>MILES</a>
+  <div class="links">
+    <a href="index.html">Home</a>
+    <a href="index.html#projects">Projects</a>
+    <a href="index.html#blog">Devlog</a>
+    <a class="cta" href="index.html#contact">Say hi</a>
+  </div>
+</nav>
+
+<header class="article-wrap article-hero">
+  <div class="article-eyebrow">// DEVLOG 003 · 2026</div>
+  <h1>Why I Built Command-Move</h1>
+  <p class="article-tagline">Finder has been around for 25 years and still won't show you an absolute path. I got tired of waiting.</p>
+  <div class="article-tags">
+    <span class="article-tag">Swift</span>
+    <span class="article-tag">macOS</span>
+  </div>
+</header>
+
+<div class="hairline"></div>
+
+<article class="article-wrap article-body">
+
+  <h2>The Irritation</h2>
+  <p>I spend most of my day in the terminal. Paths are second nature to me. But every so often I have to leave the warm embrace of the command line and deal with Finder — and every time, I hit the same wall. I want to copy the absolute path of a file, or I want to move a file into the folder that's sitting right there. And Finder just... won't let me. Not conveniently, anyway.</p>
+  <p>Sure, there are hidden shortcuts. You can Command+Option+C to copy a path, if you remember that exact combo across a network share. There are third-party extensions. But all of them feel like bandaids on a wound that shouldn't exist.</p>
+
+  <h2>The Should-Have-Been-Obvious Features</h2>
+  <p>I want two things, and I refuse to believe I'm the only one:</p>
+  <ul>
+    <li><strong>Absolute path display:</strong> Show me where I am. Don't make me guess the path to the file I'm looking at.</li>
+    <li><strong>Quick copy:</strong> Copy a file's path in one click, so I can paste it anywhere — a terminal, a setting, a docs snippet.</li>
+    <li><strong>Move-to-folder:</strong> Drag a file onto a folder and have it actually move there without a step-by-step dialog dance.</li>
+  </ul>
+  <p>These are things every power user wants. They're the reasons apps like Path Finder exist and sell for $39.99. But I didn't want to pay for a file manager — I wanted Finder fixed. And since Apple wasn't going to do it, I built the context-menu command myself.</p>
+
+  <h2>Building It in Swift</h2>
+  <p>macOS gives you one genuinely great hook for this: the Finder Sync extension. It lets a small Swift app inject items into the Finder's context menu. From there it's a native Swift + AppKit app with a menu bar icon, a settings window, and the extension doing the real work.</p>
+  <p>Swift is the right tool here. AppKit gives you first-class access to all the things that matter — the pasteboard, the file manager, URL handling. And because it's a native Mac app, it starts instantly and uses almost no memory. No Electron runtime. No bundled browser. Just a small, fast, focused utility.</p>
+
+  <blockquote>Every power-user feature Apple doesn't ship is a missing-party app built once, alone, and quietly.</blockquote>
+
+  <h2>The Result</h2>
+  <p>Command-Move is a tiny app that lives in your menu bar. Click it (or use a keyboard shortcut) and you get a floating window showing the current absolute path of your frontmost Finder window. One button copies it to your clipboard. Drag a file onto the folder icon and it moves there instantly. Done.</p>
+  <p>It's not flashy. It doesn't have a 47-tab settings panel. It does exactly three things and does them well — the way macOS utilities used to be.</p>
+
+  <div class="back-row">
+    <a class="btn primary" href="index.html#blog">↩ Back to Devlog</a>
+    <a class="btn" href="index.html">Home</a>
+  </div>
+
+</article>
+
+<footer class="article-footer">
+  <div class="foot-brand">MILES</div>
+  <div class="foot-links">
+    <a href="../uses.html">Uses</a>
+    <a href="../now.html">Now</a>
+    <a href="../colophon.html">Colophon</a>
+    <a href="../experiments.html">Internet History</a>
+  </div>
+  <p class="foot-note">Built by Miles · 2026 · Powered by too much coffee and the Konami code</p>
+</footer>
+
+</body>
+</html>

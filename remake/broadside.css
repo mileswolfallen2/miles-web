@@ -1,0 +1,192 @@
+/* ============================================================
+   REMAKES — SICK AGENCY broadside design system (shared)
+   Loud printed broadside. Maximalist zine spread.
+   Yellow / orange / cobalt full-bleed bands, no shadows,
+   no gradients, no rounded corners except 999px pills.
+   ============================================================ */
+
+:root{
+  --yellow:#f5b700;
+  --orange:#ff4e27;
+  --cobalt:#0029ff;
+  --sienna:#4d170c;
+  --black:#000000;
+  --white:#ffffff;
+  --morganite:'Anton','Bebas Neue',Impact,sans-serif;
+  --thunder:'Josefin Sans',ui-sans-serif,sans-serif;
+  --sentient:'Spectral',Georgia,serif;
+  --fine:Georgia,'Times New Roman',times,serif;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;overflow-x:hidden;}
+body{
+  background:var(--yellow);color:var(--black);
+  font-family:var(--sentient);line-height:1.5;
+  overflow-x:hidden;-webkit-font-smoothing:antialiased;
+}
+a{color:inherit;text-decoration:none;}
+img{display:block;max-width:100%;}
+
+.band{width:100%;}
+.yellow{background:var(--yellow);color:var(--black);}
+.orange{background:var(--orange);color:var(--white);}
+.cobalt{background:var(--cobalt);color:var(--white);}
+.ink{background:var(--black);color:var(--white);}
+
+/* Pill buttons — the only softness in the system */
+.btn{
+  display:inline-block;font-family:var(--sentient);font-size:16px;
+  padding:8px 26px;border-radius:999px;border:2px solid var(--cobalt);
+  color:var(--cobalt);transition:background .2s,color .2s;
+}
+.btn:hover{background:var(--cobalt);color:var(--white);}
+.btn.primary{background:var(--cobalt);border-color:var(--cobalt);color:var(--white);}
+.btn.primary:hover{background:var(--black);border-color:var(--black);}
+.btn.on-dark{border-color:var(--white);color:var(--white);}
+.btn.on-dark:hover{background:var(--white);color:var(--black);}
+
+/* Sticker badges — circular, contrasting, CTA punctuation */
+.sticker{
+  position:absolute;display:grid;place-items:center;align-content:center;
+  width:140px;height:140px;border-radius:50%;
+  font-family:var(--fine);font-size:11px;line-height:1.2;text-align:center;
+  letter-spacing:.05em;text-transform:uppercase;
+}
+.sticker b{font-size:20px;font-family:var(--morganite);font-weight:400;display:block;line-height:1;}
+.sticker small{display:block;margin-top:4px;font-size:9px;}
+
+/* ================= ARTICLE (devlog / about) ================= */
+.article-nav{
+  position:sticky;top:0;z-index:50;background:var(--yellow);color:var(--black);
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:14px 5vw;border-bottom:3px solid var(--black);flex-wrap:wrap;
+}
+.article-nav .brand{font-family:var(--morganite);font-weight:400;font-size:30px;line-height:1;display:flex;align-items:center;gap:10px;}
+.article-nav .brand .swatch{width:16px;height:16px;border-radius:50%;background:var(--cobalt);display:inline-block;}
+.article-nav .links{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.article-nav .links a{font-family:var(--sentient);font-size:13px;letter-spacing:-.01em;padding:6px 16px;border-radius:999px;border:2px solid var(--black);transition:background .2s,color .2s;}
+.article-nav .links a:hover{background:var(--black);color:var(--yellow);}
+.article-nav .links a.cta{background:var(--cobalt);border-color:var(--cobalt);color:var(--white);}
+.article-nav .links a.cta:hover{background:var(--black);border-color:var(--black);color:var(--yellow);}
+@media(max-width:640px){.article-nav .links{width:100%;order:3;}}
+
+.article-wrap{max-width:880px;margin:0 auto;padding:0 5vw;}
+
+.article-hero{padding:70px 0 50px;position:relative;}
+.article-hero .sticker{right:-20px;top:10px;}
+.article-eyebrow{font-family:var(--fine);font-size:12px;text-transform:uppercase;letter-spacing:.18em;display:inline-flex;align-items:center;gap:12px;margin-bottom:26px;}
+.article-eyebrow::before{content:'';width:34px;height:2px;background:var(--black);display:inline-block;}
+.article-hero h1{
+  font-family:var(--morganite);font-weight:400;
+  font-size:clamp(66px,13vw,150px);line-height:.72;letter-spacing:.01em;
+  text-transform:uppercase;margin-bottom:34px;
+}
+.article-tagline{font-size:16px;line-height:1.44;letter-spacing:-.015em;max-width:520px;}
+.article-tags{display:flex;gap:10px;flex-wrap:wrap;margin-top:30px;}
+.article-tag{font-family:var(--fine);font-size:12px;text-transform:uppercase;letter-spacing:.1em;border:2px solid var(--black);border-radius:999px;padding:4px 16px;}
+.article-date{font-family:var(--fine);font-size:12px;text-transform:uppercase;letter-spacing:.1em;opacity:.6;}
+
+/* Body */
+.article-body{
+  padding:44px clamp(24px,5vw,60px) 90px;
+  background:var(--white);
+  color:var(--black);
+  border:3px solid var(--black);
+  border-top:none;
+  box-shadow:8px 8px 0 var(--black);
+  max-width:1000px;
+  margin:0 auto;
+}
+.hairline{height:3px;background:var(--black);width:100%;}
+.article-body h2{
+  font-family:var(--morganite);font-weight:400;
+  font-size:clamp(40px,7vw,64px);line-height:.75;text-transform:uppercase;
+  margin:70px 0 24px;
+}
+.article-body h3{font-family:var(--morganite);font-weight:400;font-size:clamp(26px,4vw,38px);line-height:.8;text-transform:uppercase;margin:44px 0 16px;}
+.article-body p{font-size:17px;line-height:1.6;letter-spacing:-.012em;margin-bottom:22px;max-width:66ch;}
+.article-body strong{font-weight:700;}
+.article-body a{color:var(--cobalt);border-bottom:2px solid var(--cobalt);}
+.article-body a:hover{background:var(--cobalt);color:var(--white);}
+.article-body ul{margin:6px 0 26px;list-style:none;}
+.article-body ul li{
+  position:relative;padding:14px 0 14px 34px;font-size:17px;line-height:1.5;letter-spacing:-.012em;
+  border-bottom:2px solid var(--black);max-width:66ch;
+}
+.article-body ul li::before{content:'→';position:absolute;left:0;top:15px;font-size:18px;color:var(--cobalt);}
+.article-body blockquote{
+  font-family:var(--thunder);font-weight:300;
+  font-size:clamp(24px,4vw,36px);line-height:1.1;
+  padding:30px 0;margin:50px 0;border-top:4px solid var(--cobalt);border-bottom:4px solid var(--cobalt);
+  max-width:24ch;
+}
+.article-body blockquote::before{content:'“';display:block;font-family:var(--fine);font-size:44px;color:var(--cobalt);}
+.article-body code{background:rgba(0,0,0,.06);border:1px solid rgba(0,0,0,.2);padding:1px 7px;font-family:var(--fine);font-size:.92em;}
+
+/* Footer band */
+.article-footer{background:var(--black);color:var(--white);padding:70px 5vw;text-align:center;}
+.article-footer .foot-brand{font-family:var(--morganite);font-weight:400;font-size:clamp(48px,10vw,110px);line-height:.7;color:var(--yellow);text-transform:uppercase;margin-bottom:28px;}
+.article-footer .foot-links{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-bottom:26px;}
+.article-footer .foot-links a{font-family:var(--fine);font-size:12px;text-transform:uppercase;letter-spacing:.1em;border-radius:999px;border:1px solid var(--white);padding:7px 18px;transition:background .2s,color .2s;}
+.article-footer .foot-links a:hover{background:var(--yellow);color:var(--black);border-color:var(--yellow);}
+.article-footer .foot-note{color:rgba(255,255,255,.55);font-size:13px;line-height:1.7;}
+.article-footer .foot-note a{color:var(--yellow);border-bottom:1px solid var(--yellow);}
+
+/* Back to devlog pill */
+.back-row{display:flex;gap:16px;flex-wrap:wrap;margin-top:60px;}
+
+/* ============================================================
+   FUN — hover pops, ambient float, playful touches
+   Shared: applies to both the index and every article page.
+   ============================================================ */
+
+/* --- keyframes --- */
+@keyframes bounceDown{0%,100%{transform:translateY(0);}50%{transform:translateY(6px);}}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(-1deg);}50%{transform:translateY(-10px) rotate(1deg);}}
+@keyframes wiggle{0%,100%{transform:rotate(-2deg);}25%{transform:rotate(3deg);}75%{transform:rotate(-3deg);}}
+@keyframes spinSlow{to{transform:rotate(360deg);}}
+@keyframes blinkText{0%,100%{opacity:1;}50%{opacity:.35;}}
+@keyframes jiggle{0%,100%{transform:rotate(0) translateY(0);}20%{transform:rotate(-8deg);}40%{transform:rotate(8deg);}60%{transform:rotate(-5deg);}80%{transform:rotate(5deg);}}
+
+/* --- buttons: springy pop + press --- */
+.btn{
+  transition:transform .18s cubic-bezier(.34,1.56,.64,1),background .2s,color .2s,box-shadow .2s;
+  will-change:transform;
+}
+.btn:hover{transform:translateY(-3px) rotate(-1deg);}
+.btn:active{transform:translateY(1px) scale(.94);}
+
+/* --- sticker badge: gently bobs; heavier wiggle on hover --- */
+.sticker{animation:bob 5s ease-in-out infinite;transition:filter .2s;}
+.sticker:hover{animation:wiggle .5s ease-in-out infinite;}
+.sticker b{transition:transform .18s cubic-bezier(.34,1.56,.64,1);}
+.sticker:hover b{transform:scale(1.12);}
+
+/* --- nav links: bounce in to say hi --- */
+.article-nav .brand .swatch{transition:transform .3s;}
+.article-nav .brand:hover .swatch{transform:scale(1.35) rotate(180deg);}
+.article-nav .links a{transition:transform .16s cubic-bezier(.34,1.56,.64,1),background .2s,color .2s;}
+.article-nav .links a:hover{transform:translateY(-3px);}
+
+/* --- footer links --- */
+.article-footer .foot-brand{transition:letter-spacing .3s;}
+.article-footer .foot-brand:hover{letter-spacing:.06em;color:var(--white);}
+.article-footer .foot-links a{transition:transform .16s cubic-bezier(.34,1.56,.64,1),background .2s,color .2s;}
+.article-footer .foot-links a:hover{transform:translateY(-3px) rotate(-2deg);}
+
+/* --- article hero title: cheeky hover shift --- */
+.article-hero h1{
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1),letter-spacing .3s;
+}
+.article-hero h1:hover{letter-spacing:.015em;}
+
+/* --- article tags: wiggle --- */
+.article-tag{transition:background .2s,color .2s,transform .15s;}
+.article-tag:hover{background:var(--black);color:var(--yellow);transform:rotate(-6deg);}
+
+/* --- body links --- */
+.article-body a{transition:background .2s,color .2s,padding .2s;}
+.article-body a:hover{padding:0 4px;}
+
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.001ms!important;}}
