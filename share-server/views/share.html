@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>miles wolf allen</title>
+<meta name="description" content="miles wolf allen — Software engineer. Developer and 3D artist interested in coding, games, and web technology. Currently learning Rust.">
+<meta name="author" content="Miles Wolf Allen">
+<link rel="canonical" href="https://milesallen.site/share.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script>window.__DATA__ = {{DATA}};</script>
+<style>
+  :root{
+    --page:#111318;
+    --card:#1a1d24;
+    --card2:#20242d;
+    --border:#2a2f3a;
+    --text:#e8eaee;
+    --muted:#9aa3b2;
+    --accent:#1d9bf0;
+    --chip:#2a3140;
+    --danger:#ef4444;
+    --ok:#22c55e;
+    color-scheme:dark;
+  }
+  html.light{
+    --page:#eef1f5;--card:#ffffff;--card2:#f7f9fb;--border:#e3e8ee;
+    --text:#14161a;--muted:#647182;--accent:#1d9bf0;--chip:#e9eef5;
+    --danger:#dc2626;--ok:#16a34a;
+    color-scheme:light;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    background:var(--page);color:var(--text);
+    font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    -webkit-font-smoothing:antialiased;line-height:1.5;
+    display:flex;flex-direction:column;align-items:center;
+    min-height:100vh;padding:40px 20px 64px;overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none;}
+  .card{width:100%;max-width:600px;background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.2),0 10px 30px rgba(0,0,0,.3);}
+  .banner{height:160px;overflow:hidden;background:#14161b;}
+  .banner img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;}
+  .profile{padding:0 24px 12px;}
+  .avatar{display:block;width:120px;height:120px;border-radius:50%;border:4px solid var(--card);background:#1f232b;box-shadow:0 2px 10px rgba(0,0,0,.4);object-fit:cover;margin-top:-56px;}
+  .name{font-size:22px;font-weight:800;letter-spacing:-.01em;margin-top:14px;line-height:1.2;}
+  .handle{font-size:14px;color:var(--muted);margin-top:3px;}
+  .meta{font-size:13px;color:var(--muted);margin-top:8px;}
+  .meta b{color:var(--text);font-weight:600;}
+  .bio{font-size:15px;margin-top:14px;}
+  .bio a{color:var(--accent);}
+  .bio a:hover{text-decoration:underline;}
+
+  .socials{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:18px;}
+  .soc{display:flex;align-items:center;justify-content:center;height:44px;border:1px solid var(--border);border-radius:12px;color:var(--muted);transition:all .15s;}
+  .soc svg{width:22px;height:22px;fill:currentColor;}
+  .soc:hover{color:var(--accent);border-color:var(--accent);background:var(--card2);transform:translateY(-2px);}
+
+  .section{border-top:1px solid var(--border);padding:20px 24px;}
+  .sec-title{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}
+
+  .now-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .now-item{display:flex;gap:10px;align-items:flex-start;background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:12px 14px;}
+  .now-item .nk{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);}
+  .now-item .nv{font-size:14px;font-weight:600;margin-top:3px;}
+
+  .row{display:flex;align-items:center;gap:12px;padding:13px 10px;border-radius:10px;border-bottom:1px solid var(--border);transition:background .15s;}
+  .section .row:last-child{border-bottom:none;}
+  .row:hover{background:var(--card2);}
+  .row .ico{width:36px;height:36px;border-radius:10px;flex-shrink:0;background:var(--chip);display:flex;align-items:center;justify-content:center;}
+  .row .ico svg{width:19px;height:19px;fill:var(--muted);}
+  .row .r-body{flex:1;min-width:0;}
+  .row .r-title{font-size:14px;font-weight:600;}
+  .row .r-right{font-size:13px;color:var(--muted);flex-shrink:0;}
+
+  .post{display:block;padding:14px 10px;border-radius:10px;border-bottom:1px solid var(--border);transition:background .15s;}
+  .post:hover{background:var(--card2);}
+  .post .p-top{display:flex;align-items:baseline;justify-content:space-between;gap:10px;}
+  .post .p-title{font-size:14px;font-weight:700;}
+  .post .p-date{font-size:12px;color:var(--muted);flex-shrink:0;}
+  .post .p-body{font-size:13px;color:var(--muted);margin-top:4px;}
+
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .cell{border:1px solid var(--border);border-radius:12px;padding:16px;transition:border-color .15s,background .15s;}
+  .cell:hover{border-color:var(--accent);background:var(--card2);}
+  .cell .ck{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);}
+  .cell .cv{font-size:14px;font-weight:600;margin-top:6px;word-break:break-all;}
+  .cell a.cv{color:var(--accent);}
+
+  .tz{display:flex;align-items:center;justify-content:space-between;gap:12px;}
+  .tz .tk{font-size:11px;letter-spacing:.04em;color:var(--muted);}
+  .tz .tt{font-size:20px;font-weight:800;font-variant-numeric:tabular-nums;}
+  .tz .ts{font-size:12px;color:var(--muted);}
+
+  .share-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;}
+  .btn{font-family:inherit;font-size:13px;font-weight:700;padding:8px 16px;border-radius:999px;cursor:pointer;border:1px solid var(--border);background:var(--card);color:var(--text);transition:background .15s,border-color .15s;}
+  .btn:hover{background:var(--card2);}
+  .btn-solid{background:var(--accent);border-color:var(--accent);color:#fff;}
+  .btn-solid:hover{background:#1a89d8;}
+
+  .no-grav{margin-top:22px;font-size:13px;color:var(--muted);text-align:center;}
+  .no-grav a{color:var(--accent);font-weight:600;}
+  .no-grav a:hover{text-decoration:underline;}
+
+  .theme-btn{position:fixed;top:18px;right:18px;z-index:50;width:40px;height:40px;border-radius:50%;border:1px solid var(--border);background:var(--card);color:var(--text);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;}
+  .theme-btn:hover{background:var(--card2);}
+
+  @media(max-width:520px){
+    body{padding:0 0 40px;}
+    .banner{height:120px;}
+    .profile{padding:0 16px 10px;}
+    .section{padding:18px 16px;}
+    .avatar{width:92px;height:92px;margin-top:-44px;}
+    .contact-grid{grid-template-columns:1fr;}
+    .now-grid{grid-template-columns:1fr 1fr;}
+  }
+</style>
+</head>
+<body>
+<button class="theme-btn" id="themeBtn" aria-label="Toggle theme">☾</button>
+
+<div class="card">
+  <div class="banner">
+    <img src="/static/back.jpg" alt="" aria-hidden="true">
+  </div>
+
+  <div class="profile">
+    <img class="avatar" id="avatar" src="" alt="miles wolf allen" width="120" height="120">
+    <div class="name" id="name"></div>
+    <div class="handle" id="handle"></div>
+    <div class="meta"><span id="meta"></span> · <b id="tzLabel"></b></div>
+    <p class="bio" id="bio"></p>
+
+    <div class="socials">
+      <a class="soc" id="socBluesky" href="#" target="_blank" rel="noopener" aria-label="Bluesky">
+        <svg viewBox="0 0 24 24"><path d="M5.202 2.857C7.954 4.922 10.913 9.11 12 11.358c1.087-2.247 4.046-6.436 6.798-8.501C20.783 1.366 24 .213 24 3.883c0 .732-.42 6.156-.667 7.037-.856 3.061-3.978 3.842-6.755 3.37 4.854.826 6.089 3.562 3.422 6.299-5.065 5.196-7.28-1.304-7.847-2.97-.104-.305-.152-.448-.153-.327 0-.121-.05.022-.153.327-.568 1.666-2.782 8.166-7.847 2.97-2.667-2.737-1.432-5.473 3.422-6.3-2.777.473-5.899-.308-6.755-3.369C.42 10.04 0 4.615 0 3.883c0-3.67 3.217-2.517 5.202-1.026"/></svg>
+      </a>
+      <a class="soc" id="socGithub" href="#" target="_blank" rel="noopener" aria-label="GitHub">
+        <svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+      </a>
+      <a class="soc" id="socX" href="#" target="_blank" rel="noopener" aria-label="X">
+        <svg viewBox="0 0 24 24"><path d="M14.234 10.162 22.977 0h-2.072l-7.591 8.824L7.251 0H.258l9.168 13.343L.258 24H2.33l8.016-9.318L16.749 24h6.993zm-2.837 3.299-.929-1.329L3.076 1.56h3.182l5.965 8.532.929 1.329 7.754 11.09h-3.182z"/></svg>
+      </a>
+      <a class="soc" id="socDiscord" href="#" target="_blank" rel="noopener" aria-label="Discord">
+        <svg viewBox="0 0 24 24"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189z"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <div class="section" id="nowSection">
+    <div class="sec-title">Now</div>
+    <div class="now-grid" id="nowGrid"></div>
+  </div>
+
+  <div class="section" id="postsSection">
+    <div class="sec-title">Latest posts</div>
+    <div id="postsList"></div>
+  </div>
+
+  <div class="section">
+    <div class="sec-title">Contact</div>
+    <div class="contact-grid">
+      <a class="cell" href="mailto:miles@diskettelabs.com">
+        <div class="ck">Email</div>
+        <div class="cv">miles@diskettelabs.com</div>
+      </a>
+      <a class="cell" href="tel:+17633121150">
+        <div class="ck">Phone</div>
+        <div class="cv">763-312-1150</div>
+      </a>
+    </div>
+
+    <div class="section tz" style="border-top:none;padding:14px 0 0;">
+      <div class="tk" id="tzName">MN, USA</div>
+      <div>
+        <div class="tt" id="tzClock">--:--</div>
+        <div class="ts" id="tzDate"></div>
+      </div>
+    </div>
+
+    <div class="share-row">
+      <a class="btn" id="shareEmailBtn" href="#">Share via email</a>
+      <button class="btn btn-solid" id="copyBtn" type="button">Copy link</button>
+    </div>
+  </div>
+</div>
+
+<div class="no-grav">made by <a id="webLink" href="#">miles</a></div>
+
+<script>
+(function () {
+  var data = window.__DATA__ || {};
+  var themeBtn = document.getElementById('themeBtn');
+
+  // Dark mode by default, but respect an explicit saved preference.
+  var saved = null;
+  try { saved = localStorage.getItem('miles-theme'); } catch (e) {}
+  var theme = saved || 'dark';
+  applyTheme(theme);
+
+  function applyTheme(t) {
+    document.documentElement.classList.toggle('light', t === 'light');
+    themeBtn.textContent = t === 'light' ? '☀' : '☾';
+  }
+  themeBtn.addEventListener('click', function () {
+    var cur = document.documentElement.classList.contains('light') ? 'light' : 'dark';
+    var next = cur === 'light' ? 'dark' : 'light';
+    applyTheme(next);
+    try { localStorage.setItem('miles-theme', next); } catch (e) {}
+  });
+
+  function render(db) {
+    var p = db.profile || {};
+    var nameEl = document.getElementById('name');
+    nameEl.textContent = p.name || 'miles wolf allen';
+    document.title = (p.name || 'miles wolf allen') + ' — profile';
+    document.getElementById('avatar').src = p.avatar || 'https://avatars.githubusercontent.com/u/115095719?v=4';
+    document.getElementById('handle').textContent = p.handle || '@mileswa · software engineer';
+    document.getElementById('bio').textContent = p.bio || '';
+    var web = p.website || 'https://milesallen.site';
+    document.getElementById('webLink').href = web;
+    document.querySelector('.bio a') && document.querySelector('.bio a').setAttribute('href', web);
+
+    var tz = db.timezone || {};
+    document.getElementById('tzName').textContent = tz.label || 'MN, USA';
+    var tzId = tz.id || 'America/Chicago';
+    var now = document.getElementById('nowGrid');
+    now.innerHTML = '';
+    (db.now || []).forEach(function (item) {
+      if (!item || !item[1]) return;
+      var el = document.createElement('div');
+      el.className = 'now-item';
+      el.innerHTML = '<div><div class="nk">' + esc(item[0] || 'Now') + '</div><div class="nv">' + esc(item[1]) + '</div></div>';
+      now.appendChild(el);
+    });
+    var ns = document.getElementById('nowSection');
+    if ((db.now || []).length === 0) ns.style.display = 'none';
+
+    var posts = db.posts || [];
+    var list = document.getElementById('postsList');
+    list.innerHTML = '';
+    posts.slice(0, 6).forEach(function (post) {
+      var a = document.createElement('a');
+      a.className = 'post';
+      if (post.link) { a.href = post.link; a.target = '_blank'; a.rel = 'noopener'; }
+      var d = post.date ? esc(fmtDate(post.date)) : '';
+      a.innerHTML = '<div class="p-top"><span class="p-title">' + esc(post.title) + '</span><span class="p-date">' + d + '</span></div><div class="p-body">' + esc(post.body || '') + '</div>';
+      list.appendChild(a);
+    });
+    var ps = document.getElementById('postsSection');
+    if (posts.length === 0) ps.style.display = 'none';
+
+    // Share email link
+    document.getElementById('shareEmailBtn').href =
+      'mailto:?subject=' + encodeURIComponent((p.name || '').trim()) +
+      '&body=' + encodeURIComponent('Check out ' + (p.name || 'miles wolf allen').trim() + ': ' + location.href);
+
+    // clock
+    clock(tzId);
+    setInterval(function () { clock(tzId); }, 1000);
+  }
+
+  function clock(tzId) {
+    var d = new Date();
+    try {
+      var tf = new Intl.DateTimeFormat('en-US', { timeZone: tzId, hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
+      var df = new Intl.DateTimeFormat('en-US', { timeZone: tzId, weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+      document.getElementById('tzClock').textContent = tf.format(d);
+      document.getElementById('tzDate').textContent = df.format(d);
+    } catch (e) {
+      document.getElementById('tzClock').textContent = '--:--:--';
+    }
+  }
+
+  function fmtDate(s) {
+    try {
+      var d = new Date(s + (s.indexOf('T') === -1 ? 'T12:00:00' : ''));
+      if (isNaN(d)) return s;
+      return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    } catch (e) { return s; }
+  }
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  function refresh() {
+    fetch('/api/data').then(function (r) { return r.json(); }).then(render).catch(function () { render(data); });
+  }
+
+  render(data);
+  refresh();
+
+  var copyBtn = document.getElementById('copyBtn');
+  copyBtn.addEventListener('click', function () {
+    copyText(location.href, function () { flash(copyBtn, 'Copied!'); });
+  });
+  function copyText(txt, done) {
+    var ok = function () { done(); };
+    var fail = function () {
+      var ta = document.createElement('textarea');
+      ta.value = txt; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); ok(); } catch (e) { done(); }
+      document.body.removeChild(ta);
+    };
+    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(txt).then(ok, fail);
+    else fail();
+  }
+  function flash(btn, txt) {
+    var old = btn.textContent; btn.textContent = txt; btn.disabled = true;
+    setTimeout(function () { btn.textContent = old; btn.disabled = false; }, 1400);
+  }
+})();
+</script>
+</body>
+</html>

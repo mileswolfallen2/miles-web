@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edit — share page</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>window.__DATA__ = {{DATA}};</script>
+<style>
+  :root{--page:#0f1116;--card:#1a1d24;--card2:#22262f;--border:#2a2f3a;--text:#e8eaee;--muted:#9aa3b2;--accent:#1d9bf0;--danger:#ef4444;--ok:#22c55e;}
+  *{box-sizing:border-box;}
+  body{margin:0;padding:40px 16px 80px;background:var(--page);color:var(--text);font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.5;}
+  .wrap{max-width:680px;margin:0 auto;}
+  h1{font-size:24px;margin:0 0 4px;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:28px;}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:20px;}
+  .card h2{font-size:14px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0 0 16px;}
+  label{display:block;font-size:12px;font-weight:600;color:var(--muted);margin:12px 0 4px;}
+  input[type=text],textarea,select{width:100%;padding:9px 11px;background:var(--card2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:inherit;font-size:14px;}
+  textarea{resize:vertical;min-height:64px;}
+  .hint{font-size:11px;color:var(--muted);margin:4px 0 0;}
+  .row-item{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;margin-bottom:8px;align-items:center;}
+  .row-item input{width:100%;}
+  .del{width:34px;height:34px;border-radius:8px;border:1px solid var(--border);background:var(--card2);color:var(--danger);cursor:pointer;font-size:16px;line-height:1;}
+  .add{width:100%;padding:9px;border-radius:8px;border:1px dashed var(--border);background:transparent;color:var(--accent);cursor:pointer;font-size:13px;font-weight:600;}
+  .post-item{border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:10px;background:var(--card2);}
+  .post-item .p-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+  .post-item .p-head b{font-size:13px;color:var(--muted);}
+  .bar{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;}
+  .bar .token{display:flex;gap:8px;flex:1;min-width:200px;}
+  .bar input{flex:1;}
+  .btn{font-family:inherit;font-size:13px;font-weight:700;padding:10px 18px;border-radius:10px;cursor:pointer;border:1px solid var(--border);background:var(--card2);color:var(--text);}
+  .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff;}
+  .status{font-size:13px;font-weight:600;}
+  .status.ok{color:var(--ok);} .status.err{color:var(--danger);}
+  .top-link{color:var(--accent);font-size:13px;text-decoration:none;margin-bottom:20px;display:inline-block;}
+  .top-link:hover{text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="top-link" href="/">← View page</a>
+  <h1>Edit share page</h1>
+  <p class="sub">Changes save to the server's data file. Keep this link private.</p>
+
+  <div class="card">
+    <h2>Profile</h2>
+    <label>Name</label><input type="text" id="f-name">
+    <label>Handle</label><input type="text" id="f-handle">
+    <label>Meta (pronouns · location)</label><input type="text" id="f-meta">
+    <label>Bio</label><textarea id="f-bio"></textarea>
+    <label>Avatar URL</label><input type="text" id="f-avatar">
+    <label>Website</label><input type="text" id="f-website">
+  </div>
+
+  <div class="card">
+    <h2>Now (current status)</h2>
+    <div id="now-list"></div>
+    <button class="add" id="add-now" type="button">+ Add a "now" line</button>
+  </div>
+
+  <div class="card">
+    <h2>Timezone</h2>
+    <label>IANA timezone id</label><input type="text" id="f-tzid">
+    <p class="hint">e.g. America/Chicago, America/Los_Angeles, Europe/London</p>
+    <label>Label shown</label><input type="text" id="f-tzlabel">
+  </div>
+
+  <div class="card">
+    <h2>Latest posts</h2>
+    <div id="post-list"></div>
+    <button class="add" id="add-post" type="button">+ Add a post</button>
+  </div>
+
+  <div class="bar">
+    <div class="token">
+      <input type="password" id="f-token" placeholder="Admin token">
+      <button class="btn primary" id="save" type="button">Save</button>
+    </div>
+    <span class="status" id="status"></span>
+  </div>
+</div>
+
+<script>
+(function () {
+  var data = JSON.parse(JSON.stringify(window.__DATA__ || {}));
+  data.profile = data.profile || {};
+  data.timezone = data.timezone || {};
+  data.now = data.now || [];
+  data.posts = data.posts || [];
+
+  var nowList = document.getElementById('now-list');
+  var postList = document.getElementById('post-list');
+
+  function oneNow(item) {
+    var div = document.createElement('div');
+    div.className = 'row-item';
+    div.innerHTML = '<input type="text" placeholder="Label (Learning/Building/Playing)">' +
+      '<input type="text" placeholder="Value">' +
+      '<button class="del" type="button" aria-label="Remove">×</button>';
+    div.children[0].value = item[0] || '';
+    div.children[1].value = item[1] || '';
+    div.children[2].addEventListener('click', function () { div.remove(); });
+    return div;
+  }
+
+  function renderNow() {
+    nowList.innerHTML = '';
+    (data.now.length ? data.now : [['', '']]).forEach(function (item) {
+      nowList.appendChild(oneNow(item));
+    });
+  }
+  document.getElementById('add-now').addEventListener('click', function () {
+    nowList.appendChild(oneNow(['', '']));
+  });
+
+  function onePost(p) {
+    var div = document.createElement('div');
+    div.className = 'post-item';
+    div.innerHTML =
+      '<div class="p-head"><b>Post</b><button class="del" type="button" aria-label="Remove post">×</button></div>' +
+      '<label>Title</label><input type="text" class="p-title">' +
+      '<label>Body</label><textarea class="p-body"></textarea>' +
+      '<label>Date (YYYY-MM-DD)</label><input type="text" class="p-date" placeholder="2026-08-24">' +
+      '<label>Link (optional)</label><input type="text" class="p-link" placeholder="https://...">';
+    div.querySelector('.p-title').value = p.title || '';
+    div.querySelector('.p-body').value = p.body || '';
+    div.querySelector('.p-date').value = p.date || '';
+    div.querySelector('.p-link').value = p.link || '';
+    div.querySelector('.del').addEventListener('click', function () { div.remove(); });
+    return div;
+  }
+  function renderPosts() {
+    postList.innerHTML = '';
+    (data.posts.length ? data.posts : [{}]).forEach(function (p) {
+      postList.appendChild(onePost(p));
+    });
+  }
+  document.getElementById('add-post').addEventListener('click', function () {
+    postList.appendChild(onePost({}));
+  });
+
+  function fill() {
+    var p = data.profile;
+    document.getElementById('f-name').value = p.name || '';
+    document.getElementById('f-handle').value = p.handle || '';
+    document.getElementById('f-meta').value = p.meta || '';
+    document.getElementById('f-bio').value = p.bio || '';
+    document.getElementById('f-avatar').value = p.avatar || '';
+    document.getElementById('f-website').value = p.website || '';
+    document.getElementById('f-tzid').value = data.timezone.id || 'America/Chicago';
+    document.getElementById('f-tzlabel').value = data.timezone.label || '';
+    renderNow();
+    renderPosts();
+  }
+
+  function collect() {
+    var now = [];
+    nowList.querySelectorAll('.row-item').forEach(function (r) {
+      var k = r.children[0].value.trim();
+      var v = r.children[1].value.trim();
+      if (v) now.push([k, v]);
+    });
+    var posts = [];
+    postList.querySelectorAll('.post-item').forEach(function (d) {
+      var title = d.querySelector('.p-title').value.trim();
+      if (title) posts.push({
+        title: title,
+        body: d.querySelector('.p-body').value.trim(),
+        date: d.querySelector('.p-date').value.trim(),
+        link: d.querySelector('.p-link').value.trim()
+      });
+    });
+    return {
+      profile: {
+        name: document.getElementById('f-name').value.trim(),
+        handle: document.getElementById('f-handle').value.trim(),
+        meta: document.getElementById('f-meta').value.trim(),
+        bio: document.getElementById('f-bio').value.trim(),
+        avatar: document.getElementById('f-avatar').value.trim(),
+        website: document.getElementById('f-website').value.trim()
+      },
+      timezone: {
+        id: document.getElementById('f-tzid').value.trim(),
+        label: document.getElementById('f-tzlabel').value.trim()
+      },
+      now: now,
+      posts: posts
+    };
+  }
+
+  var statusEl = document.getElementById('status');
+  document.getElementById('save').addEventListener('click', function () {
+    var token = document.getElementById('f-token').value.trim();
+    if (!token) { setStatus('Enter the admin token', 'err'); return; }
+    var body = collect();
+    setStatus('Saving…', '');
+    fetch('/api/data', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify(body)
+    }).then(function (r) {
+      if (r.status === 401) { setStatus('Wrong token', 'err'); throw new Error('unauthorized'); }
+      if (!r.ok) { setStatus('Save failed (' + r.status + ')', 'err'); throw new Error('bad'); }
+      return r.json();
+    }).then(function (r) {
+      data = r.data;
+      setStatus('Saved ✓', 'ok');
+    }).catch(function (e) {
+      if (e && e.message === 'unauthorized') return;
+      if (e && e.message !== 'bad') setStatus('Network error', 'err');
+    });
+  });
+
+  function setStatus(txt, cls) {
+    statusEl.textContent = txt;
+    statusEl.className = 'status ' + cls;
+  }
+  fill();
+})();
+</script>
+</body>
+</html>

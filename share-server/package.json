@@ -1,0 +1,16 @@
+{
+  "name": "miles-share-server",
+  "version": "1.0.0",
+  "description": "Node server for miles' share page — editable now status, latest posts, timezone, dark mode.",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "express": "^4.22.2"
+  }
+}

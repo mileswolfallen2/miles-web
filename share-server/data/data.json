@@ -1,0 +1,39 @@
+{
+  "profile": {
+    "name": "miles wolf allen",
+    "handle": "@mileswa · software engineer",
+    "meta": "he/him · MN, USA",
+    "bio": "Developer and 3D artist interested in coding, games, and web technology. Currently learning Rust.",
+    "avatar": "https://avatars.githubusercontent.com/u/115095719?v=4",
+    "website": "https://milesallen.site"
+  },
+  "timezone": {
+    "id": "America/Chicago",
+    "label": "Central Time (MN, USA)"
+  },
+  "now": [
+    ["Learning", "Rust"],
+    ["Building", "Vanilla music app"],
+    ["Playing", "Geometry Dash"]
+  ],
+  "posts": [
+    {
+      "title": "Shipped Vanilla v2.0",
+      "body": "Rewrote the audio engine and added a custom queue. Huge QoL update.",
+      "date": "2026-08-24",
+      "link": "https://github.com/mileswolfallen2"
+    },
+    {
+      "title": "Porting a classic to desktop",
+      "body": "Working on a native PC port of a retro game. Almost playable.",
+      "date": "2026-08-15",
+      "link": ""
+    },
+    {
+      "title": "Learning Rust",
+      "body": "Picked up Rust for a systems project. Rotating on lifetimes right now.",
+      "date": "2026-07-30",
+      "link": ""
+    }
+  ]
+}

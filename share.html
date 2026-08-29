@@ -167,7 +167,7 @@
     <img class="avatar" src="https://avatars.githubusercontent.com/u/115095719?v=4" alt="miles wolf allen" width="120" height="120">
     <div class="name">miles wolf allen</div>
     <div class="handle">@wolf_reaper90 · software engineer</div>
-    <div class="meta">he/him · <b>MN, USA</b></div>
+    <div class="meta">he/him · <b>MN, USA</b> · <span id="tzWatch">local time --:--:--</span></div>
 
     <p class="bio">Developer and 3D artist interested in coding, games, and web technology. Currently learning Rust. <a href="https://milesallen.site">↗ milesallen.site</a></p>
 
@@ -273,6 +273,17 @@
     setTimeout(function(){ URL.revokeObjectURL(a.href); }, 400);
     flash(vcBtn, 'Saved!');
   });
+
+  function tzClock(){
+    var d = new Date(), tf;
+    try {
+      tf = new Intl.DateTimeFormat('en-US', { timeZone:'America/Chicago', hour:'2-digit', minute:'2-digit', hour12:true });
+    } catch(e){ return; }
+    var w = document.getElementById('tzWatch');
+    if(w) w.textContent = 'local time ' + tf.format(d);
+  }
+  tzClock();
+  setInterval(tzClock, 30000);
 
   function copyText(txt, btn, done){
     var ok = function(){ if(done) done(); };
