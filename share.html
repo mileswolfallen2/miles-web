@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>miles wolf allen</title>
+<meta name="description" content="miles wolf allen — Software engineer. Developer and 3D artist interested in coding, games, and web technology. Currently learning Rust.">
+<meta name="author" content="Miles Wolf Allen">
+<link rel="canonical" href="https://milesallen.site/share.html">
+<meta property="og:type" content="profile">
+<meta property="og:title" content="miles wolf allen">
+<meta property="og:description" content="Software engineer. Developer and 3D artist interested in coding, games, and web technology. Currently learning Rust.">
+<meta property="og:url" content="https://milesallen.site/share.html">
+<meta property="og:image" content="https://avatars.githubusercontent.com/u/115095719?v=4">
+<meta property="og:site_name" content="miles wolf allen">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="miles wolf allen">
+<meta name="twitter:description" content="Software engineer. Developer and 3D artist interested in coding, games, and web technology.">
+<meta name="twitter:image" content="https://avatars.githubusercontent.com/u/115095719?v=4">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Miles Wolf Allen",
+  "url": "https://milesallen.site/",
+  "image": "https://avatars.githubusercontent.com/u/115095719?v=4",
+  "email": "mailto:miles@diskettelabs.com",
+  "telephone": "+1-763-312-1150",
+  "jobTitle": "Software Engineer",
+  "knowsAbout": ["Software Development", "Game Development", "Web Technology", "Rust"],
+  "sameAs": [
+    "https://bsky.app/profile/wolfreaper90.bsky.social",
+    "https://github.com/mileswolfallen2",
+    "https://open.spotify.com/user/31bodx3k4uok7wcmm64hovz57udu",
+    "https://www.youtube.com/channel/UCeUJbFoCDwUUg6uZi-G-zhQ"
+  ]
+}
+</script>
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --page:#eef1f5;
+    --card:#ffffff;
+    --border:#e3e8ee;
+    --text:#14161a;
+    --muted:#647182;
+    --accent:#1d9bf0;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--page);color:var(--text);
+    font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.5;
+    display:flex;flex-direction:column;align-items:center;
+    min-height:100vh;padding:40px 20px 64px;
+    overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none;}
+
+  .card{
+    width:100%;max-width:600px;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:16px;
+    overflow:hidden;
+    box-shadow:0 1px 2px rgba(16,24,40,.05),0 10px 30px rgba(16,24,40,.08);
+  }
+
+  .banner{height:160px;overflow:hidden;background:#dbe1e8;}
+  .banner img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;}
+
+  .profile{padding:0 24px 24px;}
+  .avatar{
+    display:block;width:120px;height:120px;border-radius:50%;
+    border:4px solid var(--card);
+    background:#e5e9ee;
+    box-shadow:0 2px 10px rgba(16,24,40,.2);
+    object-fit:cover;margin-top:-56px;
+  }
+  .name{font-size:22px;font-weight:800;letter-spacing:-.01em;margin-top:14px;line-height:1.2;}
+  .handle{font-size:14px;color:var(--muted);margin-top:3px;}
+  .meta{font-size:13px;color:var(--muted);margin-top:8px;}
+  .meta b{color:var(--text);font-weight:600;}
+  .bio{font-size:15px;margin-top:16px;}
+  .bio a{color:var(--accent);}
+  .bio a:hover{text-decoration:underline;}
+
+  .socials{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:20px;}
+  .soc{
+    display:flex;align-items:center;justify-content:center;
+    height:44px;border:1px solid var(--border);border-radius:12px;
+    color:var(--muted);transition:all .15s;
+  }
+  .soc svg{width:22px;height:22px;fill:currentColor;}
+  .soc:hover{color:var(--accent);border-color:var(--accent);background:#f6fafe;transform:translateY(-2px);}
+
+  .section{border-top:1px solid var(--border);padding:20px 24px;}
+  .sec-title{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
+  .sec-hint{font-size:14px;color:var(--muted);margin-bottom:14px;}
+
+  .row{
+    display:flex;align-items:center;gap:12px;
+    padding:13px 10px;border-radius:10px;
+    border-bottom:1px solid var(--border);
+    transition:background .15s;
+  }
+  .section .row:last-child{border-bottom:none;}
+  .row:hover{background:#f7f9fb;}
+  .row .ico{
+    width:36px;height:36px;border-radius:10px;flex-shrink:0;
+    background:#eef3f8;display:flex;align-items:center;justify-content:center;
+  }
+  .row .ico svg{width:19px;height:19px;fill:#4b5563;}
+  .row .r-body{flex:1;min-width:0;}
+  .row .r-title{font-size:14px;font-weight:600;}
+  .row .r-uri{font-size:13px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .row .r-right{font-size:13px;color:var(--muted);flex-shrink:0;}
+
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .cell{
+    border:1px solid var(--border);border-radius:12px;padding:16px;
+    transition:border-color .15s,background .15s;
+  }
+  .cell:hover{border-color:var(--accent);background:#f7fbfe;}
+  .cell .ck{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);}
+  .cell .cv{font-size:14px;font-weight:600;margin-top:6px;word-break:break-all;}
+  .cell a.cv{color:var(--accent);}
+
+  .share-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px;}
+  .btn{
+    font-family:inherit;font-size:13px;font-weight:700;
+    padding:8px 16px;border-radius:999px;cursor:pointer;
+    border:1px solid var(--border);background:var(--card);color:var(--text);
+    transition:background .15s,border-color .15s;
+  }
+  .btn:hover{background:#f4f6f9;}
+  .btn-solid{background:var(--accent);border-color:var(--accent);color:#fff;}
+  .btn-solid:hover{background:#1a89d8;}
+
+  .no-grav{margin-top:26px;font-size:13px;color:var(--muted);text-align:center;}
+  .no-grav a{color:var(--accent);font-weight:600;}
+  .no-grav a:hover{text-decoration:underline;}
+
+  @media(max-width:520px){
+    body{padding:0 0 40px;}
+    .banner{height:120px;}
+    .profile{padding:0 16px 20px;}
+    .section{padding:18px 16px;}
+    .avatar{width:92px;height:92px;margin-top:-44px;}
+    .socials{grid-template-columns:repeat(4,1fr);}
+    .contact-grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="banner">
+    <img src="back.jpg" alt="" aria-hidden="true">
+  </div>
+
+  <div class="profile">
+    <img class="avatar" src="https://avatars.githubusercontent.com/u/115095719?v=4" alt="miles wolf allen" width="120" height="120">
+    <div class="name">miles wolf allen</div>
+    <div class="handle">@wolf_reaper90 · software engineer</div>
+    <div class="meta">he/him · <b>MN, USA</b></div>
+
+    <p class="bio">Developer and 3D artist interested in <a href="https://milesallen.site">coding, games, and web technology</a>. Currently learning Rust. <a href="https://milesallen.site">↗ milesallen.site</a></p>
+
+    <div class="socials">
+      <a class="soc" href="https://bsky.app/profile/wolfreaper90.bsky.social" target="_blank" rel="noopener" aria-label="Bluesky">
+        <svg viewBox="0 0 24 24"><path d="M5.202 2.857C7.954 4.922 10.913 9.11 12 11.358c1.087-2.247 4.046-6.436 6.798-8.501C20.783 1.366 24 .213 24 3.883c0 .732-.42 6.156-.667 7.037-.856 3.061-3.978 3.842-6.755 3.37 4.854.826 6.089 3.562 3.422 6.299-5.065 5.196-7.28-1.304-7.847-2.97-.104-.305-.152-.448-.153-.327 0-.121-.05.022-.153.327-.568 1.666-2.782 8.166-7.847 2.97-2.667-2.737-1.432-5.473 3.422-6.3-2.777.473-5.899-.308-6.755-3.369C.42 10.04 0 4.615 0 3.883c0-3.67 3.217-2.517 5.202-1.026"/></svg>
+      </a>
+      <a class="soc" href="https://github.com/mileswolfallen2" target="_blank" rel="noopener" aria-label="GitHub">
+        <svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+      </a>
+      <a class="soc" href="https://open.spotify.com/user/31bodx3k4uok7wcmm64hovz57udu" target="_blank" rel="noopener" aria-label="Spotify">
+        <svg viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+      </a>
+      <a class="soc" href="https://www.youtube.com/channel/UCeUJbFoCDwUUg6uZi-G-zhQ" target="_blank" rel="noopener" aria-label="YouTube">
+        <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-title">Links</div>
+    <a class="row" href="https://milesallen.site" target="_blank" rel="noopener">
+      <span class="ico"><svg viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg></span>
+      <span class="r-body">
+        <span class="r-title">my webpage</span>
+        <span class="r-uri">milesallen.site</span>
+      </span>
+      <span class="r-right">↗</span>
+    </a>
+  </div>
+
+  <div class="section">
+    <div class="sec-title">Profiles</div>
+    <a class="row" href="https://bsky.app/profile/wolfreaper90.bsky.social" target="_blank" rel="noopener">
+      <span class="ico"><svg viewBox="0 0 24 24"><path d="M5.202 2.857C7.954 4.922 10.913 9.11 12 11.358c1.087-2.247 4.046-6.436 6.798-8.501C20.783 1.366 24 .213 24 3.883c0 .732-.42 6.156-.667 7.037-.856 3.061-3.978 3.842-6.755 3.37 4.854.826 6.089 3.562 3.422 6.299-5.065 5.196-7.28-1.304-7.847-2.97-.104-.305-.152-.448-.153-.327 0-.121-.05.022-.153.327-.568 1.666-2.782 8.166-7.847 2.97-2.667-2.737-1.432-5.473 3.422-6.3-2.777.473-5.899-.308-6.755-3.369C.42 10.04 0 4.615 0 3.883c0-3.67 3.217-2.517 5.202-1.026"/></svg></span>
+      <span class="r-body"><span class="r-title">Bluesky</span><span class="r-uri">bsky.app/profile/wolfreaper90.bsky.social</span></span>
+      <span class="r-right">↗</span>
+    </a>
+    <a class="row" href="https://github.com/mileswolfallen2" target="_blank" rel="noopener">
+      <span class="ico"><svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></span>
+      <span class="r-body"><span class="r-title">GitHub</span><span class="r-uri">github.com/mileswolfallen2</span></span>
+      <span class="r-right">↗</span>
+    </a>
+    <a class="row" href="https://open.spotify.com/user/31bodx3k4uok7wcmm64hovz57udu" target="_blank" rel="noopener">
+      <span class="ico"><svg viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg></span>
+      <span class="r-body"><span class="r-title">Spotify</span><span class="r-uri">open.spotify.com</span></span>
+      <span class="r-right">↗</span>
+    </a>
+    <a class="row" href="https://www.youtube.com/channel/UCeUJbFoCDwUUg6uZi-G-zhQ" target="_blank" rel="noopener">
+      <span class="ico"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></span>
+      <span class="r-body"><span class="r-title">YouTube</span><span class="r-uri">youtube.com/@wolfm</span></span>
+      <span class="r-right">↗</span>
+    </a>
+  </div>
+
+  <div class="section">
+    <div class="sec-title">Contact</div>
+    <div class="contact-grid">
+      <a class="cell" href="mailto:miles@diskettelabs.com">
+        <div class="ck">Email</div>
+        <div class="cv">miles@diskettelabs.com</div>
+      </a>
+      <a class="cell" href="tel:+17633121150">
+        <div class="ck">Phone</div>
+        <div class="cv">763-312-1150</div>
+      </a>
+    </div>
+    <div class="share-row">
+      <a class="btn" href="mailto:?subject=miles%20wolf%20allen&body=Check%20out%20miles%20wolf%20allen%3A%20https%3A%2F%2Fmilesallen.site%2Fshare.html">Share via email</a>
+      <button class="btn btn-solid" id="copyBtn" type="button">Copy link</button>
+      <button class="btn" id="vcBtn" type="button">Save contact</button>
+    </div>
+  </div>
+</div>
+
+<div class="no-grav">made by <a href="index.html">miles</a>. not ai </div>
+
+<script>
+(function(){
+  var copyBtn = document.getElementById('copyBtn');
+  if(copyBtn) copyBtn.addEventListener('click', function(){
+    copyText('https://milesallen.site/share.html', copyBtn, function(){ flash(copyBtn, 'Copied!'); });
+  });
+
+  var vcBtn = document.getElementById('vcBtn');
+  if(vcBtn) vcBtn.addEventListener('click', function(){
+    var vcard = [
+      'BEGIN:VCARD','VERSION:3.0','N:Allen;Miles Wolf;;;','FN:Miles Wolf Allen',
+      'ORG:Diskette Labs','TITLE:Software Engineer','TEL;TYPE=CELL:+1-763-312-1150',
+      'EMAIL;TYPE=INTERNET:miles@diskettelabs.com','URL:https://milesallen.site',
+      'END:VCARD'
+    ].join('\r\n');
+    var blob = new Blob([vcard], { type: 'text/vcard' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'miles-wolf-allen.vcf';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function(){ URL.revokeObjectURL(a.href); }, 400);
+    flash(vcBtn, 'Saved!');
+  });
+
+  function copyText(txt, btn, done){
+    var ok = function(){ if(done) done(); };
+    var fail = function(){
+      var ta = document.createElement('textarea');
+      ta.value = txt; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); ok(); } catch(e){ if(done) done(); }
+      document.body.removeChild(ta);
+    };
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(txt).then(ok, fail);
+    } else { fail(); }
+  }
+  function flash(btn, txt){
+    var old = btn.textContent;
+    btn.textContent = txt; btn.disabled = true;
+    setTimeout(function(){ btn.textContent = old; btn.disabled = false; }, 1400);
+  }
+})();
+</script>
+</body>
+</html>
