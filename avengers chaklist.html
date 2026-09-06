@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Avengers: Doomsday Watchlist</title>
+  <style>
+    :root {
+      --bg-color: #0d0f12;
+      --card-bg: #15171c;
+      --border-color: #24282e;
+      --text-main: #c6cbd2;
+      --text-muted: #7a828c;
+      --accent: #b85a5a;
+      --accent-hover: #9c4646;
+      --success: #5aa877;
+      --hover-bg: #1a1d23;
+      --inner-bg: #191c22;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      margin: 0;
+      padding: 2.5rem 1rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 580px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 2rem 2rem 1.75rem;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+    }
+
+    h1 {
+      margin-top: 0;
+      color: #e8eaed;
+      font-size: 1.6rem;
+      font-weight: 600;
+      text-align: center;
+      letter-spacing: 0.02em;
+    }
+
+    p.subtitle {
+      text-align: center;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      font-size: 0.9rem;
+    }
+
+    .progress-container {
+      background-color: #20242b;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+      height: 8px;
+      border: 1px solid var(--border-color);
+    }
+
+    .progress-bar {
+      height: 100%;
+      background-color: var(--accent);
+      width: 0%;
+      border-radius: 999px;
+      transition: width 0.35s ease;
+    }
+
+    .counter {
+      text-align: right;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      border-bottom: 1px solid var(--border-color);
+      transition: background-color 0.15s ease;
+    }
+
+    li:last-child {
+      border-bottom: none;
+    }
+
+    li:hover {
+      background-color: var(--hover-bg);
+      border-radius: 8px;
+    }
+
+    .item-row {
+      display: flex;
+      align-items: center;
+      padding: 0.7rem 0.5rem;
+    }
+
+    input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 17px;
+      height: 17px;
+      border: 1.5px solid #4a515a;
+      border-radius: 5px;
+      outline: none;
+      cursor: pointer;
+      margin-right: 0.85rem;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    input[type="checkbox"]:hover {
+      border-color: var(--text-muted);
+    }
+
+    input[type="checkbox"]:checked {
+      background-color: var(--success);
+      border-color: var(--success);
+    }
+
+    input[type="checkbox"]:checked::after {
+      content: '✓';
+      color: white;
+      font-weight: bold;
+      font-size: 11px;
+    }
+
+    label {
+      cursor: pointer;
+      font-size: 0.95rem;
+      user-select: none;
+      flex-grow: 1;
+      transition: color 0.2s ease;
+    }
+
+    input[type="checkbox"]:checked + label {
+      text-decoration: line-through;
+      color: var(--text-muted);
+    }
+
+    .why-btn {
+      flex-shrink: 0;
+      border: 1px solid var(--border-color);
+      background: transparent;
+      color: var(--text-muted);
+      border-radius: 999px;
+      padding: 0.2rem 0.7rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.03em;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .why-btn:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .why-btn[aria-expanded="true"] {
+      color: var(--accent);
+      border-color: var(--accent);
+      background: rgba(184, 90, 90, 0.08);
+    }
+
+    .why {
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      margin: 0 0.5rem;
+      padding: 0 0.6rem;
+      font-size: 0.82rem;
+      line-height: 1.5;
+      color: var(--text-muted);
+      border-left: 2px solid var(--border-color);
+      transition: max-height 0.25s ease, opacity 0.25s ease, margin 0.25s ease, padding 0.25s ease;
+    }
+
+    .why.open {
+      max-height: 240px;
+      opacity: 1;
+      margin: 0 0.5rem 0.6rem;
+      padding: 0.35rem 0.6rem 0.35rem 0.9rem;
+    }
+
+    .btn-reset {
+      display: block;
+      width: 100%;
+      margin-top: 1.75rem;
+      padding: 0.6rem;
+      background-color: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.85rem;
+      transition: all 0.2s ease;
+    }
+
+    .btn-reset:hover {
+      background-color: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Avengers: Doomsday</h1>
+    <p class="subtitle">a quieter fall checklist to the big one</p>
+
+    <div class="progress-container">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <div class="counter" id="counterText">0 / 8 Completed</div>
+
+    <ul id="checklist">
+      <li>
+        <div class="item-row">
+          <input type="checkbox" id="item-0">
+          <label for="item-0">Loki (Seasons 1 &amp; 2)</label>
+          <button class="why-btn" data-target="why-0" aria-expanded="false">why</button>
+        </div>
+        <div class="why" id="why-0">The multiverse, the TVA, and the war of the timelines all come from here — Doomsday wouldn't exist without it.</div>
+      </li>
+      <li>
+        <div class="item-row">
+          <input type="checkbox" id="item-1">
+          <label for="item-1">Fantastic Four: First Steps</label>
+          <button class="why-btn" data-target="why-1" aria-expanded="false">why</button>
+        </div>
+        <div class="why" id="why-1">The FF's first proper MCU outing, and the family Doomsday quietly revolves around.</div>
+      </li>
+      <li>
+        <div class="item-row">
+          <input type="checkbox" id="item-2">
+          <label for="item-2">Doctor Strange in the Multiverse of Madness</label>
+          <button class="why-btn" data-target="why-2" aria-expanded="false">why</button>
+        </div>
+        <div class="why" id="why-2">First real look at incursions and the cracks between timelines — exactly what breaks before Doomsday.</div>
+      </li>
+      <li>
+        <div class="item-row">
+          <input type="checkbox" id="item-3">
+          <label for="item-3">Deadpool &amp; Wolverine</label>
+          <button class="why-btn" data-target="why-3" aria-expanded="false">why</button>
+        </div>
+        <div class="why" id="why-3">Shows who decides what survives, and quietly drops the OGs back into the MCU.</div>
+      </li>
+      <li>
+        <div class="item-row">
+          <input type="checkbox" id="item-4">
+          <label for="item-4">X-Men, X2, &amp; X-Men: Days of Future Past</label>
+          <button class="why-btn" data-target="why-4" aria-expanded="false">why</button>
+        </div>
+        <div class="why" id="why-4">Your only crash course in the mutants Doomsday is counting on showing up.</div>
+      </li>
+      <li>
+        <div class="item-row">
+          <input type="checkbox" id="item-5">
+          <label for="item-5">Captain America: Civil War</label>
+          <button class="why-btn" data-target="why-5" aria-expanded="false">why</button>
+        </div>
+        <div class="why" id="why-5">Explains why the Avengers are already fractured — Doomsday happens on the back of that split.</div>
+      </li>
+      <li>
+        <div class="item-row">
+          <input type="checkbox" id="item-6">
+          <label for="item-6">Captain America: Brave New World</label>
+          <button class="why-btn" data-target="why-6" aria-expanded="false">why</button>
+        </div>
+        <div class="why" id="why-6">Introduces adamantium and a new Cap — the science and the stakes behind the Doomsday story.</div>
+      </li>
+      <li>
+        <div class="item-row">
+          <input type="checkbox" id="item-7">
+          <label for="item-7">Thunderbolts*</label>
+          <button class="why-btn" data-target="why-7" aria-expanded="false">why</button>
+        </div>
+        <div class="why" id="why-7">The misfits' crew Doomsday pulls in — this is where you meet them before the chaos.</div>
+      </li>
+    </ul>
+
+    <button class="btn-reset" onclick="resetChecklist()">Reset Progress</button>
+  </div>
+
+  <script>
+    const COOKIE_NAME = "doomsday_checklist_state";
+    const checkboxes = document.querySelectorAll('#checklist input[type="checkbox"]');
+    const progressBar = document.getElementById('progressBar');
+    const counterText = document.getElementById('counterText');
+
+    function setCookie(name, value, days = 365) {
+      const date = new Date();
+      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+      const expires = "expires=" + date.toUTCString();
+      document.cookie = name + "=" + encodeURIComponent(value) + ";" + expires + ";path=/;SameSite=Strict";
+    }
+
+    function getCookie(name) {
+      const nameEQ = name + "=";
+      const ca = document.cookie.split(';');
+      for(let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) === 0) return decodeURIComponent(c.substring(nameEQ.length, c.length));
+      }
+      return null;
+    }
+
+    function updateState() {
+      let completedCount = 0;
+      const stateArray = [];
+
+      checkboxes.forEach((cb) => {
+        stateArray.push(cb.checked ? 1 : 0);
+        if (cb.checked) completedCount++;
+      });
+
+      const percentage = (completedCount / checkboxes.length) * 100;
+      progressBar.style.width = percentage + '%';
+      counterText.innerText = `${completedCount} / ${checkboxes.length} Completed`;
+
+      setCookie(COOKIE_NAME, stateArray.join(','));
+    }
+
+    function loadState() {
+      const savedData = getCookie(COOKIE_NAME);
+      if (savedData) {
+        const stateArray = savedData.split(',');
+        checkboxes.forEach((cb, index) => {
+          if (stateArray[index] !== undefined) {
+            cb.checked = stateArray[index] === '1';
+          }
+        });
+      }
+      updateState();
+    }
+
+    function resetChecklist() {
+      checkboxes.forEach(cb => cb.checked = false);
+      updateState();
+    }
+
+    checkboxes.forEach(cb => {
+      cb.addEventListener('change', updateState);
+    });
+
+    document.querySelectorAll('.why-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = document.getElementById(btn.dataset.target);
+        if (!target) return;
+        const open = target.classList.toggle('open');
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+    });
+
+    window.addEventListener('DOMContentLoaded', loadState);
+  </script>
+</body>
+</html>
