@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dr. Stone · miles wolf allen</title>
+<meta name="description" content="A comprehensive episode & event breakdown of Dr. Stone — every season, scientific discovery, invention, character development, and conflict, plus the show's stats.">
+<meta name="author" content="Miles Wolf Allen">
+<link rel="canonical" href="https://milesallen.site/dr-stone.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Dr. Stone · miles wolf allen">
+<meta property="og:description" content="Season-by-season episode & event breakdown of Dr. Stone — the technology ladder, major characters, factions, mysteries, and stats.">
+<meta property="og:url" content="https://milesallen.site/dr-stone.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Dr. Stone · miles wolf allen">
+<meta name="twitter:description" content="A comprehensive episode & event breakdown of Dr. Stone, plus every stat worth knowing.">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
+<style>
+  :root{
+    --page:#eef1f5;
+    --card:#ffffff;
+    --border:#e3e8ee;
+    --text:#14161a;
+    --muted:#647182;
+    --accent:#1d9bf0;
+    --stone:#7ac74f;
+    --stone2:#58a63a;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--page);color:var(--text);
+    font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.6;
+    display:flex;flex-direction:column;align-items:center;
+    min-height:100vh;padding:40px 20px 64px;
+    overflow-x:hidden;position:relative;
+  }
+  body::after{
+    content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+    background-image:
+      linear-gradient(rgba(20,22,26,.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(20,22,26,.045) 1px, transparent 1px);
+    background-size:44px 44px;
+    -webkit-mask-image:radial-gradient(820px 720px at 50% 12%, #000 30%, transparent 78%);
+            mask-image:radial-gradient(820px 720px at 50% 12%, #000 30%, transparent 78%);
+  }
+  #bgCanvas{position:fixed;inset:0;z-index:-2;pointer-events:none;display:block;}
+  a{color:inherit;text-decoration:none;}
+
+  .page-head{width:100%;max-width:760px;text-align:center;margin-bottom:24px;}
+  .crumbs{font-size:12px;color:var(--muted);}
+  .crumbs a{color:var(--accent);font-weight:600;}
+  .crumbs a:hover{text-decoration:underline;}
+  .page-title{font-size:30px;font-weight:900;letter-spacing:-.02em;margin-top:8px;}
+  .page-sub{font-size:14px;color:var(--muted);margin-top:6px;max-width:640px;margin-left:auto;margin-right:auto;}
+  .kid{display:inline-block;margin-left:6px;font-size:12px;font-weight:800;color:#fff;background:linear-gradient(135deg,var(--stone),var(--stone2));border-radius:999px;padding:2px 9px;vertical-align:middle;letter-spacing:.02em;}
+
+  .wrap{width:100%;max-width:760px;display:flex;flex-direction:column;gap:22px;}
+
+  .hero-card{
+    background:linear-gradient(150deg,#1b2a1c,#2c4a2e 55%,#171f17);
+    border-radius:20px;overflow:hidden;position:relative;color:#eaf5ea;
+    box-shadow:0 1px 2px rgba(16,24,40,.05),0 20px 44px rgba(16,24,40,.22);
+    display:flex;gap:24px;padding:24px;
+  }
+  .hero-card::before{
+    content:'';position:absolute;inset:0;pointer-events:none;
+    background:
+      radial-gradient(420px 260px at 15% 10%, rgba(122,199,79,.22), transparent 60%),
+      radial-gradient(380px 280px at 90% 90%, rgba(122,199,79,.14), transparent 60%);
+  }
+  .hero-poster{position:relative;flex-shrink:0;width:190px;}
+  .hero-poster img{width:190px;height:auto;border-radius:14px;display:block;border:2px solid rgba(255,255,255,.12);box-shadow:0 14px 34px rgba(0,0,0,.45);}
+  .hero-body{position:relative;min-width:0;flex:1;}
+  .hero-eyebrow{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--stone);}
+  .hero-title{font-size:30px;font-weight:900;letter-spacing:-.02em;margin-top:4px;line-height:1.1;}
+  .hero-sub{font-size:16px;font-weight:600;color:#bcd7bd;margin-top:6px;}
+  .hero-desc{font-size:13.5px;color:#cfe0cf;margin-top:10px;line-height:1.7;}
+  .hero-desc b,.hero-desc strong{color:#fff;}
+  .hero-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px;}
+  .hero-chip{font-size:11px;font-weight:700;color:#dff0df;border:1px solid rgba(122,199,79,.4);background:rgba(122,199,79,.12);border-radius:999px;padding:4px 11px;}
+  .hero-chip.stone{background:linear-gradient(135deg,var(--stone),var(--stone2));color:#16220f;border-color:transparent;}
+
+  .stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+  .stat{
+    background:var(--card);border:1px solid var(--border);border-radius:16px;
+    padding:18px 18px 16px;box-shadow:0 1px 2px rgba(16,24,40,.05);
+    transition:transform .18s ease,border-color .18s ease;
+  }
+  .stat:hover{transform:translateY(-3px);border-color:var(--accent);}
+  .stat .k{font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);}
+  .stat .v{font-size:24px;font-weight:900;letter-spacing:-.02em;margin-top:5px;line-height:1.1;}
+  .stat .s{font-size:11px;color:var(--muted);margin-top:3px;line-height:1.5;}
+  .stat.wide{grid-column:span 3;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;}
+  .stat.wide .v{font-size:20px;}
+  .stat.wide .s{flex:1;min-width:180px;}
+
+  .band{
+    background:var(--card);border:1px solid var(--border);border-radius:20px;
+    padding:26px 28px;box-shadow:0 1px 2px rgba(16,24,40,.05),0 12px 30px rgba(16,24,40,.08);
+  }
+  .band h2{
+    font-size:18px;font-weight:800;letter-spacing:-.01em;margin-bottom:4px;
+    display:flex;align-items:center;gap:10px;
+  }
+  .band h2::before{content:'';width:5px;height:20px;border-radius:99px;background:var(--accent);flex-shrink:0;}
+  .band h3{font-size:15px;font-weight:800;letter-spacing:-.01em;margin:22px 0 4px;display:flex;align-items:center;gap:8px;}
+  .band h3::before{content:'';width:4px;height:15px;border-radius:99px;background:var(--stone);flex-shrink:0;}
+  .band .lead{font-size:13.5px;color:var(--muted);margin-bottom:8px;}
+  .band h2:first-of-type{margin-top:0;}
+  .band h3:first-of-type{margin-top:6px;}
+
+  p.para{font-size:13.5px;color:#2a2f37;margin:8px 0;line-height:1.7;}
+  p.para b,p.para strong{color:var(--text);font-weight:700;}
+  ul.clean{margin:8px 0 8px 4px;padding:0;list-style:none;}
+  ul.clean li{font-size:13.5px;color:#2a2f37;margin:7px 0;padding-left:20px;position:relative;line-height:1.65;}
+  ul.clean li::before{content:'';position:absolute;left:2px;top:9px;width:8px;height:8px;border-radius:2px;background:var(--stone);opacity:.45;}
+  ul.clean li b,ul.clean li strong{color:var(--text);font-weight:700;}
+
+  .arc{
+    border:1px solid var(--border);border-radius:16px;margin-top:16px;overflow:hidden;
+    background:#fbfcfe;
+  }
+  .arc-head{display:flex;align-items:center;gap:12px;padding:14px 18px;cursor:pointer;background:linear-gradient(180deg,#f6fafe,var(--card));border-bottom:1px solid var(--border);}
+  .arc-head:hover{background:#f0f6fb;}
+  .arc-tag{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#fff;background:linear-gradient(135deg,var(--stone),var(--stone2));border-radius:8px;padding:4px 10px;flex-shrink:0;}
+  .arc-name{font-size:14.5px;font-weight:800;flex:1;letter-spacing:-.01em;}
+  .arc-meta{font-size:11.5px;color:var(--muted);font-weight:600;flex-shrink:0;}
+  .arc-arrow{font-size:13px;color:var(--muted);transition:transform .2s;flex-shrink:0;}
+  .arc[aria-expanded="true"] .arc-arrow{transform:rotate(180deg);}
+  .arc-body{display:none;padding:18px 20px 20px;}
+
+  .tbl-wrap{overflow-x:auto;margin:10px 0;}
+  table.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:13px;border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+  table.tbl th,table.tbl td{border-bottom:1px solid var(--border);padding:9px 12px;text-align:left;vertical-align:top;line-height:1.5;}
+  table.tbl tr:last-child td{border-bottom:none;}
+  table.tbl th{background:#eaf1f8;font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:#4a5568;white-space:nowrap;}
+  table.tbl td{color:#2a2f37;}
+  table.tbl td b,table.tbl td strong{color:var(--text);font-weight:700;}
+
+  .toc{display:flex;flex-wrap:wrap;gap:8px;}
+  .toc a{font-size:12px;font-weight:700;color:var(--text);border:1px solid var(--border);background:var(--card);padding:7px 14px;border-radius:999px;transition:all .15s;}
+  .toc a:hover{border-color:var(--accent);background:#f4f8fc;transform:translateY(-1px);}
+
+  .back{width:100%;max-width:760px;text-align:center;margin-top:8px;}
+  .back a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent);border:1px solid var(--border);background:var(--card);padding:10px 20px;border-radius:999px;transition:all .15s;}
+  .back a:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 6px 16px rgba(29,155,240,.15);}
+  .btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+  .back .secure{margin-left:10px;color:var(--muted);border-color:var(--border);}
+  .back .secure:hover{border-color:var(--muted);}
+
+  .no-grav{margin-top:34px;font-size:13px;color:var(--muted);text-align:center;}
+  .no-grav a{color:var(--accent);font-weight:600;}
+  .no-grav a:hover{text-decoration:underline;}
+  .src-note{font-size:11.5px;color:var(--muted);text-align:center;margin-top:10px;line-height:1.6;}
+
+  .anim [data-anim]{opacity:0;}
+
+  @media(max-width:640px){
+    body{padding:32px 16px 48px;}
+    .page-title{font-size:24px;}
+    .hero-card{flex-direction:column;align-items:flex-start;}
+    .hero-poster{width:140px;}
+    .hero-poster img{width:140px;}
+    .hero-title{font-size:24px;}
+    .stat-grid{grid-template-columns:repeat(2,1fr);}
+    .stat.wide{grid-column:span 2;}
+    .band{padding:20px 18px;}
+  }
+</style>
+</head>
+<body>
+<canvas id="bgCanvas" aria-hidden="true"></canvas>
+
+<div class="page-head">
+  <div class="crumbs"><a href="share.html">↩ miles wolf allen</a> · <a href="top-shows.html">my top shows</a></div>
+  <div class="page-title" data-anim="txt">Dr. Stone<span class="kid">#2</span></div>
+  <div class="page-sub" data-anim="txt">a comprehensive episode &amp; event breakdown — every season, discovery, invention, and conflict, plus the stats.</div>
+</div>
+
+<div class="wrap">
+
+  <div class="hero-card" data-anim="fade">
+    <div class="hero-poster">
+      <img src="https://image.tmdb.org/t/p/w400/xbZQ3fDl0y5mt0ARwfeyrgQ4JTw.jpg" alt="Dr. Stone poster" loading="lazy">
+    </div>
+    <div class="hero-body">
+      <div class="hero-eyebrow">anime · adventure · sci-fi</div>
+      <div class="hero-title">Dr. Stone</div>
+      <div class="hero-sub">"The world of stone belongs to science."</div>
+      <p class="hero-desc">One fateful day, a blinding green light petrifies <strong>all of humanity</strong> — billions of people frozen as statues for <strong>3,700 years</strong>. When teenage genius <strong>Senku Ishigami</strong> finally breaks free of his stone shell, he vows to rebuild civilization from absolute zero, one scientific breakthrough at a time. From stone tools to gunpowder, electricity, a cellphone, and a ship that crosses the Pacific, the Kingdom of Science climbs a two-million-year technological ladder to answer the greatest question of all: <strong>who petrified humanity — and why?</strong></p>
+      <div class="hero-chips">
+        <span class="hero-chip stone">my #2 show</span>
+        <span class="hero-chip">TMS / 8PAN</span>
+        <span class="hero-chip">2019–2026</span>
+        <span class="hero-chip">science</span>
+        <span class="hero-chip">4 seasons + special</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="stat-grid" data-anim="fade">
+    <div class="stat">
+      <div class="k">total runtime</div>
+      <div class="v">~38 hrs</div>
+      <div class="s">95 episodes × 24 min (94 TV + Ryusui special).</div>
+    </div>
+    <div class="stat">
+      <div class="k">MAL score</div>
+      <div class="v">8.26</div>
+      <div class="s">scored by ~1.19M users — popularity rank #49.</div>
+    </div>
+    <div class="stat">
+      <div class="k">MAL members</div>
+      <div class="v">~1.98M</div>
+      <div class="s">with 31.7K favorites on Season 1.</div>
+    </div>
+    <div class="stat wide">
+      <div class="k">netflix hours streamed</div>
+      <div class="v">300M+</div>
+      <div class="s">cumulative global hours viewed across the seasons tracked by Netflix (S1 alone passed ~119M hours / ~12.5M views).</div>
+    </div>
+  </div>
+
+  <div class="band" data-anim="fade">
+    <h2>Jump to an Arc</h2>
+    <div class="toc">
+      <a href="#s1">Season 1</a>
+      <a href="#s2">Season 2 · Stone Wars</a>
+      <a href="#ryusui">Ryusui Special</a>
+      <a href="#s3">Season 3 · New World</a>
+      <a href="#tech">Tech Ladder</a>
+      <a href="#characters">Characters</a>
+      <a href="#factions">Factions</a>
+      <a href="#mysteries">Mysteries</a>
+    </div>
+  </div>
+
+  <div class="band" data-anim="fade">
+    <h2>The Petrification Event</h2>
+    <p class="para"><strong>September 2019 — Humanity Turns to Stone.</strong> The story begins with humanity suddenly being struck by a mysterious green light. Every human on Earth is petrified, and approximately <strong>7 billion people</strong> are turned to stone. <strong>Senku Ishigami</strong> survives consciously inside his stone shell by continuously counting, and <strong>Taiju Ooki</strong> also remains conscious alongside him.</p>
+    <p class="para">Civilization collapses completely and nature gradually reclaims human cities and infrastructure. Senku eventually estimates that approximately <strong>3,700 years</strong> have passed. The cause of the petrification remains one of the central mysteries of the series.</p>
+  </div>
+
+  <!-- ============ SEASON 1 ============ -->
+  <div class="band" id="s1" data-anim="fade">
+    <h2>Season 1 — Dr. Stone</h2>
+    <p class="lead">Rebuilding civilization from scratch, from the first revival fluid to the brink of the Stone Wars.</p>
+
+    <h3>Arc 1 · Stone World / Stone Formula (Episodes 1–2)</h3>
+    <p class="para"><b>Episode 1 — Stone World.</b> Senku awakens in the Stone World and immediately begins reconstructing civilization from scratch. Escaping his stone shell, he establishes that ~3,700 years have passed, creates a primitive shelter, and begins experimenting with chemistry. He discovers that <strong>nitric acid</strong> can break down the stone casing, eventually developing the <strong>revival fluid</strong> using nitric acid and alcohol — and decides that restoring humanity must begin with science. <em>Major concept: chemical revival via a nitric-acid-based process.</em></p>
+    <p class="para"><b>Episode 2 — Two Nations of the Stone World.</b> Senku revives Taiju — physically powerful but lacking Senku's knowledge, making them complementary partners. They hunt for food, encounter wild animals, discover that the modern world has become wilderness, and find <strong>Yuzuriha's</strong> petrified body. They ultimately revive <strong>Tsukasa Shishio</strong>, one of the strongest fighters of their generation — though Tsukasa's worldview immediately creates tension with Senku.</p>
+
+    <h3>Arc 2 · Tsukasa Empire Conflict (Episodes 3–5)</h3>
+    <div class="arc" aria-expanded="false">
+      <div class="arc-head">
+        <span class="arc-tag">arc 2</span>
+        <span class="arc-name">Tsukasa Empire Conflict</span>
+        <span class="arc-meta">eps 3–5</span>
+        <span class="arc-arrow">▾</span>
+      </div>
+      <div class="arc-body">
+        <p class="para"><b>Episode 3 — Weapons of Science.</b> Tsukasa demonstrates his enormous physical strength and begins destroying the stone statues of adults, believing the old world's adults represent corruption. His goal is a new civilization consisting only of young people. Senku recognizes Tsukasa as his greatest threat, and the two sides come to represent fundamentally different philosophies: <strong>Senku: restore everyone</strong> vs. <strong>Tsukasa: build a new world without the old generation</strong>. Senku begins developing weapons using chemistry.</p>
+        <p class="para"><b>Episode 4 — Fire and Gunpowder.</b> Senku produces <strong>gunpowder</strong>, one of the first major technological jumps of the Stone World, using it to threaten Tsukasa. He also creates a large signal fire to communicate with potential survivors — and unexpectedly, another signal appears in the distance, proving other humans are alive.</p>
+        <p class="para"><b>Episode 5 — Stone World vs. Tsukasa.</b> Tsukasa discovers Senku's plans and threatens Yuzuriha to force out the revival-fluid formula. Senku refuses, and the confrontation ends with Tsukasa apparently killing him. Before dying, Senku secretly tells Taiju and Yuzuriha to continue the mission.</p>
+      </div>
+    </div>
+
+    <h3>Arc 3 · Ishigami Village (Episodes 6–13)</h3>
+    <div class="arc" aria-expanded="false">
+      <div class="arc-head">
+        <span class="arc-tag">arc 3</span>
+        <span class="arc-name">Ishigami Village</span>
+        <span class="arc-meta">eps 6–13</span>
+        <span class="arc-arrow">▾</span>
+      </div>
+      <div class="arc-body">
+        <p class="para"><b>Episodes 6–7 — Senku's New Beginning.</b> Senku survives because a portion of the petrification casing remains around his neck, and discovers the signal fire came from <strong>Ishigami Village</strong> — a society preserved for generations by the descendants of astronauts who survived the original event. Meanwhile, Taiju and Yuzuriha infiltrate Tsukasa's group and secretly continue Senku's mission. Senku meets <strong>Kohaku</strong> and begins investigating the village's history.</p>
+        <p class="para"><b>Episode 8 — Stone Roadmap.</b> Senku introduces modern technology to the village, establishing an industrial base: glassmaking, metalworking, agriculture, chemical production, medicine, and electricity. He also meets <strong>Chrome</strong>, a self-taught village scientist who becomes one of the Kingdom's most important members.</p>
+        <p class="para"><b>Episodes 9–10 — Building the Kingdom of Science.</b> Senku discovers the villagers have never tasted many modern foods (most famously <strong>ramen</strong>) and uses this to gain support. He assembles his specialists: Chrome (experimentation), Kohaku (combat/scouting), Suika (reconnaissance), Kinro &amp; Ginro (guards), Kaseki (master craftsman), and Ruri (village priestess). The Kingdom of Science begins to take shape.</p>
+      </div>
+    </div>
+
+    <h3>Arc 4 · Sulfa Drug / Village Chief (Episodes 11–18)</h3>
+    <div class="arc" aria-expanded="false">
+      <div class="arc-head">
+        <span class="arc-tag">arc 4</span>
+        <span class="arc-name">Sulfa Drug / Village Chief</span>
+        <span class="arc-meta">eps 11–18</span>
+        <span class="arc-arrow">▾</span>
+      </div>
+      <div class="arc-body">
+        <p class="para"><b>Episodes 11–12 — The Grand Bout (part 1).</b> Ruri is seriously ill, and Senku determines she needs a powerful medicine — the <strong>sulfa drug</strong>, an early antibiotic. Producing it requires an enormous industrial chain: glass, sulfuric acid, nitric acid, alcohol, chemical reagents, and laboratory equipment. This becomes one of the first demonstrations of the series' central idea: <strong>modern technology depends on thousands of smaller technologies.</strong></p>
+        <p class="para"><b>Episodes 13–14 — Electricity.</b> Senku and Kaseki construct a generator, giving the village electricity, light, electrical equipment, and communication tech. The creation of the <strong>light bulb</strong> represents an enormous technological milestone.</p>
+        <p class="para"><b>Episodes 15–16 — The Grand Bout.</b> The village's martial tournament is held to determine its next chief; Senku enters for strategic rather than personal reasons, and ultimately becomes chief — but his primary objective remains obtaining the resources to manufacture Ruri's medicine.</p>
+        <p class="para"><b>Episodes 17–18 — The Hundred Tales.</b> Ruri reveals the village's history: it was founded by <strong>Byakuya Ishigami</strong>, Senku's adoptive father and one of the astronauts aboard the ISS when humanity was petrified. The astronauts survived (they were in space during the event), returned to Earth, and established a new settlement. Byakuya created the <strong>Hundred Tales</strong>, stories designed to preserve knowledge and history — establishing a direct link between Senku and the village's founders.</p>
+      </div>
+    </div>
+
+    <h3>Arc 5 · Cellphone / Tsukasa Conflict (Episodes 19–24)</h3>
+    <div class="arc" aria-expanded="false">
+      <div class="arc-head">
+        <span class="arc-tag">arc 5</span>
+        <span class="arc-name">Cellphone / Tsukasa Conflict</span>
+        <span class="arc-meta">eps 19–24</span>
+        <span class="arc-arrow">▾</span>
+      </div>
+      <div class="arc-body">
+        <p class="para"><b>Episodes 19–20 — The Cellphone Project.</b> Senku realizes the Kingdom needs long-distance communication and builds a primitive <strong>cellphone</strong>, requiring copper wire, batteries, glass, vacuum tubes, electrical components, magnets, speakers, and microphones. It becomes one of the Kingdom's most important strategic weapons.</p>
+        <p class="para"><b>Episodes 21–22 — Preparing for War.</b> The Kingdom prepares for a direct confrontation with Tsukasa, developing communication equipment, weapons (katanas), mechanical equipment, and reconnaissance systems. Meanwhile, Tsukasa's forces become increasingly organized, and <strong>Hyoga</strong> emerges as one of Tsukasa's strongest warriors.</p>
+        <p class="para"><b>Episodes 23–24 — The Stone Wars Begin.</b> The Kingdom establishes its strategy for defeating Tsukasa without destroying humanity — winning through <strong>science + communication + strategy + manpower</strong> rather than brute force. The season ends with both factions preparing for the coming Stone Wars.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SEASON 2 ============ -->
+  <div class="band" id="s2" data-anim="fade">
+    <h2>Season 2 — Dr. Stone: Stone Wars</h2>
+    <p class="lead">The Kingdom of Science takes the offensive — and wins the war through information as much as firepower.</p>
+
+      <div class="arc" aria-expanded="false">
+        <div class="arc-head">
+          <span class="arc-tag">eps 1–3</span>
+          <span class="arc-name">The Communications War</span>
+          <span class="arc-arrow">▾</span>
+        </div>
+        <div class="arc-body">
+          <p class="para">The Kingdom begins its offensive. Senku's <strong>cellphone network</strong> lets him communicate with Taiju and Yuzuriha, embedded inside Tsukasa's Empire, and <strong>Gen Asagiri</strong> becomes an important psychological weapon. Imitating voices, Gen impersonates American singer <strong>Lillian Weinberg</strong>, convincing Tsukasa's soldiers that the United States is still technologically advanced and may rescue them — making some soldiers question Tsukasa's ideology. <em>Strategic importance: information can be as powerful as physical weapons.</em></p>
+        </div>
+      </div>
+      <div class="arc" aria-expanded="false">
+        <div class="arc-head">
+          <span class="arc-tag">eps 4–6</span>
+          <span class="arc-name">Steam Gorilla &amp; Chrome's Escape</span>
+          <span class="arc-arrow">▾</span>
+        </div>
+        <div class="arc-body">
+          <p class="para">The Kingdom develops a primitive motorized vehicle, the <strong>Steam Gorilla</strong>, combining steam power, mechanical engineering, metalworking, wheels, and weaponry — the Kingdom's primary mobile weapon. Meanwhile, Chrome is captured by Tsukasa's forces; rather than waiting for rescue, he uses scientific reasoning to escape, creating an improvised electrical system and exploiting the materials available to him. It proves Chrome has evolved from a village experimenter into a genuine scientist.</p>
+        </div>
+      </div>
+      <div class="arc" aria-expanded="false">
+        <div class="arc-head">
+          <span class="arc-tag">eps 7–9</span>
+          <span class="arc-name">The Battle for the Miracle Cave</span>
+          <span class="arc-arrow">▾</span>
+        </div>
+        <div class="arc-body">
+          <p class="para">The Kingdom seeks control of the <strong>Cave of Miracles</strong>, the critical source of nitric acid — the key to producing revival fluid. The battle grows dangerous as <strong>Hyoga</strong> confronts the Kingdom. Senku realizes continuing the war could destroy the remaining human population, and proposes a different solution: <strong>revive Tsukasa's sister, Mirai.</strong></p>
+        </div>
+      </div>
+      <div class="arc" aria-expanded="false">
+        <div class="arc-head">
+          <span class="arc-tag">eps 10–11</span>
+          <span class="arc-name">Tsukasa and Senku</span>
+          <span class="arc-arrow">▾</span>
+        </div>
+        <div class="arc-body">
+          <p class="para">Senku successfully revives <strong>Mirai Shishio</strong>, and Tsukasa finally sees that Senku isn't trying to destroy everything he believes in. However, <strong>Hyoga betrays Tsukasa</strong>, and the two sides temporarily unite against him. Senku and Tsukasa defeat Hyoga, but Tsukasa is critically injured. Because the technology to properly revive him doesn't yet exist, Senku places Tsukasa into <strong>cryogenic preservation</strong>. The Stone Wars end with the Kingdom of Science effectively victorious.</p>
+        </div>
+      </div>
+  </div>
+
+  <!-- ============ RYUSUI ============ -->
+  <div class="band" id="ryusui" data-anim="fade">
+    <h2>Dr. Stone: Ryusui Special</h2>
+    <p class="lead">The Age of Exploration begins.</p>
+    <p class="para">The Kingdom of Science gains a new objective: <strong>explore the world.</strong> Senku determines they need a ship, a captain, navigation and maps, oceanic transportation, large-scale food production, and fuel. He revives <strong>Ryusui Nanami</strong>, an extremely wealthy and experienced sailor, who immediately becomes one of the Kingdom's most important members.</p>
+    <p class="para">The Kingdom creates a <strong>hot-air balloon</strong>, allowing them to survey large areas, map terrain, and search for resources — specifically <strong>oil</strong> — and to understand the geography of the Stone World. The balloon expedition becomes the beginning of humanity's return to global exploration.</p>
+  </div>
+
+  <!-- ============ SEASON 3 ============ -->
+  <div class="band" id="s3" data-anim="fade">
+    <h2>Season 3 — Dr. Stone: New World</h2>
+    <p class="lead">Humanity takes to the sea and across the Pacific.</p>
+
+    <h3>Arc 1 · Age of Exploration (Episodes 1–6)</h3>
+    <div class="arc" aria-expanded="false">
+      <div class="arc-head">
+        <span class="arc-tag">arc 1</span>
+        <span class="arc-name">Age of Exploration</span>
+        <span class="arc-meta">eps 1–6</span>
+        <span class="arc-arrow">▾</span>
+      </div>
+      <div class="arc-body">
+        <p class="para"><b>Agricultural Revolution.</b> Realizing exploration requires enormous quantities of food, the Kingdom industrializes agriculture, notably developing <strong>bread production</strong> and experimenting with wheat cultivation and food preservation. This marks a major transition: science is no longer only about survival — it now supports large-scale civilization.</p>
+        <p class="para"><b>Oil Discovery.</b> The Kingdom searches for oil — essential as fuel, transportation, chemical feedstock, industrial energy, and future machinery. They locate a deposit, but finding it is only the beginning; they still need a way to extract, refine, transport, and use it.</p>
+        <p class="para"><b>The Perseus.</b> Kaseki and the Kingdom construct a massive sailing ship, <strong>the Perseus</strong>, their primary exploration vessel. It contains engines, navigation systems, communication equipment, scientific laboratories, storage, weapons, and even <strong>sonar</strong> — allowing humanity to cross the Pacific Ocean.</p>
+      </div>
+    </div>
+
+    <h3>Arc 2 · Treasure Island (Episodes 7–14)</h3>
+    <div class="arc" aria-expanded="false">
+      <div class="arc-head">
+        <span class="arc-tag">arc 2</span>
+        <span class="arc-name">Treasure Island</span>
+        <span class="arc-meta">eps 7–14</span>
+        <span class="arc-arrow">▾</span>
+      </div>
+      <div class="arc-body">
+        <p class="para">The Kingdom reaches <strong>Treasure Island</strong>, an important place connected to the astronauts who survived the original petrification. The island contains the resources for virtually unlimited revival fluid, most importantly <strong>platinum</strong> — an essential component in Senku's plan for the mass production of nitric acid.</p>
+        <p class="para"><b>The Petrification Weapon.</b> The expedition quickly turns into a disaster. A mysterious enemy uses a strange device capable of petrifying humans — the <strong>Medusa</strong>. The Kingdom discovers the enemy can issue commands involving distance and time, and the petrification weapon becomes one of the greatest mysteries in the series.</p>
+        <p class="para"><b>Episodes 11–14 — Treasure Island Society.</b> Senku, Kohaku, Gen, and Soyuz investigate the island, discovering it has developed its own society controlled by <strong>Minister Ibara</strong>, who maintains power through the threat of the Medusa. The team discovers Soyuz has a connection to the island's ruling family, and finds evidence connecting Treasure Island to the original astronauts.</p>
+      </div>
+    </div>
+
+    <h3>Arc 3 · The Mobile Lab (Episodes 15–18)</h3>
+    <div class="arc" aria-expanded="false">
+      <div class="arc-head">
+        <span class="arc-tag">arc 3</span>
+        <span class="arc-name">The Mobile Lab</span>
+        <span class="arc-meta">eps 15–18</span>
+        <span class="arc-arrow">▾</span>
+      </div>
+      <div class="arc-body">
+        <p class="para">The Kingdom constructs a <strong>mobile laboratory</strong>, letting Senku run experiments even while moving around the island, and develops increasingly advanced equipment — most importantly a primitive <strong>drone</strong> used for reconnaissance and eventually for stealing the Medusa.</p>
+        <p class="para">Two of Treasure Island's strongest warriors become major opponents: <strong>Moz</strong> (exceptional physical ability) and <strong>Kirisame</strong> (an elite warrior trusted to operate the Medusa). The Kingdom must defeat or outmaneuver both to gain control of the island.</p>
+      </div>
+    </div>
+
+    <h3>Arc 4 · The Petrification of Treasure Island (Episodes 19–22)</h3>
+    <div class="arc" aria-expanded="false">
+      <div class="arc-head">
+        <span class="arc-tag">arc 4</span>
+        <span class="arc-name">Final Battle for the Island</span>
+        <span class="arc-meta">eps 19–22</span>
+        <span class="arc-arrow">▾</span>
+      </div>
+      <div class="arc-body">
+        <p class="para">Ibara attempts to use the Medusa to eliminate his enemies. The Kingdom realizes the weapon's capabilities can potentially be turned against its user, and Senku creates a highly precise strategy involving <strong>timing, distance, revival fluid, communication, positioning, and the Medusa.</strong></p>
+        <p class="para"><b>The Final Battle.</b> Ibara attempts to petrify the entire island. Senku executes a carefully timed revival-fluid attack, and the strategy succeeds — Ibara is defeated and the Kingdom obtains the Medusa.</p>
+        <p class="para"><b>End of Season 3.</b> The Kingdom now possesses one of the most powerful technologies in the Stone World, along with platinum, the Medusa, Treasure Island, new allies, a functioning global expedition force, and knowledge about the origins of the petrification technology. The next stage of the journey is no longer simply about rebuilding civilization — it is about discovering <strong>who petrified humanity, and why.</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ TECH LADDER ============ -->
+  <div class="band" id="tech" data-anim="fade">
+    <h2>Major Scientific Progression</h2>
+    <p class="para">The technological development of Dr. Stone can be viewed as a <strong>technological ladder</strong> — each step built on the ones before it.</p>
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead><tr><th>Technology</th><th>Approx. Episode</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td>Revival Fluid</td><td>S1E1</td><td>Revive humans</td></tr>
+          <tr><td>Basic Fire</td><td>S1E1</td><td>Cooking and survival</td></tr>
+          <tr><td>Glass</td><td>S1</td><td>Laboratory equipment</td></tr>
+          <tr><td>Gunpowder</td><td>S1E4</td><td>Weaponry</td></tr>
+          <tr><td>Ramen</td><td>S1</td><td>Food / morale</td></tr>
+          <tr><td>Sulfuric Acid</td><td>S1</td><td>Chemical industry</td></tr>
+          <tr><td>Electricity</td><td>S1</td><td>Industrial power</td></tr>
+          <tr><td>Light Bulb</td><td>S1</td><td>Artificial lighting</td></tr>
+          <tr><td>Sulfa Drug</td><td>S1</td><td>Medical treatment</td></tr>
+          <tr><td>Magnetism</td><td>S1</td><td>Electrical technology</td></tr>
+          <tr><td>Cellphone</td><td>S1</td><td>Long-distance communication</td></tr>
+          <tr><td>Katanas</td><td>S1</td><td>Advanced weapons</td></tr>
+          <tr><td>Steam Gorilla</td><td>S2</td><td>Transportation / warfare</td></tr>
+          <tr><td>Steam Engine</td><td>S2</td><td>Mechanization</td></tr>
+          <tr><td>Hot-Air Balloon</td><td>Ryusui</td><td>Exploration</td></tr>
+          <tr><td>Bread Production</td><td>S3</td><td>Industrial food production</td></tr>
+          <tr><td>Oil Discovery</td><td>S3</td><td>Future fuel supply</td></tr>
+          <tr><td>Perseus</td><td>S3</td><td>Ocean exploration</td></tr>
+          <tr><td>Sonar</td><td>S3</td><td>Underwater navigation</td></tr>
+          <tr><td>Mobile Lab</td><td>S3</td><td>Field science</td></tr>
+          <tr><td>Drone</td><td>S3</td><td>Reconnaissance</td></tr>
+          <tr><td>Mass-Production Revival System</td><td>S3</td><td>Large-scale revival</td></tr>
+          <tr><td>Medusa</td><td>S3</td><td>Petrification technology</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ============ CHARACTERS ============ -->
+  <div class="band" id="characters" data-anim="fade">
+    <h2>Major Characters &amp; Their Roles</h2>
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead><tr><th>Character</th><th>Role in the Kingdom of Science</th></tr></thead>
+        <tbody>
+          <tr><td><b>Senku Ishigami</b></td><td>Leader, scientist, engineer</td></tr>
+          <tr><td><b>Taiju Ooki</b></td><td>Strength, construction, physical labor</td></tr>
+          <tr><td><b>Yuzuriha Ogawa</b></td><td>Craftsmanship, sewing, infiltration</td></tr>
+          <tr><td><b>Tsukasa Shishio</b></td><td>Former enemy, combat specialist</td></tr>
+          <tr><td><b>Chrome</b></td><td>Inventor and developing scientist</td></tr>
+          <tr><td><b>Kohaku</b></td><td>Warrior, scout, reconnaissance</td></tr>
+          <tr><td><b>Suika</b></td><td>Reconnaissance and intelligence</td></tr>
+          <tr><td><b>Kaseki</b></td><td>Master craftsman</td></tr>
+          <tr><td><b>Gen Asagiri</b></td><td>Psychology, deception, communications</td></tr>
+          <tr><td><b>Kinro</b></td><td>Guard and warrior</td></tr>
+          <tr><td><b>Ginro</b></td><td>Guard and warrior</td></tr>
+          <tr><td><b>Ruri</b></td><td>Village leader and historian</td></tr>
+          <tr><td><b>Byakuya Ishigami</b></td><td>Founder of Ishigami Village</td></tr>
+          <tr><td><b>Ryusui Nanami</b></td><td>Captain, navigator, explorer</td></tr>
+          <tr><td><b>Francois</b></td><td>Chef and logistics specialist</td></tr>
+          <tr><td><b>Soyuz</b></td><td>Treasure Island connection</td></tr>
+          <tr><td><b>Mirai Shishio</b></td><td>Tsukasa's sister</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ============ FACTIONS ============ -->
+  <div class="band" id="factions" data-anim="fade">
+    <h2>The Major Factions</h2>
+
+    <h3>Kingdom of Science</h3>
+    <p class="para"><b>Leader:</b> Senku Ishigami. <b>Goal:</b> Rebuild civilization through science and revive humanity. <b>Major strengths:</b> Science, engineering, medicine, manufacturing, communication, strategic planning.</p>
+
+    <h3>Tsukasa Empire</h3>
+    <p class="para"><b>Leader:</b> Tsukasa Shishio. <b>Original goal:</b> Create a new civilization without the adults of the old world. <b>Major strengths:</b> Physical combat, hunting, survival, military organization. Eventually, Tsukasa's interests align with Senku's larger goal.</p>
+
+    <h3>Ishigami Village</h3>
+    <p class="para">A descendant community created by the astronauts who survived the original petrification. Its important legacy is the <b>Hundred Tales</b>, preserving knowledge of the past and providing the Kingdom of Science with its first major population base.</p>
+
+    <h3>Treasure Island</h3>
+    <p class="para">An isolated society descended from the original survivors, whose political structure revolves around the Medusa. The island becomes critical because of its <b>platinum</b>, <b>petrification technology</b>, connection to the astronauts, and historical information.</p>
+  </div>
+
+  <!-- ============ MYSTERIES ============ -->
+  <div class="band" id="mysteries" data-anim="fade">
+    <h2>Major Mysteries</h2>
+    <p class="para">Several questions drive the story throughout the anime:</p>
+    <ul class="clean">
+      <li><b>Who caused the Petrification Event?</b> The identity of the person or entity responsible remains one of the central mysteries.</li>
+      <li><b>What exactly is Medusa?</b> The petrification devices are vastly more advanced than anything humanity has reconstructed.</li>
+      <li><b>Why was humanity petrified?</b> The motivation behind the event is initially unknown.</li>
+      <li><b>Why did Senku and Taiju remain conscious?</b> Their ability to maintain consciousness inside the stone becomes important to understanding the petrification process.</li>
+      <li><b>What happened to the rest of the world?</b> The Stone World contains clues suggesting humanity's survival was far more complicated than initially believed.</li>
+    </ul>
+  </div>
+
+  <!-- ============ PROGRESSION ============ -->
+  <div class="band" data-anim="fade">
+    <h2>The Overall Story Progression</h2>
+    <p class="para">The anime's technological progression can essentially be summarized as:</p>
+    <p class="para" style="font-weight:700;color:var(--text);"><strong>Survival → Chemistry → Medicine → Electricity → Communication → Industry → Mechanization → Transportation → Ocean Exploration → Global Exploration → Petrification Technology</strong></p>
+    <p class="para">The scale of the story continually expands. At the beginning, Senku is trying to make fire. By Season 3, the Kingdom of Science has <strong>ships, engines, electricity, medicine, industrial chemistry, communications, aircraft, drones, advanced weapons, a global exploration program, and a device capable of petrifying humanity.</strong> That progression is one of the defining features of Dr. Stone.</p>
+  </div>
+
+</div>
+
+<div class="back" data-anim="fade">
+  <div class="btns">
+    <a href="top-shows.html">← back to my top shows</a>
+    <a class="secure" href="share.html">my profile</a>
+  </div>
+</div>
+
+<div class="no-grav" data-anim="fade">made by <a href="index.html">miles</a>. not ai</div>
+<div class="src-note" data-anim="fade">stats: MyAnimeList (8.26 score, ~1.19M voters, ~1.98M members) &amp; Netflix engagement reports via FlixPatrol (cumulative hours &amp; views for seasons tracked on Netflix). runtime: 95 episodes × 24 min ≈ 38 hrs.</div>
+
+<script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+<script>
+(function(){
+
+  (function bg(){
+    var canvas = document.getElementById('bgCanvas');
+    if(!canvas) return;
+    var ctx = canvas.getContext('2d');
+    var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var orbs = [], parts = [];
+    var COLORS = [[122,199,79],[29,155,240],[34,211,153],[168,85,247]];
+    function resize(){
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      seed();
+    }
+    function seed(){
+      orbs = []; parts = [];
+      var w = canvas.width, h = canvas.height;
+      var oCount = Math.min(7, Math.round(w / 200) + 3);
+      for(var i=0;i<oCount;i++){
+        orbs.push({
+          x: Math.random()*w, y: Math.random()*h,
+          r: 110 + Math.random()*220,
+          c: COLORS[i % COLORS.length],
+          sp: 0.10 + Math.random()*0.22,
+          a: 0.14 + Math.random()*0.12,
+          ox: Math.random()*1000, oy: Math.random()*1000
+        });
+      }
+      var pCount = Math.min(80, Math.round(w*h/18000));
+      for(var j=0;j<pCount;j++){
+        parts.push({
+          x: Math.random()*w, y: Math.random()*h,
+          r: 0.6 + Math.random()*1.6,
+          sp: 0.05 + Math.random()*0.25,
+          ph: Math.random()*Math.PI*2, oy: Math.random()*100
+        });
+      }
+    }
+    var t = 0;
+    function frame(){
+      requestAnimationFrame(frame);
+      if(reduced) return;
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      t += 0.008;
+      ctx.globalCompositeOperation = 'screen';
+      for(var i=0;i<orbs.length;i++){
+        var o = orbs[i];
+        var nx = o.x + Math.sin(t*o.sp + o.ox) * (o.r*0.9);
+        var ny = o.y + Math.cos(t*o.sp*0.8 + o.oy) * (o.r*0.7) * 0.8;
+        var g = ctx.createRadialGradient(nx,ny,0,nx,ny,o.r);
+        g.addColorStop(0, 'rgba('+o.c[0]+','+o.c[1]+','+o.c[2]+','+o.a+')');
+        g.addColorStop(1, 'rgba('+o.c[0]+','+o.c[1]+','+o.c[2]+',0)');
+        ctx.fillStyle = g;
+        ctx.beginPath(); ctx.arc(nx,ny,o.r,0,Math.PI*2); ctx.fill();
+      }
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.fillStyle = 'rgba(40,50,70,0.35)';
+      for(var p=0;p<parts.length;p++){
+        var pt = parts[p];
+        var px = pt.x + Math.sin(t*pt.sp + pt.ph) * 40;
+        var py = pt.y + Math.cos(t*pt.sp*0.7 + pt.ph*1.7 + pt.oy) * 26;
+        var tw = 0.4 + 0.6*Math.abs(Math.sin(t*0.6 + pt.ph));
+        ctx.globalAlpha = tw*0.6;
+        ctx.beginPath(); ctx.arc(px%canvas.width, py%canvas.height, pt.r, 0, Math.PI*2); ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+    }
+    window.addEventListener('resize', resize);
+    resize(); frame();
+  })();
+
+  (function load(){
+    var body = document.body;
+    var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    body.classList.add('anim');
+    var done = function(){ body.classList.remove('anim'); };
+    if (!window.anime || reduced) { done(); return; }
+    var tl = anime.timeline({ complete: done });
+    tl
+      .add({ targets:'[data-anim="txt"]', translateY:[26,0], opacity:[0,1],
+             duration:560, delay:anime.stagger(90), easing:'easeOutExpo' })
+      .add({ targets:'[data-anim="fade"]', translateY:[24,0], opacity:[0,1],
+             duration:520, delay:anime.stagger(70), easing:'easeOutQuint' });
+  })();
+
+  document.querySelectorAll('.arc-head').forEach(function(head){
+    head.addEventListener('click', function(){
+      var arc = head.parentElement;
+      var body = arc.querySelector('.arc-body');
+      var isOpen = arc.getAttribute('aria-expanded') === 'true';
+      arc.setAttribute('aria-expanded', String(!isOpen));
+      if(!window.anime){
+        body.style.display = isOpen ? 'none' : 'block';
+        return;
+      }
+      if(isOpen){
+        anime({ targets: body, opacity:[1,0], height:[body.scrollHeight,0],
+                duration:220, easing:'easeInOutQuad',
+                complete: function(){ body.style.display='none'; body.style.opacity=''; body.style.height=''; } });
+      } else {
+        body.style.display='block';
+        body.style.opacity=0;
+        body.style.height=0;
+        anime({ targets: body, opacity:[0,1], height:[0, body.scrollHeight],
+                duration:260, easing:'easeOutQuad',
+                complete: function(){ body.style.height=''; } });
+      }
+    });
+  });
+
+})();
+</script>
+</body>
+</html>
