@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SIGNAL — tone workbench | Miles Wolf Allen</title>
+<meta name="description" content="A standalone tone workbench. 30 generated audio signals for focus, calm, sleep, and the famous-but-unproven healing frequencies — with the science labeled honestly.">
+<link rel="canonical" href="https://milesallen.site/tone.html">
+<meta property="og:title" content="SIGNAL — tone workbench">
+<meta property="og:description" content="30 browser-generated audio signals for focus, calm, and sleep. Honest about the science, fun to use.">
+<meta property="og:image" content="https://milesallen.site/og.png">
+<meta property="og:url" content="https://milesallen.site/tone.html">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0B0F0E;
+    --panel:#111714;
+    --panel2:#0E1412;
+    --line:#1E2A26;
+    --text:#E6EFEA;
+    --muted:#8B9A93;
+    --focus:#FFB86B;
+    --calm:#5EEAD4;
+    --sleep:#818CF8;
+    --unproven:#F87171;
+    --font-display:'Space Grotesk',sans-serif;
+    --font-mono:'IBM Plex Mono',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);color:var(--text);font-family:var(--font-display);
+    line-height:1.5;overflow-x:hidden;-webkit-font-smoothing:antialiased;
+  }
+  body::before{
+    content:'';position:fixed;inset:0;z-index:-2;pointer-events:none;
+    background:
+      radial-gradient(ellipse 60% 50% at 15% 0%,rgba(94,234,212,0.07),transparent 60%),
+      radial-gradient(ellipse 70% 55% at 95% 90%,rgba(255,184,107,0.06),transparent 60%);
+  }
+  .grid-bg{
+    position:fixed;inset:0;z-index:-1;pointer-events:none;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);
+    background-size:44px 44px;
+    mask-image:radial-gradient(ellipse 85% 70% at 50% 30%,#000,transparent 85%);
+    -webkit-mask-image:radial-gradient(ellipse 85% 70% at 50% 30%,#000,transparent 85%);
+  }
+
+  .topbar{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:18px 26px;border-bottom:1px solid var(--line);
+    position:sticky;top:0;backdrop-filter:blur(8px);
+    background:rgba(11,15,14,0.82);z-index:20;
+  }
+  .wordmark{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.08em;font-size:15px;}
+  .wordmark .sig{
+    width:12px;height:12px;border-radius:3px;
+    background:conic-gradient(var(--focus),var(--calm),var(--sleep),var(--focus));
+    box-shadow:0 0 14px rgba(94,234,212,0.5);
+  }
+  .wordmark .sub{color:var(--muted);font-weight:400;letter-spacing:.04em;}
+  .top-actions{display:flex;gap:18px;font-family:var(--font-mono);font-size:12px;}
+  .top-actions a{color:var(--muted);text-decoration:none;transition:color .2s;}
+  .top-actions a:hover{color:var(--calm);}
+  .top-actions .pill{
+    border:1px solid var(--line);padding:6px 12px;border-radius:999px;color:var(--focus);
+  }
+  .top-actions .pill:hover{color:var(--text);border-color:var(--focus);}
+
+  main{max-width:1180px;margin:0 auto;padding:0 26px 90px;}
+
+  .deck{padding:44px 0 30px;}
+  .deck-head{display:flex;align-items:baseline;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:26px;}
+  .deck-head h1{font-size:clamp(30px,5.5vw,52px);font-weight:700;letter-spacing:-.02em;line-height:1;}
+  .deck-head h1 .dot{color:var(--calm);}
+  .deck-head p{color:var(--muted);font-family:var(--font-mono);font-size:13px;max-width:480px;line-height:1.7;}
+
+  .console{
+    position:relative;border:1px solid var(--line);border-radius:16px;
+    background:linear-gradient(160deg,var(--panel),var(--panel2));
+    padding:28px;box-shadow:0 24px 60px rgba(0,0,0,0.45),inset 0 1px 0 rgba(255,255,255,0.04);
+  }
+  .console-top{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px;}
+  .preset-index{font-family:var(--font-mono);font-size:12px;color:var(--muted);}
+  .preset-index b{color:var(--text);}
+  .badge{
+    font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;
+    padding:5px 11px;border-radius:999px;
+  }
+  .badge.on{background:rgba(94,234,212,0.12);color:var(--calm);border:1px solid rgba(94,234,212,0.4);}
+  .badge.headphones{background:rgba(255,184,107,0.1);color:var(--focus);border:1px solid rgba(255,184,107,0.35);}
+
+  .wave-hole{
+    position:relative;height:150px;border-radius:12px;overflow:hidden;
+    border:1px solid var(--line);background:#070A09;
+  }
+  .wave-hole canvas{position:absolute;inset:0;width:100%;height:100%;}
+  .wave-hole .ch-tag{
+    position:absolute;top:8px;font-family:var(--font-mono);font-size:10px;color:var(--muted);
+    background:rgba(0,0,0,0.5);padding:2px 7px;border-radius:4px;
+  }
+  .wave-hole .ch-tag.l{left:8px;}
+  .wave-hole .ch-tag.r{right:8px;}
+
+  .console-name{margin-top:20px;text-align:center;}
+  .console-name .cat{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;}
+  .console-name h2{font-size:clamp(22px,4vw,32px);font-weight:700;letter-spacing:-.01em;margin:6px 0 2px;}
+  .console-name .hz{font-family:var(--font-mono);font-size:15px;color:var(--muted);}
+  .console-name .note{font-family:var(--font-mono);font-size:12.5px;color:var(--muted);max-width:640px;margin:14px auto 0;line-height:1.7;}
+
+  .transport{display:flex;align-items:center;justify-content:center;gap:30px;margin-top:26px;flex-wrap:wrap;}
+  .big-btn{
+    width:88px;height:88px;border-radius:50%;border:none;cursor:pointer;position:relative;
+    background:radial-gradient(circle at 30% 25%,var(--calm),#2FB89F 70%);
+    box-shadow:0 10px 30px rgba(94,234,212,0.25),inset 0 -6px 14px rgba(0,0,0,0.25);
+    transition:transform .15s ease,box-shadow .2s;flex-shrink:0;
+  }
+  .big-btn:hover{transform:scale(1.05);box-shadow:0 14px 38px rgba(94,234,212,0.35);}
+  .big-btn:active{transform:scale(0.96);}
+  .big-btn svg{position:absolute;inset:0;margin:auto;}
+  .vol-group{display:flex;flex-direction:column;gap:6px;min-width:220px;}
+  .vol-head{display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:12px;color:var(--muted);}
+  .vol-head b{color:var(--text);}
+  .vol-track{position:relative;height:14px;border-radius:999px;background:var(--line);overflow:hidden;cursor:pointer;}
+  .vol-fill{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,var(--focus),var(--calm));border-radius:999px;}
+  input[type=range]{position:absolute;inset:0;width:100%;opacity:0;cursor:pointer;}
+  .hint-row{
+    display:flex;justify-content:center;gap:22px;margin-top:18px;flex-wrap:wrap;
+    font-family:var(--font-mono);font-size:11px;color:var(--muted);
+  }
+  .hint-row kbd{
+    font-family:var(--font-mono);font-size:10px;border:1px solid var(--line);border-bottom-width:2px;
+    padding:1px 6px;border-radius:4px;color:var(--text);
+  }
+
+  .panel-head{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;flex-wrap:wrap;margin:40px 0 20px;}
+  .panel-head h3{font-size:20px;font-weight:700;letter-spacing:-.01em;}
+  .panel-head .count{font-family:var(--font-mono);font-size:12px;color:var(--muted);}
+
+  .filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;}
+  .f-chip{
+    font-family:var(--font-mono);font-size:12px;color:var(--muted);
+    border:1px solid var(--line);background:transparent;padding:8px 16px;border-radius:999px;
+    cursor:pointer;transition:all .18s;
+  }
+  .f-chip:hover{color:var(--text);border-color:var(--muted);}
+  .f-chip.active{background:var(--text);color:var(--bg);border-color:var(--text);font-weight:600;}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;}
+  .card{
+    position:relative;background:var(--panel);border:1px solid var(--line);border-radius:14px;
+    padding:18px 20px 16px;cursor:pointer;text-align:left;color:var(--text);
+    font-family:var(--font-display);
+    transition:transform .18s ease,border-color .2s,box-shadow .2s;overflow:hidden;
+    display:flex;flex-direction:column;gap:9px;
+  }
+  .card:hover{transform:translateY(-3px);border-color:var(--muted);}
+  .card::after{
+    content:'';position:absolute;left:0;right:0;bottom:0;height:3px;opacity:0;transition:opacity .2s;
+    background:var(--cat,var(--calm));
+  }
+  .card:hover::after{opacity:.8;}
+  .card.active{border-color:var(--cat,var(--calm));box-shadow:0 0 0 1px var(--cat,var(--calm)),0 12px 34px rgba(0,0,0,0.4);}
+  .card.active::after{opacity:1;}
+  .card .top{display:flex;justify-content:space-between;align-items:center;gap:10px;}
+  .cat-chip{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:4px 9px;border-radius:6px;}
+  .cat-chip.focus{background:rgba(255,184,107,0.14);color:var(--focus);}
+  .cat-chip.calm{background:rgba(94,234,212,0.12);color:var(--calm);}
+  .cat-chip.sleep{background:rgba(129,140,248,0.14);color:var(--sleep);}
+  .cat-chip.unproven{background:rgba(248,113,113,0.12);color:var(--unproven);}
+  .card .status{font-family:var(--font-mono);font-size:11px;color:var(--muted);}
+  .card.active .status{color:var(--cat,var(--calm));font-weight:600;}
+  .card h4{font-size:16px;font-weight:600;letter-spacing:-.01em;}
+  .card .hzline{font-family:var(--font-mono);font-size:12px;color:var(--muted);}
+  .card .note{font-family:var(--font-mono);font-size:11.5px;color:var(--muted);line-height:1.6;}
+  .card .note .r{color:var(--calm);}
+  .card .note .s{color:var(--unproven);}
+  .card svg{margin-top:auto;display:block;}
+  .card input{display:none;}
+
+  .honest{
+    margin-top:46px;border:1px solid var(--line);border-radius:16px;padding:30px 30px 24px;
+    background:var(--panel);
+  }
+  .honest h3{font-size:19px;font-weight:700;margin-bottom:18px;}
+  .honest .row{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
+  @media(max-width:720px){.honest .row{grid-template-columns:1fr;}}
+  .honest .cell h5{font-family:var(--font-mono);font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--calm);margin-bottom:8px;}
+  .honest .cell p{font-size:14px;color:var(--muted);line-height:1.75;}
+  .honest .cell p b{color:var(--text);}
+  .honest .warn{color:var(--unproven);}
+
+  .foot{
+    border-top:1px solid var(--line);padding:26px;margin-top:40px;text-align:center;
+    font-family:var(--font-mono);font-size:12px;color:var(--muted);
+  }
+  .foot a{color:var(--focus);text-decoration:none;}
+  .foot .sep{color:var(--line);margin:0 8px;}
+
+  @media(max-width:640px){
+    .console{padding:20px 16px;}
+    .transport{gap:20px;}
+    .vol-group{min-width:180px;}
+  }
+</style>
+</head>
+<body>
+  <div class="grid-bg"></div>
+  <header class="topbar">
+    <div class="wordmark"><span class="sig"></span>SIGNAL<span class="sub">· tone workbench</span></div>
+    <nav class="top-actions">
+      <a href="https://github.com/mileswolfallen2" target="_blank" rel="noopener">github</a>
+      <a href="index.html" class="pill">home</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="deck">
+      <div class="deck-head">
+        <h1>Make the noise<span class="dot">,</span><br>tame the signal.</h1>
+        <p>30 signals, generated live in this browser — no files, no downloads. Each one labeled with what's actually known about it. Space to play, arrows to switch, then get back to work.</p>
+      </div>
+
+      <div class="console">
+        <div class="console-top">
+          <div class="preset-index">PRESET <b id="curIdx">01</b> / <span id="totCnt">30</span> — <span id="catLabel">FOCUS</span></div>
+          <div class="badges">
+            <span class="badge on" id="liveBadge" style="display:none;">playing</span>
+            <span class="badge headphones" id="phoneBadge" style="display:none;">headphones required</span>
+          </div>
+        </div>
+
+        <div class="wave-hole">
+          <canvas id="scope"></canvas>
+          <span class="ch-tag l" id="chL" style="display:none;">L EAR</span>
+          <span class="ch-tag r" id="chR" style="display:none;">R EAR</span>
+        </div>
+
+        <div class="console-name">
+          <div class="cat" id="npCat">FOCUS</div>
+          <h2 id="npName">Brown Noise</h2>
+          <div class="hz" id="npHz">LOW-FREQUENCY RUMBLE</div>
+          <div class="note" id="npNote"></div>
+        </div>
+
+        <div class="transport">
+          <button class="big-btn" id="bigBtn" aria-label="play or stop">
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="#07110E" id="icoPlay"><polygon points="7,4 20,12 7,20"/></svg>
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="#07110E" id="icoStop" style="display:none;"><rect x="6" y="6" width="12" height="12" rx="1.5"/></svg>
+          </button>
+          <div class="vol-group">
+            <div class="vol-head"><span>VOLUME</span><b id="volRead">40%</b></div>
+            <div class="vol-track">
+              <div class="vol-fill" id="volFill" style="width:40%;"></div>
+              <input type="range" id="vol" min="0" max="100" value="40" aria-label="volume">
+            </div>
+          </div>
+        </div>
+
+        <div class="hint-row">
+          <span><kbd>space</kbd> play / stop</span>
+          <span><kbd>←</kbd> <kbd>→</kbd> switch preset</span>
+          <span><kbd>h</kbd> home</span>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="panel-head">
+        <h3>Signal library</h3>
+        <div class="count" id="shownCnt"></div>
+      </div>
+      <div class="filters" id="filters">
+        <button class="f-chip active" data-f="all">All</button>
+        <button class="f-chip" data-f="focus">Focus</button>
+        <button class="f-chip" data-f="calm">Calm</button>
+        <button class="f-chip" data-f="sleep">Sleep</button>
+        <button class="f-chip" data-f="unproven">Unproven</button>
+      </div>
+      <div class="grid" id="grid"></div>
+    </section>
+
+    <section class="honest">
+      <h3>The honesty block</h3>
+      <div class="row">
+        <div class="cell">
+          <h5>What's real</h5>
+          <p><b>Binaural beats</b> genuinely entrain your brainwaves — but the response varies person to person, and they need headphones. <b>Noise masking</b> (brown / pink / white) has real research behind it for focus and is pure, non-magical sound-blocking. <b>Paced breathing</b> tones (slow, rise-and-fall) are the one audio intervention with solid evidence — they're just giving you a rhythm to breathe to.</p>
+        </div>
+        <div class="cell">
+          <h5>What's vibes</h5>
+          <p class="warn">The "healing frequencies" (396, 432, 528, 639, 741, 852, 963 Hz) come from 1970s solfeggio spirituality, not research. The claims about DNA repair and fear-release have <b>no peer-reviewed support</b>. They're here because they're popular — if a slow tone relaxes you, that's your nervous system, and that's still a real win.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <a href="index.html">home</a><span class="sep">·</span><a href="music.html">music</a><span class="sep">·</span>
+    generated in-browser with the Web Audio API — not medical advice, keep the volume gentle, give your ears breaks
+  </footer>
+
+<script>
+  var CATS = { focus:['FOCUS','#FFB86B'], calm:['CALM','#5EEAD4'], sleep:['SLEEP','#818CF8'], unproven:['UNPROVEN','#F87171'] };
+
+  var PRESETS = [
+    {id:'brown',  name:'Brown Noise',            cat:'focus', kind:'noise', noise:'brown', hz:'LOW-END RUMBLE',
+      note:'ADHD\u2019s unofficial soundtrack. Masks the chatter that yanks your attention. <span class="r">masking is real.</span>'},
+    {id:'pink',   name:'Pink Noise',             cat:'focus', kind:'noise', noise:'pink',  hz:'BALANCED HISS',
+      note:'Softer than white, good for long sessions. Small studies link it to deeper sleep too. <span class="r">research-backed masking.</span>'},
+    {id:'white',  name:'White Noise',            cat:'focus', kind:'noise', noise:'white', hz:'FULL-SPECTRUM STATIC',
+      note:'The classic \u2010zero everything\u2010out\u2010 hiss. Best studied of the noises. <span class="r">masking is real.</span>'},
+    {id:'violet', name:'Violet Noise',           cat:'focus', kind:'noise', noise:'violet',hz:'HIGH, SHARP HISS',
+      note:'Harsh upper hiss \u2014 some ADHD folks love it because it cuts through. <span class="r">masking, crank-optional.</span>'},
+    {id:'beta18', name:'Beta Beat \u00b7 18 Hz', cat:'focus', kind:'binaural', carrier:200, beat:18, hz:'18 Hz \u00b7 200 / 218',
+      note:'Beta = alert and outward. Entrainment is measurable; focus gains are modest and person-dependent. <span class="r">real, with caveats.</span>'},
+    {id:'beta15', name:'Low Beta \u00b7 15 Hz',  cat:'focus', kind:'binaural', carrier:240, beat:15, hz:'15 Hz \u00b7 240 / 255',
+      note:'Steady-attention zone, mellower than high beta. Not as studied, sounds pleasant. <span class="r">real, subtle.</span>'},
+    {id:'gamma40',name:'Gamma Beat \u00b7 40 Hz', cat:'focus', kind:'binaural', carrier:180, beat:40, hz:'40 Hz \u00b7 180 / 220',
+      note:'The MIT 40 Hz light-and-sound research frequency. Cool and popular; \u201cmakes YOU focus\u201d is unproven. <span class="s">speculative.</span>'},
+    {id:'gamma30',name:'Gamma Beat \u00b7 30 Hz', cat:'focus', kind:'binaural', carrier:190, beat:30, hz:'30 Hz \u00b7 190 / 220',
+      note:'Lower gamma, a bit easier on the ears. Same story: entrainment yes, guarantees no. <span class="s">speculative.</span>'},
+
+    {id:'alpha10',name:'Alpha Beat \u00b7 10 Hz', cat:'calm', kind:'binaural', carrier:250, beat:10, hz:'10 Hz \u00b7 250 / 260',
+      note:'Eyes-closed relaxed-alert. One of the most repeatable binaural findings. <span class="r">decent evidence.</span>'},
+    {id:'alpha12',name:'Alpha Beat \u00b7 12 Hz', cat:'calm', kind:'binaural', carrier:210, beat:12, hz:'12 Hz \u00b7 210 / 222',
+      note:'Light-focus calm \u2014 the \u201cthink without spiraling\u201d band. <span class="r">decent evidence.</span>'},
+    {id:'bridge', name:'Alpha\u2013Theta Bridge \u00b7 8 Hz', cat:'calm', kind:'binaural', carrier:200, beat:8, hz:'8 Hz \u00b7 200 / 208',
+      note:'The transition band meditation teachers go on about. Pleasant drift, heavy hype. <span class="s">mixed.</span>'},
+    {id:'theta6', name:'Theta Beat \u00b7 6 Hz',  cat:'calm', kind:'binaural', carrier:220, beat:6, hz:'6 Hz \u00b7 220 / 226',
+      note:'Dreamy, drowsy, near-sleep headspace. Good wind-down vehicle. <span class="r">entrainment yes; \u201cdepth\u201d claims mixed.</span>'},
+    {id:'theta4', name:'Theta Beat \u00b7 4 Hz',  cat:'calm', kind:'binaural', carrier:210, beat:4, hz:'4 Hz \u00b7 210 / 214',
+      note:'Deep rest theta. For when 6 Hz still feels busy. <span class="r">entrainment yes.</span>'},
+    {id:'breath', name:'Paced Breathing',        cat:'calm', kind:'breath', freq:220, rate:0.1, hz:'6 BREATHS / MIN \u00b7 0.10 Hz',
+      note:'A tone that swells at six breaths per minute \u2014 slow breathing pacing. <span class="r">the audio intervention with real evidence.</span>'},
+    {id:'rain',   name:'Rain Static',            cat:'calm', kind:'swell', base:'pink', rate:0.12, hz:'PINK \u00b7 SLOW SWELL',
+      note:'Pink noise breathing gently, like steady rain. Pure masking with a pulse. <span class="r">masking is real.</span>'},
+    {id:'ocean',  name:'Ocean Swell',            cat:'calm', kind:'swell', base:'brown', rate:0.06, hz:'BROWN \u00b7 DEEP SWELL',
+      note:'Deep brown noise swelling like waves. Familiar, low, hypnotic. <span class="r">masking, plus whatever it does to your mood.</span>'},
+
+    {id:'delta3', name:'Delta Beat \u00b7 3 Hz',  cat:'sleep', kind:'binaural', carrier:200, beat:3, hz:'3 Hz \u00b7 200 / 203',
+      note:'Deepest-sleep stage frequency. Entrainment while drifting off is unreliable \u2014 treat as nice-to-sleep-to. <span class="s">theory-heavy.</span>'},
+    {id:'delta2', name:'Delta Beat \u00b7 2 Hz',  cat:'sleep', kind:'binaural', carrier:150, beat:2, hz:'2 Hz \u00b7 150 / 152',
+      note:'Even deeper target. Same honesty as above. <span class="s">theory-heavy.</span>'},
+    {id:'delta1', name:'Delta Beat \u00b7 1 Hz',  cat:'sleep', kind:'binaural', carrier:120, beat:1, hz:'1 Hz \u00b7 120 / 121',
+      note:'The slowest beat this page makes. If 1 Hz doesn\u2019t do it, nothing on this page will. <span class="s">very theory-heavy.</span>'},
+    {id:'pinksl', name:'Pink Sleep Bed',         cat:'sleep', kind:'noise', noise:'pink', hz:'PINK \u00b7 LOW VOLUME',
+      note:'Pink noise at low volume. The 2017 study that improved deep sleep was small \u2014 but harmless and popular. <span class="r">mild evidence.</span>'},
+    {id:'brownsl',name:'Brown Lullaby',          cat:'sleep', kind:'noise', noise:'brown', hz:'BROWN \u00b7 LOW VOLUME',
+      note:'Deep rumble bed for the worst nights. Lower is better. <span class="r">masks the house, kids, thoughts.</span>'},
+
+    {id:'f432', name:'432 Hz \u2014 \u201cNatural Tuning\u201d', cat:'unproven', kind:'pure', freq:432, hz:'432 Hz PURE TONE',
+      note:'<span class="s">solfeggio claim \u00b7 not supported.</span> Studies vs 440 Hz come back basically null. Sounds pleasant though \u2014 that\u2019s allowed.'},
+    {id:'f528', name:'528 Hz \u2014 \u201cMiracle Tone\u201d',  cat:'unproven', kind:'pure', freq:528, hz:'528 Hz PURE TONE',
+      note:'<span class="s">\u201crepairs DNA\u201d \u00b7 zero peer-reviewed support.</span> The internet\u2019s favorite. A slow simple tone can still calm you \u2014 via your brain, not the Hz.'},
+    {id:'f396', name:'396 Hz \u2014 \u201cReleases Fear\u201d', cat:'unproven', kind:'pure', freq:396, hz:'396 Hz PURE TONE',
+      note:'<span class="s">solfeggio claim \u00b7 not supported.</span> What it can do: give an anxious brain one slow thing to lock onto.'},
+    {id:'f417', name:'417 Hz \u2014 \u201cFacilitates Change\u201d', cat:'unproven', kind:'pure', freq:417, hz:'417 Hz PURE TONE',
+      note:'<span class="s">solfeggio claim \u00b7 not supported.</span> Clean, expectant tone. Fine as background music, not as an undo button.'},
+    {id:'f639', name:'639 Hz \u2014 \u201cHarmony\u201d', cat:'unproven', kind:'pure', freq:639, hz:'639 Hz PURE TONE',
+      note:'<span class="s">\u201cconnection & relationships\u201d \u00b7 not supported.</span> Sounds warm and slightly bell-like. Enjoy; don\u2019t expect it to fix hist… anyone.'},
+    {id:'f741', name:'741 Hz \u2014 \u201cExpression\u201d', cat:'unproven', kind:'pure', freq:741, hz:'741 Hz PURE TONE',
+      note:'<span class="s">\u201ctoxins & self-expression\u201d \u00b7 not supported.</span> Thin and bright. Good for testing your high-frequency hearing.'},
+    {id:'f852', name:'852 Hz \u2014 \u201cAwakening\u201d', cat:'unproven', kind:'pure', freq:852, hz:'852 Hz PURE TONE',
+      note:'<span class="s">\u201cintuition\u201d \u00b7 not supported.</span> High and piercing \u2014 turn it down. It\u2019s a tone, not a revelation.'},
+    {id:'f963', name:'963 Hz \u2014 \u201cDivine Connection\u201d', cat:'unproven', kind:'pure', freq:963, hz:'963 Hz PURE TONE',
+      note:'<span class="s">\u201cthe crown frequency\u201d \u00b7 not supported.</span> Top of the solfeggio ladder. Many headphones will make this quietly \u2026 nothing.'},
+    {id:'f285', name:'285 Hz \u2014 \u201cRegeneration\u201d', cat:'unproven', kind:'pure', freq:285, hz:'285 Hz PURE TONE',
+      note:'<span class="s">\u201chealing/regeneration\u201d \u00b7 not supported.</span> Not even proper solfeggio \u2014 just attached later. A soft low hum; nothing more.'}
+  ];
+
+  var grid = document.getElementById('grid');
+  function glyphHTML(kind, c1, c2){
+    function pts(fn){ var out=''; for(var x=0;x<=120;x+=4){ out+=x+','+fn(x).toFixed(1)+' '; } return out.trim(); }
+    function seed(s){ return function(){ s=(s*9301+49297)%233280; return (s/233280)-0.5; }; }
+    if(kind==='noise' || kind==='swell'){
+      var r=seed(7); var cy=(kind==='swell')?function(x){ return 18+Math.sin(x/120*2*Math.PI)*5; }:function(){return 18;};
+      var out=''; for(var x=0;x<120;x+=2){ out+=x+','+(cy(x)+r()*22).toFixed(1)+' '; }
+      return '<svg viewBox="0 0 120 36" width="120" height="30"><polyline points="'+out.trim()+'" fill="none" stroke="'+escapeAttr(c1)+'" stroke-width="1.5" opacity="0.85"/></svg>';
+    }
+    if(kind==='binaural'){
+      var a=pts(function(x){return 18+Math.sin(x/120*9+1)*6;});
+      var b=pts(function(x){return 18+Math.sin(x/120*11+3)*6;});
+      return '<svg viewBox="0 0 120 36" width="120" height="30">'+
+        '<polyline points="'+a+'" fill="none" stroke="'+escapeAttr(c1)+'" stroke-width="1.5" opacity="0.9"/>'+
+        '<polyline points="'+b+'" fill="none" stroke="'+escapeAttr(c2)+'" stroke-width="1.5" opacity="0.5"/></svg>';
+    }
+    var p=pts(function(x){return 18+Math.sin(x/120*6+0.8)*8;});
+    return '<svg viewBox="0 0 120 36" width="120" height="30"><polyline points="'+p+'" fill="none" stroke="'+escapeAttr(c1)+'" stroke-width="1.5" opacity="0.9"/></svg>';
+  }
+  function escapeAttr(s){ return s.replace(/"/g,'&quot;'); }
+
+  function renderList(filter){
+    var shown=0;
+    grid.innerHTML='';
+    PRESETS.forEach(function(p,i){
+      if(filter!=='all' && p.cat!==filter) return;
+      shown++;
+      var c1=CATS[p.cat][1], c2=(p.cat==='focus')?'#5EEAD4':'#FFB86B';
+      var card=document.createElement('button');
+      card.className='card';
+      card.style.setProperty('--cat',c1);
+      card.setAttribute('data-i',i);
+      card.innerHTML=
+        '<span style="display:none" data-glyphok>1</span>'+
+        '<div class="top"><span class="cat-chip '+p.cat+'">'+CATS[p.cat][0]+'</span><span class="status">'+ (i===curIndex?'\u25b6 playing':'idle') +'</span></div>'+
+        '<h4>'+p.name+'</h4>'+
+        '<div class="hzline">'+p.hz+'</div>'+
+        '<div class="note">'+p.note+'</div>'+
+        glyphHTML(p.kind==='swell'?'swell':p.kind==='noise'?'noise':p.kind==='binaural'?'binaural':'pure', c1, c2);
+      if(i===curIndex) card.classList.add('active');
+      card.addEventListener('click', function(){ selectPreset(i,true); });
+      grid.appendChild(card);
+    });
+    document.getElementById('shownCnt').textContent = shown+' SIGNALS';
+  }
+
+  var curIndex=0;
+  var curCat=PRESETS[0].cat;
+
+  function setDeck(p){
+    curCat=p.cat;
+    document.getElementById('npCat').textContent=CATS[p.cat][0];
+    document.getElementById('npName').textContent=p.name;
+    document.getElementById('npHz').textContent=p.hz;
+    document.getElementById('npNote').innerHTML=p.note;
+    var idx=PRESETS.indexOf(p)+1;
+    document.getElementById('curIdx').textContent=String(idx).padStart(2,'0');
+    document.getElementById('catLabel').textContent=CATS[p.cat][0];
+    var h=document.getElementById('phoneBadge');
+    h.style.display=(p.kind==='binaural')?'':'none';
+    var L=document.getElementById('chL'), R=document.getElementById('chR');
+    L.style.display=R.style.display=(p.kind==='binaural')?'':'none';
+    setDeckColor(p);
+  }
+  function setDeckColor(p){
+    var col=CATS[p.cat][1];
+    document.getElementById('npCat').style.color=col;
+    document.getElementById('liveBadge').style.color=col;
+    var big=document.getElementById('bigBtn');
+    if(p.kind==='binaural'){
+      big.style.background='radial-gradient(circle at 30% 25%,#B4B7FF,#5B5FBF 70%)';
+      big.style.boxShadow='0 10px 30px rgba(129,140,248,0.25),inset 0 -6px 14px rgba(0,0,0,0.25)';
+    } else {
+      big.style.background='radial-gradient(circle at 30% 25%,'+col+',#2FB89F 70%)';
+      big.style.boxShadow='0 10px 30px rgba(94,234,212,0.2),inset 0 -6px 14px rgba(0,0,0,0.25)';
+    }
+  }
+
+  var scope=document.getElementById('scope');
+  var sctx=scope.getContext('2d');
+  function sizeScope(){
+    var rect=scope.parentElement.getBoundingClientRect();
+    var dpr=window.devicePixelRatio||1;
+    scope.width=rect.width*dpr; scope.height=150*dpr;
+    scope.style.height='150px';
+    sctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+  sizeScope();
+  window.addEventListener('resize', sizeScope);
+
+  function drawWave(p,t){
+    var w=scope.width/(window.devicePixelRatio||1), h=150;
+    sctx.clearRect(0,0,w,h);
+    sctx.strokeStyle='rgba(139,154,147,0.14)'; sctx.lineWidth=1;
+    sctx.beginPath(); sctx.moveTo(0,h/2); sctx.lineTo(w,h/2); sctx.stroke();
+    var col=CATS[p.cat][1], cx=w/2;
+    var amp=h*0.32;
+    if(p.kind==='noise'||p.kind==='swell'){
+      var off=0;
+      sctx.beginPath();
+      for(var x=0;x<=w;x+=2){
+        var env=1;
+        if(p.kind==='swell') env=0.35+0.65*Math.abs(Math.sin(t*Math.PI*2*p.rate));
+        var v=Math.sin(x*0.9+t*30)*0.4+Math.sin(x*1.7-t*27)*0.6;
+        var y=h/2+v*amp*env;
+        x===0?sctx.moveTo(x,y):sctx.lineTo(x,y);
+      }
+      sctx.strokeStyle=col; sctx.globalAlpha=0.75; sctx.lineWidth=1.6; sctx.stroke(); sctx.globalAlpha=1;
+    } else if(p.kind==='binaural'){
+      sctx.lineWidth=1.5;
+      sctx.strokeStyle='#5EEAD4'; sctx.globalAlpha=0.9;
+      sctx.beginPath();
+      for(var x2=0;x2<=w;x2++){ var a=h/2+Math.sin((x2/w)*6*Math.PI+t*4)*amp; x2===0?sctx.moveTo(x2,a):sctx.lineTo(x2,a); }
+      sctx.stroke();
+      sctx.strokeStyle='#FFB86B'; sctx.globalAlpha=0.7;
+      sctx.beginPath();
+      for(var x3=0;x3<=w;x3++){ var b2=h/2+Math.sin((x3/w)*7*Math.PI-t*3.2)*amp; x3===0?sctx.moveTo(x3,b2):sctx.lineTo(x3,b2); }
+      sctx.stroke(); sctx.globalAlpha=1;
+      sctx.font='10px "IBM Plex Mono",monospace'; sctx.fillStyle='rgba(139,154,147,0.7)';
+      sctx.fillText('L',12,h-10); sctx.textAlign='right'; sctx.fillText('R',w-12,h-10); sctx.textAlign='left';
+    } else {
+      var env=1, amp2=amp;
+      if(p.kind==='breath'){ env=0.25+0.75*Math.abs(Math.sin(t*Math.PI*2*p.rate)); }
+      sctx.beginPath();
+      for(var x4=0;x4<=w;x4++){
+        var y2=h/2+Math.sin((x4/w)*(p.kind==='breath'?10:8)*Math.PI+t*Math.PI*2*(p.kind==='breath'?2:1.5))*amp2*env;
+        x4===0?sctx.moveTo(x4,y2):sctx.lineTo(x4,y2);
+      }
+      sctx.strokeStyle=col; sctx.lineWidth=1.8; sctx.stroke();
+      if(p.kind==='breath'){
+        sctx.font='10px "IBM Plex Mono",monospace'; sctx.fillStyle='rgba(94,234,212,0.6)';
+        sctx.fillText('breathing in \u2022 out',12,h-10);
+      }
+    }
+  }
+
+  function loop(t){
+    drawWave(PRESETS[curIndex], t/1000);
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+
+  var octx=null, master=null, pgain=null, nodes=[], playing=false;
+  var volEl=document.getElementById('vol'), volFill=document.getElementById('volFill'), volRead=document.getElementById('volRead');
+
+  function ensure(){
+    if(!octx){
+      octx=new (window.AudioContext||window.webkitAudioContext)();
+      master=octx.createGain(); master.gain.value=1; master.connect(octx.destination);
+    }
+    if(octx.state==='suspended') octx.resume();
+  }
+  function setVolume(v){
+    volFill.style.width=v+'%'; volRead.textContent=v+'%';
+    if(pgain&&octx) pgain.gain.setTargetAtTime(v/100,octx.currentTime,0.04);
+  }
+  volEl.addEventListener('input',function(){ setVolume(parseInt(volEl.value,10)); });
+
+  function softStop(){
+    if(!octx||!pgain) return;
+    var now=octx.currentTime;
+    pgain.gain.cancelScheduledValues(now);
+    pgain.gain.setValueAtTime(Math.max(pgain.gain.value,0.0005),now);
+    pgain.gain.exponentialRampToValueAtTime(0.0001,now+0.12);
+    var old=nodes; nodes=[];
+    setTimeout(function(){ old.forEach(function(n){ try{n.stop&&n.stop();}catch(e){} try{n.disconnect&&n.disconnect();}catch(e){} }); },170);
+    pgain=null; setLive(false);
+  }
+
+  function osc(f){ var o=octx.createOscillator(); o.type='sine'; o.frequency.value=f; return o; }
+  function noiseBuf(kind){
+    var len=Math.floor(octx.sampleRate*4), buf=octx.createBuffer(1,len,octx.sampleRate), d=buf.getChannelData(0);
+    if(kind==='brown'){ var last=0; for(var i=0;i<len;i++){ var w=Math.random()*2-1; last=(last+0.02*w)/1.02; d[i]=last*3.5; } }
+    else if(kind==='pink'){ var b0=0,b1=0,b2=0,b3=0,b4=0,b5=0,b6=0;
+      for(var i2=0;i2<len;i2++){ var w2=Math.random()*2-1;
+        b0=0.99886*b0+w2*0.0555179; b1=0.99332*b1+w2*0.0750759; b2=0.96900*b2+w2*0.1538520;
+        b3=0.86650*b3+w2*0.3104856; b4=0.55000*b4+w2*0.5329522; b5=-0.7616*b5-w2*0.0168980;
+        d[i2]=(b0+b1+b2+b3+b4+b5+b6+w2*0.5362)*0.11; b6=w2*0.115926; } }
+    else if(kind==='violet'){ var hp=0,prev=0;
+      for(var i3=0;i3<len;i3++){ var w3=Math.random()*2-1; hp=w3-prev; prev=w3; d[i3]=Math.max(-1,Math.min(1,hp*12)); } }
+    else { for(var i4=0;i4<len;i4++) d[i4]=Math.random()*2-1; }
+    return buf;
+  }
+  function newGain(vol){
+    var g=octx.createGain();
+    var now=octx.currentTime;
+    g.gain.setValueAtTime(0,now);
+    g.gain.linearRampToValueAtTime(vol/100,now+0.18);
+    g.connect(master);
+    return g;
+  }
+  function startPreset(p){
+    ensure(); softStop();
+    pgain=newGain(parseInt(volEl.value,10));
+    var src, m, lfo, lg;
+    if(p.kind==='noise'){
+      src=octx.createBufferSource(); src.buffer=noiseBuf(p.noise); src.loop=true;
+      src.connect(pgain); src.start(); nodes.push(src);
+    } else if(p.kind==='binaural'){
+      var lo=osc(p.carrier), ro=osc(p.carrier+p.beat);
+      m=octx.createChannelMerger(2);
+      lo.connect(m,0,0); ro.connect(m,0,1); m.connect(pgain);
+      lo.start(); ro.start(); nodes.push(lo,ro);
+    } else if(p.kind==='pure'||p.kind==='breath'){
+      var o2=osc(p.freq||440);
+      var mod=p.kind==='breath';
+      if(mod){
+        var cg=octx.createGain(); cg.gain.value=0.55;
+        lfo=osc(p.rate); lg=octx.createGain(); lg.gain.value=0.4;
+        lfo.connect(lg); lg.connect(cg.gain);
+        o2.connect(cg); cg.connect(pgain); lfo.start(); nodes.push(o2,lfo);
+      } else { o2.connect(pgain); nodes.push(o2); }
+      o2.start();
+    } else if(p.kind==='swell'){
+      src=octx.createBufferSource(); src.buffer=noiseBuf(p.base); src.loop=true;
+      var cg2=octx.createGain(); cg2.gain.value=0.55;
+      lfo=osc(p.rate); lg=octx.createGain(); lg.gain.value=0.42;
+      lfo.connect(lg); lg.connect(cg2.gain);
+      src.connect(cg2); cg2.connect(pgain); src.start(); lfo.start(); nodes.push(src,lfo);
+    }
+    setLive(true);
+  }
+  function setLive(on){
+    playing=on;
+    document.getElementById('liveBadge').style.display=on?'':'none';
+    document.getElementById('icoPlay').style.display=on?'none':'';
+    document.getElementById('icoStop').style.display=on?'':'none';
+    document.querySelectorAll('.card').forEach(function(c){ var st=c.querySelector('.status'); if(st) st.textContent=(parseInt(c.getAttribute('data-i'),10)===curIndex&&on)?'\u25b6 playing':'idle'; });
+  }
+
+  function selectPreset(i,autoplay){
+    curIndex=i;
+    var p=PRESETS[i];
+    setDeck(p);
+    if(autoplay) startPreset(p);
+    else softStop();
+    document.querySelectorAll('.card').forEach(function(c){
+      var active=parseInt(c.getAttribute('data-i'),10)===i;
+      c.classList.toggle('active',active);
+    });
+  }
+  function togglePlay(){
+    var p=PRESETS[curIndex];
+    if(playing) softStop(); else startPreset(p);
+  }
+
+  document.getElementById('bigBtn').addEventListener('click',togglePlay);
+
+  document.getElementById('filters').addEventListener('click',function(e){
+    var chip=e.target.closest('.f-chip'); if(!chip) return;
+    document.querySelectorAll('.f-chip').forEach(function(c){c.classList.remove('active');});
+    chip.classList.add('active');
+    renderList(chip.dataset.f);
+  });
+
+  window.addEventListener('keydown',function(e){
+    if(e.target.tagName==='INPUT') return;
+    if(e.code==='Space'){ e.preventDefault(); togglePlay(); }
+    else if(e.key==='ArrowRight'){ selectPreset((curIndex+1)%PRESETS.length,true); }
+    else if(e.key==='ArrowLeft'){ selectPreset((curIndex-1+PRESETS.length)%PRESETS.length,true); }
+    else if(e.key==='h'||e.key==='H'){ window.location.href='index.html'; }
+  });
+
+  renderList('all');
+  setDeck(PRESETS[0]);
+  document.getElementById('totCnt').textContent=String(PRESETS.length).padStart(2,'0');
+</script>
+</body>
+</html>
