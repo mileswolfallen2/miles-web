@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Miles Allen — Developer & 3D Artist</title>
+  <style>
+    /* ─── Reset & Base ─────────────────────────────────────── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:        #080a12;
+      --surface:   #0e1120;
+      --border:    rgba(120,140,255,0.15);
+      --accent:    #6c8cff;
+      --accent2:   #b06cff;
+      --accent3:   #6cffd4;
+      --text:      #e8ecff;
+      --muted:     #5a5f7a;
+      --card-bg:   rgba(14,17,32,0.85);
+      --glow:      0 0 40px rgba(108,140,255,0.25);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ─── Canvas (Three.js backdrop) ───────────────────────── */
+    #bg-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ─── Nav ───────────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.1rem 3rem;
+      background: rgba(8,10,18,0.7);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.88rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    /* ─── Shared Section Shell ──────────────────────────────── */
+    .section {
+      position: relative;
+      z-index: 10;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 6rem 2rem;
+    }
+
+    .section-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.6rem;
+    }
+
+    h2.section-title {
+      font-size: clamp(1.8rem, 3vw, 2.8rem);
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 3rem;
+    }
+
+    /* ─── Hero ──────────────────────────────────────────────── */
+    #hero {
+      position: relative;
+      z-index: 10;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0 3rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.78rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--accent3);
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 28px;
+      height: 1px;
+      background: var(--accent3);
+    }
+
+    .hero-name {
+      font-size: clamp(3rem, 8vw, 7rem);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #fff 30%, var(--accent) 70%, var(--accent2) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.4rem;
+    }
+
+    .hero-role {
+      font-size: clamp(1rem, 2.5vw, 1.6rem);
+      color: var(--muted);
+      font-weight: 400;
+      margin-bottom: 2rem;
+      letter-spacing: 0.01em;
+    }
+    .hero-role span {
+      color: var(--accent2);
+      font-weight: 600;
+    }
+
+    .hero-bio {
+      max-width: 520px;
+      font-size: 1.05rem;
+      line-height: 1.75;
+      color: #8891b0;
+      margin-bottom: 2.8rem;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.75rem;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
+      box-shadow: 0 0 30px rgba(108,140,255,0.35);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 50px rgba(108,140,255,0.55);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    /* ─── 3-D scene viewer ──────────────────────────────────── */
+    #scene-wrap {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      height: 420px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    #model-canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* ─── Stats strip ───────────────────────────────────────── */
+    #stats-strip {
+      position: relative;
+      z-index: 10;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: rgba(14,17,32,0.6);
+      backdrop-filter: blur(12px);
+    }
+
+    .stats-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1.5rem;
+      text-align: center;
+    }
+
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .stat-num {
+      font-size: 2.4rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ─── Projects ──────────────────────────────────────────── */
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .project-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.8rem;
+      backdrop-filter: blur(12px);
+      transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+      position: relative;
+      overflow: hidden;
+      cursor: default;
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(108,140,255,0.05), rgba(176,108,255,0.05));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .project-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(108,140,255,0.4);
+      box-shadow: var(--glow);
+    }
+    .project-card:hover::before { opacity: 1; }
+
+    .card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+
+    .card-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+
+    .card-lang {
+      font-size: 0.72rem;
+      padding: 0.25rem 0.7rem;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+
+    .project-card h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+
+    .project-card p {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 1.2rem;
+    }
+
+    .card-meta {
+      display: flex;
+      gap: 1rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+      align-items: center;
+    }
+
+    .card-stars {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .card-link {
+      margin-left: auto;
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: gap 0.2s;
+    }
+    .card-link:hover { gap: 0.6rem; }
+
+    /* ─── Skills ────────────────────────────────────────────── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 1rem;
+    }
+
+    .skill-pill {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.1rem 1rem;
+      text-align: center;
+      backdrop-filter: blur(8px);
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .skill-pill:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+    }
+
+    .skill-icon { font-size: 1.7rem; margin-bottom: 0.4rem; }
+    .skill-name { font-size: 0.78rem; font-weight: 600; color: var(--text); letter-spacing: 0.04em; }
+
+    /* ─── About split ───────────────────────────────────────── */
+    .about-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    @media (max-width: 700px) {
+      .about-split { grid-template-columns: 1fr; gap: 2rem; }
+    }
+
+    .about-text p {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: #8891b0;
+      margin-bottom: 1rem;
+    }
+
+    .about-text strong { color: var(--text); }
+
+    .about-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .about-link-item {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      padding: 0.9rem 1.2rem;
+      border-radius: 12px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      text-decoration: none;
+      color: var(--text);
+      font-size: 0.9rem;
+      transition: border-color 0.2s, transform 0.2s;
+      backdrop-filter: blur(8px);
+    }
+    .about-link-item:hover {
+      border-color: var(--accent);
+      transform: translateX(6px);
+    }
+
+    .link-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    .link-sub {
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 0.1rem;
+      letter-spacing: 0.04em;
+    }
+
+    /* ─── Footer ────────────────────────────────────────────── */
+    footer {
+      position: relative;
+      z-index: 10;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      padding: 2.5rem;
+      color: var(--muted);
+      font-size: 0.82rem;
+      letter-spacing: 0.04em;
+    }
+
+    footer a { color: var(--accent); text-decoration: none; }
+
+    /* ─── Divider ───────────────────────────────────────────── */
+    .divider {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+    }
+
+    /* ─── Scroll reveal ─────────────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ─── Cursor glow ───────────────────────────────────────── */
+    #cursor-glow {
+      pointer-events: none;
+      position: fixed;
+      width: 350px;
+      height: 350px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(108,140,255,0.06) 0%, transparent 70%);
+      transform: translate(-50%, -50%);
+      z-index: 5;
+      transition: opacity 0.3s;
+    }
+  </style>
+</head>
+<body>
+
+<!-- cursor glow -->
+<div id="cursor-glow"></div>
+
+<!-- Three.js canvas (background) -->
+<canvas id="bg-canvas"></canvas>
+
+<!-- ─── Nav ──────────────────────────────────────────────── -->
+<nav>
+  <div class="nav-logo">wolf_reaper90</div>
+  <ul class="nav-links">
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="https://github.com/mileswolfallen2" target="_blank">GitHub</a></li>
+  </ul>
+</nav>
+
+<!-- ─── Hero ─────────────────────────────────────────────── -->
+<section id="hero">
+  <div class="hero-eyebrow">Minnesota · Developer · 3D Artist</div>
+  <h1 class="hero-name">Miles<br>Allen</h1>
+  <p class="hero-role">Building <span>cool stuff</span> with code & geometry</p>
+  <p class="hero-bio">
+    Developer and 3D artist from Minnesota with a passion for web technology, games, and pushing
+    what browsers can do. Currently learning Rust. Always shipping something.
+  </p>
+  <div class="hero-cta">
+    <a href="https://milesallen.site" target="_blank" class="btn btn-primary">
+      ↗ Visit Site
+    </a>
+    <a href="https://github.com/mileswolfallen2" target="_blank" class="btn btn-ghost">
+      GitHub Profile
+    </a>
+  </div>
+</section>
+
+<!-- ─── 3-D Scene ─────────────────────────────────────────── -->
+<div id="scene-wrap">
+  <canvas id="model-canvas"></canvas>
+</div>
+
+<!-- ─── Stats strip ──────────────────────────────────────── -->
+<div id="stats-strip">
+  <div class="stats-inner">
+    <div class="stat-item reveal">
+      <span class="stat-num">164</span>
+      <span class="stat-label">Repositories</span>
+    </div>
+    <div class="stat-item reveal">
+      <span class="stat-num">100</span>
+      <span class="stat-label">Stars earned</span>
+    </div>
+    <div class="stat-item reveal">
+      <span class="stat-num">16</span>
+      <span class="stat-label">Followers</span>
+    </div>
+    <div class="stat-item reveal">
+      <span class="stat-num">4+</span>
+      <span class="stat-label">Languages</span>
+    </div>
+  </div>
+</div>
+
+<!-- ─── Projects ─────────────────────────────────────────── -->
+<section id="projects" class="section reveal">
+  <div class="section-label">Pinned Work</div>
+  <h2 class="section-title">Projects I'm proud of</h2>
+  <div class="project-grid">
+
+    <div class="project-card reveal">
+      <div class="card-top">
+        <div class="card-icon">⚡</div>
+        <span class="card-lang">Rust</span>
+      </div>
+      <h3>gelectron</h3>
+      <p>A drop-in Electron replacement using native web views — WKWebView, WebView2, and WebKitGTK — instead of bundling all of Chromium.</p>
+      <div class="card-meta">
+        <span class="card-stars">★ 6</span>
+        <a class="card-link" href="https://github.com/mileswolfallen2/gelectron" target="_blank">View →</a>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="card-top">
+        <div class="card-icon">📺</div>
+        <span class="card-lang">JavaScript</span>
+      </div>
+      <h3>Simple-YouTube</h3>
+      <p>A Chrome & Firefox extension that strips the clutter from YouTube and makes the experience feel cleaner and faster.</p>
+      <div class="card-meta">
+        <span class="card-stars">★</span>
+        <a class="card-link" href="https://github.com/mileswolfallen2/Simple-YouTube" target="_blank">View →</a>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="card-top">
+        <div class="card-icon">🎮</div>
+        <span class="card-lang">HTML</span>
+      </div>
+      <h3>fedl</h3>
+      <p>A new Geometry Dash list — fedl.site. Browse, search, and track levels with a clean, modern interface.</p>
+      <div class="card-meta">
+        <span class="card-stars">★ 2</span>
+        <a class="card-link" href="https://fedl.site" target="_blank">View →</a>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="card-top">
+        <div class="card-icon">🌐</div>
+        <span class="card-lang">HTML</span>
+      </div>
+      <h3>miles-web</h3>
+      <p>The personal website you're (kind of) looking at — a continually evolving space for projects, writing, and experiments.</p>
+      <div class="card-meta">
+        <span class="card-stars">★ 1</span>
+        <a class="card-link" href="https://milesallen.site" target="_blank">View →</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ─── Skills ────────────────────────────────────────────── -->
+<section id="skills" class="section reveal">
+  <div class="section-label">Toolbox</div>
+  <h2 class="section-title">Skills & tech</h2>
+  <div class="skills-grid">
+    <div class="skill-pill reveal"><div class="skill-icon">🦀</div><div class="skill-name">Rust</div></div>
+    <div class="skill-pill reveal"><div class="skill-icon">🌐</div><div class="skill-name">HTML / CSS</div></div>
+    <div class="skill-pill reveal"><div class="skill-icon">⚡</div><div class="skill-name">JavaScript</div></div>
+    <div class="skill-pill reveal"><div class="skill-icon">🔷</div><div class="skill-name">TypeScript</div></div>
+    <div class="skill-pill reveal"><div class="skill-icon">🎨</div><div class="skill-name">3D Art</div></div>
+    <div class="skill-pill reveal"><div class="skill-icon">🎮</div><div class="skill-name">Game Dev</div></div>
+    <div class="skill-pill reveal"><div class="skill-icon">🖥️</div><div class="skill-name">Native Apps</div></div>
+    <div class="skill-pill reveal"><div class="skill-icon">🔧</div><div class="skill-name">Browser Ext.</div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ─── About ─────────────────────────────────────────────── -->
+<section id="about" class="section reveal">
+  <div class="section-label">The human</div>
+  <h2 class="section-title">About me</h2>
+  <div class="about-split">
+    <div class="about-text">
+      <p>
+        Hey — I'm Miles. I'm a <strong>developer and 3D artist</strong> from Minnesota
+        who loves building things that live at the intersection of code and creativity.
+      </p>
+      <p>
+        I spend a lot of time on the web, native apps, and game-adjacent tools.
+        Currently learning <strong>Rust</strong> and applying it to real projects like gelectron.
+      </p>
+      <p>
+        On the side you'll find me making music, playing games, and occasionally
+        watching Battlestar Galactica reruns.
+      </p>
+    </div>
+    <div class="about-links">
+      <a class="about-link-item" href="https://milesallen.site" target="_blank">
+        <span class="link-icon">🌐</span>
+        <div>
+          <div>milesallen.site</div>
+          <div class="link-sub">Personal website</div>
+        </div>
+      </a>
+      <a class="about-link-item" href="https://github.com/mileswolfallen2" target="_blank">
+        <span class="link-icon">🐙</span>
+        <div>
+          <div>mileswolfallen2</div>
+          <div class="link-sub">GitHub</div>
+        </div>
+      </a>
+      <a class="about-link-item" href="https://codepen.io/mileswolfallen2-the-typescripter" target="_blank">
+        <span class="link-icon">✏️</span>
+        <div>
+          <div>mileswolfallen2-the-typescripter</div>
+          <div class="link-sub">CodePen</div>
+        </div>
+      </a>
+      <a class="about-link-item" href="https://bsky.app/profile/wolfreaper90.bsky.social" target="_blank">
+        <span class="link-icon">🦋</span>
+        <div>
+          <div>@wolfreaper90.bsky.social</div>
+          <div class="link-sub">Bluesky</div>
+        </div>
+      </a>
+      <a class="about-link-item" href="https://fedl.site/players?player=wolf_reaper90" target="_blank">
+        <span class="link-icon">🎮</span>
+        <div>
+          <div>wolf_reaper90</div>
+          <div class="link-sub">fedl player profile</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ─── Footer ────────────────────────────────────────────── -->
+<footer>
+  Made with geometry and caffeine by <a href="https://github.com/mileswolfallen2">Miles Allen</a> · Minnesota
+</footer>
+
+<!-- ─── Three.js (CDN) ────────────────────────────────────── -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.162.0/build/three.min.js"></script>
+
+<script>
+/* ═══════════════════════════════════════════════════════════
+   BACKGROUND CANVAS — floating particle field + grid
+═══════════════════════════════════════════════════════════ */
+(function () {
+  const canvas  = document.getElementById('bg-canvas');
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(window.innerWidth, window.innerHeight);
+
+  const scene  = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 200);
+  camera.position.z = 60;
+
+  /* ── Particle cloud ── */
+  const COUNT = 1800;
+  const positions = new Float32Array(COUNT * 3);
+  const colors    = new Float32Array(COUNT * 3);
+  const c1 = new THREE.Color('#6c8cff');
+  const c2 = new THREE.Color('#b06cff');
+  const c3 = new THREE.Color('#6cffd4');
+
+  for (let i = 0; i < COUNT; i++) {
+    positions[i * 3 + 0] = (Math.random() - 0.5) * 160;
+    positions[i * 3 + 1] = (Math.random() - 0.5) * 100;
+    positions[i * 3 + 2] = (Math.random() - 0.5) * 80;
+    const t   = Math.random();
+    const col = t < 0.33 ? c1 : t < 0.66 ? c2 : c3;
+    colors[i * 3 + 0] = col.r;
+    colors[i * 3 + 1] = col.g;
+    colors[i * 3 + 2] = col.b;
+  }
+
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  geo.setAttribute('color',    new THREE.BufferAttribute(colors, 3));
+  const mat = new THREE.PointsMaterial({ size: 0.28, vertexColors: true, transparent: true, opacity: 0.65 });
+  scene.add(new THREE.Points(geo, mat));
+
+  /* ── Faint wireframe icosahedra cluster ── */
+  const wireMat = new THREE.MeshBasicMaterial({ color: 0x6c8cff, wireframe: true, transparent: true, opacity: 0.06 });
+  for (let i = 0; i < 7; i++) {
+    const g = new THREE.IcosahedronGeometry(4 + Math.random() * 8, 1);
+    const m = new THREE.Mesh(g, wireMat);
+    m.position.set((Math.random() - 0.5) * 120, (Math.random() - 0.5) * 70, -20 + Math.random() * -30);
+    scene.add(m);
+  }
+
+  /* ── Mouse parallax ── */
+  let mx = 0, my = 0;
+  document.addEventListener('mousemove', e => {
+    mx = (e.clientX / window.innerWidth  - 0.5) * 2;
+    my = (e.clientY / window.innerHeight - 0.5) * 2;
+  });
+
+  /* ── Resize ── */
+  window.addEventListener('resize', () => {
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+  });
+
+  let t = 0;
+  (function loop() {
+    requestAnimationFrame(loop);
+    t += 0.0005;
+    camera.position.x += (mx * 4 - camera.position.x) * 0.03;
+    camera.position.y += (-my * 3 - camera.position.y) * 0.03;
+    scene.rotation.y = t * 0.1;
+    renderer.render(scene, camera);
+  })();
+})();
+
+/* ═══════════════════════════════════════════════════════════
+   FOREGROUND MODEL CANVAS — spinning glowing polyhedron
+═══════════════════════════════════════════════════════════ */
+(function () {
+  const canvas   = document.getElementById('model-canvas');
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+  const W = canvas.parentElement.clientWidth;
+  const H = 420;
+  renderer.setSize(W, H);
+
+  const scene  = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(50, W / H, 0.1, 100);
+  camera.position.z = 5;
+
+  /* ── Core geometry: icosahedron ── */
+  const icoGeo = new THREE.IcosahedronGeometry(1.3, 1);
+  const icoMat = new THREE.MeshPhongMaterial({
+    color: 0x6c8cff,
+    emissive: 0x1a0a44,
+    specular: 0xffffff,
+    shininess: 120,
+    transparent: true,
+    opacity: 0.55,
+    wireframe: false,
+  });
+  const ico = new THREE.Mesh(icoGeo, icoMat);
+  scene.add(ico);
+
+  /* ── Wireframe overlay ── */
+  const wireGeo = new THREE.IcosahedronGeometry(1.32, 1);
+  const wireMat = new THREE.MeshBasicMaterial({ color: 0xb06cff, wireframe: true, transparent: true, opacity: 0.6 });
+  scene.add(new THREE.Mesh(wireGeo, wireMat));
+
+  /* ── Outer ring ── */
+  const ringGeo = new THREE.TorusGeometry(2.1, 0.015, 8, 120);
+  const ringMat = new THREE.MeshBasicMaterial({ color: 0x6cffd4, transparent: true, opacity: 0.45 });
+  const ring = new THREE.Mesh(ringGeo, ringMat);
+  ring.rotation.x = Math.PI / 3;
+  scene.add(ring);
+
+  const ring2 = ring.clone();
+  ring2.rotation.x = -Math.PI / 4;
+  ring2.rotation.z = Math.PI / 5;
+  scene.add(ring2);
+
+  /* ── Orbiting dot ── */
+  const dotGeo = new THREE.SphereGeometry(0.06, 8, 8);
+  const dotMat = new THREE.MeshBasicMaterial({ color: 0x6cffd4 });
+  const dot = new THREE.Mesh(dotGeo, dotMat);
+  scene.add(dot);
+
+  /* ── Small satellite icosahedra ── */
+  const smallMat = new THREE.MeshBasicMaterial({ color: 0xb06cff, wireframe: true, transparent: true, opacity: 0.5 });
+  const sats = [];
+  for (let i = 0; i < 5; i++) {
+    const g = new THREE.IcosahedronGeometry(0.18, 0);
+    const m = new THREE.Mesh(g, smallMat);
+    sats.push({ mesh: m, offset: (i / 5) * Math.PI * 2, radius: 2.2 + Math.random() * 0.4, speed: 0.4 + Math.random() * 0.3 });
+    scene.add(m);
+  }
+
+  /* ── Lights ── */
+  scene.add(new THREE.AmbientLight(0xffffff, 0.3));
+  const pl1 = new THREE.PointLight(0x6c8cff, 3, 10);
+  pl1.position.set(3, 3, 3);
+  scene.add(pl1);
+  const pl2 = new THREE.PointLight(0xb06cff, 2, 10);
+  pl2.position.set(-3, -2, 2);
+  scene.add(pl2);
+  const pl3 = new THREE.PointLight(0x6cffd4, 1.5, 8);
+  pl3.position.set(0, -3, -2);
+  scene.add(pl3);
+
+  /* ── Mouse drag ── */
+  let isDragging = false, lastX = 0, lastY = 0, vx = 0, vy = 0;
+  canvas.addEventListener('mousedown', e => { isDragging = true; lastX = e.clientX; lastY = e.clientY; });
+  window.addEventListener('mouseup',   () => { isDragging = false; });
+  window.addEventListener('mousemove', e => {
+    if (!isDragging) return;
+    vx = (e.clientX - lastX) * 0.01;
+    vy = (e.clientY - lastY) * 0.01;
+    lastX = e.clientX; lastY = e.clientY;
+  });
+
+  /* ── Touch ── */
+  canvas.addEventListener('touchstart', e => { isDragging = true; lastX = e.touches[0].clientX; lastY = e.touches[0].clientY; }, { passive: true });
+  window.addEventListener('touchend',   () => { isDragging = false; });
+  window.addEventListener('touchmove',  e => {
+    if (!isDragging) return;
+    vx = (e.touches[0].clientX - lastX) * 0.01;
+    vy = (e.touches[0].clientY - lastY) * 0.01;
+    lastX = e.touches[0].clientX; lastY = e.touches[0].clientY;
+  }, { passive: true });
+
+  window.addEventListener('resize', () => {
+    const nW = canvas.parentElement.clientWidth;
+    renderer.setSize(nW, 420);
+    camera.aspect = nW / 420;
+    camera.updateProjectionMatrix();
+  });
+
+  let t = 0;
+  (function loop() {
+    requestAnimationFrame(loop);
+    t += 0.012;
+
+    if (!isDragging) {
+      vx *= 0.96;
+      vy *= 0.96;
+      ico.rotation.y += 0.004 + vx;
+      ico.rotation.x += 0.002 + vy;
+    } else {
+      ico.rotation.y += vx;
+      ico.rotation.x += vy;
+    }
+
+    ring.rotation.z  += 0.005;
+    ring2.rotation.y += 0.007;
+
+    /* orbiting dot */
+    dot.position.set(Math.cos(t * 0.7) * 2.1, Math.sin(t * 0.7) * 0.6, Math.sin(t * 0.5) * 1.2);
+
+    /* satellite icosahedra */
+    sats.forEach(s => {
+      s.mesh.rotation.x += 0.02;
+      s.mesh.rotation.y += 0.03;
+      const a = t * s.speed + s.offset;
+      s.mesh.position.set(Math.cos(a) * s.radius, Math.sin(a * 0.6) * 0.9, Math.sin(a) * s.radius * 0.5);
+    });
+
+    /* pulsing light */
+    pl1.intensity = 2.5 + Math.sin(t * 1.2) * 1;
+
+    renderer.render(scene, camera);
+  })();
+})();
+
+/* ═══════════════════════════════════════════════════════════
+   SCROLL REVEAL
+═══════════════════════════════════════════════════════════ */
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+/* ═══════════════════════════════════════════════════════════
+   CURSOR GLOW
+═══════════════════════════════════════════════════════════ */
+const glow = document.getElementById('cursor-glow');
+document.addEventListener('mousemove', e => {
+  glow.style.left = e.clientX + 'px';
+  glow.style.top  = e.clientY + 'px';
+});
+</script>
+</body>
+</html>
