@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>moon vault</title>
+  <meta name="robots" content="noindex, nofollow, noarchive, noimageindex">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="projects/style.css">
+  <style>
+:root{--vault-bg:#07070c;}
+body{background:var(--vault-bg);}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(7,7,12,0.95);padding:14px 24px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,0.06);}
+.nav-logo{font-family:var(--font-pixel);font-size:10px;color:var(--text);text-decoration:none;display:flex;align-items:center;gap:8px;}
+.nav-logo .logo-dot{width:10px;height:10px;background:var(--accent);display:inline-block;}
+.nav-links{display:flex;gap:18px;}
+.nav-links a{font-family:var(--font-mono);font-size:11px;color:var(--muted);text-decoration:none;text-transform:uppercase;letter-spacing:.04em;}
+.nav-links a:hover{color:var(--accent);}
+.scroll-content{position:relative;z-index:1;padding-top:60px;}
+
+.hero{min-height:42vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:70px 5vw 30px;position:relative;overflow:hidden;}
+.hero h1{font-family:var(--font-pixel);font-size:clamp(22px,5vw,44px);color:var(--text);text-shadow:4px 4px 0 var(--accent);line-height:1.3;}
+.hero .sub{font-family:var(--font-mono);font-size:12px;color:var(--muted);margin-top:14px;max-width:560px;line-height:1.8;}
+.hero .emoji{font-size:54px;opacity:.3;margin-top:24px;}
+
+.section-header{text-align:center;padding:40px 5vw 26px;}
+.section-header .tag{font-family:var(--font-pixel);font-size:10px;color:var(--accent);letter-spacing:.12em;text-transform:uppercase;}
+.section-header h2{font-family:var(--font-pixel);font-size:clamp(16px,3vw,28px);color:var(--text);margin-top:8px;text-transform:uppercase;}
+.section-header p{font-family:var(--font-mono);font-size:12px;color:#999;max-width:520px;margin:10px auto 0;line-height:1.7;}
+
+.vault-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;max-width:980px;margin:0 auto;padding:0 5vw 60px;}
+.vcard{border:2px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.02);overflow:hidden;text-decoration:none;display:flex;flex-direction:column;transition:border-color .3s,transform .3s;}
+.vcard:hover{border-color:var(--accent);transform:translateY(-4px);}
+.vthumb{position:relative;aspect-ratio:16/10;background:linear-gradient(135deg,#12121c,#0a0a12);display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.vthumb img{width:100%;height:100%;object-fit:cover;display:block;}
+.vthumb .vemoji{font-size:56px;opacity:.65;position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
+.vbody{padding:16px 18px 18px;display:flex;flex-direction:column;gap:8px;flex:1;}
+.vbody h3{font-family:var(--font-pixel);font-size:11px;color:var(--text);text-transform:uppercase;line-height:1.5;}
+.vbody p{font-family:var(--font-mono);font-size:11px;color:var(--muted);line-height:1.7;flex:1;}
+.vplay{font-family:var(--font-pixel);font-size:8px;color:var(--accent);border:1px solid var(--accent);padding:7px 14px;text-align:center;text-transform:uppercase;transition:all .2s;}
+.vcard:hover .vplay{background:var(--accent);color:#000;}
+
+.vault-lock{position:fixed;inset:0;z-index:200;background:radial-gradient(circle at 50% 35%,#101020 0%,#05050a 70%);display:flex;align-items:center;justify-content:center;padding:24px;}
+.lock-card{width:100%;max-width:400px;border:2px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.03);padding:34px 28px;text-align:center;}
+.lock-card .lock-icon{font-size:44px;}
+.lock-card h1{font-family:var(--font-pixel);font-size:14px;color:var(--text);margin:18px 0 6px;text-shadow:3px 3px 0 var(--accent);}
+.lock-card p{font-family:var(--font-mono);font-size:11px;color:var(--muted);line-height:1.7;margin-bottom:20px;}
+.lock-card form{display:flex;flex-direction:column;gap:12px;}
+.lock-card input{font-family:var(--font-mono);font-size:13px;color:var(--text);background:rgba(0,0,0,0.45);border:1px solid rgba(255,255,255,0.18);padding:12px 14px;outline:none;text-align:center;}
+.lock-card input:focus{border-color:var(--accent);}
+.lock-card button{font-family:var(--font-pixel);font-size:9px;color:#000;background:var(--accent);border:none;padding:13px 14px;cursor:pointer;text-transform:uppercase;letter-spacing:.05em;}
+.lock-card button:hover{filter:brightness(1.15);}
+.lock-msg{font-family:var(--font-mono);font-size:11px;color:#ff5c7a;min-height:16px;}
+.lock-hint{font-family:var(--font-mono);font-size:9px;color:#666;margin-top:16px;}
+.shake{animation:shake .35s;}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-9px)}40%{transform:translateX(9px)}60%{transform:translateX(-6px)}80%{transform:translateX(6px)}}
+
+footer{border-top:1px solid rgba(255,255,255,0.06);padding:34px 5vw;text-align:center;}
+footer .ft{font-family:var(--font-mono);font-size:10px;color:#666;line-height:1.9;}
+
+@media (max-width:640px){
+  .nav-links{gap:12px;}
+  .nav-links a{font-size:10px;}
+}
+  </style>
+</head>
+<body>
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+  <div class="progress-bar" id="progressBar"></div>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme"></button>
+  <div class="shortcut-modal" id="shortcutModal">
+    <div class="shortcut-card">
+      <h3>Keyboard Shortcuts</h3>
+      <div class="shortcut-row"><span>Go Home</span><kbd>H</kbd></div>
+      <div class="shortcut-row"><span>Toggle theme</span><kbd>T</kbd></div>
+      <div class="shortcut-row"><span>Show shortcuts</span><kbd>?</kbd></div>
+      <div class="close-hint">Press Esc or ? to close</div>
+    </div>
+  </div>
+  <div class="flash" id="flash"></div>
+  <div class="toast-stack" id="toastStack"></div>
+
+  <nav>
+    <a href="index.html" class="nav-logo"><span class="logo-dot"></span> milesallen</a>
+    <div class="nav-links">
+      <a href="index.html#about">About</a>
+      <a href="index.html#projects">Projects</a>
+      <a href="index.html#contact">Contact</a>
+    </div>
+  </nav>
+
+  <!-- LOCK SCREEN -->
+  <div class="vault-lock" id="vaultLock">
+    <div class="lock-card" id="lockCard">
+      <div class="lock-icon">🔒</div>
+      <h1>moon vault</h1>
+      <p>Nothing to see here.<br>Unless you know the word.</p>
+      <form id="lockForm" autocomplete="off">
+        <input type="password" id="lockPass" placeholder="passphrase" aria-label="Passphrase" autocomplete="off">
+        <button type="submit">Unlock</button>
+        <div class="lock-msg" id="lockMsg"></div>
+      </form>
+      <div class="lock-hint">not indexed · not linked · not happening</div>
+    </div>
+  </div>
+
+  <!-- VAULT CONTENT -->
+  <div class="scroll-content" id="vaultContent" hidden>
+    <section class="hero">
+      <h1>MOON VAULT</h1>
+      <p class="sub">smuggled straight out of <strong style="color:var(--accent)">moon-gaming</strong>. six games, zero witnesses. opens in a new tab so the door stays unlocked.</p>
+      <div class="emoji">🌘</div>
+    </section>
+
+    <div class="section-header">
+      <div class="tag">▸ Contraband ◂</div>
+      <h2>The Goods</h2>
+      <p>Games copied from the moon-gaming repo and stashed on this server.</p>
+    </div>
+
+    <div class="vault-grid">
+      <a class="vcard" href="games/monkey-mart/index.html" target="_blank" rel="noopener">
+        <div class="vthumb"><span class="vemoji">🐒</span><img src="games/monkey-mart/bg_loading.png" alt="" loading="lazy" onerror="this.remove()"></div>
+        <div class="vbody">
+          <h3>Monkey Mart</h3>
+          <p>Stock the aisles, serve the customers, grow your little supermarket.</p>
+          <span class="vplay">Play ▸</span>
+        </div>
+      </a>
+
+      <a class="vcard" href="games/drive-mad/index.html" target="_blank" rel="noopener">
+        <div class="vthumb"><span class="vemoji">🚗</span><img src="games/drive-mad/webapp/cover.jpg" alt="" loading="lazy" onerror="this.remove()"></div>
+        <div class="vbody">
+          <h3>Drive Mad</h3>
+          <p>Physics driving puzzles. Reach the finish without flipping the car.</p>
+          <span class="vplay">Play ▸</span>
+        </div>
+      </a>
+
+      <a class="vcard" href="games/stacktris/index.html" target="_blank" rel="noopener">
+        <div class="vthumb"><span class="vemoji">🧱</span><img src="games/stacktris/webapp/cover.jpg" alt="" loading="lazy" onerror="this.remove()"></div>
+        <div class="vbody">
+          <h3>Stacktris</h3>
+          <p>Stack falling blocks as high as you dare. One bad drop and it's over.</p>
+          <span class="vplay">Play ▸</span>
+        </div>
+      </a>
+
+      <a class="vcard" href="games/snow-rider/index.html" target="_blank" rel="noopener">
+        <div class="vthumb"><span class="vemoji">🛷</span><img src="games/snow-rider/snow-rider-3d.png" alt="" loading="lazy" onerror="this.remove()"></div>
+        <div class="vbody">
+          <h3>Snow Rider 3D</h3>
+          <p>Hurtle down the mountain, dodge the obstacles, collect the gifts.</p>
+          <span class="vplay">Play ▸</span>
+        </div>
+      </a>
+
+      <a class="vcard" href="games/dino.html" target="_blank" rel="noopener">
+        <div class="vthumb"><span class="vemoji">🦖</span></div>
+        <div class="vbody">
+          <h3>Dino Runner</h3>
+          <p>The endless desert runner. Jump the cacti, count your high score.</p>
+          <span class="vplay">Play ▸</span>
+        </div>
+      </a>
+
+      <a class="vcard" href="games/jumping-man/index.html" target="_blank" rel="noopener">
+        <div class="vthumb"><span class="vemoji">👾</span><img src="games/jumping-man/icon64.png" alt="" loading="lazy" onerror="this.remove()"></div>
+        <div class="vbody">
+          <h3>Jumpie Boi</h3>
+          <p>Pixel-perfect platform hopping. Bounce up, dodge the deadly blocks.</p>
+          <span class="vplay">Play ▸</span>
+        </div>
+      </a>
+    </div>
+
+    <footer>
+      <div class="ft">moon vault · hidden · 2026<br>source: github.com/mileswolfallen2/moon-gaming</div>
+    </footer>
+  </div>
+
+<script src="projects/script.js"></script>
+<script>
+(function(){
+  var PASS = '2026-2027 miles';
+  var KEY = 'moonVaultUnlocked';
+  var lock = document.getElementById('vaultLock');
+  var content = document.getElementById('vaultContent');
+  var form = document.getElementById('lockForm');
+  var input = document.getElementById('lockPass');
+  var msg = document.getElementById('lockMsg');
+  var card = document.getElementById('lockCard');
+
+  function unlock(){
+    lock.style.display = 'none';
+    content.hidden = false;
+    window.scrollTo(0, 0);
+  }
+
+  try{
+    if(sessionStorage.getItem(KEY) === '1'){ unlock(); }
+  }catch(e){}
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var val = (input.value || '').trim();
+    if(val === PASS){
+      try{ sessionStorage.setItem(KEY, '1'); }catch(err){}
+      unlock();
+    }else{
+      msg.textContent = 'nope.';
+      card.classList.remove('shake');
+      void card.offsetWidth;
+      card.classList.add('shake');
+      input.value = '';
+      input.focus();
+    }
+  });
+})();
+</script>
+</body>
+</html>

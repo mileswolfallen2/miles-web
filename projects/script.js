@@ -71,17 +71,19 @@
     });
   })();
 
-  /* GAMES PAGE EASTER EGG: g, a, m, e, s */
+  /* GAMES EASTER EGG: g, a, m, e, s -> hidden vault (passphrase required) */
   (function(){
     const seq = ['g','a','m','e','s'];
     let pos = 0;
     window.addEventListener('keydown', function(e){
+      const t = e.target;
+      if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
       const key = e.key.length === 1 ? e.key.toLowerCase() : e.key;
       if (key === seq[pos]) {
         pos++;
         if (pos === seq.length) {
           pos = 0;
-          window.location.href = '/games.html';
+          window.location.href = '/moon-vault.html';
         }
       } else {
         pos = (key === seq[0]) ? 1 : 0;
