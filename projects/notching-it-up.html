@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notching it up | Miles Wolf Allen</title>
+  <meta name="description" content="Notching it up — notch utility for macOS.">
+  <link rel="canonical" href="https://milesallen.site/projects/notching-it-up.html">
+  <meta property="og:title" content="Notching it up | Miles Wolf Allen">
+  <meta property="og:description" content="Notch utility for macOS.">
+  <meta property="og:image" content="https://milesallen.site/og.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="../favicon.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+  <div class="progress-bar" id="progressBar"></div>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme"></button>
+  <div class="shortcut-modal" id="shortcutModal">
+    <div class="shortcut-card">
+      <h3>Keyboard Shortcuts</h3>
+      <div class="shortcut-row"><span>Go Home</span><kbd>H</kbd></div>
+      <div class="shortcut-row"><span>Go to GitHub</span><kbd>G</kbd></div>
+      <div class="shortcut-row"><span>Toggle theme</span><kbd>T</kbd></div>
+      <div class="shortcut-row"><span>Show shortcuts</span><kbd>?</kbd></div>
+      <div class="close-hint">Press Esc or ? to close</div>
+    </div>
+  </div>
+  <div class="flash" id="flash"></div>
+  <div class="toast-stack" id="toastStack"></div>
+  <nav class="mobile-nav">
+    <a href="../index.html">Home</a>
+    <a href="fedl.html">FEDL</a>
+    <a href="omniemu.html">OmniEmu</a>
+    <a href="command-move.html">CommandMove</a>
+    <a href="notching-it-up.html" class="active">Notching it up</a>
+    <a href="https://github.com/mileswolfallen2" target="_blank">GitHub</a>
+  </nav>
+
+  <div class="container">
+    <nav>
+      <a href="../index.html" class="nav-logo"><span class="logo-dot"></span> milesallen</a>
+      <div class="nav-links">
+        <a href="../index.html#about">About</a>
+        <a href="../index.html#skills">Skills</a>
+        <a href="../index.html#projects">Projects</a>
+        <a href="../index.html#contact">Contact</a>
+      </div>
+    </nav>
+
+    <section class="project-hero">
+      <div class="breadcrumb">
+        <a href="../index.html">Home</a>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+        <span>Notching it up</span>
+      </div>
+
+      <h1>Notching it up</h1>
+      <p class="tagline">Notch utility for macOS.</p>
+
+      <div class="project-meta-bar">
+        <a href="https://github.com/mileswolfallen2/Notching-it-up-" class="meta-chip primary" target="_blank">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+          View on GitHub
+        </a>
+        <a href="https://notching.milesallen.site" class="meta-chip" target="_blank">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+          Website
+        </a>
+        <span class="meta-chip">Swift</span>
+        <span class="meta-chip">GPL-3.0 License</span>
+        <span class="meta-chip">macOS</span>
+      </div>
+      <div class="stats-bar">
+        <div class="stat-item">
+          <div class="stat-value accent" id="gh-stars">--</div>
+          <div class="stat-label">Stars</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value green" id="gh-forks">--</div>
+          <div class="stat-label">Forks</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value orange" id="gh-issues">--</div>
+          <div class="stat-label">Issues</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value" id="gh-lang">--</div>
+          <div class="stat-label">Language</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <div class="section-divider"></div>
+      <h2 class="section-title">About</h2>
+      <div class="desc-text">
+        <p>Notch utility for macOS. View the project on <a href="https://github.com/mileswolfallen2/Notching-it-up-" target="_blank">GitHub</a> or visit the <a href="https://notching.milesallen.site" target="_blank">website</a>.</p>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <div class="section-divider"></div>
+      <h2 class="section-title">Tech Stack</h2>
+      <div class="tech-stack">
+        <span class="tech-badge">Swift</span>
+        <span class="tech-badge">macOS</span>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-links" style="margin-bottom: 12px;">
+        <a href="../uses.html" style="color:var(--muted);text-decoration:none;">Uses</a>
+        <span style="color:var(--muted);margin:0 8px;">·</span>
+        <a href="../now.html" style="color:var(--muted);text-decoration:none;">Now</a>
+        <span style="color:var(--muted);margin:0 8px;">·</span>
+        <a href="../colophon.html" style="color:var(--muted);text-decoration:none;">Colophon</a>
+        <span style="color:var(--muted);margin:0 8px;">·</span>
+        <a href="../experiments.html" style="color:var(--accent);text-decoration:none;">Internet History</a>
+      </div>
+      Built by Miles · 2026 · Powered by too much coffee and the Konami code
+    </footer>
+  </div>
+<script>
+    fetch('https://api.github.com/repos/mileswolfallen2/Notching-it-up-')
+      .then(r => r.json())
+      .then(d => {
+        if (d.stargazers_count != null) document.getElementById('gh-stars').textContent = d.stargazers_count;
+        if (d.forks_count != null) document.getElementById('gh-forks').textContent = d.forks_count;
+        if (d.open_issues_count != null) document.getElementById('gh-issues').textContent = d.open_issues_count;
+        if (d.language) document.getElementById('gh-lang').textContent = d.language;
+      })
+      .catch(() => {});
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap@3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap@3.12.5/ScrollTrigger.min.js"></script>
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    const heroTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+    heroTl
+      .from('.breadcrumb', { x: -30, opacity: 0, duration: 0.6 })
+      .from('.project-hero h1', { y: 50, opacity: 0, duration: 0.8 }, '-=0.3')
+      .from('.tagline', { y: 30, opacity: 0, duration: 0.7 }, '-=0.4')
+      .from('.meta-chip', { y: 20, opacity: 0, scale: 0.8, duration: 0.4, stagger: 0.06 }, '-=0.3')
+      .from('.stats-bar', { y: 30, opacity: 0, duration: 0.6 }, '-=0.2')
+      .from('.stat-item', { y: 20, opacity: 0, scale: 0.9, duration: 0.4, stagger: 0.08, ease: 'back.out(1.5)' }, '-=0.3');
+
+    gsap.from('nav', { y: -20, opacity: 0, duration: 0.6, ease: 'power2.out' });
+
+    document.querySelectorAll('.section-title').forEach(title => {
+      gsap.from(title, {
+        scrollTrigger: { trigger: title, start: 'top 85%' },
+        y: 30, opacity: 0, duration: 0.7, ease: 'power3.out'
+      });
+    });
+
+    document.querySelectorAll('.section-divider').forEach(div => {
+      gsap.from(div, {
+        scrollTrigger: { trigger: div, start: 'top 90%' },
+        width: 0, duration: 0.6, ease: 'power2.out'
+      });
+    });
+
+    document.querySelectorAll('.tech-stack').forEach(stack => {
+      gsap.from(stack.querySelectorAll('.tech-badge'), {
+        scrollTrigger: { trigger: stack, start: 'top 88%' },
+        y: 20, opacity: 0, scale: 0.8, duration: 0.4, stagger: 0.05, ease: 'back.out(1.5)'
+      });
+    });
+
+    gsap.from('footer', {
+      scrollTrigger: { trigger: 'footer', start: 'top 95%' },
+      opacity: 0, duration: 0.8
+    });
+
+    window.addEventListener('load', () => ScrollTrigger.refresh());
+  </script>
+  <script src="script.js"></script>
+</body>
+</html>
