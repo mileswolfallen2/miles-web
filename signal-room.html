@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="The Signal Room — a tiny interactive experiment by Miles Wolf Allen.">
+  <title>Signal Room // Miles Wolf Allen</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--pink:#ff3d9a;--yellow:#ffc93c;--cyan:#61f3ff;--ink:#08080b;--panel:#111117;--muted:#85818e}
+    *{box-sizing:border-box}
+    html{background:var(--ink);scroll-behavior:smooth}
+    body{margin:0;min-height:100vh;background:radial-gradient(circle at 50% 15%,#25102b 0,transparent 35%),var(--ink);color:#fff;font-family:"Space Mono",monospace;overflow-x:hidden}
+    body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:10;background:repeating-linear-gradient(0deg,transparent 0 3px,rgba(0,0,0,.16) 3px 4px);mix-blend-mode:screen}
+    a{color:inherit;text-decoration:none}
+    button{font:inherit}
+    .wrap{width:min(1120px,calc(100% - 36px));margin:auto}
+    .topbar{display:flex;justify-content:space-between;align-items:center;padding:24px 0;border-bottom:1px solid #302533}
+    .brand{font:12px "Press Start 2P",monospace;color:var(--pink);text-shadow:3px 3px 0 #5c183f}
+    .back{color:var(--muted);font-size:12px}
+    .back:hover{color:var(--yellow)}
+    .hero{padding:80px 0 48px;display:grid;grid-template-columns:1.05fr .95fr;gap:46px;align-items:center}
+    .eyebrow{color:var(--yellow);font-size:11px;letter-spacing:.18em;margin-bottom:20px}
+    h1{font:clamp(42px,8vw,92px)/.95 "Press Start 2P",monospace;letter-spacing:-.08em;margin:0 0 28px;color:#fff;text-shadow:6px 6px 0 var(--pink),-3px -3px 0 var(--cyan)}
+    .intro{color:#c5becb;line-height:1.8;max-width:560px;font-size:14px}
+    .console{background:var(--panel);border:1px solid #493148;box-shadow:10px 10px 0 rgba(255,61,154,.25);padding:22px;position:relative}
+    .console:before{content:"SIGNAL / LIVE";position:absolute;top:-10px;right:16px;background:var(--pink);color:#000;padding:4px 8px;font-size:9px;font-weight:bold}
+    .screen{height:210px;border:1px solid #23464e;background:#071116;position:relative;overflow:hidden;padding:18px}
+    .screen:after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 50%,rgba(97,243,255,.07) 51%);background-size:100% 8px;pointer-events:none}
+    .grid{position:absolute;inset:0;background-image:linear-gradient(rgba(97,243,255,.1) 1px,transparent 1px),linear-gradient(90deg,rgba(97,243,255,.1) 1px,transparent 1px);background-size:25px 25px;transform:perspective(180px) rotateX(45deg) scale(1.7);transform-origin:bottom;opacity:.5}
+    .wave{position:absolute;left:0;right:0;top:50%;height:2px;background:var(--cyan);box-shadow:0 0 12px var(--cyan);transform:translateY(-50%);transition:all .12s}
+    .wave:before,.wave:after{content:"";position:absolute;inset:-40px 0;background:linear-gradient(90deg,transparent 0 5%,var(--cyan) 5.2% 5.5%,transparent 5.7% 12%,var(--pink) 12.2% 12.5%,transparent 12.7% 21%,var(--cyan) 21.2% 21.5%,transparent 21.7% 31%,var(--pink) 31.2% 31.5%,transparent 31.7% 46%,var(--cyan) 46.2% 46.5%,transparent 46.7% 61%,var(--pink) 61.2% 61.5%,transparent 61.7% 78%,var(--cyan) 78.2% 78.5%,transparent 78.7%);opacity:.7;filter:blur(1px);animation:drift 2s linear infinite}
+    .wave:after{animation-delay:-.8s;transform:scaleY(-1);opacity:.35}
+    @keyframes drift{to{transform:translateX(-22px)}}
+    .readout{position:relative;z-index:1;display:flex;justify-content:space-between;color:var(--cyan);font-size:10px}
+    .meter{display:flex;align-items:end;gap:4px;height:72px;margin-top:30px}
+    .meter i{display:block;flex:1;background:var(--pink);height:15%;box-shadow:0 0 8px rgba(255,61,154,.7);transition:height .1s}
+    .controls{display:flex;gap:10px;margin-top:16px}
+    .control{flex:1;border:1px solid #613951;background:transparent;color:#fff;padding:11px 8px;font-size:10px;cursor:pointer}
+    .control:hover,.control.active{border-color:var(--yellow);color:var(--yellow);background:#2a1e12}
+    .panel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:35px 0 90px}
+    .card{border:1px solid #302533;background:rgba(17,17,23,.82);padding:22px;min-height:170px}
+    .card h2{color:var(--pink);font:13px "Press Start 2P",monospace;margin:0 0 22px}
+    .card p{color:var(--muted);font-size:12px;line-height:1.8;margin:0}
+    .stat{font-size:34px;color:var(--cyan);margin:14px 0 4px}
+    .label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+    .signal-list{display:grid;gap:10px}
+    .signal-btn{display:flex;justify-content:space-between;align-items:center;border:0;border-bottom:1px dashed #3a2a3a;background:none;color:#c5becb;padding:6px 0;text-align:left;cursor:pointer;font-size:11px}
+    .signal-btn:hover{color:var(--yellow)}
+    .signal-btn b{font-size:9px;color:var(--pink)}
+    footer{border-top:1px solid #302533;padding:24px 0 38px;color:var(--muted);font-size:11px;display:flex;justify-content:space-between}
+    .toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);background:var(--yellow);color:#000;padding:12px 16px;font-weight:bold;font-size:11px;opacity:0;transition:.25s;z-index:20}
+    .toast.show{opacity:1;transform:translate(-50%,0)}
+    @media(max-width:760px){.hero{grid-template-columns:1fr;padding-top:55px;gap:34px}.panel-grid{grid-template-columns:1fr}.console{box-shadow:5px 5px 0 rgba(255,61,154,.25)}h1{font-size:clamp(38px,13vw,70px)}footer{display:block;line-height:2}.back{font-size:10px}}
+    @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header class="topbar">
+      <a class="brand" href="index.html">MILES / LABS</a>
+      <a class="back" href="index.html">← return to portfolio</a>
+    </header>
+    <section class="hero">
+      <div>
+        <div class="eyebrow">// EXPERIMENT 009 · DO NOT UNPLUG</div>
+        <h1>THE<br>SIGNAL<br>ROOM</h1>
+        <p class="intro">A small control deck for the invisible stuff: ideas, bugs, half-finished projects, and the mysterious force that makes me start another repo at 2am.</p>
+      </div>
+      <div class="console" aria-label="Interactive signal console">
+        <div class="screen">
+          <div class="grid"></div>
+          <div class="readout"><span id="modeReadout">MODE: SEARCHING</span><span id="hzReadout">000.0 Hz</span></div>
+          <div class="wave" id="wave"></div>
+          <div class="meter" id="meter" aria-hidden="true"></div>
+        </div>
+        <div class="controls">
+          <button class="control active" data-mode="searching">SEARCH</button>
+          <button class="control" data-mode="building">BUILD</button>
+          <button class="control" data-mode="chaos">CHAOS</button>
+        </div>
+      </div>
+    </section>
+    <section class="panel-grid">
+      <article class="card">
+        <h2>FREQUENCY</h2>
+        <div class="stat" id="frequency">000.0</div>
+        <div class="label">ideas per minute</div>
+      </article>
+      <article class="card">
+        <h2>TRANSMISSION</h2>
+        <p id="transmission">Signal acquired. Something interesting is probably about to happen.</p>
+      </article>
+      <article class="card">
+        <h2>OPEN CHANNELS</h2>
+        <div class="signal-list">
+          <button class="signal-btn" data-message="A new tool wants to exist."><span>TOOL-MAKING</span><b>OPEN</b></button>
+          <button class="signal-btn" data-message="The pixels are plotting something."><span>3D / VISUALS</span><b>NOISY</b></button>
+          <button class="signal-btn" data-message="A bug is just a feature with bad PR."><span>DEBUGGING</span><b>LOUD</b></button>
+          <button class="signal-btn" data-message="Ship the weird version."><span>EXPERIMENTS</span><b>LIVE</b></button>
+        </div>
+      </article>
+    </section>
+    <footer><span>© 2026 MILES WOLF ALLEN</span><span>BUILT WITH HTML, CSS &amp; UNREASONABLE ENTHUSIASM</span></footer>
+  </main>
+  <div class="toast" id="toast" role="status"></div>
+  <script>
+    const meter = document.querySelector('#meter');
+    const bars = Array.from({length:18}, () => { const bar = document.createElement('i'); meter.appendChild(bar); return bar; });
+    const frequency = document.querySelector('#frequency');
+    const hz = document.querySelector('#hzReadout');
+    const wave = document.querySelector('#wave');
+    const modeReadout = document.querySelector('#modeReadout');
+    const transmission = document.querySelector('#transmission');
+    const toast = document.querySelector('#toast');
+    let mode = 'searching';
+    let toastTimer;
+    const messages = {
+      searching: 'Signal acquired. Something interesting is probably about to happen.',
+      building: 'Construction noise detected. Ship it before you overthink it.',
+      chaos: 'Warning: the timeline is now mostly vibes.'
+    };
+    function tick(){
+      const base = mode === 'chaos' ? 170 : mode === 'building' ? 115 : 72;
+      const value = base + Math.random() * (mode === 'chaos' ? 830 : 260);
+      frequency.textContent = value.toFixed(1).padStart(5, '0');
+      hz.textContent = value.toFixed(1) + ' Hz';
+      bars.forEach((bar, i) => { bar.style.height = Math.max(8, Math.random() * (mode === 'chaos' ? 100 : 75) * (i % 3 ? 1 : .65)) + '%'; });
+      wave.style.transform = 'translateY(-50%) scaleY(' + (0.7 + Math.random() * (mode === 'chaos' ? 2 : .8)) + ')';
+      requestAnimationFrame(() => setTimeout(tick, 110));
+    }
+    function showToast(message){
+      toast.textContent = message;
+      toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
+    }
+    document.querySelectorAll('.control').forEach(button => button.addEventListener('click', () => {
+      mode = button.dataset.mode;
+      document.querySelectorAll('.control').forEach(item => item.classList.toggle('active', item === button));
+      modeReadout.textContent = 'MODE: ' + mode.toUpperCase();
+      transmission.textContent = messages[mode];
+      showToast('MODE CHANGED // ' + mode.toUpperCase());
+    }));
+    document.querySelectorAll('.signal-btn').forEach(button => button.addEventListener('click', () => {
+      transmission.textContent = button.dataset.message;
+      showToast('CHANNEL PING // ' + button.querySelector('span').textContent);
+    }));
+    document.addEventListener('keydown', event => {
+      if (event.key === '1' || event.key === '2' || event.key === '3') {
+        document.querySelectorAll('.control')[Number(event.key) - 1].click();
+      }
+    });
+    tick();
+  </script>
+</body>
+</html>
