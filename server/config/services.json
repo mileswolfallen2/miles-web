@@ -1,0 +1,39 @@
+{
+  "services": [
+    {
+      "id": "milesallen",
+      "name": "milesallen.site",
+      "url": "https://milesallen.site/",
+      "order": 1,
+      "enabled": true
+    },
+    {
+      "id": "fedl",
+      "name": "FEDL",
+      "url": "https://fedl.site/",
+      "order": 2,
+      "enabled": true
+    },
+    {
+      "id": "vanilla",
+      "name": "Vanilla",
+      "url": "https://vanilla.milesallen.site/",
+      "order": 3,
+      "enabled": true
+    },
+    {
+      "id": "gelectron",
+      "name": "Gelectron",
+      "url": "https://gelectron.milesallen.site/",
+      "order": 4,
+      "enabled": true
+    },
+    {
+      "id": "noto",
+      "name": "Noto",
+      "url": "https://noto.fedl.site/",
+      "order": 5,
+      "enabled": true
+    }
+  ]
+}

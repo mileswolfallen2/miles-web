@@ -1,5 +1,10 @@
 User-agent: *
 Allow: /
+Disallow: /api/
+Disallow: /vault
+Disallow: /games/
+Disallow: /server/
+Disallow: /data/
 Disallow: /node_modules/
 Disallow: /.git/
 

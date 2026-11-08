@@ -1,0 +1,179 @@
+{
+  "projects": [
+    {
+      "id": "fedl",
+      "name": "FEDL",
+      "description": "Geometry Dash demon list with ranked levels, verified runs, moderation, accounts, and community features.",
+      "github": { "owner": "mileswolfallen2", "repo": "fedl" },
+      "website": "https://fedl.site",
+      "api": { "type": "fedl", "base": "https://server.fedl.site/fedl/api" },
+      "order": 1,
+      "visible": true,
+      "featured": true
+    },
+    {
+      "id": "miles-web",
+      "name": "milesallen.site",
+      "description": "This portfolio: static HTML, hand-written CSS, no build step.",
+      "github": { "owner": "mileswolfallen2", "repo": "miles-web" },
+      "website": "https://milesallen.site",
+      "order": 2,
+      "visible": true
+    },
+    {
+      "id": "vanilla",
+      "name": "Vanilla",
+      "description": "Clean, minimal web experiment built with pure vanilla JavaScript.",
+      "github": { "owner": "diskettelabs", "repo": "vanilla" },
+      "website": "https://vanilla.milesallen.site",
+      "order": 3,
+      "visible": true
+    },
+    {
+      "id": "gelectron",
+      "name": "Gelectron",
+      "description": "Drop-in Electron replacement using native web views instead of bundled Chromium.",
+      "github": { "owner": "mileswolfallen2", "repo": "gelectron" },
+      "website": "https://gelectron.milesallen.site/",
+      "order": 4,
+      "visible": true
+    },
+    {
+      "id": "noto",
+      "name": "Noto",
+      "description": "AI-enhanced note-taking app built with Flutter.",
+      "github": { "owner": "mileswolfallen2", "repo": "Noto" },
+      "website": "https://noto.fedl.site",
+      "order": 5,
+      "visible": true
+    },
+    {
+      "id": "omniemu",
+      "name": "OmniEmu 2.0",
+      "description": "Cross-platform emulator manager and game launcher.",
+      "github": { "owner": "mileswolfallen2", "repo": "OmniEmu2.0" },
+      "website": "https://om.milesallen.site",
+      "order": 6,
+      "visible": true
+    },
+    {
+      "id": "command-move",
+      "name": "CommandMove",
+      "description": "Control X on macOS.",
+      "github": { "owner": "mileswolfallen2", "repo": "command-move" },
+      "website": "https://command.milesallen.site",
+      "order": 7,
+      "visible": true
+    },
+    {
+      "id": "nova",
+      "name": "Nova AI",
+      "description": "Local AI assistant with desktop, web, and CLI interfaces.",
+      "github": { "owner": "mileswolfallen2", "repo": "nova" },
+      "website": "https://ai.fedl.site",
+      "order": 8,
+      "visible": true
+    },
+    {
+      "id": "moon-gaming",
+      "name": "Moon Gaming",
+      "description": "Browser game hub with a large commit history.",
+      "github": { "owner": "mileswolfallen2", "repo": "moon-gaming" },
+      "website": "https://fun-miles.free.nf",
+      "order": 9,
+      "visible": true
+    },
+    {
+      "id": "music-app",
+      "name": "Music App",
+      "description": "Ad-free music player inspired by YouTube Music.",
+      "github": { "owner": "mileswolfallen2", "repo": "music-app" },
+      "website": "https://mileswolfallen2.github.io/music-app/",
+      "order": 10,
+      "visible": true
+    },
+    {
+      "id": "rhythm-game",
+      "name": "Rhythm Game",
+      "description": "Browser-based rhythm game with keyboard controls.",
+      "github": { "owner": "mileswolfallen2", "repo": "new-game" },
+      "website": "https://mileswolfallen2.github.io/new-game/",
+      "order": 11,
+      "visible": true
+    },
+    {
+      "id": "decompilations",
+      "name": "Decompilations",
+      "description": "Native PC ports and reverse-engineered game projects.",
+      "github": { "owner": "mileswolfallen2", "repo": "Decompilations-web" },
+      "website": "https://comp.fedl.site/",
+      "order": 12,
+      "visible": true
+    },
+    {
+      "id": "issue-tracker",
+      "name": "Issue Tracker",
+      "description": "Custom issue tracking app built with Node.js.",
+      "github": { "owner": "mileswolfallen2", "repo": "Issue-tracker" },
+      "order": 13,
+      "visible": true
+    },
+    {
+      "id": "geode-mod",
+      "name": "FEDL Geode Mod",
+      "description": "In-game Geometry Dash mod for demon list integration.",
+      "github": { "owner": "mileswolfallen2", "repo": "FEDL-Geode-mod" },
+      "order": 14,
+      "visible": true
+    },
+    {
+      "id": "vanilla-site",
+      "name": "Vanilla Website",
+      "description": "Static website for Vanilla.",
+      "github": { "owner": "diskettelabs", "repo": "vanilla-site" },
+      "website": "https://diskettelabs.github.io/vanilla-site/",
+      "order": 15,
+      "visible": false
+    },
+    {
+      "id": "gelectron-web",
+      "name": "Gelectron Website",
+      "description": "Website for Gelectron.",
+      "github": { "owner": "mileswolfallen2", "repo": "gelectron-web" },
+      "order": 16,
+      "visible": false
+    },
+    {
+      "id": "noto-web",
+      "name": "Noto Website",
+      "description": "Website for Noto.",
+      "github": { "owner": "mileswolfallen2", "repo": "Noto-web" },
+      "order": 17,
+      "visible": false
+    },
+    {
+      "id": "omniemu-web",
+      "name": "OmniEmu Website",
+      "description": "Website for OmniEmu.",
+      "github": { "owner": "mileswolfallen2", "repo": "OmniEmu-web" },
+      "order": 18,
+      "visible": false
+    },
+    {
+      "id": "web-nova",
+      "name": "Nova Website",
+      "description": "Website for Nova.",
+      "github": { "owner": "mileswolfallen2", "repo": "web-nova" },
+      "order": 19,
+      "visible": false
+    },
+    {
+      "id": "command-move-web",
+      "name": "CommandMove Website",
+      "description": "Website for CommandMove.",
+      "github": { "owner": "mileswolfallen2", "repo": "CommandMove-web" },
+      "order": 20,
+      "visible": false
+    }
+  ]
+}

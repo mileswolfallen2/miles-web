@@ -1,0 +1,22 @@
+{
+  "name": "milesallen-dashboard",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Local backend and infrastructure dashboard for milesallen.site",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "dev": "node --watch server/index.js",
+    "start": "node server/index.js",
+    "test": "node --test tests/",
+    "db:migrate": "node server/scripts/migrate.js",
+    "hash-password": "node server/scripts/hash-password.js",
+    "smoke": "node server/scripts/smoke.js"
+  },
+  "dependencies": {
+    "argon2": "^0.45.2",
+    "better-sqlite3": "^13.0.3"
+  }
+}

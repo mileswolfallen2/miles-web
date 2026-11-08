@@ -1,1 +1,11 @@
-share-server/node_modules
+node_modules/
+share-server/node_modules/
+.env
+.env.*
+!.env.example
+data/
+*.db
+*.db-wal
+*.db-shm
+.DS_Store
+npm-debug.log*

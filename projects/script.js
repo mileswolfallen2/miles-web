@@ -255,7 +255,8 @@
 
     const hasSaved = localStorage.getItem('theme') !== null;
     applyTheme(currentTheme());
-    if (!hasSaved) setTimeout(openPicker, 400);
+    const autoPicker = !document.body.hasAttribute('data-no-design-picker');
+    if (!hasSaved && autoPicker) setTimeout(openPicker, 400);
 
     const btn = document.getElementById('themeToggle');
     if (btn) btn.addEventListener('click', openPicker);
@@ -298,4 +299,15 @@
       }
     });
   })();
+})();
+
+/* Analytics beacon loader (privacy-friendly, same-origin backend). */
+(function () {
+  if (window.__milesAnalyticsLoader) return;
+  window.__milesAnalyticsLoader = true;
+  if (window.location.protocol !== 'http:' && window.location.protocol !== 'https:') return;
+  var script = document.createElement('script');
+  script.src = '/analytics.js';
+  script.defer = true;
+  document.head.appendChild(script);
 })();

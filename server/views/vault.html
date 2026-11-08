@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>moon vault</title>
+  <meta name="robots" content="noindex, nofollow, noarchive, noimageindex">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/projects/style.css">
+  <style>
+:root{--vault-bg:#07070c;}
+body{background:var(--vault-bg);}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(7,7,12,0.95);padding:14px 24px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,0.06);}
+.nav-logo{font-family:var(--font-pixel);font-size:10px;color:var(--text);text-decoration:none;display:flex;align-items:center;gap:8px;}
+.nav-logo .logo-dot{width:10px;height:10px;background:var(--accent);display:inline-block;}
+.nav-links{display:flex;gap:18px;align-items:center;}
+.nav-links a,.nav-links button{font-family:var(--font-mono);font-size:11px;color:var(--muted);background:none;border:none;cursor:pointer;text-decoration:none;text-transform:uppercase;letter-spacing:.04em;padding:0;}
+.nav-links a:hover,.nav-links button:hover{color:var(--accent);}
+@media (min-width:641px){nav{padding-right:76px;}}
+.scroll-content{position:relative;z-index:1;padding-top:60px;}
+.hero{min-height:42vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:70px 5vw 30px;position:relative;overflow:hidden;}
+.hero h1{font-family:var(--font-pixel);font-size:clamp(22px,5vw,44px);color:var(--text);text-shadow:4px 4px 0 var(--accent);line-height:1.3;}
+.hero .sub{font-family:var(--font-mono);font-size:12px;color:var(--muted);margin-top:14px;max-width:560px;line-height:1.8;}
+.hero .emoji{font-size:54px;opacity:.3;margin-top:24px;}
+.section-header{text-align:center;padding:40px 5vw 26px;}
+.section-header .tag{font-family:var(--font-pixel);font-size:10px;color:var(--accent);letter-spacing:.12em;text-transform:uppercase;}
+.section-header h2{font-family:var(--font-pixel);font-size:clamp(16px,3vw,28px);color:var(--text);margin-top:8px;text-transform:uppercase;}
+.section-header p{font-family:var(--font-mono);font-size:12px;color:#999;max-width:520px;margin:10px auto 0;line-height:1.7;}
+.vault-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;max-width:980px;margin:0 auto;padding:0 5vw 60px;}
+.vcard{border:2px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.02);overflow:hidden;text-decoration:none;display:flex;flex-direction:column;transition:border-color .3s,transform .3s;}
+.vcard:hover{border-color:var(--accent);transform:translateY(-4px);}
+.vthumb{position:relative;aspect-ratio:16/10;background:linear-gradient(135deg,#12121c,#0a0a12);display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.vthumb img{width:100%;height:100%;object-fit:cover;display:block;}
+.vthumb .vemoji{font-size:56px;opacity:.65;position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
+.vbody{padding:16px 18px 18px;display:flex;flex-direction:column;gap:8px;flex:1;}
+.vbody h3{font-family:var(--font-pixel);font-size:11px;color:var(--text);text-transform:uppercase;line-height:1.5;}
+.vbody p{font-family:var(--font-mono);font-size:11px;color:var(--muted);line-height:1.7;flex:1;}
+.vplay{font-family:var(--font-pixel);font-size:8px;color:var(--accent);border:1px solid var(--accent);padding:7px 14px;text-align:center;text-transform:uppercase;transition:all .2s;}
+.vcard:hover .vplay{background:var(--accent);color:#000;}
+.session{font-family:var(--font-mono);font-size:10px;color:#666;text-align:center;padding:0 5vw 10px;}
+.session strong{color:var(--green);font-weight:400;}
+footer{border-top:1px solid rgba(255,255,255,0.06);padding:34px 5vw;text-align:center;}
+footer .ft{font-family:var(--font-mono);font-size:10px;color:#666;line-height:1.9;}
+@media (max-width:640px){.nav-links{gap:12px;}.nav-links a,.nav-links button{font-size:10px;}}
+  </style>
+</head>
+<body data-no-design-picker>
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+  <div class="progress-bar" id="progressBar"></div>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme"></button>
+  <div class="shortcut-modal" id="shortcutModal">
+    <div class="shortcut-card">
+      <h3>Keyboard Shortcuts</h3>
+      <div class="shortcut-row"><span>Go Home</span><kbd>H</kbd></div>
+      <div class="shortcut-row"><span>Toggle theme</span><kbd>T</kbd></div>
+      <div class="shortcut-row"><span>Show shortcuts</span><kbd>?</kbd></div>
+      <div class="close-hint">Press Esc or ? to close</div>
+    </div>
+  </div>
+  <div class="flash" id="flash"></div>
+  <div class="toast-stack" id="toastStack"></div>
+
+  <nav>
+    <a href="/index.html" class="nav-logo"><span class="logo-dot"></span> milesallen</a>
+    <div class="nav-links">
+      <a href="/index.html#projects">Projects</a>
+      <a href="/dashboard.html">Dashboard</a>
+      <button type="button" id="vaultLogout">Lock vault</button>
+    </div>
+  </nav>
+
+  <div class="scroll-content">
+    <section class="hero">
+      <h1>MOON VAULT</h1>
+      <p class="sub">smuggled straight out of <strong style="color:var(--accent)">moon-gaming</strong>. seven games, zero witnesses. opens in a new tab so the door stays unlocked.</p>
+      <div class="emoji">🌘</div>
+    </section>
+
+    <p class="session">server-verified session · <strong id="sessionExpiry">active</strong></p>
+
+    <div class="section-header">
+      <div class="tag">▸ Contraband ◂</div>
+      <h2>The Goods</h2>
+      <p>Games copied from the moon-gaming repo and stashed behind server-side authentication.</p>
+    </div>
+
+    <div class="vault-grid">
+      <a class="vcard" href="/games/monkey-mart/index.html" target="_blank" rel="noopener">
+        <div class="vthumb"><span class="vemoji">🐒</span><img src="/games/monkey-mart/bg_loading.png" alt="" loading="lazy" onerror="this.remove()"></div>
+        <div class="vbody"><h3>Monkey Mart</h3><p>Stock the aisles, serve the customers, grow your little supermarket.</p><span class="vplay">Play ▸</span></div>
+      </a>
+      <a class="vcard" href="/games/drive-mad/index.html" target="_blank" rel="noopener">
+        <div class="vthumb"><span class="vemoji">🚗</span><img src="/games/drive-mad/webapp/cover.jpg" alt="" loading="lazy" onerror="this.remove()"></div>
+        <div class="vbody"><h3>Drive Mad</h3><p>Physics driving puzzles. Reach the finish without flipping the car.</p><span class="vplay">Play ▸</span></div>
+      </a>
+      <a class="vcard" href="/games/stacktris/index.html" target="_blank" rel="noopener">
+        <div class="vthumb"><span class="vemoji">🧱</span><img src="/games/stacktris/webapp/cover.jpg" alt="" loading="lazy" onerror="this.remove()"></div>
+        <div class="vbody"><h3>Stacktris</h3><p>Stack falling blocks as high as you dare. One bad drop and it's over.</p><span class="vplay">Play ▸</span></div>
+      </a>
+      <a class="vcard" href="/games/snow-rider/index.html" target="_blank" rel="noopener">
+        <div class="vthumb"><span class="vemoji">🛷</span><img src="/games/snow-rider/snow-rider-3d.png" alt="" loading="lazy" onerror="this.remove()"></div>
+        <div class="vbody"><h3>Snow Rider 3D</h3><p>Hurtle down the mountain, dodge the obstacles, collect the gifts.</p><span class="vplay">Play ▸</span></div>
+      </a>
+      <a class="vcard" href="/games/dino.html" target="_blank" rel="noopener">
+        <div class="vthumb"><span class="vemoji">🦖</span></div>
+        <div class="vbody"><h3>Dino Runner</h3><p>The endless desert runner. Jump the cacti, count your high score.</p><span class="vplay">Play ▸</span></div>
+      </a>
+      <a class="vcard" href="/games/eaglercraft-26.2-8c167d43.html" target="_blank" rel="noopener">
+        <div class="vthumb"><span class="vemoji">⛏️</span></div>
+        <div class="vbody"><h3>Eaglecraft 26.2</h3><p>Classic block-building survival, playable right in the browser.</p><span class="vplay">Play ▸</span></div>
+      </a>
+      <a class="vcard" href="/games/jumping-man/index.html" target="_blank" rel="noopener">
+        <div class="vthumb"><span class="vemoji">👾</span><img src="/games/jumping-man/icon64.png" alt="" loading="lazy" onerror="this.remove()"></div>
+        <div class="vbody"><h3>Jumpie Boi</h3><p>Pixel-perfect platform hopping. Bounce up, dodge the deadly blocks.</p><span class="vplay">Play ▸</span></div>
+      </a>
+      <a class="vcard" href="https://vel.gg/bo1z" target="_blank" rel="noopener">
+        <div class="vthumb"><span class="vemoji">🧟</span></div>
+        <div class="vbody"><h3>Black Ops Zombies (BO1Z)</h3><p>Black Ops Zombies in your browser. All classic maps, survive the waves.</p><span class="vplay">Play ▸</span></div>
+      </a>
+    </div>
+
+    <footer>
+      <div class="ft">moon vault · protected · 2026<br>source: github.com/mileswolfallen2/moon-gaming</div>
+    </footer>
+  </div>
+
+  <script src="/projects/script.js"></script>
+  <script>
+  (function () {
+    var logout = document.getElementById('vaultLogout');
+    var expiry = document.getElementById('sessionExpiry');
+    fetch('/api/vault/session', { credentials: 'same-origin', cache: 'no-store' })
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        if (!data.authenticated) { window.location.replace('/moon-vault.html'); return; }
+        if (data.expiresAt) {
+          var d = new Date(data.expiresAt);
+          if (!isNaN(d.getTime())) expiry.textContent = 'until ' + d.toLocaleString();
+        }
+      })
+      .catch(function () {});
+    logout.addEventListener('click', function () {
+      logout.disabled = true;
+      fetch('/api/vault/logout', { method: 'POST', credentials: 'same-origin' })
+        .catch(function () {})
+        .finally(function () { window.location.replace('/moon-vault.html'); });
+    });
+  })();
+  </script>
+</body>
+</html>

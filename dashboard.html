@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>System Console | Miles Allen</title>
+  <meta name="description" content="Live infrastructure, GitHub, FEDL, analytics, and project status for milesallen.site.">
+  <meta name="robots" content="index, follow">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="dashboard.css">
+  <script>document.documentElement.dataset.api = '/api';</script>
+</head>
+<body>
+  <div class="scanlines" aria-hidden="true"></div>
+  <header class="topbar">
+    <a class="brand" href="index.html">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span class="brand-text">milesallen<span class="brand-dim">.site</span></span>
+    </a>
+    <nav class="topnav" aria-label="Main navigation">
+      <a href="index.html">Home</a>
+      <a href="index.html#projects">Projects</a>
+      <a href="https://github.com/mileswolfallen2" target="_blank" rel="noopener">GitHub</a>
+      <button type="button" class="refresh-btn" id="refreshBtn" title="Refresh data">Refresh</button>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow">// live telemetry</div>
+        <h1>System Console</h1>
+        <p class="hero-sub">Infrastructure, development activity, FEDL, and traffic for milesallen.site. Everything on this page comes from the local backend API.</p>
+      </div>
+      <div class="hero-status">
+        <div class="overall-pill unknown" id="overallPill">
+          <span class="pulse" aria-hidden="true"></span>
+          <span id="overallText">Connecting</span>
+        </div>
+        <div class="hero-meta">
+          <span id="lastUpdated">Waiting for first check</span>
+          <span class="meta-sep">·</span>
+          <span id="refreshCountdown">auto-refresh 60s</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="stat-strip" aria-label="Key metrics">
+      <div class="stat-cell">
+        <div class="stat-label">Services up</div>
+        <div class="stat-value" id="statServices">--</div>
+        <div class="stat-note" id="statServicesNote">website checks</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-label">Servers up</div>
+        <div class="stat-value" id="statServers">--</div>
+        <div class="stat-note" id="statServersNote">home network</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-label">GitHub stars</div>
+        <div class="stat-value" id="statStars">--</div>
+        <div class="stat-note" id="statStarsNote">tracked repos</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-label">FEDL levels</div>
+        <div class="stat-value" id="statLevels">--</div>
+        <div class="stat-note" id="statLevelsNote">ranked</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-label">Pageviews today</div>
+        <div class="stat-value" id="statViews">--</div>
+        <div class="stat-note" id="statViewsNote">privacy-friendly</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-label">Visitors 30d</div>
+        <div class="stat-value" id="statVisitors">--</div>
+        <div class="stat-note" id="statVisitorsNote">daily hashes</div>
+      </div>
+    </section>
+
+    <div class="notice" id="networkNotice" hidden></div>
+
+    <div class="grid">
+      <section class="panel span-7" aria-labelledby="infraTitle">
+        <div class="panel-head">
+          <div>
+            <div class="panel-kicker">01 / infrastructure</div>
+            <h2 id="infraTitle">Home servers</h2>
+          </div>
+          <span class="panel-tag" id="networkTag">network unknown</span>
+        </div>
+        <div class="rows" id="serverRows">
+          <div class="skeleton-row"></div>
+          <div class="skeleton-row"></div>
+        </div>
+      </section>
+
+      <section class="panel span-5" aria-labelledby="servicesTitle">
+        <div class="panel-head">
+          <div>
+            <div class="panel-kicker">02 / websites</div>
+            <h2 id="servicesTitle">Service health</h2>
+          </div>
+          <a class="panel-link" href="#analytics">traffic →</a>
+        </div>
+        <div class="rows" id="serviceRows">
+          <div class="skeleton-row"></div>
+          <div class="skeleton-row"></div>
+          <div class="skeleton-row"></div>
+        </div>
+      </section>
+
+      <section class="panel span-7" aria-labelledby="githubTitle">
+        <div class="panel-head">
+          <div>
+            <div class="panel-kicker">03 / development</div>
+            <h2 id="githubTitle">GitHub activity</h2>
+          </div>
+          <a class="panel-link" id="githubProfileLink" href="https://github.com/mileswolfallen2" target="_blank" rel="noopener">profile →</a>
+        </div>
+        <div class="github-meta" id="githubMeta">
+          <div class="gh-stat"><span class="gh-num" id="ghPublicRepos">--</span><span class="gh-label">public repos</span></div>
+          <div class="gh-stat"><span class="gh-num" id="ghTracked">--</span><span class="gh-label">tracked</span></div>
+          <div class="gh-stat"><span class="gh-num" id="ghStars">--</span><span class="gh-label">stars</span></div>
+          <div class="gh-stat"><span class="gh-num" id="ghForks">--</span><span class="gh-label">forks</span></div>
+        </div>
+        <div class="chart-wrap">
+          <div class="chart-head"><span>30-day event activity</span><span id="githubRate"></span></div>
+          <div class="bar-chart" id="githubChart" role="img" aria-label="GitHub events over the last 30 days"></div>
+        </div>
+        <div class="split">
+          <div>
+            <h3 class="mini-title">Recent commits</h3>
+            <ul class="feed" id="commitFeed"><li class="empty">Loading GitHub data…</li></ul>
+          </div>
+          <div>
+            <h3 class="mini-title">Most active</h3>
+            <ul class="feed" id="repoActivity"><li class="empty">Loading repositories…</li></ul>
+            <h3 class="mini-title spaced">Languages</h3>
+            <div class="chips" id="languageChips"><span class="chip muted">—</span></div>
+          </div>
+        </div>
+        <p class="panel-foot" id="githubFoot">Data is cached server-side; the GitHub token never reaches the browser.</p>
+      </section>
+
+      <section class="panel featured" aria-labelledby="fedlTitle">
+        <div class="panel-head">
+          <div>
+            <div class="panel-kicker">04 / featured project</div>
+            <h2 id="fedlTitle">FEDL</h2>
+          </div>
+          <a class="panel-link" href="https://fedl.site" target="_blank" rel="noopener">fedl.site →</a>
+        </div>
+        <div class="fedl-hero">
+          <div class="fedl-big"><span id="fedlLevels">--</span><span class="fedl-unit">levels</span></div>
+          <div class="fedl-side">
+            <div><strong id="fedlRecords">--</strong><span>approved runs</span></div>
+            <div><strong id="fedlPlayers">--</strong><span>players</span></div>
+            <div><strong id="fedlSubmissions">--</strong><span>submissions</span></div>
+          </div>
+        </div>
+        <h3 class="mini-title">Top ranked</h3>
+        <ol class="rank-list" id="fedlTop"><li class="empty">Loading FEDL list…</li></ol>
+        <h3 class="mini-title spaced">Latest changes</h3>
+        <ul class="feed" id="fedlChanges"><li class="empty">No snapshot comparison yet.</li></ul>
+        <p class="panel-foot" id="fedlFoot">Source: the public FEDL API (/list and /runs).</p>
+      </section>
+
+      <section class="panel span-7" id="analytics" aria-labelledby="analyticsTitle">
+        <div class="panel-head">
+          <div>
+            <div class="panel-kicker">05 / traffic</div>
+            <h2 id="analyticsTitle">Analytics</h2>
+          </div>
+          <span class="panel-tag" id="analyticsRetention">30-day retention</span>
+        </div>
+        <div class="analytics-meta">
+          <div><strong id="viewsTotal">--</strong><span>total pageviews</span></div>
+          <div><strong id="viewsToday">--</strong><span>today</span></div>
+          <div><strong id="views7d">--</strong><span>7 days</span></div>
+          <div><strong id="visitors30d">--</strong><span>unique 30d</span></div>
+        </div>
+        <div class="chart-wrap">
+          <div class="chart-head"><span>Daily pageviews · 30 days</span><span id="analyticsPeak"></span></div>
+          <div class="bar-chart" id="analyticsChart" role="img" aria-label="Daily pageviews over the last 30 days"></div>
+        </div>
+        <div class="split">
+          <div>
+            <h3 class="mini-title">Most visited</h3>
+            <ul class="feed" id="topPages"><li class="empty">Loading analytics…</li></ul>
+          </div>
+          <div>
+            <h3 class="mini-title">Recent hits</h3>
+            <ul class="feed" id="recentHits"><li class="empty">Loading analytics…</li></ul>
+          </div>
+        </div>
+        <p class="panel-foot">No cookies, no raw IP addresses. Daily salted hashes only.</p>
+      </section>
+
+      <section class="panel span-5" aria-labelledby="projectsTitle">
+        <div class="panel-head">
+          <div>
+            <div class="panel-kicker">06 / registry</div>
+            <h2 id="projectsTitle">Project registry</h2>
+          </div>
+          <span class="panel-tag" id="projectCount">—</span>
+        </div>
+        <div class="project-grid" id="projectGrid">
+          <div class="skeleton-row"></div>
+          <div class="skeleton-row"></div>
+          <div class="skeleton-row"></div>
+        </div>
+        <p class="panel-foot">Add, remove, reorder, or hide projects in <code>server/config/projects.json</code>. The registry is seeded into SQLite on startup.</p>
+      </section>
+    </div>
+
+    <footer class="footer">
+      <span>milesallen.site system console</span>
+      <span class="meta-sep">·</span>
+      <a href="index.html">back home</a>
+      <span class="meta-sep">·</span>
+      <a href="moon-vault.html">moon vault</a>
+      <span class="meta-sep">·</span>
+      <span>API status is honest: unknown means unknown.</span>
+    </footer>
+  </main>
+
+  <script src="dashboard.js" defer></script>
+</body>
+</html>
