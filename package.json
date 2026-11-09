@@ -12,6 +12,7 @@
     "start": "node server/index.js",
     "test": "node --test tests/",
     "db:migrate": "node server/scripts/migrate.js",
+    "preflight": "node server/scripts/preflight.js",
     "hash-password": "node server/scripts/hash-password.js",
     "smoke": "node server/scripts/smoke.js"
   },

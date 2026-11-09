@@ -23,8 +23,21 @@
   ];
   if (skip.some(function (pattern) { return pattern.test(path); })) return;
 
+  function defaultEndpoint() {
+    if (window.MILES_API_URL) return window.MILES_API_URL + '/analytics/hit';
+    var metaBase = document.querySelector('meta[name="miles-api-base"]');
+    if (metaBase && metaBase.getAttribute('content')) {
+      return metaBase.getAttribute('content').replace(/\/+$/, '') + '/api/analytics/hit';
+    }
+    var host = window.location.hostname;
+    if (host === 'milesallen.site' || host === 'www.milesallen.site') {
+      return 'https://api.milesallen.site/api/analytics/hit';
+    }
+    return '/api/analytics/hit';
+  }
+
   var meta = document.querySelector('meta[name="miles-analytics-endpoint"]');
-  var endpoint = (meta && meta.getAttribute('content')) || '/api/analytics/hit';
+  var endpoint = (meta && meta.getAttribute('content')) || defaultEndpoint();
 
   var payload = {
     path: path,

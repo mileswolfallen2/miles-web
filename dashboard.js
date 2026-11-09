@@ -1,7 +1,13 @@
 (function () {
   'use strict';
 
-  var API = document.documentElement.dataset.api || '/api';
+  var host = window.location.hostname;
+  var fallbackBase = (host === 'milesallen.site' || host === 'www.milesallen.site')
+    ? 'https://api.milesallen.site'
+    : '';
+  var API = document.documentElement.dataset.api ||
+    window.MILES_API_URL ||
+    (fallbackBase ? fallbackBase + '/api' : '/api');
   var REFRESH_SECONDS = 60;
   var countdown = REFRESH_SECONDS;
   var refreshing = false;

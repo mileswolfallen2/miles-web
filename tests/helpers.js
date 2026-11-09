@@ -50,7 +50,12 @@ export function makeConfig(overrides = {}) {
     dbPath: path.join(tempDir, 'dashboard.db'),
     tempDir,
     publicOrigin: 'http://localhost:8787',
-    allowedOrigins: new Set(['http://localhost:8787', 'https://milesallen.site']),
+    allowedOrigins: new Set([
+      'http://localhost:8787',
+      'https://milesallen.site',
+      'https://www.milesallen.site',
+      'https://api.milesallen.site'
+    ]),
     sessionSecret: 'test-session-secret-that-is-long-enough-0123456789',
     trustProxy: false,
     cookie: {

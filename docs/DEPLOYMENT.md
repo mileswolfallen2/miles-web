@@ -4,15 +4,29 @@ This guide describes how to run the backend on a Debian 13 host behind Caddy or
 Cloudflare Tunnel. It is written to be followed and verified step by step. The
 repository does not perform the deployment for you.
 
-The app is a single Node.js process that serves the static site and the API from
-the same origin. SQLite is the only database. There is no Docker, external
-database, or frontend build step.
+The app is a single Node.js process. SQLite is the only database. There is no
+Docker, external database, or frontend build step.
+
+Two layouts are supported:
+
+- **Split origin (recommended):** keep the static site on
+  `https://milesallen.site` and expose this Node process on
+  `https://api.milesallen.site`. The dashboard, vault lock page, and analytics
+  beacon read the API hostname from `site-config.js`; the server accepts
+  cross-origin requests from the main site. Because both hostnames are under
+  `milesallen.site`, the vault cookie stays `SameSite=Strict`.
+- **Single origin:** point the tunnel or Caddy at the whole site so
+  `milesallen.site` is served by this process. Leave `site-config.js` empty.
+
+The vault page (`/vault`) and games (`/games/*`) are always served by this Node
+process, so they live on the API hostname in the split-origin layout.
 
 ## 1. Target layout
 
 | Path | Purpose |
 | --- | --- |
-| `/opt/miles-web` | Repository, static site, backend, `.env` |
+| `/opt/websites/miles-web` | Repository, static site, backend, `.env` |
+| `/opt/websites/miles-web/site-config.js` | Browser-facing API hostname |
 | `/var/lib/miles-dashboard/dashboard.db` | SQLite database |
 | `/var/backups/miles-dashboard/` | SQLite backups |
 | `/etc/systemd/system/miles-dashboard.service` | systemd unit |
@@ -62,15 +76,15 @@ Do not use `sudo npm`. Install dependencies as the service user.
 sudo useradd --system --create-home \
   --home-dir /var/lib/miles-dashboard \
   --shell /usr/sbin/nologin miles
-sudo mkdir -p /opt/miles-web /var/lib/miles-dashboard /var/backups/miles-dashboard
-sudo chown -R miles:miles /opt/miles-web /var/lib/miles-dashboard /var/backups/miles-dashboard
+sudo mkdir -p /opt/websites/miles-web /var/lib/miles-dashboard /var/backups/miles-dashboard
+sudo chown -R miles:miles /opt/websites/miles-web /var/lib/miles-dashboard /var/backups/miles-dashboard
 ```
 
-Clone the repository into `/opt/miles-web` (the directory must be empty):
+Clone the repository into `/opt/websites/miles-web` (the directory must be empty):
 
 ```bash
-sudo -u miles git clone <YOUR_REPOSITORY_URL> /opt/miles-web
-cd /opt/miles-web
+sudo -u miles git clone <YOUR_REPOSITORY_URL> /opt/websites/miles-web
+cd /opt/websites/miles-web
 sudo -u miles npm ci --omit=dev
 ```
 
@@ -83,14 +97,14 @@ then run `npm ci --omit=dev` as `miles`.
 
 ```bash
 sudo apt install -y build-essential python3
-cd /opt/miles-web
+cd /opt/websites/miles-web
 sudo -u miles npm rebuild better-sqlite3 argon2
 ```
 
 ## 4. Environment file
 
 ```bash
-cd /opt/miles-web
+cd /opt/websites/miles-web
 sudo -u miles cp .env.example .env
 sudo -u miles chmod 600 .env
 sudo -u miles editor .env
@@ -102,10 +116,11 @@ Production values to set:
 NODE_ENV=production
 HOST=127.0.0.1
 PORT=8787
-PUBLIC_ORIGIN=https://milesallen.site
+PUBLIC_ORIGIN=https://api.milesallen.site
+ALLOWED_ORIGINS=https://milesallen.site,https://www.milesallen.site
 TRUST_PROXY=true
 DB_PATH=/var/lib/miles-dashboard/dashboard.db
-SITE_ROOT=/opt/miles-web
+SITE_ROOT=/opt/websites/miles-web
 COOKIE_SECURE=true
 GITHUB_USERNAME=mileswolfallen2
 GITHUB_TOKEN=<server-only token>
@@ -143,11 +158,32 @@ Notes:
   classic token with no scopes is sufficient. Never put it in frontend files.
 - `VAULT_PASSWORD_HASH` must start with `$argon2`. If it is missing, the vault
   is disabled and refuses logins.
+- `PUBLIC_ORIGIN` is the API hostname in the split-origin layout. Keep
+  `ALLOWED_ORIGINS` set to the main site hostnames so browser requests from
+  `milesallen.site` pass CORS.
+- `site-config.js` should contain the same API hostname. The default already
+  maps `milesallen.site` and `www.milesallen.site` to
+  `https://api.milesallen.site`; edit it if you use a different tunnel
+  hostname.
 
-## 5. Initialize the database
+## 5. Preflight and initialize the database
+
+Run the preflight check before starting anything. It validates `.env`, paths,
+permissions, the Argon2id hash, CORS origins, native modules, and the `ping`
+command without opening the database or server:
 
 ```bash
-cd /opt/miles-web
+cd /opt/websites/miles-web
+sudo -u miles npm run preflight
+```
+
+Fix every `FAIL` before continuing. `WARN` entries are optional
+recommendations (for example, no GitHub token).
+
+Then apply migrations and seed the registries:
+
+```bash
+cd /opt/websites/miles-web
 sudo -u miles npm run db:migrate
 ```
 
@@ -173,8 +209,8 @@ Wants=network-online.target
 Type=simple
 User=miles
 Group=miles
-WorkingDirectory=/opt/miles-web
-EnvironmentFile=/opt/miles-web/.env
+WorkingDirectory=/opt/websites/miles-web
+EnvironmentFile=/opt/websites/miles-web/.env
 ExecStart=/usr/bin/node server/index.js
 Restart=on-failure
 RestartSec=5
@@ -183,7 +219,7 @@ KillSignal=SIGTERM
 StandardOutput=journal
 StandardError=journal
 
-# Hardening. /opt/miles-web is read-only to the service; the DB directory is
+# Hardening. /opt/websites/miles-web is read-only to the service; the DB directory is
 # the only writable path.
 NoNewPrivileges=yes
 PrivateTmp=yes
@@ -229,7 +265,7 @@ The smoke script is intended for local verification. On a production database
 it records one synthetic `/smoke-test` analytics pageview:
 
 ```bash
-cd /opt/miles-web
+cd /opt/websites/miles-web
 sudo -u miles npm run smoke
 ```
 
@@ -250,11 +286,17 @@ sudo apt install -y caddy
 Replace `/etc/caddy/Caddyfile`:
 
 ```caddyfile
+# Single-origin layout
 milesallen.site, www.milesallen.site {
   encode zstd gzip
   reverse_proxy 127.0.0.1:8787
 }
 ```
+
+If you use Caddy for the split-origin layout instead, replace the site
+addresses with `api.milesallen.site` and set
+`PUBLIC_ORIGIN=https://api.milesallen.site` while the static site stays on its
+own host.
 
 Caddy obtains and renews TLS certificates automatically. Validate and reload:
 
@@ -280,12 +322,13 @@ With Caddy in front:
 
 - `TRUST_PROXY=true`
 - `COOKIE_SECURE=true`
-- `PUBLIC_ORIGIN=https://milesallen.site`
+- `PUBLIC_ORIGIN=https://milesallen.site` for the single-origin layout, or
+  `https://api.milesallen.site` for the split-origin layout
 - Keep `HOST=127.0.0.1`
 
 Caddy sets `X-Forwarded-For`; the app reads it only when `TRUST_PROXY=true`.
 
-## 8. Cloudflare Tunnel alternative
+## 8. Cloudflare Tunnel (API hostname)
 
 Use this instead of public ports and Caddy. The origin can stay on loopback and
 no inbound 80/443 is required.
@@ -295,8 +338,7 @@ Install `cloudflared` using Cloudflare's current Debian instructions, then:
 ```bash
 cloudflared tunnel login
 cloudflared tunnel create miles-dashboard
-cloudflared tunnel route dns miles-dashboard milesallen.site
-cloudflared tunnel route dns miles-dashboard www.milesallen.site
+cloudflared tunnel route dns miles-dashboard api.milesallen.site
 ```
 
 Create `/etc/cloudflared/config.yml`:
@@ -305,9 +347,7 @@ Create `/etc/cloudflared/config.yml`:
 tunnel: <TUNNEL_ID>
 credentials-file: /etc/cloudflared/<TUNNEL_ID>.json
 ingress:
-  - hostname: milesallen.site
-    service: http://127.0.0.1:8787
-  - hostname: www.milesallen.site
+  - hostname: api.milesallen.site
     service: http://127.0.0.1:8787
   - service: http_status:404
 ```
@@ -324,6 +364,25 @@ sudo systemctl status cloudflared --no-pager
 Keep `HOST=127.0.0.1`, set `TRUST_PROXY=true` (Cloudflare sets
 `CF-Connecting-IP`), and keep `COOKIE_SECURE=true`. No `ufw` rule for 8787,
 80, or 443 is needed for the tunnel path.
+
+This exposes the API, dashboard assets, vault lock page, `/vault`, and
+`/games/*` at `https://api.milesallen.site`. The static site on
+`https://milesallen.site` calls it cross-origin using `site-config.js`; the
+server already allows the main-site origins through CORS.
+
+If you also want this Node process to serve the main static site, add these
+lines before the catch-all and route DNS for them:
+
+```yaml
+  - hostname: milesallen.site
+    service: http://127.0.0.1:8787
+  - hostname: www.milesallen.site
+    service: http://127.0.0.1:8787
+```
+
+Do not expose port 8787 in the firewall. In the split-origin layout, the main
+static host must publish the updated `site-config.js`, `dashboard.js`,
+`dashboard.html`, `analytics.js`, and `moon-vault.html` from this repository.
 
 ## 9. Persistence, backups, and restore
 
@@ -382,7 +441,7 @@ curl -fsS http://127.0.0.1:8787/api/health
 ## 10. Upgrades
 
 ```bash
-cd /opt/miles-web
+cd /opt/websites/miles-web
 sudo -u miles git pull --ff-only
 sudo -u miles npm ci --omit=dev
 sudo -u miles npm run db:migrate
@@ -396,7 +455,7 @@ idempotent and tracked in `schema_migrations`.
 After a Node major-version upgrade, rebuild native modules if needed:
 
 ```bash
-cd /opt/miles-web
+cd /opt/websites/miles-web
 sudo -u miles npm rebuild better-sqlite3 argon2
 sudo systemctl restart miles-dashboard
 ```
@@ -406,6 +465,10 @@ sudo systemctl restart miles-dashboard
 Run these after deployment:
 
 ```bash
+# Configuration and runtime prerequisites
+cd /opt/websites/miles-web
+sudo -u miles npm run preflight
+
 # Process and logs
 sudo systemctl status miles-dashboard --no-pager
 sudo journalctl -u miles-dashboard -n 50 --no-pager
@@ -414,23 +477,30 @@ sudo journalctl -u miles-dashboard -n 50 --no-pager
 curl -fsS http://127.0.0.1:8787/api/health
 curl -fsS http://127.0.0.1:8787/api/status
 
-# Public site through the proxy
-curl -fsS https://milesallen.site/api/health
-curl -fsS -o /dev/null -w '%{http_code}\n' https://milesallen.site/
-curl -fsS -o /dev/null -w '%{http_code}\n' https://milesallen.site/dashboard.html
+# Public API through the tunnel
+curl -fsS https://api.milesallen.site/api/health
+curl -fsS https://api.milesallen.site/api/status
+
+# CORS from the main site
+curl -s -D - -o /dev/null -X OPTIONS \
+  -H 'Origin: https://milesallen.site' \
+  -H 'Access-Control-Request-Method: GET' \
+  https://api.milesallen.site/api/status | grep -i 'access-control-allow'
 
 # Vault is locked without a session
-curl -s -o /dev/null -w '%{http_code} %{redirect_url}\n' https://milesallen.site/vault
-curl -s -o /dev/null -w '%{http_code} %{redirect_url}\n' https://milesallen.site/games/dino.html
+curl -s -o /dev/null -w '%{http_code} %{redirect_url}\n' https://api.milesallen.site/vault
+curl -s -o /dev/null -w '%{http_code} %{redirect_url}\n' https://api.milesallen.site/games/dino.html
 
 # Private files are not served
-curl -s -o /dev/null -w '%{http_code}\n' https://milesallen.site/.env
-curl -s -o /dev/null -w '%{http_code}\n' https://milesallen.site/server/config.js
-curl -s -o /dev/null -w '%{http_code}\n' https://milesallen.site/data/dashboard.db
+curl -s -o /dev/null -w '%{http_code}\n' https://api.milesallen.site/.env
+curl -s -o /dev/null -w '%{http_code}\n' https://api.milesallen.site/server/config.js
+curl -s -o /dev/null -w '%{http_code}\n' https://api.milesallen.site/data/dashboard.db
 ```
 
 Expected result for the private-file checks is `403`. The vault and game checks
-should return `302` to `/moon-vault.html` before login.
+should return `302` to `/moon-vault.html` before login. The CORS preflight should
+show `Access-Control-Allow-Origin: https://milesallen.site` and
+`Access-Control-Allow-Credentials: true`.
 
 Then verify in a browser:
 
@@ -448,7 +518,7 @@ Then verify in a browser:
 
 ```bash
 sudo apt install -y build-essential python3
-cd /opt/miles-web
+cd /opt/websites/miles-web
 sudo -u miles npm rebuild better-sqlite3 argon2
 ```
 
@@ -502,14 +572,20 @@ to `.env`, and restart. The hash must start with `$argon2`.
 
 - If serving over plain HTTP with `COOKIE_SECURE=true`, the browser discards
   the cookie. Use HTTPS or set `COOKIE_SECURE=false` for local-only testing.
-- Confirm the browser is using the same origin as `PUBLIC_ORIGIN`.
+- In the split-origin layout, the cookie belongs to `api.milesallen.site`.
+  Confirm `site-config.js` points at that hostname and the login request uses
+  `credentials: 'include'`.
+- `milesallen.site` and `api.milesallen.site` are same-site, so
+  `SameSite=Strict` is correct. If you move the API to a different registrable
+  domain, the cookie would need `SameSite=None; Secure` instead.
 - Confirm `SESSION_SECRET` did not change and the database was not wiped.
 - Check that `TRUST_PROXY` matches the actual proxy setup.
 
 ### API returns `403 forbidden` cross-origin
 
-The request origin is not in the allowlist. Set `PUBLIC_ORIGIN` and
-`ALLOWED_ORIGINS` to the real HTTPS origins. Same-origin requests are always
+The request origin is not in the allowlist. Set `PUBLIC_ORIGIN` to the API
+hostname and `ALLOWED_ORIGINS` to the main-site hostnames, then restart. Confirm
+`site-config.js` uses the same API hostname. Same-origin requests are always
 accepted.
 
 ### `SQLITE_BUSY` or database locked

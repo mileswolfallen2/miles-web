@@ -11,6 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="projects/style.css">
+  <script src="site-config.js"></script>
   <style>
 :root{--vault-bg:#07070c;}
 body{background:radial-gradient(circle at 50% 35%,#101020 0%,#05050a 70%);min-height:100vh;}
@@ -84,11 +85,19 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(7,7,12,0.9);
       card.classList.add('shake');
     }
 
+    var host = window.location.hostname;
+    var fallbackBase = (host === 'milesallen.site' || host === 'www.milesallen.site')
+      ? 'https://api.milesallen.site'
+      : '';
+    var base = window.MILES_API_BASE || fallbackBase;
+    var API = window.MILES_API_URL || (base ? base + '/api' : '/api');
+    var VAULT_URL = window.MILES_VAULT_URL || (base ? base + '/vault' : '/vault');
+
     function go() {
-      window.location.replace('/vault');
+      window.location.replace(VAULT_URL);
     }
 
-    fetch('/api/vault/session', { credentials: 'same-origin', cache: 'no-store' })
+    fetch(API + '/vault/session', { credentials: 'include', cache: 'no-store' })
       .then(function (response) {
         if (!response.ok) throw new Error('Vault status unavailable');
         return response.json();
@@ -115,9 +124,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(7,7,12,0.9);
       button.disabled = true;
       setMessage('checking…', true);
 
-      fetch('/api/vault/login', {
+      fetch(API + '/vault/login', {
         method: 'POST',
-        credentials: 'same-origin',
+        credentials: 'include',
         cache: 'no-store',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify({ password: password })

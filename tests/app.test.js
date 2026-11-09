@@ -76,11 +76,28 @@ test('HTTP app exposes documented APIs, security headers, and CORS allowlist', a
   });
   assert.equal(preflight.status, 204);
   assert.equal(preflight.headers.get('access-control-allow-origin'), 'https://milesallen.site');
+  assert.equal(preflight.headers.get('access-control-allow-credentials'), 'true');
+
+  const apiPreflight = await fetch(base + '/api/status', {
+    method: 'OPTIONS',
+    headers: {
+      Origin: 'https://api.milesallen.site',
+      'Access-Control-Request-Method': 'GET'
+    }
+  });
+  assert.equal(apiPreflight.status, 204);
+  assert.equal(apiPreflight.headers.get('access-control-allow-origin'), 'https://api.milesallen.site');
+  assert.equal(apiPreflight.headers.get('access-control-allow-credentials'), 'true');
+  assert.equal(apiPreflight.headers.get('access-control-expose-headers'), 'Retry-After');
 
   const blocked = await fetch(base + '/api/status', {
     headers: { Origin: 'https://evil.example' }
   });
   assert.equal(blocked.status, 403);
+
+  const siteConfig = await fetch(base + '/site-config.js');
+  assert.equal(siteConfig.status, 200);
+  assert.match(await siteConfig.text(), /api\.milesallen\.site/);
 
   const missing = await fetch(base + '/api/nope');
   assert.equal(missing.status, 404);
@@ -107,6 +124,17 @@ test('Moon Vault content is server-gated and the old passphrase is gone from pub
 
   const deniedGame = await fetch(base + '/games/dino.html', { redirect: 'manual' });
   assert.equal(deniedGame.status, 302);
+
+  for (const encoded of [
+    '/games%2Fdino.html',
+    '/%67ames/dino.html',
+    '/games/%2564ino.html',
+    '/GAMES/dino.html',
+    '/Games/dino.html'
+  ]) {
+    const bypass = await fetch(base + encoded, { redirect: 'manual' });
+    assert.equal(bypass.status, 302, `protected path must stay gated: ${encoded}`);
+  }
 
   const badLogin = await fetch(base + '/api/vault/login', {
     method: 'POST',
@@ -142,6 +170,12 @@ test('Moon Vault content is server-gated and the old passphrase is gone from pub
   const game = await fetch(base + '/games/dino.html', { headers: { Cookie: cookie } });
   assert.equal(game.status, 200);
   assert.equal(game.headers.get('cache-control'), 'no-store', 'protected games must not be cached');
+
+  const encodedGame = await fetch(base + '/games%2Fdino.html', {
+    headers: { Cookie: cookie },
+    redirect: 'manual'
+  });
+  assert.equal(encodedGame.status, 200, 'encoded protected paths work for authenticated sessions');
 
   const logout = await fetch(base + '/api/vault/logout', {
     method: 'POST',

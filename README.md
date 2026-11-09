@@ -10,6 +10,20 @@ The backend is plain JavaScript on Node.js with two native dependencies
 (`better-sqlite3` and `argon2`); there is no Docker, Go, Rust, Python, or
 frontend framework involved.
 
+### Split-origin deployment
+
+The static site can stay on `https://milesallen.site` while the Node backend is
+exposed on `https://api.milesallen.site` through a Cloudflare Tunnel. Both
+hostnames are under `milesallen.site`, so the vault cookie keeps
+`SameSite=Strict` and still works across them. `site-config.js` holds the
+API hostname; the dashboard, vault lock page, and analytics beacon use it
+and fall back to same-origin when it is empty (local development).
+
+The server's CORS allowlist includes `https://milesallen.site`,
+`https://www.milesallen.site`, and `https://api.milesallen.site`. The JSON API
+and the vault/game pages are served by the Node process; the main static site
+can remain on its current host.
+
 ## What is included
 
 | Area | What it does |
@@ -86,6 +100,7 @@ Do not reuse a development passphrase in production, and never commit `.env`.
 | `npm start` | Start the server without watch mode |
 | `npm test` | Run the full automated test suite with `node:test` |
 | `npm run db:migrate` | Apply migrations and seed the project/service/server registries |
+| `npm run preflight` | Validate `.env`, paths, permissions, native modules, and `ping` before deployment |
 | `npm run hash-password -- "passphrase"` | Print an Argon2id hash to put in `.env` |
 | `npm run smoke` | Check a running local server's APIs and vault gates |
 
@@ -106,6 +121,16 @@ The JSON files are the defaults. Environment variables can override service
 URLs/enabled flags and server name/IP/enabled flags without editing code. The
 registries are seeded into SQLite on startup and can be re-seeded by running
 `npm run db:migrate`.
+
+### API hostname
+
+`site-config.js` contains the browser-facing API base. In production it maps
+`https://milesallen.site` and `https://www.milesallen.site` to
+`https://api.milesallen.site`. Override it per deployment by setting
+`window.MILES_API_BASE` before the script runs, or by adding a
+`<meta name="miles-api-base" content="https://api.example.com">` tag. When the
+value is empty, all API calls stay same-origin, which is what local development
+uses.
 
 ### Adding a project
 
@@ -172,8 +197,9 @@ and refuses logins; it does not fall back to a default password.
 - GitHub and FEDL calls happen on the server. The GitHub token is never included
   in API responses or frontend code.
 - CORS is an explicit allowlist: `https://milesallen.site`,
-  `https://www.milesallen.site`, local development origins, and same-origin
-  requests. Unknown cross-origin API requests are rejected.
+  `https://www.milesallen.site`, `https://api.milesallen.site`, local
+  development origins, and same-origin requests. Unknown cross-origin API
+  requests are rejected.
 - Request bodies have a hard size limit, API and login routes are rate limited,
   request timeouts are enforced, and errors returned to clients do not expose
   stack traces or secrets.
@@ -209,6 +235,7 @@ vault/game redirects, and that an analytics hit is accepted.
 
 ```text
 analytics.js                 Privacy-friendly pageview beacon
+site-config.js               Browser-facing API hostname for split-origin
 dashboard.html/.css/.js      API-driven developer dashboard
 moon-vault.html              Public vault lock screen
 server/
@@ -220,7 +247,7 @@ server/
   lib/                       Env, cookies, crypto, errors, HTTP, logging, limits
   services/                  Ping, HTTP checks, status, monitor, GitHub, FEDL,
                              analytics, vault
-  scripts/                   migrate, hash-password, smoke
+  scripts/                   migrate, preflight, hash-password, smoke
   views/vault.html           Authenticated vault content
   migrations/001_init.sql    Schema and indexes
 tests/                       node:test suite and isolated fixtures

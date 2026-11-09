@@ -45,6 +45,23 @@ test('config honors environment overrides without changing code', () => {
   assert.equal(config.monitor.expectedSubnet, '192.168.1.0/24');
 });
 
+test('production split-origin config allows the API and main site origins', () => {
+  const config = loadConfig({
+    NODE_ENV: 'production',
+    SESSION_SECRET: secret,
+    VAULT_PASSWORD: 'a local passphrase',
+    PUBLIC_ORIGIN: 'https://api.milesallen.site',
+    ALLOWED_ORIGINS: 'https://milesallen.site,https://www.milesallen.site'
+  });
+
+  assert.equal(config.publicOrigin, 'https://api.milesallen.site');
+  assert.ok(config.allowedOrigins.has('https://milesallen.site'));
+  assert.ok(config.allowedOrigins.has('https://www.milesallen.site'));
+  assert.ok(config.allowedOrigins.has('https://api.milesallen.site'));
+  assert.equal(config.cookie.sameSite, 'Strict');
+  assert.equal(config.cookie.secure, true);
+});
+
 test('production refuses missing or short session secrets', () => {
   assert.throws(
     () => loadConfig({ NODE_ENV: 'production', VAULT_PASSWORD: 'a local passphrase' }),

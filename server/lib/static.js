@@ -68,12 +68,16 @@ function cacheControl(file) {
     : 'public, max-age=3600';
 }
 
-export async function resolveStaticPath(root, rawPathname) {
+export async function resolveStaticPath(root, rawPathname, { decodedPath = false } = {}) {
   let pathname;
-  try {
-    pathname = decodeURIComponent(rawPathname);
-  } catch {
-    return { error: 400 };
+  if (decodedPath) {
+    pathname = rawPathname;
+  } else {
+    try {
+      pathname = decodeURIComponent(rawPathname);
+    } catch {
+      return { error: 400 };
+    }
   }
   if (!pathname.startsWith('/') || pathname.includes('\\') || pathname.includes('\0')) {
     return { error: 400 };
@@ -165,8 +169,8 @@ export async function sendFile(req, res, file, stat, { status = 200, cache = nul
   fs.createReadStream(file).pipe(res);
 }
 
-export async function serveStatic(req, res, { root, pathname, notFoundFile = null, cache = null }) {
-  const result = await resolveStaticPath(root, pathname);
+export async function serveStatic(req, res, { root, pathname, notFoundFile = null, cache = null, decodedPath = false }) {
+  const result = await resolveStaticPath(root, pathname, { decodedPath });
   if (result.error === 404) {
     if (notFoundFile) {
       try {

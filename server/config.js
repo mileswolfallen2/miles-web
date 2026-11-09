@@ -148,7 +148,11 @@ export function loadConfig(env = process.env) {
     }
   })();
 
-  const productionOrigins = ['https://milesallen.site', 'https://www.milesallen.site'];
+  const productionOrigins = [
+    'https://milesallen.site',
+    'https://www.milesallen.site',
+    'https://api.milesallen.site'
+  ];
   const defaultOrigins = production
     ? [publicOrigin, ...productionOrigins]
     : [

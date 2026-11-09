@@ -53,12 +53,18 @@ include stack traces or secret values.
 ### CORS
 
 Cross-origin API requests are accepted only from the configured allowlist:
-`https://milesallen.site`, `https://www.milesallen.site`, local development
-origins, and the request's own origin. Unknown origins receive `403`.
+`https://milesallen.site`, `https://www.milesallen.site`,
+`https://api.milesallen.site`, local development origins, and the request's own
+origin. Unknown origins receive `403`.
 
 `OPTIONS` preflight requests receive `204` with `Access-Control-Allow-Origin`,
-`Access-Control-Allow-Methods: GET, POST, OPTIONS`, and
-`Access-Control-Allow-Headers: Content-Type`.
+`Access-Control-Allow-Credentials: true`,
+`Access-Control-Allow-Methods: GET, POST, OPTIONS`,
+`Access-Control-Allow-Headers: Content-Type`, and
+`Access-Control-Expose-Headers: Retry-After`. The vault login, session, and
+logout endpoints require credentialed requests; the browser page at
+`milesallen.site` uses `site-config.js` to call `api.milesallen.site`. Both
+hostnames are same-site, so the vault cookie keeps `SameSite=Strict`.
 
 ### Rate limits
 

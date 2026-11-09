@@ -19,6 +19,23 @@ const PUBLIC_API_PREFIX = '/api';
 const VAULT_PAGE = '/vault';
 const VAULT_VIEW = 'server/views/vault.html';
 
+/**
+ * Decode and normalize a request path once for routing and access gates.
+ * Repeated decoding prevents bypasses such as /games%2Fdino.html or
+ * /%67ames/dino.html from reaching protected static files.
+ */
+function canonicalPathname(rawPathname) {
+  let value = rawPathname || '/';
+  for (let round = 0; round < 4; round += 1) {
+    const decoded = decodeURIComponent(value);
+    if (decoded === value) break;
+    value = decoded;
+  }
+  value = path.posix.normalize(value);
+  if (!value.startsWith('/')) value = `/${value}`;
+  return value;
+}
+
 function methodNotAllowed(res, allowed) {
   sendJson(
     res,
@@ -87,8 +104,7 @@ export function createApp({ config, db, logger, services, now = () => new Date()
     return null;
   }
 
-  async function route(req, res, url, context) {
-    const { pathname } = url;
+  async function route(req, res, url, context, pathname) {
     const method = req.method || 'GET';
 
     if (pathname === '/api' || pathname === '/api/') {
@@ -333,11 +349,17 @@ export function createApp({ config, db, logger, services, now = () => new Date()
     const id = requestId();
     const started = Date.now();
     const url = new URL(req.url || '/', `http://${req.headers.host || 'localhost'}`);
-    const pathname = url.pathname;
     const method = req.method || 'GET';
 
     res.setHeader('X-Request-Id', id);
     applySecurityHeaders(res, { production: config.production });
+
+    let pathname;
+    try {
+      pathname = canonicalPathname(url.pathname);
+    } catch {
+      return sendText(res, 400, 'Bad request');
+    }
 
     const isApi = pathname === PUBLIC_API_PREFIX || pathname.startsWith(`${PUBLIC_API_PREFIX}/`);
     const cors = applyCors(req, res);
@@ -384,7 +406,7 @@ export function createApp({ config, db, logger, services, now = () => new Date()
         ip: getClientIp(req, { trustProxy: config.trustProxy })
       };
 
-      const apiResult = await route(req, res, url, context);
+      const apiResult = await route(req, res, url, context, pathname);
       if (apiResult !== null) return;
 
       if (pathname === VAULT_PAGE || pathname === `${VAULT_PAGE}/`) {
@@ -399,14 +421,16 @@ export function createApp({ config, db, logger, services, now = () => new Date()
         return sendFile(req, res, vaultViewPath, stat, { cache: 'no-store' });
       }
 
-      if (pathname === '/games' || pathname.startsWith('/games/')) {
+      const protectedPath = pathname.toLowerCase();
+      if (protectedPath === '/games' || protectedPath.startsWith('/games/')) {
         if (!requireVault(req, res)) return;
         return serveStatic(req, res, {
           root: config.siteRoot,
           pathname,
           // Never let a browser cache vault-protected content: a cached game
           // must not remain viewable after logout or session expiry.
-          cache: 'no-store'
+          cache: 'no-store',
+          decodedPath: true
         });
       }
 
@@ -414,7 +438,8 @@ export function createApp({ config, db, logger, services, now = () => new Date()
         return serveStatic(req, res, {
           root: config.siteRoot,
           pathname: '/dashboard.html',
-          notFoundFile: path.join(config.siteRoot, '404.html')
+          notFoundFile: path.join(config.siteRoot, '404.html'),
+          decodedPath: true
         });
       }
 
@@ -425,7 +450,8 @@ export function createApp({ config, db, logger, services, now = () => new Date()
       return serveStatic(req, res, {
         root: config.siteRoot,
         pathname,
-        notFoundFile: path.join(config.siteRoot, '404.html')
+        notFoundFile: path.join(config.siteRoot, '404.html'),
+        decodedPath: true
       });
     } catch (err) {
       if (err instanceof AppError) {
