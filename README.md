@@ -253,12 +253,14 @@ server/
 tests/                       node:test suite and isolated fixtures
 docs/API.md                  API reference
 docs/DEPLOYMENT.md           Debian deployment and operations guide
+docs/SETTINGS.md             Complete settings reference
 ```
 
 ## Documentation
 
 - [API reference](docs/API.md)
 - [Deployment guide for Debian 13](docs/DEPLOYMENT.md)
+- [Settings reference](docs/SETTINGS.md) — every setting, who edits it, and how to apply it
 
 ## Contacts
 
