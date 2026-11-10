@@ -111,7 +111,6 @@ export function createStatusService({ db, config, now = () => new Date() }) {
     return {
       id: server.id,
       name: server.name,
-      ip: server.ip,
       status: derived.status,
       reason: derived.reason,
       networkContext: derived.networkContext,

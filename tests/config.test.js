@@ -20,6 +20,8 @@ test('config loads local defaults and project registry', () => {
   assert.equal(config.projects.find((p) => p.id === 'fedl').featured, true);
   assert.equal(config.services.length, 5);
   assert.equal(config.servers[0].ip, '10.0.0.87');
+  assert.equal(config.servers[0].name, 'Main Server');
+  assert.equal(config.servers[1].name, 'FEDL Server');
 });
 
 test('config honors environment overrides without changing code', () => {

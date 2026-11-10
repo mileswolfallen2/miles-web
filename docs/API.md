@@ -152,8 +152,7 @@ Combined snapshot used by the dashboard.
   "servers": [
     {
       "id": "home-1",
-      "name": "Home Server 1",
-      "ip": "10.0.0.87",
+      "name": "Main Server",
       "status": "online",
       "reason": "ok",
       "networkContext": true,

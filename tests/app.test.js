@@ -65,6 +65,8 @@ test('HTTP app exposes documented APIs, security headers, and CORS allowlist', a
   assert.equal(status.status, 200);
   const statusBody = await status.json();
   assert.equal(statusBody.servers.length, 1);
+  assert.equal(statusBody.servers[0].name, 'Home Server');
+  assert.equal('ip' in statusBody.servers[0], false, 'public status must not expose server IPs');
   assert.equal(statusBody.services.length, 1);
 
   const preflight = await fetch(base + '/api/status', {

@@ -166,11 +166,11 @@
       var text = el('div');
       text.style.minWidth = '0';
       text.appendChild(el('div', 'row-name', server.name));
-      var sub = server.ip + ' · checked ' + agoText(server.lastCheckAt);
+      var sub = 'checked ' + agoText(server.lastCheckAt);
       if (server.status === 'unknown' && server.reason === 'not_on_home_network') {
-        sub = server.ip + ' · outside home network';
+        sub = 'outside home network';
       } else if (server.status === 'unknown' && server.reason && server.reason !== 'no_data') {
-        sub = server.ip + ' · ' + String(server.reason).replace(/_/g, ' ');
+        sub = String(server.reason).replace(/_/g, ' ');
       } else if (server.lastSuccessAt) {
         sub += ' · up ' + agoText(server.lastSuccessAt);
       }

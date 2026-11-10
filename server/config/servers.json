@@ -2,14 +2,14 @@
   "servers": [
     {
       "id": "home-1",
-      "name": "Home Server 1",
+      "name": "Main Server",
       "ip": "10.0.0.87",
       "order": 1,
       "enabled": true
     },
     {
       "id": "home-2",
-      "name": "Home Server 2",
+      "name": "FEDL Server",
       "ip": "10.0.0.119",
       "order": 2,
       "enabled": true
