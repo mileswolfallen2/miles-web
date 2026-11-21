@@ -184,7 +184,11 @@
   body.paper footer{font-family:var(--font-body)!important;font-size:12px!important;color:var(--muted)!important;text-transform:none!important;letter-spacing:0!important;position:static!important;}
   body.paper footer .footer-links a{color:var(--muted)!important;font-size:12px!important;}
   body.paper footer .footer-links a:hover{color:var(--accent)!important;}
-  </style>
+
+  .damm-easter-egg{position:fixed;left:50%;top:50%;width:min(380px,55vw);height:auto;transform:translate(-50%,-50%) scale(.7) rotate(-4deg);z-index:9999;pointer-events:none;opacity:0;filter:drop-shadow(8px 12px 0 rgba(255,61,154,.65));}
+  .damm-easter-egg.show{animation:damm-pop 3.5s ease-in-out forwards;}
+  @keyframes damm-pop{0%{opacity:0;transform:translate(-50%,-50%) scale(.7) rotate(-4deg)}12%,78%{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(4deg)}100%{opacity:0;transform:translate(-50%,-50%) scale(1.15) rotate(-8deg)}}
+</style>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -212,7 +216,15 @@
     <a href="javascript:history.back()" class="btn btn-back">Go Back</a>
   </div>
 
+<img class="damm-easter-egg" id="dammEasterEgg" src="photos/damm.png" alt="" aria-hidden="true">
 <script src="projects/script.js"></script>
+<script>
+  if (Math.floor(Math.random() * 50) === 0) {
+    window.addEventListener('load', () => {
+      document.getElementById('dammEasterEgg').classList.add('show');
+    });
+  }
+</script>
 <footer style="text-align:center;padding:40px 24px;font-family:var(--font-mono);font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;position:relative;z-index:20;">
   <div class="footer-links" style="margin-bottom: 12px;">
     <a href="uses.html" style="color:var(--muted);text-decoration:none;">Uses</a>
