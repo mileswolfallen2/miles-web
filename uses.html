@@ -33,6 +33,22 @@
 .article-body ul li strong{color:var(--text);}
 .back-link{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:12px;color:var(--muted);margin-top:40px;text-decoration:none;transition:color .2s;}
 .back-link:hover{color:var(--accent);}
+
+  .setup-gallery{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:8px 0 36px;align-items:stretch;}
+  .setup-shot{display:flex;flex-direction:column;margin:0;overflow:hidden;background:#080808;border:1px solid rgba(255,255,255,.10);transition:border-color .25s,box-shadow .25s;}
+  .setup-shot:nth-child(n){transform:none;}
+  .setup-shot::before{display:none;}
+  .setup-shot:hover{border-color:rgba(255,61,154,.55);box-shadow:0 10px 28px rgba(0,0,0,.28);}
+  .setup-shot a{display:flex;align-items:center;justify-content:center;width:100%;height:220px;overflow:hidden;background:#080808;}
+  .setup-shot img{display:block;width:100%;height:100%;object-fit:contain;filter:none;transition:filter .25s;}
+  .setup-shot:hover img{filter:saturate(1.03);}
+  .setup-shot figcaption{display:flex;flex-direction:column;gap:8px;margin-top:auto;padding:12px 14px;border-top:1px solid rgba(255,255,255,.10);font-family:var(--font-mono);font-size:10px;color:var(--muted);}
+  .setup-shot figcaption strong{color:var(--text);font-size:12px;}
+  .setup-specs{display:grid;grid-template-columns:1fr 1fr;gap:5px 10px;margin:0;padding:0;list-style:none;}
+  .setup-specs li{line-height:1.45;}
+  .setup-specs li::before{content:'›';color:var(--accent);margin-right:5px;}
+  @media(max-width:640px){.setup-gallery{grid-template-columns:1fr;gap:18px;}.setup-shot a{height:auto;aspect-ratio:16/10}.setup-specs{grid-template-columns:1fr;}}
+  @media(prefers-reduced-motion:reduce){.setup-shot,.setup-shot img{transition:none}}
   </style>
 </head>
 <body>
@@ -87,10 +103,10 @@
       <div class="article-body">
         <h2>Hardware</h2>
         <h3>MacBook Air M4 (2024)</h3>
-        <p>16GB RAM, 256GB storage. This thing is fast. The M4 chip handles everything I throw at it — VS Code with 10+ tabs, a dozen terminal windows, Docker containers, multiple browsers with 30+ tabs each, GSAP animations running in dev, and it doesn't break a sweat. Fanless design means it's completely silent. Best laptop I've ever owned.</p>
+        <p>The 13-inch MacBook Air runs macOS 27.3 on Apple M4 with 16 GB of unified memory, a 256 GB SSD, and a 2940×1912 built-in Liquid Retina display. It stays completely fanless while handling VS Code, terminal sessions, Docker, browsers, and development previews. This is my primary workstation.</p>
 
-        <h3>HP ProBook</h3>
-        <p>My mobile rig. Running <strong>Omarchy</strong>, this is the Linux laptop I take with me for development, system experiments, writing, and work away from my desk. It gives me a proper portable terminal and a clean, keyboard-first environment without tying me to macOS.</p>
+        <h3>HP ProBook 440 G7</h3>
+        <p>My mobile Linux rig runs Omarchy 4.5.0 on Intel Core i5-10210U. It has 8 GB of RAM, an approximately 236 GB disk, a 1366×768 display, and enough speed for writing, development, system experiments, and work away from the Mac. It is the keyboard-first environment I take with me.</p>
 
         <h3>Google Pixel 8A</h3>
         <p>Stock Google Android. No bloat, no nonsense. Does what a phone should do and stays out of the way.</p>
@@ -146,6 +162,42 @@
         </a>
       </div>
     </section>
+
+    <div class="setup-gallery reveal" aria-label="Screenshots of my desktop setups">
+      <figure class="setup-shot">
+        <a href="photos/Screenshot%202026-11-21%20at%209.18.07%E2%80%AFPM.png" target="_blank" rel="noopener" aria-label="Open the macOS setup screenshot">
+          <img src="photos/Screenshot%202026-11-21%20at%209.18.07%E2%80%AFPM.png" alt="macOS setup showing a colorful fastfetch system summary on the MacBook Air" loading="eager">
+        </a>
+        <figcaption>
+          <strong>MacBook Air M4 · macOS</strong>
+          <ul class="setup-specs">
+            <li>13-inch, M4</li>
+            <li>4.46 GHz CPU</li>
+            <li>16 GB unified memory</li>
+            <li>228 GB storage available</li>
+            <li>2940×1912 display</li>
+            <li>macOS 27.3</li>
+          </ul>
+        </figcaption>
+      </figure>
+
+      <figure class="setup-shot">
+        <a href="photos/screenshot-2026-11-21_21-16-34-about.png" target="_blank" rel="noopener" aria-label="Open the Omarchy setup screenshot">
+          <img src="photos/screenshot-2026-11-21_21-16-34-about.png" alt="Omarchy Linux setup showing system details for an HP ProBook" loading="eager">
+        </a>
+        <figcaption>
+          <strong>HP ProBook · Omarchy</strong>
+          <ul class="setup-specs">
+            <li>Intel Core i5-10210U</li>
+            <li>4.20 GHz CPU</li>
+            <li>16 GB DDR4 memory</li>
+            <li>236.46 GB disk</li>
+            <li>1366×768 display</li>
+            <li>Linux 7.2.15-1</li>
+          </ul>
+        </figcaption>
+      </figure>
+    </div>
 
     <footer>
       <div class="footer-links" style="margin-bottom: 12px;">
