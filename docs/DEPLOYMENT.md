@@ -48,7 +48,8 @@ Check `ping` exists:
 
 ```bash
 command -v ping
-ping -c 1 10.0.0.87
+ping -c 1 192.168.50.102
+ping -c 1 192.168.50.103
 ```
 
 ### Node.js 20 or newer
@@ -382,7 +383,7 @@ lines before the catch-all and route DNS for them:
 
 Do not expose port 8787 in the firewall. In the split-origin layout, the main
 static host must publish the updated `site-config.js`, `dashboard.js`,
-`dashboard.html`, `analytics.js`, and `moon-vault.html` from this repository.
+`dashboard.html`, `dashboard.css`, `analytics.js`, and `moon-vault.html` from this repository.
 
 ## 9. Persistence, backups, and restore
 
@@ -528,7 +529,8 @@ The monitor could not run `ping`. Check:
 
 ```bash
 command -v ping
-ping -c 1 10.0.0.87
+ping -c 1 192.168.50.102
+ping -c 1 192.168.50.103
 getcap "$(command -v ping)" 2>/dev/null || true
 sysctl net.ipv4.ping_group_range
 ```
@@ -547,7 +549,7 @@ Never make the Node process run as root just to ping two hosts.
 ### Servers show `unknown` with `not_on_home_network`
 
 The host's local addresses do not match `HOME_SUBNET`. Set it to the real
-subnet (for example `HOME_SUBNET=10.0.0.0/24`) and restart. This is intentional:
+subnet (for example `HOME_SUBNET=192.168.50.0/24`) and restart. This is intentional:
 a failed ping from a remote network is not reported as a home-server outage.
 
 ### Website checks all fail

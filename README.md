@@ -28,12 +28,12 @@ can remain on its current host.
 
 | Area | What it does |
 | --- | --- |
-| Infrastructure | ICMP ping checks for `10.0.0.87` and `10.0.0.119`, HTTP health checks for five sites, uptime history, and honest network context |
+| Infrastructure | ICMP ping checks for Main Server (`192.168.50.102`) and Debian Server (`192.168.50.103`), HTTP health checks for five sites, uptime history, and honest network context |
 | GitHub | Official REST API data for `mileswolfallen2` with server-side caching, ETags, rate-limit handling, and no token exposure |
 | FEDL | Real data from `https://server.fedl.site/fedl/api/list` and `/runs`, with snapshot diffs for additions, removals, and rank changes |
 | Analytics | Cookieless, IP-hash-only pageviews with bot filtering, deduplication, path normalization, and 30-day retention |
 | Moon Vault | Argon2id passphrase verification, signed HttpOnly sessions, login rate limiting, logout, and server-gated content |
-| Dashboard | `/dashboard.html` renders every panel from the local API and labels unavailable data instead of inventing values |
+| Dashboard | `/dashboard.html` renders every panel from the local API, shows an outage page when a monitored server or the status API is offline, and supports a `#offline` preview |
 
 ## Requirements
 
@@ -76,6 +76,8 @@ npm run dev
 Open <http://127.0.0.1:8787>. The dashboard is at
 <http://127.0.0.1:8787/dashboard.html> and the vault lock page is at
 <http://127.0.0.1:8787/moon-vault.html>.
+Preview the dashboard outage page at
+<http://127.0.0.1:8787/dashboard.html#offline>.
 
 For local development, use these overrides in `.env` so cookies work over
 plain HTTP:

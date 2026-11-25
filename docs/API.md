@@ -147,7 +147,7 @@ Combined snapshot used by the dashboard.
   },
   "network": {
     "onHomeNetwork": true,
-    "monitoredSubnet": "10.0.0.0/24"
+    "monitoredSubnet": "192.168.50.0/24"
   },
   "servers": [
     {

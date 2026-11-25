@@ -97,7 +97,7 @@ Generate a hash with `npm run hash-password`; generate the secret with
 
 | Setting | Default | Range / format | What it does | Change |
 | --- | --- | --- | --- | --- |
-| `HOME_SUBNET` | empty | CIDR, e.g. `10.0.0.0/24` | Subnet used to decide "on home network". When off-network, failed pings report `unknown` instead of `offline` | `.env`, restart |
+| `HOME_SUBNET` | empty | CIDR, e.g. `192.168.50.0/24` | Subnet used to decide "on home network". When off-network, failed pings report `unknown` instead of `offline` | `.env`, restart |
 | `SERVER_CHECK_INTERVAL_MS` | `60000` | 10000–86400000 | Ping loop interval | `.env`, restart |
 | `SERVICE_CHECK_INTERVAL_MS` | `120000` | 15000–86400000 | Website check loop interval | `.env`, restart |
 | `PING_TIMEOUT_MS` | `2000` | 200–30000 | Ping timeout | `.env`, restart |
@@ -120,10 +120,10 @@ Environment overrides use the **1-based position in the file**:
 
 ```dotenv
 SERVER_1_NAME=Main Server
-SERVER_1_IP=10.0.0.87
+SERVER_1_IP=192.168.50.102
 SERVER_1_ENABLED=true
-SERVER_2_NAME=FEDL Server
-SERVER_2_IP=10.0.0.119
+SERVER_2_NAME=Debian Server
+SERVER_2_IP=192.168.50.103
 SERVER_2_ENABLED=true
 ```
 
@@ -225,8 +225,8 @@ These run on the visitor's machine and are independent of `.env`.
 | Dashboard refresh | `dashboard.js` (`REFRESH_SECONDS`) | `60` | Auto-refresh interval in seconds | Code edit + deploy |
 | Analytics loader | `projects/script.js` | `/analytics.js` | Injects the beacon on every page | Code edit + deploy |
 
-The static host must publish `site-config.js`, `dashboard.html`, `dashboard.js`,
-`analytics.js`, and `moon-vault.html` whenever they change. Purge Cloudflare or
+The static host must publish `site-config.js`, `dashboard.html`, `dashboard.css`,
+`dashboard.js`, `analytics.js`, and `moon-vault.html` whenever they change. Purge Cloudflare or
 hard-refresh, because static responses are cached for 4 hours.
 
 ---

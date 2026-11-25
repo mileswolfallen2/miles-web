@@ -12,8 +12,36 @@
   var countdown = REFRESH_SECONDS;
   var refreshing = false;
   var hasLoaded = false;
+  var manualOfflinePreview = window.location.hash.toLowerCase() === '#offline';
+  var offlineReason = '';
+  var offlineMessage = '';
 
   var $ = function (id) { return document.getElementById(id); };
+
+  function syncOfflinePage() {
+    var offline = manualOfflinePreview || Boolean(offlineReason);
+    document.body.classList.toggle('offline-mode', offline);
+    $('dashboardMain').hidden = offline;
+    $('offlinePage').hidden = !offline;
+
+    var state = manualOfflinePreview
+      ? 'PREVIEW MODE'
+      : offlineReason === 'server' ? 'SERVER OFFLINE' : 'API UNREACHABLE';
+    $('offlineState').textContent = state;
+    $('offlineMessage').textContent = manualOfflinePreview
+      ? 'Preview mode is active. The server may be online; this page is here so you can check the outage design.'
+      : offlineMessage;
+    $('offlineStatusTitle').textContent = manualOfflinePreview ? 'Preview mode only' : 'We’ll be back shortly';
+    $('offlineStatusDetails').textContent = manualOfflinePreview
+      ? 'This view is forced by #offline and will not change until you try again.'
+      : 'This page will check again automatically. Your visit and saved data are not affected.';
+  }
+
+  function setOfflineState(reason, message) {
+    offlineReason = reason;
+    offlineMessage = message;
+    syncOfflinePage();
+  }
 
   function el(tag, className, text) {
     var node = document.createElement(tag);
@@ -248,6 +276,13 @@
       var status = await get('/status');
       var servers = status.servers || [];
       var services = status.services || [];
+      var offlineServers = servers.filter(function (server) { return server.status === 'offline'; });
+      if (offlineServers.length) {
+        var names = offlineServers.map(function (server) { return server.name; }).join(', ');
+        setOfflineState('server', names + (offlineServers.length === 1 ? ' is' : ' are') + ' not responding to recent health checks.');
+      } else {
+        setOfflineState('', '');
+      }
       var overall = status.overall || {};
       var tone = toneFor(overall.status === 'operational' ? 'operational' : overall.status);
       var pill = $('overallPill');
@@ -282,6 +317,7 @@
         notice.hidden = true;
       }
     } catch (err) {
+      setOfflineState('api', 'The dashboard status service could not be reached. It may be restarting or temporarily offline.');
       renderRowsError($('serverRows'), 'Status API unavailable: ' + err.message);
       renderRowsError($('serviceRows'), 'Status API unavailable: ' + err.message);
       $('overallPill').className = 'overall-pill bad';
@@ -562,9 +598,28 @@
   }
 
   $('refreshBtn').addEventListener('click', loadAll);
+  $('offlineRetry').addEventListener('click', function () {
+    manualOfflinePreview = false;
+    if (window.location.hash) {
+      window.history.replaceState(null, '', window.location.pathname + window.location.search);
+    }
+    countdown = REFRESH_SECONDS;
+    syncOfflinePage();
+    loadAll();
+  });
+
+  window.addEventListener('hashchange', function () {
+    var wasOfflinePreview = manualOfflinePreview;
+    manualOfflinePreview = window.location.hash.toLowerCase() === '#offline';
+    syncOfflinePage();
+    if (wasOfflinePreview && !manualOfflinePreview) {
+      countdown = REFRESH_SECONDS;
+      loadAll();
+    }
+  });
 
   setInterval(function () {
-    if (document.hidden) return;
+    if (document.hidden || manualOfflinePreview) return;
     countdown -= 1;
     if (countdown <= 0) {
       countdown = REFRESH_SECONDS;
@@ -577,9 +632,10 @@
   document.addEventListener('visibilitychange', function () {
     if (!document.hidden) {
       countdown = REFRESH_SECONDS;
-      if (!hasLoaded) loadAll();
+      if (!hasLoaded && !manualOfflinePreview) loadAll();
     }
   });
 
-  loadAll();
+  syncOfflinePage();
+  if (!manualOfflinePreview) loadAll();
 })();
